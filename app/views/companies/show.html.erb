@@ -1,0 +1,103 @@
+
+<div id="left_content">
+  <h1>
+    <%=h @company.name %>
+  </h1>
+  <div id="company_info_show" class="main_info">
+    <div id="thumb_img">
+      <%= image_tag @company.icon_file_path %></div>
+    <h4>
+      <%=h @company.short_title  %>
+    </h4>
+    <div id="company_star_rating" >
+      <%= render :partial=>"companies/show_star_rating" ,:object=>@company %>
+    </div>
+    <div>
+      <h3>公司信息</h3>
+      <p>
+        <%=h(@company.description) %>
+      </p>
+    </div>
+    <%if @company.phone && @company.phone.any?%>
+      <p>
+        <b>电话:</b>
+        <%= auto_link(h(@company.phone))  %>
+      </p>
+    <%end%>
+    <%if @company.fax && @company.fax.any? %>
+      <p>
+        <b>传真:</b>
+        <%= auto_link(h(@company.fax)) %>
+      </p>
+    <%end%>
+    <% if @company.website && @company.website.any?  %>
+      <p>
+        <b>网站:</b>
+        <%= auto_link(h(@company.website))%>
+      </p>
+    <%end%>
+    <% if  @company.address && @company.address.any? %>
+      <p>
+        <b>地址:</b>
+        <%= h(@company.address)%>
+      </p>
+    <%end%>
+    <p>
+      <b>描述:</b>
+      <span id="tag_topN_list">
+        <%= render :partial=>"companies/tag_topN_list",:object=>@company %>
+      </span>
+    </p>
+
+    <p>
+      <b> <%= link_to @company.create_user.name,user_path(@company.create_user)%>  </b> 创建于 <%=  localize(@company.created_at,:format=>:long)%>&nbsp;&nbsp;
+      <%if @company.last_edit_user%>
+        <b> <%= link_to @company.last_edit_user.name,user_path(@company.last_edit_user)%>  </b> 最后修改于 <%= localize(@company.updated_at,:format=>:long)%>
+      <%end%>
+    </p>
+  </div>
+  <br />
+  <%  sub_block_div("新闻",(link_to("全部", company_news_path(@company) ) if @company.news.size>0)) do  %>
+    <%= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>10) %>
+  <%end%>
+  <%  sub_block_div("话题",(link_to("全部", company_topics_path(@company)) if @company.topics.size>0)) do  %>
+    <%= render :partial=>"topics/topic_item",:collection=>@company.topics.all(:limit=>10) %>
+    <%= link_to "+发言",new_company_topic_path(@company),:class=>"button",:title=>"我来发布新话题"  %>
+  <%end%>
+</div>
+
+<div id ="right_content">
+  <%  sub_block_div() do %>
+    <div id="<%= dom_id(@company,"operation") %>">
+      <%= render :partial=>"companies/operation",:object=>@company %>
+    </div>
+  <%end%>
+
+  <% sub_block_div(("当前员工 (#{@company.current_employees.size})" if @company.current_employees.size>0),
+    (link_to("全部",employee_list_company_path(@company)) if @company.current_employees.size>0)) do %>
+    <%= render :partial=>"users/user_short_info",:collection=> @company.current_employees %>
+  <%end%>
+
+  <% sub_block_div(("曾经员工 (#{@company.pass_employees.size})" if @company.pass_employees.size>0),
+    (link_to("全部",pass_employee_list_company_path(@company)) if @company.pass_employees.size>0)) do %>
+    <%= render :partial=>"users/user_short_info",:collection=> @company.pass_employees %>
+  <%end%>
+
+  <% sub_block_div("动态",(link_to("全部",logs_company_path(@company)) if @company.log_items.size>0)) do %>
+    <%= render :partial=>"comm_partial/show_log",:object=>@company.log_items.all(:limit=>10),:locals=>{:hide_left=>true} %>
+  <%end%>
+
+  <% sub_block_div(("<div id='company_judge_count'>评价信息 (#{@company.judges.size})</div>" if @company.judges.size>0),
+    (link_to("全部",company_company_judges_path(@company)) if@company.judges.size>0)) do %>
+    <div id="company_judge_infos">
+      <%= render :partial=>"company_judges/show_judge_info",:collection=>@company.judges.find(:all,:limit=>4) %>
+    </div>
+  <%end%>
+
+  <% sub_block_div("相关公司") do %>
+    <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies %>
+  <%end%>
+
+</div>
+
+

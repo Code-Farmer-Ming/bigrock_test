@@ -1,0 +1,29 @@
+<div id="single_column">
+  <div class="form_info" id="new_user_page">
+    <h1>注册</h1>
+    <% form_for(:user,  @user,:url=>{:action=>"create"},:html=>{:class=>"required-validate"}) do |f| %>
+      <%= f.error_messages %>
+      <p>
+        <%= f.label :nick_name,"姓名",:class=>"filed_lab" %>
+        <%= f.text_field  :nick_name,:class=>"required  text",:title=>"请输入姓名",:maxlength=>10 %>
+      </p>
+      <p>
+        <%= f.label :email,"邮件",:class=>"filed_lab" %>
+        <%= f.text_field :email,:class=>"text required validate-email validate-ajax-#{check_email_account_path}",:maxlength=>64 %>
+      </p>
+      <p>
+        <%= f.label :text_password,"密码" ,:class=>"filed_lab"%>
+        <%= f.password_field :text_password ,:class=>"text required",:title=>"请输入密码",:maxlength=>18%>
+      </p>
+      <p>
+        <%= f.label :text_password_confirmation,"重复密码" ,:class=>"filed_lab"%>
+        <%= f.password_field :text_password_confirmation,
+          :class=>"text validate-equals-user_text_password useTitle",:title=>"两次输入的密码不相同",:maxlength=>18 %>
+      </p>
+      <p id="form_button">
+        <%= f.submit '注册',:disable_with=>"注册…"  %>   <%= link_to '注册了,去登录',login_account_path %>
+      </p>
+    <% end %>
+  </div>
+</div>
+

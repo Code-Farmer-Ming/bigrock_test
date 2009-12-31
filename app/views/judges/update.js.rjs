@@ -1,0 +1,8 @@
+# TODO Operate on the page object
+page << "Lightbox.close()"
+page.replace_html(dom_id(@judge.pass,"judge_stars"),render(:partial=>"passes/show_star_judge",:object=>@judge.pass))
+
+page.select("##{dom_id(@judge,"item")}").each do
+  page.replace_html(dom_id(@judge,"item"),render(:partial=>"judges/judge_info",:object=>@judge))
+end
+page[dom_id(@judge.pass,"judge_container")].visual_effect(:highlight)

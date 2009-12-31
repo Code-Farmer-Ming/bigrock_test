@@ -1,0 +1,56 @@
+<div id ="left_content">
+  <h2>
+    <%=h @piece_of_news.title %>
+  </h2>
+  <div class="main_content">
+    <div class="r make_up_down" id="<%= dom_id(@piece_of_news,'up_down') %>">
+      <%= render :partial=>"comm_partial/up_down_operation",:object=>@piece_of_news %>
+    </div>
+    <div>
+      <p class="comment_date">
+        <%=link_to @piece_of_news.create_user.name ,user_path(@piece_of_news.create_user) %>
+        发布于 <%= " #{localize(@piece_of_news.created_at)}" %>
+        <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{localize(@piece_of_news.updated_at)}"  \
+          if  @piece_of_news.last_edit_user%>
+      </p>
+      <div class="l news_company_icon">
+        <%= render :partial=>"companies/company_icon",:object=>@company   %>
+      </div>
+      <%= simple_format(h(@piece_of_news.content)) %>
+    </div>
+    <p class="clear"></p>
+  </div>
+  <div id="comments">
+    <%= render :partial=>"comments/comment",:collection=>@piece_of_news.comments %>
+  </div>
+  <div class="comment_item">
+      <%= render :partial=>"comments/new_form",:object=>@piece_of_news %>
+  </div>
+</div>
+<div id="right_content">
+  <% sub_block_div() do %>
+    <span id="recommend_operation">
+      <%= render :partial=>"comm_partial/recommend_operation",:object=>@piece_of_news %>
+    </span>
+    <%= link_to '编辑', {:action=>:edit,:id=>@piece_of_news},:class=>"button" \
+      if @company.current_employees.exists?(current_user) %>
+    <%= link_to '删除',  {:action=>:show,:id=>@piece_of_news},
+      :confirm => '确定删除吗?', :method => :delete ,:class=>"redbutton button" \
+      if @company.current_employees.exists?(current_user)  %>
+    <br class="clear"/>
+  <%end%>
+  <% sub_block_div() do %>
+  <%#= link_to "#{@company.name}所有有新闻", company_news_path(params[:company_id]) %>
+    <%= link_to "#{@company.name}首页", company_path(params[:company_id]) %>
+  <%end%>
+  <% sub_block_div("热门回复") do %>
+    <%= render :partial=>"comments/hot_comment",
+      :collection=>@piece_of_news.comments.hot_comments.all(:limit=>20) %>
+  <%end%>
+
+  <% sub_block_div("热门新闻") do %>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",
+      :collection=>@company.news.all(:conditions=>"id<>#{@piece_of_news.to_param}",:limit=>10) %>
+  <%end%>
+
+</div>

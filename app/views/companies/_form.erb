@@ -1,0 +1,78 @@
+<% f = form %>
+<%i=0%>
+
+<div id="<%= dom_id(f.object,"error_msg") %>">
+  <%= f.error_messages %>
+</div>
+<div id="thumb_img" class="company_img">
+  <%= img_upload_field(attachments_path(), @company.icon_file_path,nil,
+    {:button_text=>"上传文件",:post_params=>{:type=>CompanyIcon.to_s},:button_width=>60,:button_height=>18
+    }) %>
+</div>
+<%= hidden_field_tag  "company[last_edit_user_id]" ,current_user.to_param %>
+<p>
+  <%= f.label :name,"公司名称",:class=>"filed_lab" %>
+  <% if (@company.name.blank? || @_first_render.name=='edit')   %>
+    <%=  f.text_field(:name) %>
+  <% else%>
+    <%= f.hidden_field :name %>
+    <span title="如果想修改公司名称，请关闭窗口后修改"><%=   f.object.name %></span>
+  <%end %>
+  <%@company.versions.find_version_by_column(:name).each do |version| %>
+    <%= link_to_function "版本#{i+=1}","$('company_name').value='#{version.name}'",:title=>"#{version.name}" %>
+  <%end%>
+</p>
+<p>
+  <%= f.label :industry ,"所属行业",:class=>"filed_lab" %>
+  <%= f.select :industry_id,Industry.all.collect {|p| [ p.name, p.id ] },
+    {}  %>
+</p>
+<p>
+  <%= f.label :company_type, "公司类型",:class=>"filed_lab" %>
+  <%= f.select :company_type_id,CompanyType.all.collect {|p| [ p.name, p.id ] }  %>
+</p>
+<p>
+  <%= f.label :size,"公司规模",:class=>"filed_lab" %>
+  <%= f.select :company_size_id,CompanySize.all.collect {|p| [ p.name, p.id ] } %>
+</p>
+<p>
+  <%= f.label :fax,"传真",:class=>"filed_lab"  %>
+  <%= f.text_field :fax %>
+</p>
+<p>
+  <%= f.label :phone,"电话",:class=>"filed_lab"  %>
+  <%= f.text_field :phone %>
+</p>
+<p>
+  <%= f.label :website,"网站",:class=>"filed_lab"  %>
+  <%= f.text_field :website %>
+  <%  i=0 %>
+  <%@company.versions.find_version_by_column(:website).each do |version| %>
+
+    <%= link_to_function "版本#{i+=1}","$('company_website').value='#{version.website}'",:title=>"#{version.website}" %>
+  <%end%>
+</p>
+
+<p>
+  <%  i=0 %>
+  <%= f.label :address, "地址",:class=>"filed_lab" %>
+  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
+  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+
+  <%=  drop_list("company_state_id","company_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+
+  <%= f.text_field(:address) %>
+  <%@company.versions.find_version_by_column(:address).each do |version| %>
+    <%= link_to_function "版本#{i+=1}","$('company_address').value='#{version.address}'" ,:title=>"#{version.address}"%>
+  <%end%>
+</p>
+<p>
+  <%  i=0 %>
+  <%= f.label :description,"介绍",:class=>"filed_lab"  %>
+  <%= f.text_area :description ,:rows=>6%>
+
+  <%@company.versions.find_version_by_column(:description).each do |version| %>
+    <%= link_to_function "版本#{i+=1}","$('company_description').value=this.title",:title=>"#{version.description}" %>
+  <%end%>
+</p>
+

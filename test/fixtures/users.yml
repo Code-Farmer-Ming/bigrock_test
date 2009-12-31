@@ -1,0 +1,112 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :integer       not null, primary key
+#  email      :string(255)   default(""), not null
+#  password   :string(255)   default(""), not null
+#  is_active  :boolean       
+#  created_at :datetime      
+#  updated_at :datetime      
+#  nick_name  :string(128)   
+#  parent_id  :integer       default(0), not null
+#  state      :string(12)    default("working")
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  email: MyStringone
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+
+two:
+  id: 2
+  email: zhangming12@hotmail.com
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+
+three:
+  id: 3
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+  
+foru:
+  id: 4
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+
+user_005:
+  id: 5
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+
+user_006:
+  id: 6
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: false
+
+user_007:
+  id: 7
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+
+user_008:
+  id: 8
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_009:
+  id: 9
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_010:
+  id: 10
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_011:
+  id: 11
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_012:
+  id: 12
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_013:
+  id: 13
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_014:
+  id: 14
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_015:
+  id: 15
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+user_016:
+  id: 16
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+#user one's  alias account
+user_017:
+  id: 17
+  nick_name: alias
+  email: MyStringthree
+  password: <%=User.encrypted_password('MyString')%>
+  is_active: true
+  parent_id: 1

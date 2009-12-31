@@ -1,0 +1,6 @@
+<% form_for "search",:html=>{:method=>"get"}  do |f| %>
+  <%= text_field_tag  "search",@template.params[:search]%>
+  <%= hidden_field_tag "type",@template.params[:type] %>
+  <%= text_default_value 'search',default_text %>
+  <%=  f.submit "搜索" ,:disable_with=>"搜索…",:disabled => false%>
+<%end%>

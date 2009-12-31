@@ -1,0 +1,14 @@
+
+#page << "if ($('summary_info')!=null) {"
+#page.insert_html(:bottom,"summary_pass",render(:partial=>"show_summary_pass",:object=>@pass))
+#page << "}"
+if @pass.errors.length>0
+  page[dom_id(@pass,"error_msg")].show
+  page[dom_id(@pass,"error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@pass, "error_msg")].visual_effect(:fade)
+  end
+end
+page.insert_html(:bottom,"pass_infos",render(:partial=>"show_passes",:object=>@pass))
+page[dom_id(@pass,"container")].visual_effect(:highlight)
+page << "Form.reset('new_pass')"

@@ -1,0 +1,24 @@
+<%f= form %>
+<%= f.error_messages %>
+<p>
+  <%= f.label :ability_value,"工作能力"  ,:class=>"filed_lab" %>
+  <%=  rating_field :judge, :ability_value
+     %>
+ 
+</p>
+<p>
+  <%= f.label :eq_value,"交往能力" ,:class=>"filed_lab"  %>
+  <%=  rating_field :judge, :eq_value,:class=>"required"%>
+</p>
+<p>
+  <%= f.label :creditability_value,"资料真实" ,:class=>"filed_lab"  %>
+  <%=  rating_field :judge, :creditability_value%>
+</p>
+<p>
+  <%= form.label :visiabled1,"是否匿名",:class=>"filed_lab" %>
+  <%= form.check_box  :anonymous %><%= form.label :anonymous,"匿名(将不显示你个人的信息)" %>
+</p>
+<p>
+  <%= f.label :description,"写点什么"  ,:class=>"filed_lab" %>
+  <%= f.text_area :description, :rows=>4 %>
+</p>

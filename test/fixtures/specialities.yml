@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: specialities
+#
+#  id          :integer       not null, primary key
+#  name        :string(255)   
+#  description :string(255)   
+#  resume_id   :integer       
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  name: MyString
+  description: MyString
+  resume_id: 1
+
+two:
+  id: 2
+  name: MyString
+  description: MyString
+  resume_id: 1

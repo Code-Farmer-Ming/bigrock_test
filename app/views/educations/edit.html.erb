@@ -1,0 +1,16 @@
+
+  <div class="form_info">
+    <h1>编辑 教育信息</h1>
+
+    <% form_for(@education,:url=>user_resume_education_path(params[:user_id],params[:resume_id], @education),:html=>{:method=>:put}) do |f| %>
+      <%= f.error_messages %>
+
+      <%= render :partial=>"educations/form",:object=>f %>
+      <p>
+        <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %>
+      </p>
+    <% end %>
+
+    <%= link_to 'Show', user_resume_education_path(params[:user_id],params[:resume_id], @education) %> |
+    <%= link_to 'Back', user_resume_educations_path(params[:user_id],params[:resume_id]) %>
+  </div>

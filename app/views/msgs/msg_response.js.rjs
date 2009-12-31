@@ -1,0 +1,3 @@
+# TODO Operate on the page object
+page.insert_html :bottom, "response_infos", render(:partial=>"msgs/msg_response",:object=>@msg_response)
+page[@msg_response].visual_effect(:highlight)

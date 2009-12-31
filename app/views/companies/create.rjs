@@ -1,0 +1,13 @@
+# TODO Operate on the page object
+if @company.errors.size>0
+
+  flash.now[:error] = @company.errors.full_messages.to_s
+  page[dom_id(@company,"error_msg")].show
+  page[dom_id(@company,"error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@company, "error_msg")].visual_effect(:fade)
+  end
+else
+  page<<"Lightbox.close()"
+  page["pass_submit"].click()
+end

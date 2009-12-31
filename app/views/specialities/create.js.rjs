@@ -1,0 +1,11 @@
+if @speciality.errors.size>0
+  page[dom_id(@speciality,"error_msg")].show
+  page[dom_id(@speciality,"error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@speciality, "error_msg")].visual_effect(:fade)
+  end
+end
+page["speciality_infos"].show
+page.insert_html(:bottom,"speciality_infos",render(:partial=>"show_specials",:object=>@speciality))
+page[dom_id(@speciality,"container")].visual_effect(:highlight)
+page << "Form.reset('new_speciality')"

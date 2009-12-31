@@ -1,0 +1,77 @@
+<div id="left_content">
+  <%if !current_user%>
+    <div>
+
+      欢迎你 到这个世界
+     <%= User.all.size %>人
+       <%= Company.all.size %>公司
+         <%= Group.all.size %>小组
+    </div>
+  <%end%>
+  <% sub_block_div("新闻") do%>
+    <div id="my_news">
+  <%#*<div id="my_news"  onscroll="if ((this.scrollHeight-this.scrollTop-this.clientHeight)<50) { new Ajax.Updater('my_news','account/get_news',{method:'get',insertion:'bottom',parameters:'page=2'});%>
+  <%#*} ">%>
+
+    </div>
+    <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
+  <%end%>
+  <% sub_block_div("话题") do%>
+    <div class="tab_button">
+      <ul class="tabs">
+        <li>
+          <a href="#new_topics">最新的话题</a>
+        </li>
+        <li>
+          <%= link_to "我参与的话题",:anchor=>:join_topics if @user %>
+        </li>
+        <li>
+          <%= link_to "我创建的话题",:anchor=>:my_topics if @user %>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div class="panel" id="new_topics">
+        <%= render :partial=>"groups/group_topic_item", :collection=>@topics %>
+
+      </div>
+      <div class="panel" id="join_topics">
+        <%= render :partial=>"groups/group_topic_item",:collection=> @join_topics  %>
+
+      </div>
+      <div  class="panel" id="my_topics">
+        <%= render :partial=>"groups/group_topic_item",:collection=> @my_topics %>
+      </div>
+    </div>
+  <%end%>
+</div>
+<div id ="right_content">
+<%# sub_block_div("登录") do%>
+
+<%# form_tag(url_for(:controller=>:account,:action=>"login")) do -%>
+<%#= render :partial=>"account/login_form" %>
+<%#= submit_tag "登录"    -%>
+<%#=link_to "我来注册",:action=>"new" -%> 
+<%#=link_to "忘记密码？",forget_password_account_path()%>
+<%#end%>
+<%#end if !@user%>
+
+  <% sub_block_div("申请") do%>
+    <p> 你有 <%= @user.add_friend_applications.size %> 个好友申请
+      <%= link_to "查看" ,account_add_friend_applications_path() %>
+    </p>
+  <%end  if  @user && @user.add_friend_applications.size>0 %>
+
+  <% sub_block_div("邀请") do %>
+    <p>
+      你有   <%= link_to @user.join_group_invites.size,
+        account_join_group_invites_path() %> 个加入小组邀请
+    </p>
+  <%end  if  @user && @user.join_group_invites.size>0%>
+
+  <% sub_block_div("好友动态",(link_to("全部",follow_logs_account_path()) if  @user && @user.my_follow_log_items.size>0)) do %>
+    <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
+  <%end%>
+
+</div>
+

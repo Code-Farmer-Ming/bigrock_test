@@ -1,0 +1,10 @@
+if @work_item.errors.size>0
+  page[dom_id(@work_item,"error_msg")].show
+  page[dom_id(@work_item,"error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@work_item, "error_msg")].visual_effect(:fade)
+  end
+end
+page.insert_html(:bottom,"work_items_pass_#{params[:pass_id]}",render(:partial=>"show_work_items",:object=>@work_item))
+page[dom_id(@work_item,"container")].visual_effect(:highlight)
+page << "Form.reset('new_work_item')"

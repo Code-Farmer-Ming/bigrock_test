@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: recommends
+#
+#  id                 :integer       not null, primary key
+#  user_id            :integer       not null
+#  memo               :string(255)   default("")
+#  recommendable_type :string(255)   default(""), not null
+#  recommendable_id   :integer       not null
+#  created_at         :datetime      
+#  updated_at         :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  memo: MyString
+  recommendable_type: Piecenews
+  recommendable_id: 1
+
+two:
+  user_id: 2
+  memo: MyString
+  recommendable_type: Piecenews
+  recommendable_id: 1

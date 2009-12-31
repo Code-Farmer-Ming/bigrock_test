@@ -1,0 +1,48 @@
+<%  f = form %>
+<p id="<%= dom_id(f.object,"error_msg") %>">
+  <%= f.error_messages %>
+</p>
+<%=  f.hidden_field "company_id" %>
+<p>
+  <%= f.label :company_name,"公司"  ,:class=>"filed_lab" %>
+  <% if @_first_render.name=='edit' %>
+    <%=   hidden_field_tag :"company[name]",  f.object.company.name%>
+    <%= f.object.company.name %>
+  <%else%>
+    <%=  text_field_with_auto_complete :company, :name,
+      {:value=>(f.object.company.name if f.object.company),:title=>"需要输入公司名称",:class=>"required"},
+      :controller=>"Passes",:min_chars=>2 , :default_text=>content_tag("p","&nbsp;&nbsp;输入公司名称",:style=>"background-color:#ddd")  %>
+  <%end%>
+</p>
+
+<p>
+  <%= f.label :department,"部门" ,:class=>"filed_lab"  %>
+  <%=  text_field_with_auto_complete :pass,:department,{:class=>"required"},
+    {:with=>"'company[name]='+$F('company_name')",
+    #:active=>{:department_drop_list=>:click},
+    :controller=>"Passes"
+    #,:extension_html=>"<span id='department_drop_list' class='drop_button'>&nabla;</span>"
+  } %>
+</p>
+<p>
+  <%= f.label :title,"职位" ,:class=>"filed_lab" %>
+
+  <%=  text_field_with_auto_complete :pass,:title,{:class=>"required"},{:with=>"'company[name]='+$F('company_name')",
+    #:active=>{:title_drop_list=>:click},
+    :controller=>"Passes"
+    #,:extension_html=>"<span id='title_drop_list' class='drop_button'>&nabla;</span>"
+  } %>
+</p>
+<p>
+  <%= f.label :begin_date,"工作时间" ,:class=>"filed_lab"  %>
+  <%= f.date_select :begin_date,:start_year => 1950,:discard_day=>true %>
+  到
+  <span id="pass_end_date" style="display:<%= f.object.is_current ? 'none' : '' %>">
+    <%= f.date_select :end_date,:start_year => 1950,:discard_day=>true %></span>
+    <%= f.check_box :is_current ,:onclick=>"Element.toggle('pass_end_date')" -%>
+    <%= f.label :is_current,"当前仍在" -%>
+</p>
+<p>
+  <%= f.label :work_description,"工作描述"  ,:class=>"filed_lab" %>
+  <%= f.text_area :work_description, :rows=>4 %>
+</p>

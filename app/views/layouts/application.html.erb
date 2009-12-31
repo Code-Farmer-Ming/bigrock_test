@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title> <%=  @page_title%></title>
+    <%= stylesheet_link_tag :all %>
+
+    <%= stylesheet_link_tag 'blueprint/screen' %>
+    <%= stylesheet_link_tag 'blueprint/plugins/buttons/screen' %>
+
+    <%= javascript_include_tag "prototype.js" %>
+    <%= javascript_include_tag "scriptaculous.js" %>
+    <!--[if lt IE 7]>
+    <%= stylesheet_link_tag 'blueprint/ie' %>
+    <%= javascript_include_tag "unitpngfix.js" %>
+    <![endif]-->
+
+  </head>
+  <body>
+    <div id="main">
+      <div id="header">
+        <div  id="current_user">
+          <%= render(:partial => "/users/current_user_sign") %>
+        </div>
+        <div id="menu">
+          <ul id="nav">
+            <li id="home" class="<%= "activelink" if controller.controller_name=="account" && controller.action_name=="show" %>" ><%= link_to "首页", account_path() %></li>
+            <li id="who" class="<%= "activelink" if controller.controller_name=="users"  %>" ><%= link_to "个人", user_path(current_user) if current_user %></li>
+            <li id="company" class="<%= "activelink" if controller.controller_name=="companies"  && controller.action_name!="news"%>" > <%= link_to "公司",companies_path() %></li>
+            <li id="news"  class="<%= "activelink" if controller.controller_name=="companies"  && controller.action_name=="news"  %>"><%= link_to "新闻",news_companies_path() %></li>
+            <li id="group"  class="<%= "activelink" if controller.controller_name=="groups"  %>"><%= link_to "小组",groups_path() %></li>
+<%#*<li id="work"><a href="#">职位</a></li>%>
+          </ul>
+        </div>
+      </div>
+      <div id="content">
+        <div class="standard_container">
+          <div id="flash_msg">
+            <%= render :partial=>"comm_partial/flash_msg" %>
+          </div>
+          <%= yield %>
+          <p class="clear_float"></p>
+        </div>
+      </div>
+      <div id="footer">
+        <h4>
+          copyright   &copy; 2009-2010</h4>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  id             :integer       not null, primary key
+#  name           :string(255)   default(""), not null
+#  description    :text          default(""), not null
+#  group_type_id  :integer       not null
+#  join_type      :string(255)   default(""), not null
+#  create_user_id :integer       not null
+#  members_count  :integer       default(0)
+#  topics_count   :integer       default(0)
+#  created_at     :datetime      
+#  updated_at     :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  name: MyString1
+  description: MyText
+  group_type_id: 1
+  join_type: open
+  create_user_id: 1
+  members_count: 0
+  topics_count: 0
+
+two:
+  id: 2
+  name: MyString2
+  description: MyText
+  group_type_id: 1
+  join_type: application
+  create_user_id: 1
+  members_count: 0
+  topics_count: 0
+
+three:
+  id: 3
+  name: MyString3
+  description: MyText
+  group_type_id: 1
+  join_type: open
+  create_user_id: 1
+  members_count: 0
+  topics_count: 0

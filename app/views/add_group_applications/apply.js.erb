@@ -1,0 +1,19 @@
+<div class="form_info">
+  <h1>申请加入小组</h1>
+  <% remote_form_for(@add_application ,:url=>apply_group_add_group_applications_path(params[:group_id])) do |form| %>
+  <%#*<p>%>
+
+  <%#= label_tag :name,"对",:class=>"filed_lab" %>
+  <%#= label_tag "user_name", @respondent.name %>
+  <%#*</p>%>
+    <%= hidden_field_tag "alias",params[:alias] %>
+    <p>
+      <%= form.label :memo,"说点什么",:class=>"filed_lab" %>
+      <%= form.text_area :memo,:rows=>2,:title=>"可以为空" %>
+    </p>
+    <p>
+      <%= form.submit "保存",:disable_with=>"保存…",:disabled => false %> <%= link_to_close_lightbox "取消"  %>
+    </p>
+
+  <%end%>
+</div>

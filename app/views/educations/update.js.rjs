@@ -1,0 +1,12 @@
+if @education.errors.size>0
+  page[dom_id(@education, "error_msg")].show
+  page[dom_id(@education, "error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@education, "error_msg")].visual_effect(:fade)
+  end
+end
+page[dom_id(@education)].show
+page[dom_id(@education,"edit_container")].hide
+#page[dom_id(@education,"summary")].replace_html render :partial=>"educations/show_summary_edu",:object=>@education
+page[dom_id(@education)].replace_html render(:partial=>"educations/show_edu_info",:object=>@education)
+page[dom_id(@education)].visual_effect(:highlight)

@@ -1,0 +1,10 @@
+<div id="left_content">
+  <h1>创建新公司</h1>
+  <% form_for(@company,:html => { :multipart => true, :class=>"form_info" }) do |f| %>
+    <%= render :partial=>"companies/form",:object=>f %>
+    <p>
+      <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %>
+    </p>
+  <% end %>
+</div>
+<div id="right_content"></div>

@@ -1,0 +1,8 @@
+<H1><%= @company.name  %>  员工</H1>
+<div id="left_content" >
+  <%= render :partial=>"users/user_short_info",:collection=>  @employees %>
+  <%= will_paginate  @employees  %>
+</div>
+<div id="right_content">
+  <%= link_to "返回 公司首页",company_path(@company) %>
+</div>

@@ -1,0 +1,2 @@
+page.replace_html  dom_id(update_up_down_panel,'up_down'), :partial => 'comm_partial/up_down_operation', :object => update_up_down_panel,:locals=>{:stop_clik=>true}
+page.visual_effect :highlight, dom_id( update_up_down_panel,'up_down')

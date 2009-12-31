@@ -1,0 +1,18 @@
+<% f = form %>
+<p id="<%= dom_id(f.object,"error_msg") %>">
+  <%= f.error_messages %>
+</p>
+<p>
+  <%= f.label :name,"业绩名称",:class=>"filed_lab" %>
+  <%= f.text_field :name ,:class=>"required"  %>
+</p>
+<p>
+  <%= f.label :begin_date,"日期",:class=>"filed_lab"%>
+  <%= f.date_select :begin_date,:discard_day=>true,:start_year=>1950  %>
+  到
+  <%= f.date_select :end_date,:discard_day=>true,:start_year=>1950  %>
+</p>
+<p>
+  <%= f.label :work_description,"详细描述",:class=>"filed_lab" %>
+  <%= f.text_area :work_description,:rows=>3 %>
+</p>

@@ -1,0 +1,11 @@
+if @education.errors.size>0
+  page[dom_id(@education, "error_msg")].show
+  page[dom_id(@education, "error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@education, "error_msg")].visual_effect(:fade)
+  end
+end
+page.insert_html(:bottom,"education_infos",render(:partial=>"show_edus",:object=>@education))
+#page.insert_html(:bottom,"summary_edu",render(:partial=>"show_summary_edu",:object=>@education))
+page[dom_id(@education,"container")].visual_effect(:highlight)
+page << "Form.reset('new_education')"

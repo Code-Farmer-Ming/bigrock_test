@@ -1,0 +1,1 @@
+使用的账号 <%= select_tag  "alias", options_from_collection_for_select(current_user.accounts,:id,:name) %>&nbsp;<%= link_to " 去设置我的马甲",{:controller=>:Account,:action=>"set_alias"},:target=>"_blank" %>

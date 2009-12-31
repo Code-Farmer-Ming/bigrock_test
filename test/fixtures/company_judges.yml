@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: company_judges
+#
+#  id              :integer       not null, primary key
+#  company_id      :integer       
+#  user_id         :integer       
+#  salary_value    :integer       
+#  condition_value :integer       
+#  description     :text          
+#  visiabled       :boolean       default(TRUE)
+#  created_at      :datetime      
+#  updated_at      :datetime      
+#  anonymous       :boolean       
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  user_id: 1
+  company_id: 2
+  salary_value: 1
+  condition_value: 1
+
+two:
+  id: 2
+  user_id: 2
+  company_id: 2
+  salary_value: 1
+  condition_value: 1

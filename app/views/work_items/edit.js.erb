@@ -1,0 +1,11 @@
+<% remote_form_for(@work_item,
+  :url=>user_resume_pass_work_item_path(params[:user_id],params[:resume_id],params[:pass_id],@work_item),
+  :loading=>"$('work_item_submit').disabled=true;",
+  :complete=>"$('work_item_submit').disabled=false;",
+  :html=>{:method=>:put,:class=>"form_info  required-validate"}) do |f| %>
+
+  <%= render :partial=>"work_items/form" ,:object=>f %>
+
+  <%= f.submit '保存' %> <%= link_to_function "取消","Element.hide('#{dom_id(@work_item,"edit_container")}');Element.show('#{dom_id(@work_item)}')" %>
+
+<% end %>

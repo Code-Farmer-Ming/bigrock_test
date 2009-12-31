@@ -1,0 +1,23 @@
+<div id="left_content">
+  <% form_for([@owner,@topic],{},:html=>{:class=>"form_info",:class=>"form_info required-validate"}) do |f| %>
+    <h1>发表话题</h1>
+    <%= f.error_messages %>
+    <%= render :partial=>"news/form",:object=>f %>
+    <% if @owner.class.to_s!="Group"%>
+      <p>
+        <%= label_tag "dd","&nbsp;",:class=>"filed_lab" %>
+        <%= render :partial=>"comm_partial/alias_account_choice" %>
+      </p>
+    <%else%>
+
+    <%end%>
+    <p >
+      <%= f.submit '保存',:disable_with=>"保存…",:disabled => false  %> <%= link_to  "取消",:back %>
+    </p>
+  <% end %>
+</div>
+<div id="right_content">
+  <%  sub_block_div() do %>
+    <%= link_to "#{@owner.name}首页", {:controller=>@owner.class.table_name,:action=>:show,:id=>@owner} %>
+  <%end%>
+</div>

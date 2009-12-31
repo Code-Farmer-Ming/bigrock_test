@@ -1,0 +1,9 @@
+<% work_item = show_work_items  %>
+<div id="<%= dom_id(work_item,"container")  %>" >
+  <div id="<%= dom_id(work_item)  %>"  class="section <%= current_user?(work_item.pass.resume.user) ? "edit_section" : "" %>">
+    <%=  render :partial=>"work_items/show_work_item_info",:object=>work_item %>
+  </div>
+  <div id="<%= dom_id(work_item,"edit_container")  %>"   class="partial_container" style="display:none;">
+  </div>
+</div>
+<%= javascript_tag(" AddHover('#{dom_id(work_item,"container")}')") %>

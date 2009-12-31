@@ -1,0 +1,14 @@
+if @pass.errors.length>0
+  page[dom_id(@pass,"error_msg")].show
+  page[dom_id(@pass,"error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@pass, "error_msg")].visual_effect(:fade)
+  end
+end
+page[dom_id(@pass)].replace_html render :partial=>"passes/show_pass_info",:object=>@pass
+#page << "if ($('summary_info')!=null) {"
+#page[dom_id(@pass,"summary")].replace_html render :partial=>"passes/show_summary_pass",:object=>@pass
+#page << " }"
+page[dom_id(@pass,"edit_container")].hide
+page[dom_id(@pass)].show
+page[dom_id(@pass)].visual_effect(:highlight)

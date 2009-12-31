@@ -1,0 +1,28 @@
+
+<%= render :partial=>"msgs/notification_types" %>
+<div class="form_info">
+  <h1>发送信息</h1>
+  <% form_for(:msg,  @msg,:url=>{:action=>"create"},:html=>{:class=>"required-validate"}) do |f| %>
+    <%= f.error_messages %>
+    <p>
+      <%= f.label :sendees,"收件人",:class=>"filed_lab" %>
+
+      <%=  text_field_with_auto_complete :msg, :sendees,{:class=>"required",:title=>"收件人不能为空"},
+        :default_text=>content_tag("p","&nbsp;&nbsp;输入好友的名称",:style=>"background-color:#ddd"),:tokens=>";",:select=>"hide_content" %>
+    </p>
+    <p>
+      <%= f.label :title,"标题" ,:class=>"filed_lab"%>
+      <%= f.text_field :title,:class=>"required",:title=>"标题不能为空" %>
+    </p>
+    <p>
+      <%= f.label :content,"内容" ,:class=>"filed_lab"%>
+      <%= f.text_area :content,:rows=>16,:class=>"required",:title=>"内容不能为空" %>
+    </p>
+    <p>
+      <%= render :partial=>"comm_partial/alias_account_choice" %>
+    </p>
+    <p>
+      <%= f.submit '发送',:disable_with=>"发送…",:disabled => false %>
+    </p>
+  <% end %>
+</div>

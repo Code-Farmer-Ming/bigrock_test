@@ -1,0 +1,9 @@
+/doc
+/rails
+*.gem
+/coverage
+.svn
+.svn/*
+*.log
+*.tmp
+tmp

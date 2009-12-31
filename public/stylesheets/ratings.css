@@ -1,0 +1,41 @@
+/* 
+    Document   : ratings
+    Created on : 2009-7-2, 10:19:06
+    Author     : 明
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.output_empty_star,.input_full_star,.output_full_star
+{
+    DISPLAY: inline-block;
+    VERTICAL-ALIGN: middle;
+    WIDTH: 16px;
+    HEIGHT: 16px;
+    line-height:normal;
+    font-size:6px;
+    margin:0px 1px;
+}
+
+.output_empty_star
+{
+
+    background-image: url(../images/output_empty_star.gif);
+
+}
+.input_full_star
+{
+
+    background-image: url(../images/input_full_star.gif);
+}
+.output_full_star
+{
+
+    background-image: url(../images/output_full_star.gif);
+}
+

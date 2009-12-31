@@ -1,0 +1,21 @@
+
+<div id="left_content">
+  <div class="form_info">
+    <h1>编辑公司信息</h1>
+    <% form_for(@company) do |f| %>
+      <%= render :partial=>"companies/form",:object=>f %>
+      <p>
+        <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %> <%= link_to "取消",company_path(@company) %>
+      </p>
+    <% end %>
+  </div>
+</div>
+<div id="right_content">
+  <% sub_block_div() do%>
+    <%= link_to "<< 公司首页",company_path(@company) %>
+    <p>
+      版本的介绍
+      鼠标放上去显示详细信息，单击使用该版本
+    </p>
+  <%end%>
+</div>

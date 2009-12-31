@@ -1,0 +1,9 @@
+<div class="tab">
+  <ul class="item">
+    <li id="<%= "current_tab" if (params[:type]=="all" || !params[:type]) %>" ><%= link_to "全部", "?type=all"  %> </li>
+    <li  id="<%= "current_tab" if params[:type]=="company_news" %>"><%= link_to   "新闻", "?type=company_news" %></li>
+    <li id="<%= "current_tab" if params[:type]=="join_company" %>" ><%= link_to "加入信息", "?type=join_company"  %> </li>
+    <li id="<%= "current_tab" if params[:type]=="Attention" %>" ><%= link_to "关注", "?type=Attention" %> </li>
+  </ul>
+  <p class="clear_float"></p>
+</div>

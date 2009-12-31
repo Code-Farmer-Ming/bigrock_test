@@ -1,0 +1,36 @@
+<%# 显示联系信息%>
+<%resume = show_contact_info%>
+
+<% if resume.user.setting.can_visibility?(:mobile_visibility,current_user) && !resume.phone1.blank? %>
+  <span  class="operation_lab">
+    <%= render :partial=>"resumes/visibility_set",
+      :locals=>{:value=>resume.user.setting.mobile_visibility,:visibility_value=>"mobile",:resume=>resume} if  current_user?(resume.user) %>
+  </span>
+  <p>
+    <span>移动电话</span>
+    <%=h resume.phone1 %>
+  </p>
+<%end%>
+<% if resume.user.setting.can_visibility?(:phone_visibility,current_user) && !resume.phone2.blank? %>
+  <span  class="operation_lab">
+    <%= render :partial=>"resumes/visibility_set",
+      :locals=>{:value=>resume.user.setting.phone_visibility,:visibility_value=>"phone",:resume=>resume} if  current_user?(resume.user) %>
+  </span>
+  <p>
+    <span>固定电话</span>
+    <%=h resume.phone2 %>
+  </p>
+<%end%>
+<% if resume.user.setting.can_visibility?(:address_visibility,current_user) && !resume.address.blank? %>
+  <span  class="operation_lab">
+    <%= render :partial=>"resumes/visibility_set",
+      :locals=>{:value=>resume.user.setting.address_visibility,:visibility_value=>"address",:resume=>resume} if  current_user?(resume.user) %>
+  </span>
+  <p>
+    <span>现居住地址</span>
+    <%=h resume.address %>
+  </p>
+<%end%>
+
+
+

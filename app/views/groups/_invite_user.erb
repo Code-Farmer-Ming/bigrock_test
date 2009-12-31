@@ -1,0 +1,5 @@
+<div class="l user_extension">
+  <%= render :partial=>"users/user_icon_name",:object=>invite_user %>
+  <%= check_box_tag "invite_user[]",invite_user.id,false,:id=>"invite_user#{invite_user.id}" -%><%= label_tag "invite_user#{invite_user.id}", "邀请" %>
+</div>
+

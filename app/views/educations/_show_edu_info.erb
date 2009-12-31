@@ -1,0 +1,29 @@
+<%edu=show_edu_info%>
+<h4>
+  <%if current_user?(edu.resume.user)%>
+    <span class="operation_lab">
+      <%= link_to_remote "",
+        {:update=> dom_id(edu,"edit_container"),
+        :before=>"PerpareEdit('#{dom_id(edu)}')",
+        :complete=>"$('#{dom_id(edu,"edit")}').focusFirstElement();
+    new Validation($('#{dom_id(edu,"edit")}'),{
+    immediate:true,
+    useTitles:true,
+    stopOnFirst:true
+    });",
+        :url=>edit_user_resume_education_path(edu.resume.user,edu.resume,edu),:method=>"get"},
+        :class=>"edit_img_button",:title=>"编辑" %>
+      <%=  link_to_remote "",
+        {:url=>user_resume_education_path(edu.resume.user,edu.resume,edu), :confirm => '确定删除吗?', :method => :delete},
+        :class=>"del_img_button",:title=>"删除"%>
+    </span>
+  <%end%>
+  <%=edu.school_name%>
+</h4>
+<div ><%=edu.major%> <%= edu.degree %></div>
+<p class="date_field">
+  <%=  localize(edu.begin_date,:format=>:long_month) %> - <%= localize(edu.end_date,:format=>:long_month)%> (<%= distance_of_time_in_words(edu.begin_date,edu.end_date)%>)
+</p>
+<p>
+  <%=  edu.description %>
+</p>

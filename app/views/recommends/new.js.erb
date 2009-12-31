@@ -1,0 +1,16 @@
+<% remote_form_for(@recommend ,:url=>recommends_path(),:html=>{:class=>"form_info"}) do |f| %>
+  <h2>推荐</h2>
+  <%= f.error_messages %>
+  <h4>推荐给我的好友</h4>
+  <p>
+    <%= f.label :memo,"描述一下为什么推荐吧" %>
+  </p>
+  <p>
+    <%= f.text_area :memo,:lenght=>32,:class=>"recommend_memo",:title=>"可以为空" %>
+  </p>
+  <%= f.hidden_field :recommendable_type %>
+  <%=  f.hidden_field :recommendable_id %>
+  <p>
+    <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %> <%= link_to_close_lightbox"取消" %>
+  </p>
+<% end %>

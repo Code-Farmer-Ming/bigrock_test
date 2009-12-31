@@ -1,0 +1,3 @@
+page.insert_html :bottom,"comments" ,render(:partial=>"comments/comment",:object=>@comment)
+page["response_comment"].value = ""
+page.visual_effect :highlight, dom_id(@comment)

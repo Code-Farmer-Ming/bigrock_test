@@ -1,0 +1,53 @@
+
+<div id="left_content">
+  <h1>
+    <%=h @group.name %>
+  </h1>
+  <div id="group_info_show" class="main_info">
+    <div id="thumb_img">
+      <%= image_tag @group.icon_file_path %>
+    </div>
+    <div id="group_content">
+      <%=  simple_format(auto_link(h(@group.description))) %>
+    </div>
+    <p>
+      创建于 <%=  localize(@group.created_at)%>
+    </p>
+    <p>标签  <%=h @group.tag_list  %></p>
+    <br class="clear" />
+  </div>
+  <% sub_block_div("话题(#{@group.topics_count})", (link_to("全部", group_topics_path(@group)) if @group.topics.size>0)) do %>
+    <%= render :partial=>"topics/topic_item",:collection=>@group.topics.all(:limit=>20) %>
+  <%end%>
+</div>
+<div id ="right_content">
+  <% sub_block_div() do%>
+    <div id="group_operation">
+      <%= render :partial=>"groups/operation",:object=>@group %>
+    </div>
+  <%end%>
+  <% sub_block_div("申请") do%>
+    <div>
+      有 <%= @group.add_applications.size %> 个加入申请
+      <%= link_to "查看" ,group_add_group_applications_path(@group) %>
+    </div>
+  <%end if @group.add_applications.size >0 && @group.is_manager_member?(current_user) %>
+
+  <% sub_block_div("成员(#{@group.members_count})", link_to("全部",group_members_path(@group))) do %>
+    <%= render :partial=>"users/user_icon_name_extension",:collection=>@group.all_members(:limit=>10) %>
+    <p class ="clear"/>
+  <%end%>
+
+  <% sub_block_div("成员也喜欢去的小组") do %>
+    <ul class="float_ul">
+      <%= render :partial=>"groups/float_icon_name",:collection=> @group.related_popular_groups.all(:limit=>8)%>
+    </ul>
+  <%end%>
+
+  <% sub_block_div("相关联小组") do %>
+    <ul class="float_ul">
+      <%= render :partial=>"groups/float_icon_name",:collection=> @group.similar_tag_groups.all(:limit=>8)%>
+    </ul>
+  <%end%>
+</div>
+

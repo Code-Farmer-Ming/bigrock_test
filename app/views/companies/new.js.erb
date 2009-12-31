@@ -1,0 +1,9 @@
+
+<%  remote_form_for(@company,:url => companies_path() ,:html => { :multipart => true, :class=>"form_info"}) do |f| %>
+  <h1>创建新公司</h1>
+  <%= render :partial=>"companies/form",:object=>f %>
+  <p >
+    <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %> <%= link_to_close_lightbox "取消" %>
+  </p>
+<% end %>
+

@@ -1,0 +1,33 @@
+# == Schema Information
+#
+# Table name: msgs
+#
+#  id          :integer       not null, primary key
+#  sender_id   :integer       not null
+#  sendee_id   :integer       not null
+#  title       :string(128)   default(""), not null
+#  content     :string(255)   default(""), not null
+#  is_check    :boolean       
+#  sender_stop :boolean       
+#  sendee_stop :boolean       
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  sender_id: 2
+  sendee_id: 1
+  title: MyString
+  content: MyString
+  is_check: false
+
+two:
+  id: 2
+  sender_id: 1
+  sendee_id: 2
+  title: MyString
+  content: MyString
+  is_check: false

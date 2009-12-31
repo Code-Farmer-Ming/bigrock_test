@@ -1,0 +1,5 @@
+# TODO Operate on the page object
+page.visual_effect :fade, dom_id(@work_item, "container"), :duration => 0.5
+page.delay(0.5) do
+  page[dom_id(@work_item, "container")].remove
+end

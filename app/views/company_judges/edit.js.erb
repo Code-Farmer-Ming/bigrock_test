@@ -1,0 +1,10 @@
+<div class="form_info">
+  <h1>评价 <%= h @company_judge.company.name  %></h1>
+  <% remote_form_for @company_judge,:url=>company_company_judge_path(params[:company_id],@company_judge)  do |judge| %>
+    <%= render :partial=>"company_judges/form",:object=>judge %>
+
+      <%= judge.submit("保存",:disable_with=>"保存…",:disabled => false )  %> <%= link_to_close_lightbox "取消" %>
+
+  <%end%>
+</div>
+

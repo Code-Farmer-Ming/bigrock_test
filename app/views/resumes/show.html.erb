@@ -1,0 +1,11 @@
+<div id="single_column">
+  <div id="resume_info_show">
+    <div id="resume_content">
+
+    </div>
+  </div>
+  <%=   javascript_tag(remote_function(:update=>'resume_content',
+      :url=>url_for(:controller=>"resumes",:action=>"render_resume",
+        :id=>@resume),
+      :method=>'get'))  %>
+</div>
