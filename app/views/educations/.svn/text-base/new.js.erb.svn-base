@@ -1,0 +1,6 @@
+
+<% remote_form_for(Education.new,:url=>user_resume_educations_path(params[:user_id],params[:resume_id]),:html=>{:method=>:post,:class=>"form_info"}) do |f| %>
+  <%= f.error_messages %>
+  <%= render :partial=>"educations/form",:object=>f %>
+  <%= f.submit '保存' %> <%= link_to_function "取消","Element.hide('new_education_container')"%>
+<% end %>

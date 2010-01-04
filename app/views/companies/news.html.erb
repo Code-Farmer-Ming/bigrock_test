@@ -4,8 +4,8 @@
   <%= will_paginate @news %>
 </div>
 <div id="right_content">
-  <%sub_block_div() do%>
-    搜索 <%= text_field_tag "news_search" %>
+  <% sub_block_div() do%>
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入关键字"} %>
   <%end%>
   <%sub_block_div("热门新闻") do%>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>Piecenews.populars(:limit=>15) %>

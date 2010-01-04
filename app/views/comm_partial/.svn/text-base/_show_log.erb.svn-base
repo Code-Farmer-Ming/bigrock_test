@@ -1,0 +1,143 @@
+<%#用户的动态信息.%>
+<%#TODO 需要更详细的把相近的同一类合并到一起%>
+<%
+hide_left ||= false
+log_text=""
+log_content = ""
+#log_type = ""
+temp =""
+#log_temp = nil
+log_owner = nil
+log_date = Date.new.tomorrow
+show_date = log_date
+for log in show_log
+
+  if log.owner != log_owner || log_date.to_date !=log.created_at.to_date
+    if log_text!=""
+      #log_type = ""
+      content_tag (:div),:class=>hide_left ? "user_log_just_text" :  "user_log" do%>
+        <%= content_tag :h5,date_ago_in_words(log_date) if ( show_date.to_date != log_date.to_date)  %>
+        <%= content_tag :div,log_text,:class=>"l" %>
+        <%= content_tag :div,log_content,:class=>"user_log_content"%>
+        <%= content_tag :p,"",:class=>"c" %>
+      <%end
+      show_date = log_date
+    end
+    log_content =""
+    log_date =log.created_at
+    log_owner = log.owner
+    if  hide_left
+      log_text = " "
+    else
+      case log_owner.class.to_s
+      when UserRegisterInfo.to_s
+        log_text = render(:partial=>"users/user_icon_name",:object=>log.owner)
+      when Company.to_s
+        log_text =  render(:partial=>"companies/company_icon",:object=>log.owner)
+      end
+    end
+  end
+
+  case log.log_type
+  when "MyLanguage"
+    case log.operation
+    when "create"
+      temp = "“#{log.logable.content}”"
+    end
+
+  when  "Friend" #加为好友
+    case log.logable_type
+    when "UserRegisterInfo"
+      case log.operation
+      when "create"
+        temp = "加#{link_to log.logable.name,user_path(log.logable)}为好友"
+      when "destroy"
+        temp = "解除#{link_to log.logable.name,user_path(log.logable)}为好友"
+      end
+    end
+
+  when  "resume" #修改个人信息的时候
+    case log.logable_type
+    when "Education" #个人信息里 的教育信息
+      case log.operation
+      when "create"
+        temp = " 增加了在 #{log.logable.school_name} 教育经历"
+      when "update"
+      when "destroy"
+      end
+    when "Company" #工作经历
+      case log.operation
+      when "create"
+        temp = "增加了在 #{link_to log.logable.name,company_path(log.logable)} 工作的经历"
+      when "update"
+      when "destroy"
+      end
+    when "Specifice" #特长
+    end if log.logable
+  when "Attention" #关注
+    case log.logable.class.to_s
+    when UserRegisterInfo.to_s #个人
+      case log.operation
+      when "create"
+        #
+        #if log_type ==  Attention.to_s
+        #temp +="、#{link_to log.logable.name,user_path(log.logable)}"
+        #else
+        temp = "关注#{link_to log.logable.name,user_path(log.logable)}"
+        #end
+      when "destroy"
+        temp = "取消关注#{link_to log.logable.name,user_path(log.logable)}"
+      end
+
+    when Company.to_s #公司
+      case log.operation
+      when "create"
+        temp = "关注#{link_to log.logable.name,company_path(log.logable)}"
+      when "destroy"
+        temp = "取消关注#{link_to log.logable.name,company_path(log.logable)}"
+      end
+    end if log.logable
+  when "join_company" #加入
+    case log.operation
+    when "create"
+      temp = "#{link_to log.logable.name,user_path(log.logable)}加入了"
+    end  if log.logable
+  when "company_news" #新闻
+    case log.operation
+    when "create"
+      temp = "新闻: #{link_to log.logable.title,company_piecenews_path(log.owner,log.logable),:target=>"_blank"}"
+    end  if log.logable
+  when "Recommend" #推荐
+    case log.operation
+    when "create"
+      case log.logable.recommendable_type
+      when "Piecenews"
+        temp = "推荐新闻: #{link_to log.logable.recommendable.title,
+        company_piecenews_path(log.logable.recommendable.owner,log.logable.recommendable),:target=>"_blank"}"+
+          (log.logable.memo=="" ? "" : "<blockquote>#{log.logable.memo}</blockquote>")
+      when "Topic"
+        temp = "推荐话题: #{link_to log.logable.recommendable.title,
+        [log.logable.recommendable.owner,log.logable.recommendable],:target=>"_blank"}"+
+          (log.logable.memo=="" ? "" : "<blockquote>#{log.logable.memo}</blockquote>")
+      when "Group"
+        temp = "推荐小组: #{link_to(log.logable.recommendable.name,
+        group_path(log.logable.recommendable),:target=>"_blank" )}"+
+          (log.logable.memo=="" ? "" : "<blockquote>#{log.logable.memo}</blockquote>")
+
+      end
+    end  if log.logable
+
+  end
+  log_content  += content_tag(:div, content_tag(:p,time_ago_in_words_plus(log.created_at),:class=>"r log_time")+content_tag(:p,temp ))
+  #if  log_temp  !=  log &&  log_type !=  log.log_type
+  #log_content  = content_tag(:p, temp)+log_content
+  #end
+  #log_type =  log.log_type
+  #log_temp = log
+end%>
+<% content_tag (:div) ,:class=>hide_left ? "user_log_just_text" :  "user_log"  do%>
+  <%= content_tag :h5,date_ago_in_words(log_date)  if ( show_date.to_date != log_date.to_date)  %>
+  <%= content_tag :div,log_text,:class=>"l"%>
+  <%=  content_tag :div, log_content ,:class=>"user_log_content"%>
+  <%= content_tag :p,"",:class=>"c" %>
+<%end   if log_text!=""%>

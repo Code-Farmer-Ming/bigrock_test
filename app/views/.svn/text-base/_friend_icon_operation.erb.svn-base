@@ -1,0 +1,5 @@
+<div id="<%= dom_id(friend_icon_operation,"friend") %>" class="friend_operation">
+  <%= link_to  "×",destroy_friend_account_path(:friend_id=>friend_icon_operation ),
+    :confirm => '确定删除吗?', :method => :delete,:class=>"friend_operator",:title=>"删除" if current_user?(@user) %>
+  <%= render :partial=>"users/user_short_info",:object=> friend_icon_operation %>
+</div>

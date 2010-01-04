@@ -1,0 +1,2 @@
+<%d = show_summary_pass %>
+<%= "<li id=#{dom_id(d,"summary")}>#{d.company.name}</li>" %>

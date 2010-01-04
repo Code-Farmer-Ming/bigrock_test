@@ -1,0 +1,11 @@
+<%= javascript_include_tag "ratings_component.js" %>
+<div class="form_info">
+  <h1>创建工作评价</h1>
+  <%  remote_form_for(@judge,:url=> user_resume_pass_judges_path(params[:user_id],params[:resume_id],params[:pass_id]),:html=>{:method=>:post}) do |f| %>
+    <%= f.error_messages %>
+    <%= render :partial=>"judges/form" ,:object=>f%>
+    <p>
+      <%= f.submit '保存' %> <%= link_to_function "取消","Dialog.okCallback()"  %>
+    </p>
+  <% end %>
+</div>

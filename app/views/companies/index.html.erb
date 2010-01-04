@@ -1,18 +1,10 @@
-
 <div id="left_content">
-  <div class="tab_button">
-    <ul class="tabs">
-      <li>
-        <a href="#top_5_integration_company">综合最满意的公司</a>
-      </li>
-      <li>
-        <a href="#top_5_salary_company">待遇最满意的公司</a>
-      </li>
-      <li>
-        <a href="#top_5_condition_company">环境最满意的公司</a>
-      </li>
-    </ul>
-  </div>
+
+  <%tabs do%>
+    <%= tab_button("综合最满意的公司","top_5_integration_company" ) %>
+    <%= tab_button("待遇最满意的公司","top_5_salary_company") %>
+    <%= tab_button("环境最满意的公司","top_5_condition_company") %>
+  <%end%>
   <div>
     <div class="panel" id="top_5_integration_company">
       <%= render :partial=>"companies/company_rank",:collection=>@integration_best_companies %>
@@ -28,44 +20,23 @@
     </div>
   </div>
 
-
-  <div class="sub_block">
-    <p class="sub_block_title">公司分类</p>
-    <div class="sub_block_content">
-
+  <% sub_block_div("公司分类") do%>
+    <div id="industry_link_list">
+      <% Industry.all.each do |item| %>
+        <%=  link_to item.name,"#",:class=>"tag" %>
+      <%end%>
     </div>
-  </div>
+  <%end%>
 
-  <div class="sub_block">
-    <div  class="sub_block_operation">
-      <%= link_to "全部",news_companies_path() %>
-    </div>
-    <p class="sub_block_title">新闻</p>
-    <div class="sub_block_content">
-      <%= render :partial=>"news/news_short_info",:collection=>Piecenews.all(:limit=>10,:order=>"created_at desc"),:locals=>{:show_icon=>true} %>
-    </div>
-  </div>
 </div>
 <div id="right_content">
-  <div class="sub_block">
-    <div class="sub_block_content">
-      <div >
-        搜索 <%= text_field_tag "search" %>
-      </div>
-    </div>
-  </div>
+  <% sub_block_div() do%>
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入公司名称"} %>
+  <%end%>
   <% sub_block_div() do%>
     <%= link_to "我来创建公司" ,new_company_path(),:class=>"button"%>
-    <br class="clear" />
   <%end%>
-  <div class="sub_block">
-    <p class="sub_block_title">最新加入的公司</p>
-    <div class="sub_block_content">
-      <div id="company_operation">
-        <%= render :partial=>"companies/company_short_info",:collection=>@newly_companies %>
-      </div>
-    </div>
-  </div>
+  <% sub_block_div("最新加入的公司") do%>
+    <%= render :partial=>"companies/company_short_info",:collection=>@newly_companies %>
+  <%end%>
 </div>
-
-<%#= link_to 'New company', new_company_path %>

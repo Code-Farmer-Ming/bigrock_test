@@ -5,15 +5,15 @@
 <p>
   <%= f.label :school_name ,"学校名称",:class=>"filed_lab"%>
 
-  <%=  text_field_with_auto_complete :education, :school_name,{:class=>"required"},:controller=>"Educations" %>
+  <%=  text_field_with_auto_complete :education, :school_name,{:class=>"required text"},:controller=>"Educations" %>
 </p>
 <p>
   <%= f.label :degree ,"学历",:class=>"filed_lab"%>
-  <%=f.text_field :degree  %>
+  <%=f.text_field :degree ,:class=>"text"  %>
 </p>
 <p id="major">
   <%= f.label :major,"主修专业" ,:class=>"filed_lab" %>
-  <%= f.text_field :major %>
+  <%= f.text_field :major,:class=>"text"  %>
 </p>
 <p>
   <%= f.label :begin_date,"日期",:class=>"filed_lab" %>

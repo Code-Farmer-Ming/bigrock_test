@@ -1,0 +1,32 @@
+<h1>Listing passes</h1>
+
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Title</th>
+    <th>Department</th>
+    <th>Begin date</th>
+    <th>End date</th>
+    <th>Work description</th>
+    <th>Is current</th>
+  </tr>
+
+  <% @passes.each do |pass| %>
+    <tr>
+      <td><%=h pass.company_id %></td>
+      <td><%=h pass.title %></td>
+      <td><%=h pass.department %></td>
+      <td><%=h pass.begin_date %></td>
+      <td><%=h pass.end_date %></td>
+      <td><%=h pass.work_description %></td>
+      <td><%=h pass.is_current %></td>
+      <td><%= link_to 'Show', user_resume_pass_path(params[:user_id],params[:resume_id],pass) %></td>
+      <td><%= link_to 'Edit', edit_user_resume_pass_path(params[:user_id],params[:resume_id],pass) %></td>
+      <td><%= link_to 'Destroy',  user_resume_pass_path(params[:user_id],params[:resume_id],pass), :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New pass', new_user_resume_pass_path(params[:user_id],params[:resume_id]) %>

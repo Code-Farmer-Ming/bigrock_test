@@ -21,7 +21,7 @@
 </div>
 <p>
   <%= f.label :user_name,"姓名" ,:class=>"filed_lab" %>
-  <%=f.text_field :user_name %>
+  <%=f.text_field :user_name ,:class=>"text" %>
 </p>
 <p>
   <%= f.label :sex,"性别" ,:class=>"filed_lab" %>
@@ -34,32 +34,32 @@
 </p>
 <p>
   <%= f.label :website1,"博客" ,:class=>"filed_lab"  %>
-  <%=f.text_field :website1 %>
+  <%=f.text_field :website1,:class=>"text" %>
 </p>
 <p>
-  <%= f.label :website2,"网站",:class=>"filed_lab"  %>
-  <%=f.text_field :website2  %>
+  <%= f.label :website2,"网站",:class=>"filed_lab" -%>
+  <%=f.text_field :website2,:class=>"text"  -%>
 </p>
 <br />
 <p>
-  <%= f.label :qq,"MSN",:class=>"filed_lab"  %>
-  <%=f.text_field :msn  %>
+  <%= f.label :qq,"MSN",:class=>"filed_lab" -%>
+  <%=f.text_field :msn ,:class=>"text"  -%>
 </p>
 <p>
   <%= f.label :qq,"QQ",:class=>"filed_lab"  %>
-  <%=f.text_field :qq  %>
+  <%=f.text_field :qq ,:class=>"text"   %>
 </p>
 <p>
   <%= f.label :phone1,"移动电话" ,:class=>"filed_lab" %>
-  <%=f.text_field :phone1 %>
+  <%=f.text_field :phone1 ,:class=>"text"  %>
 </p>
 <p>
   <%= f.label :phone2,"固定电话" ,:class=>"filed_lab" %>
-  <%=f.text_field :phone2 %>
+  <%=f.text_field :phone2 ,:class=>"text"  %>
 </p>
 <p>
   <%= f.label :address,"居住地址" ,:class=>"filed_lab" %>
-  <%=f.text_field :address %>
+  <%=f.text_field :address ,:class=>"text"  %>
 </p>
 <%if action_name=="new"%>
   <br />

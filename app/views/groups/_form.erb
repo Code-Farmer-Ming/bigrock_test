@@ -1,32 +1,30 @@
 <% f = form %>
 <div id="thumb_img">
-      <%= img_upload_field( attachments_path(),
-        @group.icon_file_path,
-        nil,
-        {:button_text=>"上传文件",:post_params=>{:type=>GroupIcon.to_s},:button_width=>60,:button_height=>18
-        }) %>
-    </div>
-    <p>
-      <%= f.label :name,Group.human_attribute_name('name'),:class=>"filed_lab" %>
-      <%= f.text_field :name %>
-    </p>
-
-    <p>
-      <%= f.label "join_type","加入方式",:class=>"filed_lab" %>
-      <%= f.select :join_type,Group::JOIN_TYPES %>
-    </p>
- 
-    <p>
-      <%= f.label :description,"描述",:class=>"filed_lab" %>
-      <%= f.text_area :description %>
-    </p>
-    <p>
-      <%= f.label :group_type_id,"类型",:class=>"filed_lab" %>
-      <%= f.select :group_type_id,GroupType.all.collect{|p| [ p.name, p.id ] } %>
-    </p>
-    <p>
-      <%= label_tag "group_tags","标签" ,:class=>"filed_lab" %>
-      <%= f.text_field "tag_list",{}  %>
-    <div id ="tags_list" class="auto_complete"></div>
-    <%=  auto_complete_field("group_tag_list", {:update=>"tags_list", :url => {:action => "auto_complete_for_tag" },:tokens=>" " })%>
-  </p>
+  <%= img_upload_field( attachments_path(),
+    @group.icon_file_path,
+    nil,
+    {:button_text=>"上传文件",:post_params=>{:type=>GroupIcon.to_s},:button_width=>60,:button_height=>18
+    }) %>
+</div>
+<p>
+  <%= f.label :name,Group.human_attribute_name('name'),:class=>"filed_lab" %>
+  <%= f.text_field :name ,:class=>"text" %>
+</p>
+<p>
+  <%= f.label :description,"描述",:class=>"filed_lab" %>
+  <%= f.text_area :description %>
+</p>
+<p>
+  <%= f.label "join_type","加入方式",:class=>"filed_lab" %>
+  <%= f.select :join_type,Group::JOIN_TYPES %>
+</p>
+<p>
+  <%= f.label :group_type_id,"类型",:class=>"filed_lab" %>
+  <%= f.select :group_type_id,GroupType.all.collect{|p| [ p.name, p.id ] } %>
+</p>
+<p>
+  <%= label_tag "group_tags","标签" ,:class=>"filed_lab" %>
+  <%= f.text_field "tag_list",:class=>"text"   %>
+<div id ="tags_list" class="auto_complete"></div>
+<%=  auto_complete_field("group_tag_list", {:update=>"tags_list", :url => {:action => "auto_complete_for_tag" },:tokens=>" " })%>
+</p>

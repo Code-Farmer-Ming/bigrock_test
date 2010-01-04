@@ -1,0 +1,49 @@
+/* 
+    Document   : dynamic_popmenu
+    Created on : 2009-11-2, 16:52:42
+    Author     : 明
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+ul.popmenu  {
+    border:solid 1px #DEDEDE;
+    border-top:none;
+    background:#FFFFFF;
+    position:absolute;
+    top:4px;
+    width:150px;
+    margin:0px;
+    padding:0;
+    clear:both;
+    z-index:299;
+    display:none;
+}
+ul.popmenu  li{
+    background:none;
+    display:block;
+    float:none;
+    margin:0;
+    border:0;
+    height:auto;
+    line-height:normal;
+    border-top:solid 1px #DEDEDE;
+}
+ul.popmenu  li a{
+    background:none;
+    display:block;
+    float:none;
+    padding:6px 6px;
+    margin:0;
+    border:0;
+    height:auto;
+    color:#105cbe;
+    line-height:normal;
+}
+ul.popmenu  li a:hover{
+    background:#e3edef;
+}

@@ -5,7 +5,7 @@
   :html=>{:method=>:put,:class=>"form_info required-validate"}) do |f| %>
 
   <%= render :partial=>"specialities/form",:object=>f %>
-  <%= f.submit '保存'%> <%= link_to_function "取消","Element.show('#{dom_id(@speciality)}');Element.hide('#{dom_id(@speciality,"edit_container")}')"%>
+  <%= f.submit '保存',:class=>"button"%> <%= link_to_function "取消","Element.show('#{dom_id(@speciality)}');Element.hide('#{dom_id(@speciality,"edit_container")}')"%>
 <% end %>
 
 

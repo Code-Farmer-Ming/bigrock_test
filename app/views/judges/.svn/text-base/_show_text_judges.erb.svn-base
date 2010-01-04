@@ -1,0 +1,4 @@
+<%judge= show_text_judges %>
+<div  class="judge_item" id="<%= dom_id(judge,"item") %>">
+  <%= render :partial=>"judges/judge_info",:object=> judge%>
+</div>

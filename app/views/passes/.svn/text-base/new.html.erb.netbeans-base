@@ -1,0 +1,22 @@
+
+  <div class="form_info">
+    <h1>创建工作经历</h1>
+
+    <%  form_for(@pass,:url=> user_resume_passes_path(params[:user_id],params[:resume_id]),:html=>{:method=>:post,
+        :onsubmit=>"var request = #{remote_function(:url=>{:action =>"comany_exists?"},
+        :with=> "'name=' + $('company_name').value",:method => :get,
+        :type=>:synchronous)};if (request.transport.responseText=='false') { #{dialog({ :url=>new_company_path(),
+        :options=>{:method=>"get",
+        :parameters=>"'company[name]=' + $('company_name').value"}},{:options=>{}})} return false;} else {return true;} "}) do |f| %>
+      <%= f.error_messages %>
+      <%= render :partial=>"passes/form" ,:object=>f%>
+      <%=  %>
+      <p>
+
+        <%= f.submit '保存并继续创建' %>
+        <%= f.submit '保存并下一步' %>
+        <%= link_to '暂时跳过',new_user_resume_education_path(params[:user_id],
+          params[:resume_id]) %>
+      </p>
+    <% end %>
+  </div>

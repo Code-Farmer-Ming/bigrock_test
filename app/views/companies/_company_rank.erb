@@ -1,4 +1,4 @@
-<div class="company_rank">
+<div class="<%= cycle("company_rank color_tr", "company_rank") %>"   >
+  <span class="rank"><%= company_rank_counter+1%></span>
   <%= render :partial=>"companies/company_short_info",:object=>company_rank  %>
 </div>
-

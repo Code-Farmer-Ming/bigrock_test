@@ -1,0 +1,14 @@
+class CreateIndustryRoots < ActiveRecord::Migration
+  def self.up
+    create_table :industry_roots do |t|
+ 
+      t.string :name
+
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :industry_roots
+  end
+end

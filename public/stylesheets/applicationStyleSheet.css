@@ -12,7 +12,13 @@
 --title_background_color  #E1E9F8
 */
 a:hover { background-color:#E1E9F8; }
-a{ text-decoration:none;}
+a{
+    text-decoration:none;
+    /*  color: #669900;*/
+}
+label{
+    cursor: pointer;
+}
 .fieldWithErrors {
     padding: 2px;
     background-color: red;
@@ -78,10 +84,8 @@ a{ text-decoration:none;}
     background-color:#c9ff5e;
     /*background-color: #99d589;*/
 }
-#main{
-    /* background-color:silver;*/
-}
-#content{
+
+.content{
     margin:16px auto;
     /* width:1000px;*/
 }
@@ -93,7 +97,7 @@ a{ text-decoration:none;}
     margin:5px;
 }
 
-.standard_container{
+.container{
     padding:0px 35px;
     height:100%;
     min-height: 440px;
@@ -151,22 +155,27 @@ a{ text-decoration:none;}
 .form_info #form_button{
     padding:12px;
 }
-
+#search{
+    width:75%;
+}
 /*用户注册页面*//*用户登录页面*/
-#new_user_page .text，#user_login_page .text{
-    height:16px;
-    width:250px;
+#new_user_page .text,
+#user_login_page .text{
+
+    width:300px;
 }
 
 #top_user_info .text{
     width:80%;
-    padding:0px;
+    padding:1px;
+    height: 14px;
     margin: 0px;
-    height:15px;
+}
+#login_and_reg{
+    *line-height:80px;
 }
 #top_user_info #email{
-    margin-top:auto!important;
-    margin-top:6px;
+    *margin-top:3px;
 }
 
 /*用户基本设置页面*/
@@ -181,22 +190,26 @@ a{ text-decoration:none;}
 }
 .main_info{
     padding:20px 40px;
+    margin-bottom: 8px;
 }
 #resume_info_show{
     background-color:#ddf0f8;
+}
+#resume_info h1{
+    margin: 0px;
 }
 #company_info_show{
     background-color:#E9EFF8;
 }
 
 #group_info_show{
-   background-color:#F7EAEA;
+    background-color:#F7EAEA;
 }
 
 #group_content , #resume_content{
-    min-height:110px;
+    min-height:90px;
     height:auto !important; 
-    height:110px;
+    height:90px;
 }
 
 .pass_item{
@@ -287,8 +300,8 @@ div#menu{
 #current_user_img .user_icon{
     /* 针对IE的Hack
     width: 60px;*/
-    margin-top:0px !important;
-    margin-top:4px;
+
+    *margin-top:6px;
     overflow:auto;
     padding: 6px;
 }
@@ -724,6 +737,12 @@ ul#nav li.activelink a{color: #000;font-weight:bold}
 /*公司简短信息*/
 .company_short_info{
     margin-bottom: 2px;
+    display: inline-block;
+    overflow:auto;
+}
+.company_short_info{
+    display: inline-block!important;
+    display: inline;
 }
 .company_short_info .short_info{
     /*
@@ -762,19 +781,23 @@ ul#nav li.activelink a{color: #000;font-weight:bold}
 /*.company_short_info  a { cursor:pointer; text-decoration:none;}*/
 .company_short_info a:hover { background-color:transparent;color:black;}
 .company_rank{
-    float:left;
-    margin:4px;
-    padding:8px 1px ;
-    height:80px;
-    width:245px;
+    overflow: auto;
+    padding:8px;
+}
+.company_rank .rank{
+    float:right;
+    font-size: 280%;
+    font-weight:bolder;
+    vertical-align: middle;
+    color:red;
 }
 /*tag 标签的css*/
 #company_tags{
     width:440px;
 }
 .tag,.disable_tag{
-    padding:1px 2px;
-    margin:2px;
+    padding:2px 4px;
+    margin:1px;
     display:inline-block;
     cursor:pointer;
 }
@@ -815,13 +838,16 @@ div.auto_complete ul strong.highlight {
 }
 /*用户日志信息*/
 .user_log .user_log_content{
-    margin-left:85px;
+    margin-left:70px;
 }
 .user_log_content p{
     border-bottom: 1px silver dashed;
 }
 .user_log_content .log_time{
     color:gray;
+}
+.user_log_content div{
+    margin-left: 8px;
 }
 .user_log_just_text,.user_log{
     margin-bottom:8px;
@@ -907,6 +933,7 @@ div.auto_complete ul strong.highlight {
 /*话题*/
 .topic_item{
     padding:4px 5px 4px 5px;
+    overflow:auto;
 }
 .topic_item a{
     text-decoration:none;
@@ -1052,12 +1079,18 @@ div.auto_complete ul strong.highlight {
     overflow:hidden;
 }
 
-#ajx_login_form{
-    width: 460px;
+#ajax_login_form{
+    width: 390px;
 }
-#ajx_login_form .text{
+#ajax_login_form .text{
     width: 240px;
 }
+.panel{
+    overflow:hidden;
+
+}
+ 
+
 /* #my_news{
    height:200px;
    overflow:auto;

@@ -1,0 +1,15 @@
+<div class="group_short_info">
+  <div class="l">
+    <%= render :partial=>"groups/icon_name" ,:object=>short_info %>
+  </div>
+  <div class="l group_short_content">
+    <p class="group_short_description">
+      <%= h(truncate("#{short_info.description}", :length=>255))%>
+<%#= link_to 'Show', company_piece_news_path(params[:company_id],piece_news) %>
+    </p>
+    <p>
+      <%= render :partial=>"groups/operation" ,:object=>short_info %>
+    </p>
+  </div>
+  <p class="clear" />
+</div>

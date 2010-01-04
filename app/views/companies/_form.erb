@@ -13,7 +13,7 @@
 <p>
   <%= f.label :name,"公司名称",:class=>"filed_lab" %>
   <% if (@company.name.blank? || @_first_render.name=='edit')   %>
-    <%=  f.text_field(:name) %>
+    <%=  f.text_field(:name ,:class=>"text"  ) %>
   <% else%>
     <%= f.hidden_field :name %>
     <span title="如果想修改公司名称，请关闭窗口后修改"><%=   f.object.name %></span>
@@ -37,15 +37,15 @@
 </p>
 <p>
   <%= f.label :fax,"传真",:class=>"filed_lab"  %>
-  <%= f.text_field :fax %>
+  <%= f.text_field :fax ,:class=>"text" %>
 </p>
 <p>
   <%= f.label :phone,"电话",:class=>"filed_lab"  %>
-  <%= f.text_field :phone %>
+  <%= f.text_field :phone,:class=>"text"  %>
 </p>
 <p>
   <%= f.label :website,"网站",:class=>"filed_lab"  %>
-  <%= f.text_field :website %>
+  <%= f.text_field :website ,:class=>"text" %>
   <%  i=0 %>
   <%@company.versions.find_version_by_column(:website).each do |version| %>
 
@@ -61,7 +61,7 @@
 
   <%=  drop_list("company_state_id","company_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
 
-  <%= f.text_field(:address) %>
+  <%= f.text_field(:address,:class=>"text" ) %>
   <%@company.versions.find_version_by_column(:address).each do |version| %>
     <%= link_to_function "版本#{i+=1}","$('company_address').value='#{version.address}'" ,:title=>"#{version.address}"%>
   <%end%>

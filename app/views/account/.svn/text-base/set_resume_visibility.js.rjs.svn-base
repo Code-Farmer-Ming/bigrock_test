@@ -1,0 +1,4 @@
+if @is_right
+  page["#{@visible_set_field}_button"].className= "visible_#{@visible_set_index}"
+  page["#{@visible_set_field}_button"].title="可见权限设置 当前为 #{@visible_set}"
+end

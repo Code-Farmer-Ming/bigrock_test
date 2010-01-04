@@ -1,7 +1,8 @@
 
-<%= render :partial=>"msgs/notification_types" %>
+
 
 <div id="left_content">
+  <%= render :partial=>"msgs/notification_types" %>
   <div id="msg_show">
     <%=  render :partial=>"msgs/msg_info",:object=>@msg%>
     <div id="msg_responses">
@@ -9,31 +10,37 @@
         <%=  render :partial=>"msgs/msg_response",:collection=>@msg.msg_responses%>
       </div>
       <% if @msg.can_response? %>
-        <%#*<h6>回复</h6>%>
-        <%remote_form_for  :response,:url=>msg_response_account_msg_path(@msg),:method=>:put  do |form| %>
 
-          <%= form.text_area :content ,:id=>"response_comment"%>
+        <%remote_form_for  :response,:url=>msg_response_account_msg_path(@msg),
+          :loading=>"$$('input[name=\\'commit\\']').each(function(s) \
+  {s.disabled=true;}.bind(this))",
+          :complete=>"$$('input[name=\\'commit\\']').each(function(s) \
+  {s.disabled=false;}.bind(this))",
+          :html=>{:class=>"required-validate", :method=>:put}  do |form| %>
+          <%= form.text_area :content ,:id=>"response_comment",:class=>"required default_value",:title=>"输入你想说的话吧！"%>
+   
           <p>
-            <%= form.submit "回复",:disable_with=>"回复…",:disabled => false  %>
+            <%= form.submit "好了回复",:disabled => false,:class=>"button"  %>
+            <span  id="advice-required-response_comment" class="validation-advice"></span>
           </p>
         <%end%>
+
       <%else%>
-        对方已经删除，不能回复
+        对方已经删除，不能回复，<%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的信息吧",
+          new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
       <%end%>
     </div>
   </div>
 </div>
 <div id="right_content">
-  <div class="sub_block">
-    <div class="sub_block_content">
-      <p>
-        <%= link_to "给 #{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 新信息",
-          new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
-      </p>
-      <p>
-        <%= link_to '删除', account_msg_path(@msg,:type=>params[:type]), :confirm => '你确定吗?', :method => :delete %>
-      </p>
-    </div>
-  </div>
+  <%  sub_block_div() do %>
+
+    <%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的信息吧",
+      new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
+    <br/>
+    <%= link_to '删除这条消息', account_msg_path(@msg,:type=>params[:type]), :confirm => '你确定吗?', :method => :delete %>
+
+  <%end%>
+
 </div>
 

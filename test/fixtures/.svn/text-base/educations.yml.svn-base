@@ -1,0 +1,33 @@
+# == Schema Information
+#
+# Table name: educations
+#
+#  id          :integer       not null, primary key
+#  school_name :string(255)   
+#  begin_date  :date          
+#  end_date    :date          
+#  description :text          
+#  resume_id   :integer       
+#  degree      :string(255)   
+#  major       :string(255)   
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  resume_id: 1
+  school_name: MyString
+  begin_date: 2009-06-04
+  end_date: 2009-06-08
+  description: MyText
+
+two:
+  id: 2
+  resume_id: 2
+  school_name: MyString
+  begin_date: 2009-06-04
+  end_date: 2009-06-08
+  description: MyText

@@ -1,27 +1,29 @@
+
 <div class="company_short_info" >
+  <div class="l">
 
-  <% link_to  company_path(company_short_info) do  %>
-    <div class="l">
-      <%= render :partial=>"companies/company_icon",:object=>company_short_info %>
+    <%= render :partial=>"companies/company_icon",:object=>company_short_info %>
+
+  </div>
+
+  <div class="short_info">
+    <div class="company_name">
+      <%= link_to  company_short_info.name,
+        company_path(company_short_info)  %>
     </div>
-    <div class="short_info">
-
-      <p class="company_name">
-        <%= company_short_info.name%>
-      </p>
-      <div class="company_star" >
-        待遇 <%= small_star(company_short_info.judges.average("salary_value") || 0 ) %>
-  <%#= rating_field(:judge,dom_id(company_short_info,"salary"+ rand(1000).to_s ),
-  :value=>company_short_info.judges.average("salary_value")|| 0  || 0,:disabled=>"true",:full_class=>"input_full_star_small",:empty_class=>"input_empty_star_small") %>
-        <br />
-        环境
-        <%= small_star(company_short_info.judges.average("condition_value")|| 0  || 0) %>
-       </div>
-      <p>
-        <%= company_short_info.short_title %>
-      </p>
-
+    <div class="company_star" >
+      待遇 <%= small_star(company_short_info.judges.average("salary_value") || 0 ) %>
+<%#= rating_field(:judge,dom_id(company_short_info,"salary"+ rand(1000).to_s ),
+:value=>company_short_info.judges.average("salary_value")|| 0  || 0,:disabled=>"true",:full_class=>"input_full_star_small",:empty_class=>"input_empty_star_small") %>
+      <br />
+      环境
+      <%= small_star(company_short_info.judges.average("condition_value")|| 0  || 0) %>
     </div>
-  <%end%>
-  <p class="clear_float" />
+    <p>
+      <%= company_short_info.short_title %>
+    </p>
+
+  </div>
+
 </div>
+

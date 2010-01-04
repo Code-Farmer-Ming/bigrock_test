@@ -1,0 +1,5 @@
+<div class="l group_icon_extend">
+  <%= render :partial=>"groups/icon_name" ,:object=>operation_float_icon_name %>
+    <%= render :partial=>"groups/operation" ,:object=>operation_float_icon_name %>
+</div>
+

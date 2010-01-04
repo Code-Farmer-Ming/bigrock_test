@@ -1,0 +1,21 @@
+
+  <div class="form_info">
+    <h1>Editing pass</h1>
+
+    <% form_for(@pass,:url=>user_resume_pass_path(params[:user_id],params[:resume_id],@pass),:html=>{:method=>:put,
+        :onsubmit=>"var request = #{remote_function(:url=>{:action =>"comany_exists?"},
+        :with=> "'name=' + $('company_name').value",:method => :get,
+        :type=>:synchronous)};if (request.transport.responseText=='false') { #{dialog({ :url=>new_company_path(),
+        :options=>{:method=>"get",
+        :parameters=>"'company[name]=' + $('company_name').value"}},{:options=>{} })} return false;} else {return true;} "}) do |f| %>
+      <%= f.error_messages %>
+
+      <%= render :partial=>"passes/form" ,:object=>f %>
+      <p>
+        <%= f.submit '保存' %>
+      </p>
+    <% end %>
+
+    <%= link_to 'Show', user_resume_pass_path(params[:user_id],params[:resume_id],@pass) %> |
+    <%= link_to 'Back', user_resume_passes_path(params[:user_id],params[:resume_id]) %>
+  </div>

@@ -1,5 +1,5 @@
 <div  class="group_icon" title="<%= "#{icon_name.name}小组 #{icon_name.members_count}个成员" %>">
-  <% link_to   group_path(icon_name) do  %>
+  <% link_to   group_path(icon_name) do  -%>
     <div class="icon"><%=  image_tag icon_name.icon_file_path("thumb"),
         :alt=>icon_name.name+"小组 图片" -%></div>
     <p><%=icon_name.name -%><%= "(#{icon_name.members_count})" -%></p>

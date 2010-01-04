@@ -1,7 +1,7 @@
 <% remote_form_for(@resume,:url=>user_resume_path(params[:user_id],@resume),:html=>{:class=>"form_info"})  do |f| %>
   <%= f.error_messages %>
   <%= render :partial=>"resumes/form" ,:object=>f %>
-  <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %>
+  <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %>
   <%= link_to_function "取消","Element.hide('edit_container_user_base_info');Element.show('user_base_info');//Element.show('summary_info')" %>
 <% end %>
 

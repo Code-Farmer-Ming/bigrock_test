@@ -3,7 +3,7 @@
   <p>
     <%= render :partial=>"comm_partial/alias_account_choice" if current_user && (new_form.class.to_s=="Piecenews" || (new_form.class.to_s=="Topic" && new_form.owner_type=="Company")) %>
   </p>
-  <p><%= f.submit "回复",:disable_with=>"回复…",:disabled => false %>
+  <p><%= f.submit "回复",:disable_with=>"回复…",:disabled => false ,:class=>"button"%>
     <span id="advice-required-response_comment" class="validation-advice"></span>
   </p>
 <%end%>

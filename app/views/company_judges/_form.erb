@@ -32,7 +32,7 @@
 <div>
   <%= label_tag "user_tags","我来描述" ,:class=>"filed_lab" %>
 
-  <%= text_field_tag "user_tags",current_user.get_tags(@company_judge.company),:class=>"tag_input" %>
+  <%= text_field_tag "user_tags",current_user.get_tags(@company_judge.company),:class=>"tag_input text" %>
   <div id ="tags_list" class="auto_complete"></div>
   <%= javascript_tag("new TagInput('user_tags','div#company_tags span.tag')") %>
   <%=  auto_complete_field("user_tags", {:update=>"tags_list", :url => { :action => "auto_complete_for_tag" },:tokens=>" " })%>

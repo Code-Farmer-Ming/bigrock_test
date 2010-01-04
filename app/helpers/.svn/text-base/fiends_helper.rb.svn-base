@@ -1,0 +1,2 @@
+module FiendsHelper
+end

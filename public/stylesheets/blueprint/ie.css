@@ -24,11 +24,18 @@ html>body p code {*white-space:normal;}
 hr {margin:-8px auto 11px;}
 img {-ms-interpolation-mode:bicubic;}
 .clearfix, .container {display:inline-block;}
-* html .clearfix, * html .container {height:1%;}
+* html .clearfix, * html .container {height:1%;display: block;}
 fieldset {padding-top:0;}
 textarea {overflow:auto;}
  
-input.text, input.title, textarea {background-color:#fff;border:1px solid #bbb;}
+input.text, input.title, textarea {background-color:#fff;border:1px solid #bbb;
+    -moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background-color:#fff;
+    background:white url(/images/input-text.png) repeat-x scroll left top;
+ 
+}
 input.text:focus, input.title:focus {border-color:#666;}
 input.text, input.title, textarea, select {margin:0.0em 0;}
 input.checkbox, input.radio {position:relative;top:.25em;}

@@ -9,8 +9,8 @@
     <div class="tab_button">
       <div class="l"></div>
       <ul class="r tabs"  >
-        <li><%= link_to "我的资料", :anchor=>"my_resume_tab"  %> </li>
-        <li><%= link_to "我的语言", :anchor=>"my_language_tab"   %> </li>
+        <li><%= link_to "<span>我的资料</span>", :anchor=>"my_resume_tab"  %> </li>
+        <li><%= link_to "<span>我的语言</span>", :anchor=>"my_language_tab"   %> </li>
       </ul>
     </div>
     <div>
@@ -42,11 +42,14 @@
       <%= render :partial=>"users/operation",:object=>@user %>
     </div>
   <%end if !current_user?(@user)%>
-  <div class="tab_button">
-    <ul class="tabs"  >
-      <li><%= link_to "同事"+(@user.current_resume.yokemates.size>0 ? "(#{@user.current_resume.yokemates.size})" : ""), :anchor=>"my_yokemates_tab"   -%></li><li><%= link_to "好友"+(@user.friends_user.size>0 ? "(#{@user.friends_user.size})"  : ""), :anchor=>"my_friends_tab"  -%></li><li><%= link_to "在关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), :anchor=>"my_follow_tab"   -%></li>
-    </ul>
-  </div>
+
+  <%tabs() do%>
+    <%= tab_button("同事"+(@user.current_resume.yokemates.size>0 ? "(#{@user.current_resume.yokemates.size})" : ""),"my_yokemates_tab") %>
+    <%= tab_button("好友"+(@user.friends_user.size>0 ? "(#{@user.friends_user.size})"  : ""),"my_friends_tab" ) %>
+    <%= tab_button("在关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
+  <%end%>
+
+
   <div>
     <div id="my_friends_tab"  class="panel" >
 

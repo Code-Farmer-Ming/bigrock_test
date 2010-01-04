@@ -1,0 +1,24 @@
+<% f = form %>
+<p>
+  <%= f.label :school_name ,"学校名称",:class=>"filed_lab"%>
+
+  <%=  text_field_with_auto_complete :education, :school_name %>
+</p>
+<p>
+  <%= f.label :degree ,"学历",:class=>"filed_lab"%>
+  <%=f.text_field :degree  %>
+</p>
+<p id="major">
+  <%= f.label :major,"主修专业" ,:class=>"filed_lab" %>
+  <%= f.text_field :major %>
+</p>
+<p>
+  <%= f.label :begin_date,"日期",:class=>"filed_lab" %>
+  <%= f.date_select :begin_date,:discard_day=>true,:start_year=>1950  %>
+  到
+  <%= f.date_select :end_date,:discard_day=>true,:start_year=>1950 %>
+</p>
+<p>
+  <%= f.label :description,"描述",:class=>"filed_lab" %>
+  <%= f.text_area :description,:rows=>3 %>
+</p>

@@ -1,0 +1,92 @@
+<% f = form %>
+
+<div id="thumb_img" class="company_img">
+  <%= img_upload_field( attachments_path(),
+    @company.icon_file_path,
+    nil,
+    {:button_text=>"上传文件",:post_params=>{:type=>CompanyIcon.to_s},:button_width=>60,:button_height=>18
+    }) %>
+</div>
+<p>
+  <%= f.label :name,"公司名称",:class=>"filed_lab" %>
+
+  <% if (@company.name.blank?) %>
+    <%=  f.text_field(:name) %>
+  <% else%>
+    <%= f.text_field(:name ,:readOnly=>"") %>
+  <%end %>
+</p>
+<p>
+  <%= f.label :industry ,"所属行业",:class=>"filed_lab" %>
+
+  <%= f.select :industry_root_id,IndustryRoot.all.collect {|p| [ p.name, p.id ] },{},:class=>"industry_type"  %>
+  <%= f.select :industry_second_id,IndustrySecond.find_all_by_industry_root_id(f.object.industry_root_id).collect {|p| [ p.name, p.id ] } ,
+    {},:class=>"industry_type"  %>
+  <%=  drop_list("company_industry_root_id","company_industry_second_id",IndustryRoot.all.collect {|p| [ p.id, p.industry_seconds.all.collect{|q| [q.id,q.name] } ] })%>
+</p>
+
+<p>
+  <%= label_tag  :ds ,"&nbsp;",:class=>"filed_lab" %>
+  <%= f.select :industry_third_id,IndustryThird.find_all_by_industry_second_id(f.object.industry_second_id).collect {|p| [ p.name, p.id ] } ,
+    {},:class=>"industry_type"  %>
+  <%=  drop_list("company_industry_second_id","company_industry_third_id",IndustrySecond.all.collect {|p| [ p.id, p.industry_thirds.all.collect{|q| [q.id,q.name] } ] })%>
+
+  <%= f.select :industry_id,Industry.find_all_by_industry_third_id(f.object.industry_third_id).collect {|p| [ p.name, p.id ] },
+    {},:class=>"industry_type"   %>
+  <%=  drop_list("company_industry_third_id","company_industry_id",IndustryThird.all.collect {|p| [ p.id, p.industries.all.collect{|q| [q.id,q.name] } ] })%>
+
+</p>
+<p>
+  <%= f.label :company_type, "公司类型",:class=>"filed_lab" %>
+  <%= f.select :company_type_id,CompanyType.all.collect {|p| [ p.name, p.id ] }  %>
+ 
+  <%= f.label :size,"公司规模" %>
+  <%= f.select :company_size_id,CompanySize.all.collect {|p| [ p.name, p.id ] } %>
+</p>
+<p>
+  <%= f.label :fax,"传真",:class=>"filed_lab"  %>
+  <%= f.text_field :fax %>
+</p>
+<p>
+  <%= f.label :phone,"电话",:class=>"filed_lab"  %>
+  <%= f.text_field :phone %>
+</p>
+<p>
+  <%= f.label :website,"网站",:class=>"filed_lab"  %>
+  <%= f.text_field :website %>
+</p>
+<p>
+  <%= f.label :address, "地址",:class=>"filed_lab" %>
+  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
+  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+
+  <%=  drop_list("company_state_id","company_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+
+  <%= f.text_field(:address) %>
+
+</p>
+<p>
+  <%= f.label :description,"介绍",:class=>"filed_lab"  %>
+  <%= f.text_area :description ,:rows=>6%>
+
+</p>
+<%#*<h3 class="group_lab">评价</h3>%>
+<%# fields_for :CompanyJudge,@company_judge do |judge| %>
+<%#*<p>%>
+<%#= judge.label "company[saler]","待遇",:class=>"filed_lab" %>
+<%#= rating_field :company_judge,:salary_value,:value=>'8' %>
+<%#*</p>%>
+<%#*<p>%>
+<%#= judge.label "company[saler1]","工作环境",:class=>"filed_lab" %>
+<%#= rating_field :company_judge,:condition_value,:value=>'8' %>
+<%#*</p>%>
+<%#*<P>%>
+<%#= judge.label :visiabled1,"是否隐藏",:class=>"filed_lab" %>
+<%#= judge.check_box  :visiabled %><%#= judge.label :visiabled,"隐藏" %>
+<%#*</P>%>
+<%#*<P>%>
+<%#=judge.label "company[saler1]","评论",:class=>"filed_lab" %>
+<%#= judge.text_area :description ,:rows=>5%>
+<%#*</P>%>
+<%#end%>
+

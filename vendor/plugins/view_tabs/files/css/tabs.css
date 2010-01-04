@@ -1,0 +1,96 @@
+.panel {
+    clear: both;
+    display: none;
+   /* border-top: 1px solid #CCC;*/
+    padding: 0.5em;
+}
+.panel.active-tab-body {
+    display: block;
+}
+/*
+
+.tabs {
+    overflow:hidden;
+
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.tabs li {
+    float: left;
+}
+
+.tabs a {
+    float: left;
+    padding: 5px 8px;
+    margin-left: 6px;
+    background-color: #F2F2F2;
+    text-decoration: none;
+    color: #999999;
+
+}
+
+.tabs a.active-tab {
+    background-color: #CCC;
+    border-top: 3px solid #999;
+    padding-top: 3px;
+    color: #000;
+}
+*/
+.tab_button {
+    float:left;
+    width:100%;
+
+
+    line-height:normal;
+    border-bottom:1px solid #BCD2E6;
+}
+.tab_button ul {
+    margin:0;
+    padding:10px 10px 0 15px;
+    list-style:none;
+}
+.tab_button li {
+    display:inline;
+    margin:0;
+    padding:0;
+}
+.tab_button a {
+    float:left;
+    background:url("/images/tableft1.gif") no-repeat left top;
+    margin:0;
+    padding:0 0 0 4px;
+    text-decoration:none;
+}
+.tab_button a span {
+    float:left;
+    display:block;
+    background:url("/images/tabright1.gif") no-repeat right top;
+    padding:5px 15px 4px 6px;
+    color:#627EB7;
+}
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.tab_button a span {float:none;}
+/* End IE5-Mac hack */
+.tabs a:hover span {
+    color:#627EB7;
+}
+.tab_button a:hover {
+    background-position:0% -42px;
+}
+.tab_button a:hover span {
+    background-position:100% -42px;
+}
+
+.tab_button a.active-tab {
+    background-position:0% -42px;
+}
+.tab_button  a.active-tab span {
+    background-position:100% -42px;
+}
+.tab_button{
+    width:100%;
+}
+

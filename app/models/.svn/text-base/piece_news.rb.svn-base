@@ -1,0 +1,17 @@
+class News < ActiveRecord::Base
+  #记录公司 加入人
+#  acts_as_logger :log_action=>["create"],:owner_attribute=>"company",:log_type=>"join_company",:logable=>"create_user"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"company",:log_type=>"company_news"
+
+  belongs_to :company
+  belongs_to :create_user ,:class_name=>"UserRegisterInfo",:foreign_key=>"create_user_id"
+  belongs_to :last_edit_user ,:class_name=>"UserRegisterInfo",:foreign_key=>"last_edit_user_id"
+  named_scope :populars,:order=>"up-down desc"
+  has_many :comments ,:as=>:commentable,:dependent=>:destroy
+
+  has_many :recommends,:as=>:recommendable,:dependent=>:destroy
+
+  def hot_comments(limit=10)
+    comments.all(:order=>"up-down desc" ,:limit=>limit)
+  end
+end

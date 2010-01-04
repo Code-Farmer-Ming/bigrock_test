@@ -1,21 +1,20 @@
 
 <div id="left_content">
   <h1>
-    <%=h @group.name %>
+    <%=h(@group.name) %>
   </h1>
   <div id="group_info_show" class="main_info">
     <div id="thumb_img">
-      <%= image_tag @group.icon_file_path %>
-    </div>
+      <%= image_tag @group.icon_file_path -%></div>
     <div id="group_content">
       <%=  simple_format(auto_link(h(@group.description))) %>
     </div>
     <p>
-      创建于 <%=  localize(@group.created_at)%>
+      <b>创建于</b><%=  localize(@group.created_at)%>
     </p>
-    <p>标签  <%=h @group.tag_list  %></p>
-    <br class="clear" />
+    <p><b>标签</b>  <%=h @group.tag_list  %></p>
   </div>
+ 
   <% sub_block_div("话题(#{@group.topics_count})", (link_to("全部", group_topics_path(@group)) if @group.topics.size>0)) do %>
     <%= render :partial=>"topics/topic_item",:collection=>@group.topics.all(:limit=>20) %>
   <%end%>

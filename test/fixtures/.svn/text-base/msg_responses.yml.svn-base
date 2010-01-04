@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: msg_responses
+#
+#  id         :integer       not null, primary key
+#  msg_id     :integer       
+#  sender_id  :integer       
+#  content    :string(255)   
+#  is_check   :boolean       
+#  created_at :datetime      
+#  updated_at :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  msg_id: 1
+  sender_id: 1
+  content: MyString
+  is_check: false
+
+two:
+  id: 2
+  msg_id: 1
+  sender_id: 1
+  content: MyString
+  is_check: false

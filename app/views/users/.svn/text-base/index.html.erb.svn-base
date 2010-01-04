@@ -1,0 +1,11 @@
+<h1>好友列表</h1>
+<div id="left_content">
+  <div>
+    <%= render :partial=>"friends/friend_icon_operation" ,:collection=>@friends_user  %>
+    <p class="clear_float" />
+    <%= will_paginate @friends_user %>
+  </div>
+</div>
+<div id="right_content">
+  <%= link_to "<< #{@user.name} 首页",user_path(@user) %>
+</div>

@@ -1,0 +1,4 @@
+# TODO Operate on the page object
+page << "Lightbox.close()"
+page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+page["recommend_operation"].replace_html render(:partial=>"comm_partial/recommend_operation",:object=>@recommend.recommendable)

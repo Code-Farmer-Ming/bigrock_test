@@ -3,9 +3,9 @@
     <div>
 
       欢迎你 到这个世界
-     <%= User.all.size %>人
-       <%= Company.all.size %>公司
-         <%= Group.all.size %>小组
+      <%= User.all.size %>人
+      <%= Company.all.size %>公司
+      <%= Group.all.size %>小组
     </div>
   <%end%>
   <% sub_block_div("新闻") do%>
@@ -16,36 +16,27 @@
     </div>
     <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
   <%end%>
-  <% sub_block_div("话题") do%>
-    <div class="tab_button">
-      <ul class="tabs">
-        <li>
-          <a href="#new_topics">最新的话题</a>
-        </li>
-        <li>
-          <%= link_to "我参与的话题",:anchor=>:join_topics if @user %>
-        </li>
-        <li>
-          <%= link_to "我创建的话题",:anchor=>:my_topics if @user %>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <div class="panel" id="new_topics">
-        <%= render :partial=>"groups/group_topic_item", :collection=>@topics %>
-
-      </div>
-      <div class="panel" id="join_topics">
-        <%= render :partial=>"groups/group_topic_item",:collection=> @join_topics  %>
-
-      </div>
-      <div  class="panel" id="my_topics">
-        <%= render :partial=>"groups/group_topic_item",:collection=> @my_topics %>
-      </div>
-    </div>
+  <% sub_block_div(" ") do%>
+    <%tabs do%>
+      <%= tab_button("最新的话题","new_topics") %>
+      <%= tab_button("我参与的话题","join_topics") if @user%>
+      <%= tab_button("我创建的话题","my_topics") if @user%>
+    <%end%>
+    <%tab_panel("new_topics") do%>
+      <%= render :partial=>"groups/group_topic_item", :collection=>@topics %>
+    <%end%>
+    <%tab_panel("join_topics") do%>
+      <%= render :partial=>"groups/group_topic_item",:collection=> @join_topics  %>
+    <%end%>
+    <%tab_panel("my_topics") do%>
+      <%= render :partial=>"groups/group_topic_item",:collection=> @my_topics %>
+    <%end%>
   <%end%>
 </div>
 <div id ="right_content">
+  <% sub_block_div() do %>
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入文字"} %>
+  <%end%>
 <%# sub_block_div("登录") do%>
 
 <%# form_tag(url_for(:controller=>:account,:action=>"login")) do -%>
@@ -69,7 +60,7 @@
     </p>
   <%end  if  @user && @user.join_group_invites.size>0%>
 
-  <% sub_block_div("好友动态",(link_to("全部",follow_logs_account_path()) if  @user && @user.my_follow_log_items.size>0)) do %>
+  <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user && @user.my_follow_log_items.size>0)) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
 

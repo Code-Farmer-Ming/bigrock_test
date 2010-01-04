@@ -1,0 +1,47 @@
+/* 
+设置 input text 默认显示内容
+ */
+
+TextDefaultValue = Class.create();
+TextDefaultValue.prototype= {
+    initialize : function(inputTextID,defaultText,options){
+        this.inputText = $(inputTextID);
+        var parentForm=  this.inputText.form;
+        this.options = options || { };
+ 
+        this.isPassword= this.inputText.type && this.inputText.type == 'password';
+        if (this.isPassword) this.inputText.type='text';
+  
+        this.defaultValue = defaultText;
+        if (!this.inputText.defaultValue)
+        {
+            this.inputText.defaultValue = defaultText;
+            this.inputText.style.color=this.options.default_text_color;
+        }
+        this.inputText.observe('focus',function(){
+            if (this.inputText.value==this.defaultValue){
+                this.inputText.value='';
+                this.inputText.style.color='';
+                if (this.isPassword) this.inputText.type='password';
+            }
+        }.bind(this));
+        this.inputText.observe('blur',function(){
+            if(this.inputText.value=='')
+            {
+                this.inputText.value=this.defaultValue;
+                this.inputText.style.color=this.options.default_text_color;
+                if (this.isPassword) this.inputText.type='text';
+            }
+        }.bind(this));
+
+        if (parentForm){
+            parentForm.observe("submit",function(){
+                if(this.inputText.value==this.defaultValue)
+                {
+                    this.inputText.value="";
+                }
+            }.bind(this));
+        }
+    }
+}
+

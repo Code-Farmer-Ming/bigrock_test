@@ -59,6 +59,7 @@ doc\:plugins\:query_reviewer=Generate documentation for the query_reviewer plugi
 doc\:plugins\:render_component=Generate documentation for the render_component plugin
 doc\:plugins\:swf_upload=Generate documentation for the swf_upload plugin
 doc\:plugins\:text_field_default_value=Generate documentation for the text_field_default_value plugin
+doc\:plugins\:view_tabs=Generate documentation for the view_tabs plugin
 doc\:plugins\:will_paginate=Generate documentation for the will_paginate plugin
 doc\:rails=Build the RDOC HTML Files
 doc\:reapp=Force a rebuild of the RDOC files

@@ -5,7 +5,7 @@
       <%= f.error_messages %>
       <%= render :partial=>"resumes/form"  ,:object=>f%>
       <p>
-        <%= f.submit '保存',:disable_with=>"保存…",:disabled => false  %>
+        <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button"  %>
       </p>
     <% end %>
   </div>

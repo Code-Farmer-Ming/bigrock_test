@@ -215,7 +215,7 @@ class AccountController < ApplicationController
   end
 
   def search
-    
+        @page_title ="基本设置"
   end
 
   def set_base_info

@@ -6,6 +6,6 @@
   :html=>{:method=>:post,:class=>"form_info required-validate"}) do |f| %>
 
   <%= render :partial=>"educations/form",:object=>f %>
-  <%= f.submit '保存'%>
+  <%= f.submit '保存',:class=>"button"%>
   <%= link_to_function "取消","Element.hide('new_education_container')"%>
 <% end %>

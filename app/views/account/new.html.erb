@@ -21,7 +21,7 @@
           :class=>"text validate-equals-user_text_password useTitle",:title=>"两次输入的密码不相同",:maxlength=>18 %>
       </p>
       <p id="form_button">
-        <%= f.submit '注册',:disable_with=>"注册…"  %>   <%= link_to '注册了,去登录',login_account_path %>
+        <%= f.submit '注册',:disable_with=>"注册…",:class=>"button"  %>   <%= link_to '注册了,去登录',login_account_path %>
       </p>
     <% end %>
   </div>

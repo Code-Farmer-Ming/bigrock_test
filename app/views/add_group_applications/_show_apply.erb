@@ -2,7 +2,7 @@
   <% form_for  :AddGroupApplications,:url=>accept_group_add_group_application_path(params[:group_id],show_apply) do |form| %>
     <div>
       <div class="r">
-        <%= form.submit  "接受",:disable_with=>"接受…",:disabled => false %>   <%= link_to "忽略",group_add_group_application_path(params[:group_id],show_apply),:confirm=>"你确定吗？",:method=>:delete %>
+        <%= form.submit  "接受",:disable_with=>"接受…",:disabled => false ,:class=>"button"%>   <%= link_to "忽略",group_add_group_application_path(params[:group_id],show_apply),:confirm=>"你确定吗？",:method=>:delete %>
       </div>
       <div class="applicant">
         <%= render :partial=>"users/user_icon_name",:object=>show_apply.applicant %>

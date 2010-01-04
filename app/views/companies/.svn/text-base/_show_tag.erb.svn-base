@@ -1,0 +1,3 @@
+<span class="tag" title="<%=  "有#{show_tag.use_count}人描述,单击查看相同描述的公司"%>">
+  <%=   link_to show_tag.name + "(#{show_tag.use_count})",show_by_tag_companies_path(:tag_id=>show_tag) %>
+</span>

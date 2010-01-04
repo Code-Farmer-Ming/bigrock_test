@@ -1,0 +1,35 @@
+<%= render :partial=>"users/setting_types" %>
+<div class="form_info">
+  <h1>基本设置</h1>
+  <% form_for(@user,:url=>user_path(@user),:html=>{:method=>:put}) do |f| %>
+    <%= f.error_messages %>
+    <div id="thumb_img">
+      <%= img_upload_field( attachments_path(),
+        @user.icon_file_path,
+        nil,
+        {:button_text=>" 更改图片",:post_params=>{:type=>UserIcon.to_s},:button_width=>60,:button_height=>18
+        }) %>
+    </div>
+    <p>
+      <%= f.label :email,"电子邮件",:class=>"filed_lab" %>
+      <%= f.text_field :email  %>
+    </p>
+    <h3 class="group_lab">
+      修改密码
+    </h3>
+    <p>
+      <label  for="password" class="filed_lab" >原密码: </label>
+      <%= password_field_tag :old_password -%>
+    </p>
+    <p>
+      <label  for="password" class="filed_lab" >新密码: </label>
+      <%= password_field_tag :new_password   -%>  <%=link_to "取回密码",forget_password_users_path()%>
+    </p>
+
+    <p>
+      <%= submit_tag "保存"    -%>
+    </p>
+
+  <% end %>
+</div>
+

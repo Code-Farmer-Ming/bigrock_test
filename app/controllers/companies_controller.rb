@@ -1,14 +1,14 @@
 #TODO 增加一个根据 公司 的行业 、 所在地 、规模 、类型查找的页面
 class CompaniesController < ApplicationController
-  before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags]
+  before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags]
 
   # GET /companies
   # GET /companies.xml    
   def index
     @newly_companies = Company.all(:limit=>4,:order=>"created_at desc")
-    @salary_best_companies =  Company.all(:limit=>5,:order=>"salary_value/company_judges_count desc")
-    @condition_best_companies =  Company.all(:limit=>5,:order=>"condition_value/company_judges_count desc")
-    @integration_best_companies =  Company.all(:limit=>5,:order=>"(condition_value+salary_value)/company_judges_count desc")
+    @salary_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc")
+    @condition_best_companies =  Company.all(:limit=>3,:order=>"condition_value/company_judges_count desc")
+    @integration_best_companies =  Company.all(:limit=>3,:order=>"(condition_value+salary_value)/company_judges_count desc")
     respond_to do |format|
       format.html{} # index.html.erb
       format.xml  { render :xml => @companies }

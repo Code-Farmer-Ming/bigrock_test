@@ -1,0 +1,5 @@
+<%if user_or_company_info_and_operation.class == Company %>
+  <%= render :partial=>"companies/company_info_and_operation",:object=>user_or_company_info_and_operation %>
+<%else%>
+  <%= render :partial=>"users/user_info_and_operation",:object=>user_or_company_info_and_operation %>
+<%end%>

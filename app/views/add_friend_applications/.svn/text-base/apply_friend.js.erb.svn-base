@@ -1,0 +1,14 @@
+<div class="form_info">
+  <h1>申请好友</h1>
+  <% remote_form_for(@add_friend ,:url=>apply_friend_users_path()) do |form| %>
+    <p>
+      <%= form.label :memo,"附加信息",:class=>"filed_lab" %>
+      <%= form.text_area :memo ,:rows=>4 %>
+    </p>
+    <%= form.hidden_field :respondent_id  %>
+    <p>
+      <%= form.submit "保存" %>
+    </p>
+
+  <%end%>
+</div>

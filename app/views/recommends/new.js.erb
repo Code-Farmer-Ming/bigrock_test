@@ -11,6 +11,6 @@
   <%= f.hidden_field :recommendable_type %>
   <%=  f.hidden_field :recommendable_id %>
   <p>
-    <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %> <%= link_to_close_lightbox"取消" %>
+    <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %> <%= link_to_close_lightbox"取消" %>
   </p>
 <% end %>

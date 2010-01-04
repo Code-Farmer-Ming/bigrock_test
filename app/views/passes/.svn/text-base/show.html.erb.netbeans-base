@@ -1,0 +1,38 @@
+<p>
+  <b>Company:</b>
+  <%=h @pass.company_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @pass.title %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%=h @pass.department %>
+</p>
+
+<p>
+  <b>Begin date:</b>
+  <%=h @pass.begin_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @pass.end_date %>
+</p>
+
+<p>
+  <b>Work description:</b>
+  <%=h @pass.work_description %>
+</p>
+
+<p>
+  <b>Is current:</b>
+  <%=h @pass.is_current %>
+</p>
+
+ 
+<%= link_to 'Edit', edit_user_resume_pass_path(params[:user_id],params[:resume_id],@pass) %> |
+<%= link_to 'Back', user_resume_passes_path(params[:user_id],params[:resume_id]) %>

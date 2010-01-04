@@ -6,6 +6,6 @@
 
   <%= render :partial=>"work_items/form" ,:object=>f %>
 
-  <%= f.submit '保存' %> <%= link_to_function "取消","Element.hide('#{dom_id(@work_item,"edit_container")}');Element.show('#{dom_id(@work_item)}')" %>
+  <%= f.submit '保存',:class=>"button" %> <%= link_to_function "取消","Element.hide('#{dom_id(@work_item,"edit_container")}');Element.show('#{dom_id(@work_item)}')" %>
 
 <% end %>

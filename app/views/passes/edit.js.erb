@@ -3,7 +3,7 @@
   :complete=>"$('pass_submit').disabled=false;",
   :html=>{:method=>:put,:class=>"form_info required-validate"}) do |f| %>
   <%= render :partial=>"passes/form" ,:object=>f %>
-  <%= f.submit '保存' %>
+  <%= f.submit '保存' ,:class=>"button"%>
   <%= link_to_function "取消"  do |page|
     page << "Element.toggle('#{dom_id(@pass)}');"
     page << "Element.toggle('#{dom_id(@pass,'edit_container')}')"

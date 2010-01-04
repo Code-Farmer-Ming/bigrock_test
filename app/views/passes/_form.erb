@@ -10,14 +10,14 @@
     <%= f.object.company.name %>
   <%else%>
     <%=  text_field_with_auto_complete :company, :name,
-      {:value=>(f.object.company.name if f.object.company),:title=>"需要输入公司名称",:class=>"required"},
+      {:value=>(f.object.company.name if f.object.company),:title=>"需要输入公司名称",:class=>"required text"},
       :controller=>"Passes",:min_chars=>2 , :default_text=>content_tag("p","&nbsp;&nbsp;输入公司名称",:style=>"background-color:#ddd")  %>
   <%end%>
 </p>
 
 <p>
   <%= f.label :department,"部门" ,:class=>"filed_lab"  %>
-  <%=  text_field_with_auto_complete :pass,:department,{:class=>"required"},
+  <%=  text_field_with_auto_complete :pass,:department,{:class=>"required text"},
     {:with=>"'company[name]='+$F('company_name')",
     #:active=>{:department_drop_list=>:click},
     :controller=>"Passes"
@@ -27,7 +27,7 @@
 <p>
   <%= f.label :title,"职位" ,:class=>"filed_lab" %>
 
-  <%=  text_field_with_auto_complete :pass,:title,{:class=>"required"},{:with=>"'company[name]='+$F('company_name')",
+  <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text"},{:with=>"'company[name]='+$F('company_name')",
     #:active=>{:title_drop_list=>:click},
     :controller=>"Passes"
     #,:extension_html=>"<span id='title_drop_list' class='drop_button'>&nabla;</span>"

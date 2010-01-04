@@ -3,7 +3,7 @@
 
     <div>
       <div class="r">
-        <%= form.submit "接受",:disable_with=>"接受…",:disabled => false%>  <%= link_to "忽略",account_join_group_invite_path(show_apply),:confirm=>"你确定吗？",:method=>:delete %>
+        <%= form.submit "接受",:disable_with=>"接受…",:disabled => false,:class=>"button"%>  <%= link_to "忽略",account_join_group_invite_path(show_apply),:confirm=>"你确定吗？",:method=>:delete %>
       </div>
       <div class="applicant">
         <%= render :partial=>"groups/icon_name",:object=>show_apply.applicant %>

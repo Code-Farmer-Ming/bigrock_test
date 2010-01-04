@@ -1,0 +1,13 @@
+
+  <div class="partial_container">
+    <h1>创建业绩</h1>
+    <% form_for(@work_item,:url=>user_resume_pass_work_items_path(params[:user_id],params[:resume_id],params[:pass_id]),:html=>{:method=>:post}) do |f| %>
+      <%= f.error_messages %>
+      <%= render :partial=>"work_items/form" ,:object=>f %>
+      <p>
+        <%= f.submit '创建' %>
+      </p>
+    <% end %>
+
+    <%= link_to 'Back', user_resume_pass_work_items_path(params[:user_id],params[:resume_id],params[:pass_id]) %>
+  </div>

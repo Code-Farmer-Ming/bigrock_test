@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: industry_seconds
+#
+#  id               :integer       not null, primary key
+#  industry_root_id :integer       
+#  name             :string(255)   
+#  created_at       :datetime      
+#  updated_at       :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  industry_root_id: 1
+  name: MyString
+
+two:
+  industry_root_id: 1
+  name: MyString

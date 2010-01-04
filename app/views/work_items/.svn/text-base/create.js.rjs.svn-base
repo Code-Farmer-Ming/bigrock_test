@@ -1,0 +1,4 @@
+# TODO Operate on the page object
+page.insert_html(:bottom,"work_items_pass_#{params[:pass_id]}",render(:partial=>"show_work_items",:object=>@work_item))
+page[dom_id(@work_item,"container")].visual_effect(:highlight)
+page << "Form.reset('new_work_item')"

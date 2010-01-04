@@ -4,7 +4,7 @@
     <%= f.error_messages %>
     <%= render :partial=>"news/form",:object=>f %>
     <p >
-      <%= f.submit '保存',:disable_with=>"保存…",:disabled => false  %> <%= link_to_function "取消","history.go(-1)" %>
+      <%= f.submit '保存',:disable_with=>"保存…",:disabled => false ,:class=>"button" %> <%= link_to_function "取消","history.go(-1)" %>
     </p>
   <% end %>
 </div>

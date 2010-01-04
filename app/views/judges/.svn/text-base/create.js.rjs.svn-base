@@ -1,0 +1,6 @@
+page.replace_html("judge_stars_pass_#{params[:pass_id]}",render(:partial=>"passes/show_star_judge",:object=>@judge.pass))
+page["judge_text_pass_#{params[:pass_id]}"].show
+page.insert_html(:top,"judges_pass_#{params[:pass_id]}",render(:partial=>"judges/show_text_judges",:object=>@judge))
+page << "Lightbox.close()"
+page["judge_operation_pass_#{params[:pass_id]}"].replace_html(render(:partial=>"judges/judge_operation",:object=>@judge.pass ))
+page[dom_id(@judge.pass,"judge_container")].visual_effect(:highlight)

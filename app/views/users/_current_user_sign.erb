@@ -34,17 +34,26 @@
     </div>
     <%= popmenu("user_img_button","set_user_state_menu") -%>
   <%else-%>
-    <% form_tag(url_for(:controller=>:account,:action=>"login")) do -%>
-      <p>
-        <%= text_field_tag  :email, params[:email]  ,:class=>"text required validate-email text",:title=>"*邮箱",:maxlength=>64  %>
-        <%= text_default_value 'email',"请输入邮件"  %>
-      </p>
-      <p>
-        <%= password_field_tag :password, params[:password],:class=>"text required  text",:title=>"*密码",:maxlength=>18  -%>
-        <%= text_default_value 'password',"请输入密码"  %>
-      </p>
-      <%= submit_tag "登录" ,:disable_with=>"登录…",:disabled=>false   -%><%= check_box_tag  "auto_login", "true",false -%><label for="auto_login"  ><span title="一个月内自动登录">自动登录</span></label>
-      <%=link_to "忘记密码!",forget_password_account_path()%>
-    <%end if action_name!="login"-%>
+    <%if controller_name=="account" && action_name=="show"%>
+
+      <% form_tag(url_for(:controller=>:account,:action=>"login")) do -%>
+
+        <p>
+          <%= text_field_tag  :email, params[:email]  ,:class=>"required validate-email text",:title=>"*邮箱",:maxlength=>64  -%>
+          <%= text_default_value 'email',"请输入邮件"  %>
+        </p>
+        <p>
+          <%= password_field_tag :password, params[:password],:class=>"required  text",:title=>"*密码",:maxlength=>18  -%>
+          <%= text_default_value 'password',"请输入密码"  %>
+        </p>
+        <%= submit_tag "登录" ,:disable_with=>"登录…",:disabled=>false  -%><%= check_box_tag  "auto_login", "true",false -%><label for="auto_login"  ><span title="一个月内自动登录">自动登录</span></label>
+        <%=link_to "忘记密码!",forget_password_account_path()%>
+      <%end -%>
+    <%else%>
+      <div id="login_and_reg">
+        <%= link_to "登录",{:controller=>"account",:action=>"login"} %>|
+        <%= link_to "注册",{:controller=>"account",:action=>"new"} %>
+      </div>
+    <%end-%>
   <%end-%>
 </div>

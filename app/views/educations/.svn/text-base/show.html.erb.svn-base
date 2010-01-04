@@ -1,0 +1,22 @@
+<p>
+  <b>School name:</b>
+  <%=h @education.school_name %>
+</p>
+
+<p>
+  <b>Begin date:</b>
+  <%=h @education.begin_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @education.end_date %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @education.description %>
+</p>
+
+<%= link_to 'Edit', edit_user_resume_education_path(params[:user_id],params[:resume_id],@education) %> |
+<%= link_to 'Back', user_resume_educations_path(params[:user_id],params[:resume_id]) %>

@@ -1,0 +1,27 @@
+<% pass= show_pass_info %>
+<h3>
+  <%if current_user?(pass.resume.user)%>
+    <span class="operation_lab" >
+      <%= link_to_remote  "",
+        {:update=>dom_id(pass,"edit_container") ,
+        :before=>" PerpareEdit('#{dom_id(pass)}')",
+        :complete=>"$('#{dom_id(pass,"edit_container")}').select('Form').each(function(el){ el.focusFirstElement();})",
+        :url=>edit_user_resume_pass_path(pass.resume.user,pass.resume,pass.id), :method => :get},
+        :class=>"edit_img_button",:title=>"编辑"%>
+      <%= link_to_remote  "",
+        {:url=>user_resume_pass_path(pass.resume.user,pass.resume,pass.id), :confirm => '确定删除吗?', :method => :delete},
+        :class=>"del_img_button",:title=>"删除" %>
+    </span>
+  <%end%>
+  <%= pass.title%>
+</h3>
+<p>
+  <%= link_to pass.company.name,company_path(pass.company) %>
+  <%=   (pass.department || "") =="" ? "" : " "+ pass.department %>
+</p>
+<div class="date_field">
+  <%=  localize(pass.begin_date,:format=>:long) %>&nbsp;到&nbsp;<%=  pass.is_current ? "现在" :(localize(pass.end_date,:format=>:long) + " ("+distance_of_time_in_words(pass.begin_date,pass.end_date).to_s+")")%>
+</div>
+<p>
+  <%= pass.work_description %>
+</p>

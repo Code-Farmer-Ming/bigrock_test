@@ -6,7 +6,7 @@
       <%= f.error_messages %>
       <%= render :partial=>"specialities/form",:object=>f %>
       <p>
-        <%= f.submit '保存并继续创建' %> <%= link_to "完成" ,user_resumes_path(params[:user_id])%>
+        <%= f.submit '保存并继续创建',:class=>"button" %> <%= link_to "完成" ,user_resumes_path(params[:user_id])%>
       </p>
     <% end %>
   </div>

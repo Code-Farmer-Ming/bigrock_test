@@ -58,7 +58,7 @@ var Scriptaculous = {
       var path = s.src.replace(js, ''),
       includes = s.src.match(/\?.*load=([a-z,]*)/);
 //      (includes ? includes[1] : 'builder,effects,dragdrop,controls,slider,sound').split(',').each(
-      (includes ? includes[1] : 'builder,effects,dragdrop,controls,application,lightbox,niftycube,ratings_component,text_field_default_value,swfupload,fabtabulous,control_extensions,validation_cn,dynamic_popmenu').split(',').each(
+      (includes ? includes[1] : 'builder,effects,dragdrop,controls,application,lightbox,niftycube,ratings_component,swfupload,fabtabulous,control_extensions,validation_cn,text_field_default_value,dynamic_popmenu').split(',').each(
        function(include) { Scriptaculous.require(path+include+'.js') });
     });
   }

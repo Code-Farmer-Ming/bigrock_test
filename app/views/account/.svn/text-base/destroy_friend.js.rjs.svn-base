@@ -1,0 +1,10 @@
+#page.select("friend_user_register_info_#{@friend.friend_id}") do |value|
+#  value.visual_effect :fade  , :duration => 0.5
+#  page.delay(0.5) do
+#    value.remove
+#  end
+#end
+#page.select(dom_id(@user,"operation")).each do |item|
+page[dom_id(@user,"operation")].replace_html render :partial=>"users/user_operation",:object=> @user
+page[dom_id(@user,"operation")].visual_effect(:highlight)
+#end

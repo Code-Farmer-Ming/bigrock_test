@@ -7,7 +7,10 @@ TextDefaultValue.prototype= {
     initialize : function(inputTextID,defaultText,options){
         this.inputText = $(inputTextID);
         var parentForm=  this.inputText.up("form");
-        this.options = options || { };
+        
+        this.options = options || {
+            default_text_color:"gray"
+        };
         this.defaultValue = defaultText;
         this.isPassword= this.inputText.type && this.inputText.type == 'password';
         //        if (this.isPassword) this.inputText.type='text';   
@@ -54,13 +57,25 @@ TextDefaultValue.prototype= {
                 }
             }.bindAsEventListener(this));
         }
+
         if (parentForm){
-            parentForm.observe("submit",function(){
+            if (typeof(parentForm.onsubmit)=='function')
+            {
+                this.originSubmit =parentForm.onsubmit.bind(parentForm);
+
+            }
+            parentForm.onsubmit = function(ev){
                 if(this.inputText.value==this.defaultValue)
                 {
                     this.inputText.value="";
                 }
-            }.bind(this));
+                if  (this.originSubmit)
+                {
+                    return this.originSubmit(ev);
+                }
+                return true;
+            }.bind(this)
+
         }
     },
     clone_input_password :function(){
@@ -73,4 +88,15 @@ TextDefaultValue.prototype= {
         return $(clone_input);
     }
 }
+TextDefaultValue.autoBind = function() {
+    var elms = $A(document.getElementsByClassName('default_value'));
+    for(var i = 0; i < elms.length; i++) {
+        var elm = elms[i];
+        new TextDefaultValue(elm,elm.title);
+
+    }
+};
+
+Event.observe(window,'load',TextDefaultValue.autoBind,false);
+
 

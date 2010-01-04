@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: log_items
+#
+#  id           :integer       not null, primary key
+#  logable_type :string(255)   
+#  logable_id   :integer       
+#  log_type     :string(255)   
+#  changes      :string(255)   
+#  owner_id     :integer       
+#  owner_type   :string(255)   
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  operation    :string(255)   
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  logable_type: Friend
+  logable_id: 1
+  changes: MyString1
+  owner_id: 2
+  owner_type: UserRegisterInfo
+
+two:
+  logable_type: Education
+  logable_id: 1
+  changes: MyString
+  owner_id: 2
+  owner_type: UserRegisterInfo

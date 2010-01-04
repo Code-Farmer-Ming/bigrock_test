@@ -3,8 +3,8 @@
 
     <div>
       <div class="r">
-        <%= form.submit  "接受",:disable_with=>"保存…",:disabled => false %>
-        <%= form.submit  "接受并加其为好友",:disable_with=>"保存…",:disabled => false %>
+        <%= form.submit  "接受",:disable_with=>"保存…",:disabled => false,:class=>"button" %>
+        <%= form.submit  "接受并加其为好友",:disable_with=>"保存…",:disabled => false ,:class=>"button"%>
         <%= link_to "忽略",account_add_friend_application_path(show_apply),:confirm=>"你确定吗？",:method=>:delete %>
       </div>
       <div class="applicant">

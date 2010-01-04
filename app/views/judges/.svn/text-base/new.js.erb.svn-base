@@ -1,0 +1,17 @@
+<div class="form_info">
+
+  <h1>创建评价</h1>
+  <%  remote_form_for(@judge,
+    :url=> user_resume_pass_judges_path(params[:user_id],params[:resume_id],params[:pass_id]),
+    :html=>{:method=>:post,:onsubmit=>"if (!validation.validate()) return false;"}) do |f| %>
+
+    <%= render :partial=>"judges/form" ,:object=>f%>
+
+    <p>
+      <%= f.submit '保存',:disable_with=>"保存…" %> <%= link_to_close_lightbox "取消"  %>
+    </p>
+  <% end %>
+<%=  javascript_tag("validation = new Validation('new_judge',{immediate:true,useTitles:true,stopOnFirst:true});
+  Event.observe('new_judge','reset',function() {validation.reset();},false);") %>
+</div>
+

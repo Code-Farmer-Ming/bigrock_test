@@ -1,0 +1,16 @@
+<div class="tab">
+  <ul class="item">
+    <li id="<%= "current_tab" if (params[:type]=="all" || !params[:type]) %>" ><%= link_to "全部", "?type=all"  %> </li>
+    <li id="<%= "current_tab" if params[:type]=="UserRegisterInfo" %>" ><%= link_to "个人动态", "?type=UserRegisterInfo"  %> </li>
+    <li  id="<%= "current_tab" if params[:type]=="Company" %>"><%= link_to   "公司动态", "?type=Company" %></li>
+    <!--
+<%#*<li id="<%= "current_tab" if params[:type]=="resume" %>" ><%= link_to "个人信息修改", "?type=resume"  %> </li>%>
+<%#*<li  id="<%= "current_tab" if params[:type]=="MyLanguage" %>"><%= link_to   "个人状态", "?type=MyLanguage" %></li>%>
+<%#*<li  id="<%= "current_tab" if params[:type]=="company_news" %>">  <%= link_to "公司新闻","?type=company_news"%></li>%>
+<%#*<li  id="<%= "current_tab" if params[:type]=="join_company" %>">  <%= link_to "加入公司信息","?type=join_company"%></li>%>
+<%#*<li id="<%= "current_tab" if params[:type]=="Attention" %>" ><%= link_to "关注", "?type=Attention" %> </li>%>
+<%#*<li id="<%= "current_tab" if params[:type]=="Friend" %>" ><%= link_to "添加好友", "?type=Friend"  %> </li>%>
+    -->
+  </ul>
+<p class="clear_float"></p>
+</div>

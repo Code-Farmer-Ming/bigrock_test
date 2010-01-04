@@ -1,0 +1,14 @@
+class CreateIndustryThirds < ActiveRecord::Migration
+  def self.up
+    create_table :industry_thirds do |t|
+      t.integer :industry_second_id
+      t.string :name
+
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :industry_thirds
+  end
+end

@@ -1,0 +1,11 @@
+ 
+<div class="form_info">
+  <h1>编辑工作评价</h1>
+  <%  remote_form_for(@judge ,:url=> user_resume_pass_judge_path(params[:user_id],params[:resume_id],params[:pass_id],@judge),:html=>{:method=>:put}) do |f| %>
+
+    <%= render :partial=>"judges/form" ,:object=>f%>
+    <p>
+      <%= f.submit '保存' %> <%= link_to_close_lightbox "取消"  %>
+    </p>
+  <% end %>
+</div>

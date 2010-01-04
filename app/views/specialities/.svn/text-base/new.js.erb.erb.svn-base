@@ -1,0 +1,15 @@
+<div class="partial_container">
+  <div class="form_info">
+    <h1>创建 专长信息</h1>
+
+    <% remote_form_for(@speciality,:url=>user_resume_specialities_path(params[:user_id],params[:resume_id]),:html=>{:method=>:post}) do |f| %>
+      <%= f.error_messages %>
+
+      <%= render :partial=>"specialities/form",:object=>f %>
+
+      <p>
+        <%= f.submit '保存' %> <%= link_to_function "取消","Element.hide('new_speciality_container')"%>
+      </p>
+    <% end %>
+  </div>
+</div>

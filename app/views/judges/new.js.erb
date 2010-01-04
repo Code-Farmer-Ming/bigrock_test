@@ -8,7 +8,7 @@
     <%= render :partial=>"judges/form" ,:object=>f%>
 
     <p>
-      <%= f.submit '保存',:disable_with=>"保存…" %> <%= link_to_close_lightbox "取消"  %>
+      <%= f.submit '保存',:disable_with=>"保存…" ,:class=>"button"%> <%= link_to_close_lightbox "取消"  %>
     </p>
   <% end %>
 <%=  javascript_tag("new Validation('new_judge',{immediate:true,useTitles:true,stopOnFirst:true});

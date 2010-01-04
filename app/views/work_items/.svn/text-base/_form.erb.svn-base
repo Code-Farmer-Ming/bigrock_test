@@ -1,0 +1,22 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<% f = form %>
+<p>
+  <%= f.label :name,"名称",:class=>"filed_lab" %>
+  <%= f.text_field :name %>
+</p>
+<p>
+  <%= f.label :begin_date,"日期",:class=>"filed_lab"%>
+  <%= f.date_select :begin_date,:discard_day=>true,:start_year=>1950  %>
+  到
+
+  <%= f.date_select :end_date,:discard_day=>true,:start_year=>1950  %>
+ 
+</p>
+<p>
+  <%= f.label :work_description,"内容描述",:class=>"filed_lab" %>
+  <%= f.text_area :work_description,:rows=>3 %>
+</p>

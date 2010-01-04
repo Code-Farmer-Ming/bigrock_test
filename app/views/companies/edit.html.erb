@@ -5,7 +5,7 @@
     <% form_for(@company) do |f| %>
       <%= render :partial=>"companies/form",:object=>f %>
       <p>
-        <%= f.submit '保存',:disable_with=>"保存…",:disabled => false %> <%= link_to "取消",company_path(@company) %>
+        <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %> <%= link_to "取消",company_path(@company) %>
       </p>
     <% end %>
   </div>

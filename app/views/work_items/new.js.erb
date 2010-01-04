@@ -6,6 +6,6 @@
 
   <%= render :partial=>"work_items/form" ,:object=>f %>
 
-  <%= f.submit '保存'%> <%= link_to_function "取消","Element.hide('new_work_item_container_pass_#{params[:pass_id]}')" %>
+  <%= f.submit '保存',:class=>"button"%> <%= link_to_function "取消","Element.hide('new_work_item_container_pass_#{params[:pass_id]}')" %>
 
 <% end %>

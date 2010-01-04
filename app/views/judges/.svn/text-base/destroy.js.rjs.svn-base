@@ -1,0 +1,8 @@
+page.select("##{dom_id(@judge,"item")}").each do
+  page.visual_effect :fade, dom_id(@judge,"item"), :duration => 0.5
+  page.delay(0.5) do
+    page[dom_id(@judge,"item")].remove  
+  end
+end
+page.replace_html(dom_id(@judge.pass,"judge_stars"),render(:partial=>"passes/show_star_judge",:object=>@judge.pass))
+page["judge_operation_pass_#{params[:pass_id]}"].replace_html(render(:partial=>"judges/judge_operation",:object=>@judge.pass ))

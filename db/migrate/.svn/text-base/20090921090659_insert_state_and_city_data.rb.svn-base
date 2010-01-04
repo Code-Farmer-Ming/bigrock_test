@@ -1,0 +1,18 @@
+class InsertStateAndCityData < ActiveRecord::Migration
+  def self.up
+    states = [["北京",["东城区","西城区","宣武区","朝阳区"]],["上海",["黄浦区","卢湾区","普陀区","徐汇区","长宁区"]],["天津",[]],["重庆",[]],["安徽",[]]]
+    states.each do |state|
+      st = State.new(:name=>state[0])
+      state[1].each do |city|
+        st.cities << City.new(:name=>city,:user_id=>-1)
+      end
+      st.save!
+    end
+  end
+
+  def self.down
+    State.destroy_all
+    City.destroy_all
+
+  end
+end

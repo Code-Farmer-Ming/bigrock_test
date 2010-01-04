@@ -1,0 +1,12 @@
+
+<div id="left_content">
+  <h1><%= (current_user?(@user) ? '我' : "#{@user.name}") +"的动态记录"  %></h1>
+  <%= render :partial=>"users/log_type" %>
+  <%= render :partial=>"comm_partial/show_log",:object=>@log_items,:locals=>{:hide_left=>true} %>
+  <%= will_paginate @log_items%>
+</div>
+<div id="right_content">
+  <% sub_block_div() do %>
+    <%= link_to "<< 返回 #{ current_user?(@user) ? "我" : @user.name }的页面",user_path(@user) %>
+  <%end%>
+</div>

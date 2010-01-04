@@ -1,0 +1,86 @@
+10
+
+dir
+306
+svn://222.134.135.86/BigRock/BigRockApplication/vendor/plugins
+svn://222.134.135.86
+
+
+
+2009-12-01T09:54:42.765625Z
+305
+mzhang
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+a689cbb5-ba4c-b943-91b9-433caf24c36a
+
+
+
+
+
+
+0
+
+will_paginate
+dir
+
+lightbox
+dir
+
+attachment_fu
+dir
+
+in_place_completer
+dir
+
+dynamic_popmenu
+dir
+
+text_field_default_value
+dir
+
+acts_as_versioned
+dir
+
+attachment_fu_hacks
+dir
+
+has_many_polymorphs
+dir
+
+auto_complete
+dir
+
+render_component
+dir
+
+mimetype-fu
+dir
+
+swf_upload
+dir
+
+acts_as_logger
+dir
+
+annotate_models
+dir
+
+in_place_editing
+dir
+
+enumerations_mixin
+dir
+
