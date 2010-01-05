@@ -109,7 +109,34 @@ class ActiveRecord::Base #:nodoc:
     #         Model.tagged_with("hello", "world", :limit => 10)
     #
     # XXX This query strategy is not performant, and needs to be rewritten as an inverted join or a series of unions
-    # 
+    #
+    def all_tags(options = {})
+      Tag.find(:all, options.merge({
+            :select => "#{Tag.table_name}.*, sum(#{Tagging.table_name}.user_tags_count) AS use_count",
+            :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{base_class.name}'
+
+              AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
+            :order => options[:order] || "use_count DESC, #{Tag.table_name}.name",
+            :group => "#{Tag.table_name}.id, #{Tag.table_name}.name"
+          }))
+    end
+    #相关标签的标签
+    def find_related_tags(tags, options = {})
+
+      related_models = tagged_with(tags)
+      return [] if related_models.blank?
+      related_ids = related_models.to_s(:db)
+
+      Tag.find(:all, options.merge({
+            :select => "#{Tag.table_name}.*, sum(#{Tagging.table_name}.user_tags_count) AS use_count",
+            :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{base_class.name}'
+              AND  #{Tagging.table_name}.taggable_id IN (#{related_ids})
+              AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
+            :order => options[:order] || "use_count DESC, #{Tag.table_name}.name",
+            :group => "#{Tag.table_name}.id, #{Tag.table_name}.name HAVING #{Tag.table_name}.name NOT IN (#{tags.map { |n| quote_value(n) }.join(",")})"
+          }))
+    end
+
     def tagged_with(*tag_list)
       options = tag_list.last.is_a?(Hash) ? tag_list.pop : {}
       tag_list = parse_tags(tag_list)

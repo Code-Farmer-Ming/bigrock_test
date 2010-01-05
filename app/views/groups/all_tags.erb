@@ -1,0 +1,10 @@
+
+<div id="left_content">
+  <h1>小组所有标签 </h1>
+
+  <%= render :partial=>"comm_partial/show_tag" ,:collection=>@tags  %>
+  <%= will_paginate  @tags %>
+</div>
+<div id="right_content">
+  <%= link_to "返回小组首页页" ,groups_path() %>
+</div>

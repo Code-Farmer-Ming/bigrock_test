@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :groups,:member=>{:invite_join=>[:get,:post]} do |groups|
+  map.resources :groups,:member=>{:invite_join=>[:get,:post]}, :collection=>{:all_tags=>:get,:show_by_tag=>:get} do |groups|
     groups.resources :topics  do |topics|
       topics.resources :comments
     end

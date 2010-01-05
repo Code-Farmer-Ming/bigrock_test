@@ -11,7 +11,7 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 --title_background_color  #E1E9F8
 */
-a:hover { background-color:#E1E9F8; }
+a:hover { background-color:#E1E9F8;color: #005BAA }
 a{
     text-decoration:none;
     /*  color: #669900;*/

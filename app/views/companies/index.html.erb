@@ -27,6 +27,9 @@
       <%end%>
     </div>
   <%end%>
+  <%sub_block_div("公司热门标签",link_to("全部标签",{:action=>"all_tags"})) do%>
+    <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>
+  <%end%>
 
 </div>
 <div id="right_content">

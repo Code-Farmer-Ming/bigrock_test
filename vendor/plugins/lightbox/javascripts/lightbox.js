@@ -23,7 +23,7 @@ lightbox.prototype = {
         $('lightbox').style.height ="";
         $('lightbox').style.width = "";
 //         $('lightbox').style.height = $('lightbox').offsetHeight + 'px';
-        $('lightbox').style.width = $('lightbox').scrollWidth  + 'px';
+     //   $('lightbox').style.width = $('lightbox').scrollWidth  + 'px';
 
         $('lightbox').style.margin = "-" +  $('lightbox').scrollHeight /2 +"px 0 0 "
         + "-" + $('lightbox').scrollWidth /2 +"px";

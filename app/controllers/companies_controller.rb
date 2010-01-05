@@ -9,6 +9,7 @@ class CompaniesController < ApplicationController
     @salary_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc")
     @condition_best_companies =  Company.all(:limit=>3,:order=>"condition_value/company_judges_count desc")
     @integration_best_companies =  Company.all(:limit=>3,:order=>"(condition_value+salary_value)/company_judges_count desc")
+    @hot_tags = Company.all_tags(:limit=>20)
     respond_to do |format|
       format.html{} # index.html.erb
       format.xml  { render :xml => @companies }
@@ -120,7 +121,7 @@ class CompaniesController < ApplicationController
 
   #所有关于公司的 标签
   def all_tags
-    @tags =  Company.company_all_tags.paginate :page => params[:page]
+    @tags =  Company.all_tags.paginate :page => params[:page]
   end
 
   def logs

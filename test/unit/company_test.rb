@@ -74,17 +74,17 @@ class CompanyTest < ActiveSupport::TestCase
     company = Company.find(1)
     Tagging.destroy_all
     assert_equal 0,company.all_tags.size
-    assert_equal 0,Company.company_all_tags.size
+    assert_equal 0,Company.all_tags.size
     
     user_one = users(:one)
     user_one.tag_something(company, "伟大的公司")
     assert_equal 1,company.all_tags.size
-    assert_equal 1,Company.company_all_tags.size
+    assert_equal 1,Company.all_tags.size
     
     user_one.tag_something(company, "")
     company.reload
     assert_equal 0,company.all_tags.size
-    assert_equal 0,Company.company_all_tags.size
+    assert_equal 0,Company.all_tags.size
   end
   
   test "company_related_tags" do

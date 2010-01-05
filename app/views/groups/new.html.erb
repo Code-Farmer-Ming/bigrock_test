@@ -1,5 +1,5 @@
 <div id="left_content">
-  <% form_for(@group,{},:html=>{:class=>"form_info",:multipart => true}) do |f| %>
+  <% form_for(@group,{},:html=>{:class=>"form_info required-validate",:multipart => true}) do |f| %>
     <h1>创建小组</h1>
     <%= f.error_messages %>
     <%= render :partial=>"groups/form" ,:object=>f %>
@@ -8,19 +8,19 @@
       <%= render :partial=>"comm_partial/alias_account_choice" %>
     </p>
     <p>
-      <% render :partail=>"comm_partial/alias_account_choice" %>
-    </p>
-    <p>
       <%= f.submit '创建小组',:disable_with=>"创建…",:disabled => false ,:class=>"button"%>   &nbsp;<%= link_to '取消', groups_path %>
     </p>
   <% end %>
 </div>
 <div id="right_content">
   <% sub_block_div() do %>
+    <%= link_to("返回小组首页",groups_path ) %>
+  <%end%>
+  <% sub_block_div(" ") do %>
     <dl>
       <dt>开放式小组</dt>
       <dd>任何人可以随便加入</dd>
-         <dt>需要申请小组</dt>
+      <dt>需要申请小组</dt>
       <dd>任何人可以随便加入，但需要管理员批准才能通过</dd>
     </dl>
   <%end%>

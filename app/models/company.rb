@@ -118,33 +118,9 @@ class Company < ActiveRecord::Base
   validates_uniqueness_of     :name
   #不为空
   validates_presence_of       :name
-  #相关标签的标签
-  def self.find_related_tags(tags, options = {})
 
-    related_models = tagged_with(tags)
-    return [] if related_models.blank?
-    related_ids = related_models.to_s(:db)
 
-    Tag.find(:all, options.merge({
-          :select => "#{Tag.table_name}.*, sum(#{Tagging.table_name}.user_tags_count) AS use_count",
-          :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{base_class.name}'
-              AND  #{Tagging.table_name}.taggable_id IN (#{related_ids})
-              AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
-          :order => options[:order] || "use_count DESC, #{Tag.table_name}.name",
-          :group => "#{Tag.table_name}.id, #{Tag.table_name}.name HAVING #{Tag.table_name}.name NOT IN (#{tags.map { |n| quote_value(n) }.join(",")})"
-        }))
-  end
 
-  def self.company_all_tags(options = {})
-    Tag.find(:all, options.merge({
-          :select => "#{Tag.table_name}.*, sum(#{Tagging.table_name}.user_tags_count) AS use_count",
-          :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{base_class.name}'
-            
-              AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
-          :order => options[:order] || "use_count DESC, #{Tag.table_name}.name",
-          :group => "#{Tag.table_name}.id, #{Tag.table_name}.name"
-        }))
-  end
 
   #相似的公司 先根据 标签的相似度查找 如果不存在 就从相同 行业里查找
   def related_companies(limit=5)

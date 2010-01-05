@@ -2,6 +2,7 @@
   <% sub_block_div() do %>
     <%tabs() do%>
       <%= tab_button("最活跃小组","the_most_active_groups") %>
+      <%= tab_button("最推荐小组","the_most_recommend_groups") %>
       <%= tab_button("最新小组","the_most_newly_groups") %>
     <%end%>
     <% tab_panel("the_most_active_groups") do %>
@@ -14,11 +15,15 @@
         <%= render :partial=>"groups/float_icon_name",:collection=> Group.new_groups.all(:limit=>6)%>
       </ul>
     <%end%>
+    <%tab_panel("the_most_recommend_groups") do%>
+
+    <%end%>
   <%end%>
   <% sub_block_div("最新话题") do %>
     <%= render :partial=>"groups/group_topic_item",:collection=>Topic.group_topics.all(:limit=>20,:order=>"created_at desc") %>
   <%end%>
-  <% sub_block_div("小组分类") do %>
+  <% sub_block_div("小组标签") do %>
+    <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>
   <%end%>
 </div>
 <div id="right_content">

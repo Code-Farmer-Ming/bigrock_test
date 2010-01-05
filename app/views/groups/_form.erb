@@ -8,23 +8,23 @@
 </div>
 <p>
   <%= f.label :name,Group.human_attribute_name('name'),:class=>"filed_lab" %>
-  <%= f.text_field :name ,:class=>"text" %>
+  <%= f.text_field :name ,:class=>"text required",:maxlength=>48 %>
 </p>
 <p>
   <%= f.label :description,"描述",:class=>"filed_lab" %>
-  <%= f.text_area :description %>
+  <%= f.text_area :description,:class=>"required" %>
 </p>
 <p>
   <%= f.label "join_type","加入方式",:class=>"filed_lab" %>
-  <%= f.select :join_type,Group::JOIN_TYPES %>
+  <%= f.select :join_type,Group::JOIN_TYPES,:class=>"required" %>
 </p>
-<p>
-  <%= f.label :group_type_id,"类型",:class=>"filed_lab" %>
-  <%= f.select :group_type_id,GroupType.all.collect{|p| [ p.name, p.id ] } %>
-</p>
+<%#*<p>%>
+<%#= f.label :group_type_id,"类型",:class=>"filed_lab" %>
+<%#= f.select :group_type_id,GroupType.all.collect{|p| [ p.name, p.id ] } %>
+<%#*</p>%>
 <p>
   <%= label_tag "group_tags","标签" ,:class=>"filed_lab" %>
-  <%= f.text_field "tag_list",:class=>"text"   %>
+  <%= f.text_field "tag_list",:class=>"text required"   %>
 <div id ="tags_list" class="auto_complete"></div>
 <%=  auto_complete_field("group_tag_list", {:update=>"tags_list", :url => {:action => "auto_complete_for_tag" },:tokens=>" " })%>
 </p>

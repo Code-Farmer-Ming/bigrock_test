@@ -1,10 +1,11 @@
 class GroupsController < ApplicationController
-  before_filter :check_login?,:except=>[:index,:show]
+  before_filter :check_login?,:except=>[:index,:show,:show_by_tag]
   # GET /groups
   # GET /groups.xml
   def index
-#    @groups = Group.all
+    #    @groups = Group.all
     @page_title =  "小组首页"
+    @hot_tags= Group.all_tags(:limit=>20)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @groups }
@@ -99,7 +100,6 @@ class GroupsController < ApplicationController
     end
   end
   #加入小组
-  #TODO 需要考虑 别名加入时的情况
   def join
     group = Group.find_by_id(params[:id])
     #加入方式为开放
@@ -162,6 +162,17 @@ class GroupsController < ApplicationController
       end
       
     end
+  end
+  #根据 tag 显示相关 公司的信息
+  def show_by_tag
+    @tag = Tag.find(params[:tag_id])
+    #    taggable_ids = @tag.taggings.all(:conditions=>["taggable_type=?",Company.to_s],:limit=>10,:order=>"user_tags_count desc").map(&:taggable_id)
+    @similar_taggings = Group.find_related_tags(@tag.name,:limit=>10) #Tagging.find(:all,:conditions=>["taggable_id in (?) and tag_id<>?",taggable_ids,@tag.id],:limit=>10,:order=>"user_tags_count desc")
+    @groups = @tag.taggables.paginate_by_taggable_type "Group", :page => params[:page],:order=>params[:order]
+  end
+    #所有关于公司的 标签
+  def all_tags
+    @tags =  Group.all_tags.paginate :page => params[:page]
   end
  
   def auto_complete_for_tag
