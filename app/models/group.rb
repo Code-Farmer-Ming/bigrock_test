@@ -97,9 +97,10 @@ class Group < ActiveRecord::Base
   #新创建的 小组
   named_scope :new_groups,:order=>"created_at desc"
   #帖子最多的小组
-  named_scope :topics_groups,:order=>"topics_count desc"
-
-  validates_uniqueness_of     :name
+  named_scope :most_topics_groups,:order=>"topics_count desc"
+  #推荐最多的小组
+  named_scope :most_recommend_groups,:order=>"recommends_count desc"
+  validates_uniqueness_of  :name
   #是否小组的成员
   def is_member?(user)
     user && all_members.exists?(["users.id in (?)",user.ids])

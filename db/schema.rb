@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091229074446) do
+ActiveRecord::Schema.define(:version => 20100118070059) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -153,15 +153,16 @@ ActiveRecord::Schema.define(:version => 20091229074446) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                          :null => false
-    t.text     "description",                   :null => false
-    t.integer  "group_type_id",                 :null => false
-    t.string   "join_type",                     :null => false
-    t.integer  "create_user_id",                :null => false
-    t.integer  "members_count",  :default => 0
-    t.integer  "topics_count",   :default => 0
+    t.string   "name",                            :null => false
+    t.text     "description",                     :null => false
+    t.integer  "group_type_id",                   :null => false
+    t.string   "join_type",                       :null => false
+    t.integer  "create_user_id",                  :null => false
+    t.integer  "members_count",    :default => 0
+    t.integer  "topics_count",     :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "recommends_count", :default => 0
   end
 
   create_table "industries", :force => true do |t|
@@ -264,6 +265,7 @@ ActiveRecord::Schema.define(:version => 20091229074446) do
     t.integer  "up",                :default => 0
     t.integer  "down",              :default => 0
     t.integer  "comments_count"
+    t.integer  "recommends_count",  :default => 0
   end
 
   create_table "passes", :force => true do |t|
@@ -383,6 +385,7 @@ ActiveRecord::Schema.define(:version => 20091229074446) do
     t.boolean  "can_comment",                          :default => true
     t.integer  "last_comment_user_id"
     t.datetime "last_comment_datetime"
+    t.integer  "recommends_count",                     :default => 0
   end
 
   create_table "user_settings", :force => true do |t|

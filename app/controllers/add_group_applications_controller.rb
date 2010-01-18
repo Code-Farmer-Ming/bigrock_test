@@ -17,7 +17,7 @@ class AddGroupApplicationsController < ApplicationController
       @add_application.applicant = current_user.get_account(params[:alias])
       if group.add_applications <<  @add_application
         render :update do |page|
-          page["group_operation"].replace_html render(:partial=>"groups/operation",:object=> group)
+          page[dom_id(group,"operation")].replace_html render(:partial=>"groups/operation",:object=> group)
           page<<"Lightbox.close()"
         end
       end

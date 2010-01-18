@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_filter :check_login?,:except=>[:index,:show,:show_by_tag]
+  before_filter :check_login?,:except=>[:index,:show,:show_by_tag,:all_tags]
   # GET /groups
   # GET /groups.xml
   def index
@@ -59,7 +59,6 @@ class GroupsController < ApplicationController
         format.html { redirect_to(@group) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
- 
         format.html { render :action => "new" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
       end
@@ -108,8 +107,11 @@ class GroupsController < ApplicationController
         group.all_members << current_user.get_account(params[:alias])
       end
       render :update do |page|
-        page["group_operation"].replace_html render(:partial=>"groups/operation",:object=> group)
-        page["group_operation"].visual_effect :highlight
+        page[dom_id(group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> group)
+        page.select(".member_count").each do |item|
+          page.replace_html item,group.members.count
+        end
+        page[dom_id(group,"operation")].visual_effect :highlight
       end
     else
       flash.now[:error] = "加入小组出错!#{$!}"
@@ -128,10 +130,13 @@ class GroupsController < ApplicationController
         page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end
     else
-      if Member.destroy_all(["user_id=? and group_id=?",current_user,group])
+      if Member.destroy_all(["user_id in (?) and group_id=?",current_user.ids,group])
         render :update do |page|
-          page["group_operation"].replace_html render(:partial=>"groups/operation",:object=> group)
-          page["group_operation"].visual_effect :highlight
+          page[dom_id(group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> group)
+          page[dom_id(group,"operation")].visual_effect :highlight
+          page.select(".member_count").each do |item|
+            page.replace_html item,group.members.count
+          end
         end
       else
         flash.now[:error] = "退出小组出错!"
@@ -159,8 +164,7 @@ class GroupsController < ApplicationController
         flash.now[:success] = "已经发出邀请！"
       else
         flash.now[:notice] = "请选择要邀请的好友！"
-      end
-      
+      end     
     end
   end
   #根据 tag 显示相关 公司的信息
@@ -170,7 +174,7 @@ class GroupsController < ApplicationController
     @similar_taggings = Group.find_related_tags(@tag.name,:limit=>10) #Tagging.find(:all,:conditions=>["taggable_id in (?) and tag_id<>?",taggable_ids,@tag.id],:limit=>10,:order=>"user_tags_count desc")
     @groups = @tag.taggables.paginate_by_taggable_type "Group", :page => params[:page],:order=>params[:order]
   end
-    #所有关于公司的 标签
+  #所有关于小组的 标签
   def all_tags
     @tags =  Group.all_tags.paginate :page => params[:page]
   end

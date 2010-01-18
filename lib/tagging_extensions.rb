@@ -98,6 +98,18 @@ class ActiveRecord::Base #:nodoc:
       flag
     end
 
+      #所有的标签
+  def all_tags( options={})
+    Tag.find(:all,options.merge({
+          :select => "#{Tag.table_name}.*, sum(#{Tagging.table_name}.user_tags_count)  use_count",
+          :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{self.class.to_s}'"+
+            "AND  #{Tagging.table_name}.taggable_id =(#{id})
+              AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
+          :order => options[:order] || "use_count DESC, #{Tag.table_name}.name",
+          :group => "#{Tag.table_name}.id, #{Tag.table_name}.name "
+        }))
+  end
+
   end
   
   module TaggingFinders
@@ -120,6 +132,8 @@ class ActiveRecord::Base #:nodoc:
             :group => "#{Tag.table_name}.id, #{Tag.table_name}.name"
           }))
     end
+
+
     #相关标签的标签
     def find_related_tags(tags, options = {})
 

@@ -1,6 +1,6 @@
 <div id="left_content">
   <h1><%= "#{@tag.name} 标签的小组" %></h1>
-  <%= render :partial=>"groups/operation_float_icon_name",:collection=> @groups %>
+  <%= render :partial=>"groups/short_info",:collection=> @groups %>
   <%= will_paginate  @groups %>
 </div>
 <div id="right_content">

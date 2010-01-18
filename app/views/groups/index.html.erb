@@ -1,28 +1,9 @@
 <div id="left_content">
-  <% sub_block_div() do %>
-    <%tabs() do%>
-      <%= tab_button("最活跃小组","the_most_active_groups") %>
-      <%= tab_button("最推荐小组","the_most_recommend_groups") %>
-      <%= tab_button("最新小组","the_most_newly_groups") %>
-    <%end%>
-    <% tab_panel("the_most_active_groups") do %>
-      <ul class="float_ul">
-        <%= render :partial=>"groups/float_icon_name",:collection=> Group.topics_groups.all(:limit=>6)%>
-      </ul>
-    <%end%>
-    <%tab_panel("the_most_newly_groups") do%>
-      <ul class="float_ul">
-        <%= render :partial=>"groups/float_icon_name",:collection=> Group.new_groups.all(:limit=>6)%>
-      </ul>
-    <%end%>
-    <%tab_panel("the_most_recommend_groups") do%>
 
-    <%end%>
-  <%end%>
   <% sub_block_div("最新话题") do %>
-    <%= render :partial=>"groups/group_topic_item",:collection=>Topic.group_topics.all(:limit=>20,:order=>"created_at desc") %>
+    <%= render :partial=>"groups/group_topic_item",:collection=>Topic.group_topics.all(:limit=>40,:order=>"created_at desc") %>
   <%end%>
-  <% sub_block_div("小组标签") do %>
+  <% sub_block_div("小组标签",link_to("全部",:action=>:all_tags)) do %>
     <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>
   <%end%>
 </div>
@@ -34,7 +15,29 @@
   <% sub_block_div() do %>
     <%= link_to "我来创建小组" ,new_group_path(),:class=>"button"%>
   <%end%>
+  <% sub_block_div() do %>
+    <%tabs() do%>
+      <%= tab_button("话题最多小组","the_most_active_groups") %>
+      <%= tab_button("推荐最多小组","the_most_recommend_groups") %>
+    <%#= tab_button("最新小组","the_most_newly_groups") %>
+    <%end%>
+    <% tab_panel("the_most_active_groups") do %>
+      <ul class="float_ul">
+        <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_topics_groups.all(:limit=>6)%>
+      </ul>
+    <%end%>
+  <%#tab_panel("the_most_newly_groups") do%>
+  <%#*<ul class="float_ul">%>
+  <%#= render :partial=>"groups/float_icon_name",:collection=> Group.new_groups.all(:limit=>6)%>
+  <%#*</ul>%>
+  <%#end%>
 
+    <%tab_panel("the_most_recommend_groups") do%>
+      <ul class="float_ul">
+        <%= render :partial=>"groups/float_icon_name",:collection=> Group.new_groups.all(:limit=>6)%>
+      </ul>
+    <%end%>
+  <%end%>
 
 
 </div>

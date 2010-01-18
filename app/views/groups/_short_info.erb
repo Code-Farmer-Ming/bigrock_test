@@ -1,13 +1,19 @@
-<div class="group_short_info">
+<div class="<%= cycle("group_short_info color_tr", "group_short_info") %>">
   <div class="l">
     <%= render :partial=>"groups/icon_name" ,:object=>short_info %>
   </div>
-  <div class="l group_short_content">
+  <div class="group_short_content">
     <p class="group_short_description">
-      <%= h(truncate("#{short_info.description}", :length=>255))%>
+      <%= h(truncate("#{short_info.description}", :length=>120))%>
 <%#= link_to 'Show', company_piece_news_path(params[:company_id],piece_news) %>
     </p>
-    <p>
+    <div>
+      <b>创建于 </b><%=  localize(short_info.created_at)%>
+      <b>成员 </b> <%= link_to("#{short_info.members_count}",group_members_path(short_info),:class=>'member_count')%>
+      <b>话题 </b> <%= link_to("#{short_info.topics_count}",group_topics_path(short_info))%>
+      <b>被推荐 </b> <%= link_to("#{short_info.recommends_count}",'',:class=>"recommand_count")%>
+    </div>
+    <p >
       <%= render :partial=>"groups/operation" ,:object=>short_info %>
     </p>
   </div>

@@ -7,8 +7,11 @@
   <% sub_block_div() do%>
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入关键字"} %>
   <%end%>
-  <%sub_block_div("热门新闻") do%>
+  <%sub_block_div("最热门新闻") do%>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>Piecenews.populars(:limit=>15) %>
+  <%end%>
+  <%sub_block_div("推荐最多的新闻") do%>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>Piecenews.most_recommand(:limit=>15) %>
   <%end%>
   <%sub_block_div("热门回复") do%>
     <%= render :partial=>"comments/hot_comment",:collection=>Comment.all(:conditions=>["commentable_type=?","Piecenews"],:order=>"up-down desc",:limit=>20),:locals=>{:show_news_title=>true} %>

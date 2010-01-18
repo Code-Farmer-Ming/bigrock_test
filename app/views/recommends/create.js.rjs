@@ -2,3 +2,6 @@
 page << "Lightbox.close()"
 page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
 page["recommend_operation"].replace_html render(:partial=>"comm_partial/recommend_operation",:object=>@recommend.recommendable)
+page.select(".recommand_count").each do |item|
+  page.replace_html item,@recommend.recommendable.recommends.count
+end

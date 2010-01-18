@@ -24,6 +24,7 @@ class Piecenews < ActiveRecord::Base
   belongs_to :create_user ,:class_name=>"User",:foreign_key=>"create_user_id"
   belongs_to :last_edit_user ,:class_name=>"User",:foreign_key=>"last_edit_user_id"
   named_scope :populars,:conditions=>["(up-down)>10"],:order=>"up-down desc"
+  named_scope :most_recommand,:order=>"recommends_count desc"
   has_many :comments ,:as=>:commentable,:dependent=>:destroy
 
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy

@@ -1,6 +1,6 @@
 class AddCommetscountToPiecenews < ActiveRecord::Migration
   def self.up
-    add_column :news, :comments_count, :integer
+    add_column :news, :comments_count, :integer,:default=>0
   end
 
   def self.down

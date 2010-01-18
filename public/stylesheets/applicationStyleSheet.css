@@ -138,7 +138,7 @@ label{
     background: transparent url(/images/loading.gif) no-repeat center center;
 }
 .form_info h1{
-    font-family: 黑体,Helvetica,Arial,sans-serif;
+    font-family: ‘Arial Narrow’, sans-serif,Helvetica,Arial,sans-serif;
     margin-bottom:20px;
 }
 .form_info .filed_lab{
@@ -357,18 +357,20 @@ ul#nav li{float:left;
           margin-right: 5px;
           text-align: center
 }
-ul#nav a{float:left;
+ul#nav a{
+         float:left;
          width: 7em;
          padding: 8px 0;
-         text-decoration:none;color: #222
+         text-decoration:none;
+         color: #222
 }
-ul#nav a:hover{
+ul#nav .activelink a,ul#nav a:hover{
     color: #000;
     font-weight:bold;
-    background:#fff;
+    background:white url(/images/input-text.png) repeat-x scroll left top;
 }
-ul#nav li.activelink a{background: #fff}
-ul#nav li.activelink a{color: #000;font-weight:bold}
+ 
+ 
 
 #thumb_img{
     float:right;
@@ -904,17 +906,20 @@ div.auto_complete ul strong.highlight {
 }
 
 .judge_item,.group_short_info,.comment_item{
-    padding:8px 0px;
+    padding:8px 2px;
     /*   margin-bottom:8px;*/
     border-bottom:1px silver dotted ;
 }
-.text_content,.short_info,.judge_content,.group_short_content,.comment_text{
+.text_content,.short_info,.judge_content,.comment_text{
     margin-left:80px;
 }
+.group_short_content{
+    margin-left:100px;
+}
 .group_short_description{
-    min-height:45px;
+    min-height:40px;
     height:auto !important;
-    height:45px;
+    height:40px;
 }
 .comment_date{
     color:gray;
@@ -934,6 +939,8 @@ div.auto_complete ul strong.highlight {
 .topic_item{
     padding:4px 5px 4px 5px;
     overflow:auto;
+
+    border-top:#F0F0F0 solid 1px ;
 }
 .topic_item a{
     text-decoration:none;
@@ -948,7 +955,7 @@ div.auto_complete ul strong.highlight {
     color:gray;
 }
 .color_tr{
-    background-color: #eee;
+    background-color: #F5F5F5;
 }
 
 .big_star_0,.big_star_1,.big_star_2,.big_star_3,.big_star_4,.big_star_5{

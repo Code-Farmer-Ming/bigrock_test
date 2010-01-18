@@ -16,5 +16,5 @@ class Recommend < ActiveRecord::Base
 #  acts_as_logger :log_action=>["create"],:owner_attribute=>"company",:log_type=>"recommend",:logable=>"user"
   
   belongs_to :user ,:class_name=>"User",:foreign_key=>"user_id"
-  belongs_to :recommendable ,:polymorphic => true
+  belongs_to :recommendable ,:polymorphic => true,:counter_cache=>true 
 end

@@ -2,7 +2,7 @@
 
 <div id="left_content">
   <h2>所有简短描述</h2>
-  <%= render :partial=>"companies/show_tag" ,:collection=>@tags  %>
+  <%= render :partial=>"comm_partial/show_tag" ,:collection=>@tags  %>
   <%= will_paginate  @tags %>
 </div>
 <div id="right_content">

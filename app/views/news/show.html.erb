@@ -48,7 +48,7 @@
       :collection=>@piece_of_news.comments.hot_comments.all(:limit=>20) %>
   <%end%>
 
-  <% sub_block_div("热门新闻") do %>
+  <% sub_block_div("相关新闻") do %>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",
       :collection=>@company.news.all(:conditions=>"id<>#{@piece_of_news.to_param}",:limit=>10) %>
   <%end%>

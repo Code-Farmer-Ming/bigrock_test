@@ -9,18 +9,14 @@
 
 </div>
 <div id="right_content">
-  <div class="sub_block">
-    <div class="sub_block_content">
-      <%= link_to '我来发布新闻', new_company_piecenews_path(params[:company_id]),:class=>"button" %>
-      <br class="clear"/>
-      <%= link_to "#{@company.name}首页",company_path(@company)  %>
+  <%sub_block_div('') do%>
+    <%= link_to "#{@company.name}首页",company_path(@company)  %>
+    <br class="clear"/>
+    <%= link_to '我来发布新闻', new_company_piecenews_path(params[:company_id]),:class=>"button" %>
+  <%end%>
 
-    </div>
-  </div>
-  <div class="sub_block">
-    <div class="sub_block_title">热门新闻</div>
-    <div class="sub_block_content">
-      <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@company.news.populars(:limit=>10) %>
-    </div>
-  </div>
+  <%sub_block_div('热门信息') do%>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@company.news.populars(:limit=>10) %>
+  <%end%>
+
 </div>

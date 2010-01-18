@@ -16,6 +16,9 @@ class RecommendsController < ApplicationController
       format.xml  { render :xml => @recommend }
     end
   end
+  def index
+    
+  end
   #显示 推荐窗口
   def new_form
     respond_to do |format|
@@ -28,7 +31,6 @@ class RecommendsController < ApplicationController
       }
     end
   end
-
 
   # POST /recommends
   # POST /recommends.xml
