@@ -1,7 +1,0 @@
-
-page << "if ($('summary_info')!=null) {"
-page.insert_html(:bottom,"summary_pass",render(:partial=>"show_summary_pass",:object=>@pass))
-page << "}"
-page.insert_html(:bottom,"pass_infos",render(:partial=>"show_passes",:object=>@pass))
-page[dom_id(@pass,"container")].visual_effect(:highlight)
-page << "Form.reset('new_pass')"

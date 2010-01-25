@@ -1,4 +1,0 @@
-
-<% company = tag_topN_list %>
-<%= render :partial=>"companies/show_tag",:collection=> company.all_tags(:limit=>10) %>
-<%= link_to "…所有#{company.taggings.size}个",tags_company_path(company) if company.taggings.size>10 %>

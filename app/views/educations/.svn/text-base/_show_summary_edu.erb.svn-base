@@ -1,7 +1,0 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%d = show_summary_edu %>
-<%= "<li id='#{dom_id(d,"summary")}'>#{d.school_name}</li>" %>

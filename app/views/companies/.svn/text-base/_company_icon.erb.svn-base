@@ -1,5 +1,0 @@
-<div class="company_icon">
-  <div class="icon_inner">
-    <%  link_to company_path(company_icon) do%><%=  image_tag company_icon.icon_file_path(:thumb),:alt=>company_icon.name,:title=>company_icon.name  -%><%end%>
-  </div>
-</div>

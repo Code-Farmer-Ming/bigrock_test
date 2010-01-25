@@ -1,5 +1,0 @@
-# TODO Operate on the page object
-page[dom_id(@speciality)].show
-page[dom_id(@speciality,"edit_container")].hide
-page[dom_id(@speciality)].replace_html render(:partial=>"specialities/show_special_info",:object=>@speciality)
-page[dom_id(@speciality)].visual_effect(:highlight)

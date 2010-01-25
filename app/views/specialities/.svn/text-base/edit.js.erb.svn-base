@@ -1,6 +1,0 @@
-<% remote_form_for(@speciality,:url=>user_resume_speciality_path(params[:user_id],params[:resume_id],@speciality),:html=>{:method=>:put,:class=>"form_info"}) do |f| %>
-  <%= f.error_messages %>
-  <%= render :partial=>"specialities/form",:object=>f %>
-  <%= f.submit '保存' %> <%= link_to_function "取消","Element.show('#{dom_id(@speciality)}');Element.hide('#{dom_id(@speciality,"edit_container")}')"%>
-<% end %>
-

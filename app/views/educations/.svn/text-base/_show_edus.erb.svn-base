@@ -1,9 +1,0 @@
-<% edu = show_edus %>
-<div id="<%= dom_id(edu,"container")  %>" >
-  <div id="<%= dom_id(edu) %>"  class="section <%= current_user?(edu.resume.user) ? "edit_section" : "" %>">
-    <%= render :partial=>"educations/show_edu_info",:object=>edu%>
-  </div>
-  <div id="<%= dom_id(edu,"edit_container")  %>"  class="partial_container" style="display:none;">
-  </div>
-</div>
-<%= javascript_tag(" AddHover('#{dom_id(edu,"container")}')") %>

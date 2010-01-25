@@ -1,4 +1,0 @@
-<div class="company_rank">
-  <%= render :partial=>"companies/company_short_info",:object=>company_rank  %>
-</div>
-

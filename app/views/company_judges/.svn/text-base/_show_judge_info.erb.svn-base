@@ -1,4 +1,0 @@
-<%  judge  = show_judge_info %>
-<div class="judge_item" id="<%= dom_id(judge,"judge_item") %>">
-  <%= render :partial=>"company_judges/judge_info",:object=>judge %>
-</div>

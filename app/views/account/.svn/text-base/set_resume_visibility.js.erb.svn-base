@@ -1,5 +1,0 @@
-
-<%=  content_tag :span,"",:id=>"#{@visible_set_field}_button",
-  :class=>"visible_#{@visible_set_index}",
-  :title=>"可见权限设置 当前为 #{@visible_set}" %>
-<%= popmenu("#{@visible_set_field}_button","#{@visible_set_field}_set") %>

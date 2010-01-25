@@ -1,5 +1,0 @@
-# TODO Operate on the page object
-page["new_speciality_container"].show
-page["speciality_infos"].show
-page["new_speciality_container"].replace_html(render(:partial=>"specialities/new_form",:object=>@speciality))
-page << "Form.focusFirstElement(\"new_speciality\")"

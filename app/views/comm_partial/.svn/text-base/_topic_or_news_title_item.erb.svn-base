@@ -1,3 +1,0 @@
-<p>
-  <%= link_to "#{topic_or_news_title_item.title}",{:action=>:show,:id=>topic_or_news_title_item}  %>
-</p>

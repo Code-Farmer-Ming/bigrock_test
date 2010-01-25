@@ -1,8 +1,0 @@
-page<<"Lightbox.close()"
-page.replace_html("company_star_rating",render(:partial=>"companies/show_star_rating",:object=>@company_judge.company))
-page.replace_html(dom_id(@company_judge.company,"operation"),render(:partial=>"companies/show_operation",:object=>@company_judge.company))
-page.replace_html("tag_topN_list",render(:partial=>"companies/tag_topN_list",:object=>@company_judge.company))
-
-page.select( "##{dom_id(@company_judge,"judge_item")}" ).each  do |item|
-  page.replace_html "#{dom_id(@company_judge,"judge_item")}",  render(:partial=>"company_judges/judge_info",:object=>@company_judge)
-end

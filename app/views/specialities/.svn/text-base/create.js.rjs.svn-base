@@ -1,5 +1,0 @@
-# TODO Operate on the page object
-page["speciality_infos"].show
-page.insert_html(:bottom,"speciality_infos",render(:partial=>"show_specials",:object=>@speciality))
-page[dom_id(@speciality,"container")].visual_effect(:highlight)
-page << "Form.reset('new_speciality')"

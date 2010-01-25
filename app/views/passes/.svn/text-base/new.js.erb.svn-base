@@ -1,7 +1,0 @@
-<%  remote_form_for(Pass.new,:url=> user_resume_passes_path(params[:user_id],params[:resume_id]),:html=>{:method=>:post,:class=>"form_info",
-    :onsubmit=>"var request = #{remote_function(:url=>{:action =>"comany_exists?"},:with=> "'name=' + $('company_name').value",:method => :get,:type=>:synchronous)}
-    ;if (request.transport.responseText=='false') { Lightbox.show('#{new_company_path(:"company[name]"=>'')}'+ encodeURIComponent($('company_name').value)); return false;} "}) do |f| %>
-  <%= f.error_messages %>
-  <%= render :partial=>"passes/form" ,:object=>f,:locals=>{:pass=>Pass.new} %>
-  <%= f.submit '保存' %>     <%= link_to_function "取消" ,"Element.hide('new_pass_container');"%>
-<% end %>

@@ -1,6 +1,0 @@
-
-你好<%=@greeting.content%>
-
-我是<%=@greeting.sender.name%>，赶快来对我评价吧
-
-<%=@greeting.content%>

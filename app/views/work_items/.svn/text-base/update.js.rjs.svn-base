@@ -1,5 +1,0 @@
-# TODO Operate on the page object
-page[dom_id(@work_item)].show
-page[dom_id(@work_item,"edit_container")].hide
-page[dom_id(@work_item)].replace_html(render(:partial=>"show_work_item_info",:object=>@work_item))
-page[dom_id(@work_item)].visual_effect(:highlight)

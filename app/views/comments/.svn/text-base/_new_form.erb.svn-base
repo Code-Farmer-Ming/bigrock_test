@@ -1,5 +1,0 @@
-<%remote_form_for([new_form.owner,new_form,Comment.new] ) do |f| %>
-  <p><%= f.text_area :content,:id=>"response_comment" %></p>
-  <%= render :partial=>"comm_partial/alias_account_choice" if new_form.class.to_s=="Piecenews" || new_form.owner_type!="Group" %>
-  <p><%= f.submit "回复" %></p>
-<%end%>

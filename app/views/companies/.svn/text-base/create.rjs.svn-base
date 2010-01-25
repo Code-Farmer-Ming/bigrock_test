@@ -1,3 +1,0 @@
-# TODO Operate on the page object
-page<<"Lightbox.close()"
-page["pass_submit"].click()

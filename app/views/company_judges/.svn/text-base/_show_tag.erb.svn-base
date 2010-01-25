@@ -1,3 +1,0 @@
-<span class="tag">
-  <%= show_tag.name %>
-</span>

@@ -1,6 +1,0 @@
-<div id="<%= dom_id(company_info_and_operation,"friend") %>" class="user_info">
-  <%= render :partial=>"companies/company_short_info",:object=> company_info_and_operation %>
-  <p id="<%= dom_id(company_info_and_operation,"operation")%>">&nbsp;
-    <%= render :partial=>"companies/show_operation",:object=>company_info_and_operation %>
-  </p>
-</div>
