@@ -1096,6 +1096,41 @@ div.auto_complete ul strong.highlight {
     overflow:hidden;
 
 }
+.register_button{
+    background: url(/images/register.png);
+    display: block;
+    width: 292px;
+    height:57px;
+    margin: 0 auto;
+    float: right;
+}
+
+#welcome_div{
+    padding: 12px;
+    overflow: auto;
+ 
+}
+
+#user_count,#company_count,#group_count{
+    font-size: 140%;
+    font-weight:bolder;
+}
+#user_count{
+color: red;
+}
+#company_count{
+    color:green;
+}
+#group_count{
+     color:blue;
+}
+#hide_register_button{
+    width: 30px;
+    height:20px;
+    display:block;
+    margin: 0 auto;
+}
+
  
 
 /* #my_news{

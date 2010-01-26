@@ -1,11 +1,23 @@
 <div id="left_content">
   <%if !current_user%>
     <div>
+ 
+        <%= link_to '我来注册',{:action=>'new'},:id=>'link_register',:style=>'visibility: hidden' %>
 
-      欢迎你 到这个世界
-      <%= User.all.size %>人
-      <%= Company.all.size %>公司
-      <%= Group.all.size %>小组
+      <div id="welcome_div">
+        <h2>
+          欢迎你 到这个世界
+        </h2>
+        <%= link_to '',{:action=>'new'},:class=>'register_button' %>
+        <h3>
+          这里有<span id="company_count"> <%= Company.all.size %></span>个公司
+          <span id="group_count"> <%= Group.all.size %></span>个小组
+        </h3>
+        <h3>
+          <span id="user_count"><%= User.all.size %></span>人     陪你欢笑、陪你愁
+        </h3>
+      </div>
+      <%= link_to_function '关闭', "Effect.toggle('welcome_div','slide');Effect.toggle('link_register');",:id=>'hide_register_button' %>
     </div>
   <%end%>
   <% sub_block_div("新闻") do%>
