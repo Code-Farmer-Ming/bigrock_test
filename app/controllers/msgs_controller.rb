@@ -25,9 +25,11 @@ class MsgsController < ApplicationController
   def new
     @page_title = "写新消息"
     @msg= Msg.new
-    if params[:write_to]
-      write_to= User.find(params[:write_to])
-      @msg.sendees="#{ write_to.name}(#{write_to.id});"
+    if params[:write_to]  
+      write_to= User.find(:first,:conditions=>["id=? or salt=?",params[:write_to],params[:write_to]])
+      if write_to
+        @msg.sendees="#{ write_to.name}(#{write_to.salt});"
+      end
     end
   end
 

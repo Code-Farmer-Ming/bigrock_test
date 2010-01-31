@@ -28,7 +28,7 @@ class UserTest < ActiveSupport::TestCase
 
     users= User.find_all_by_email("email")
     assert users!=nil ,"users is nil"
-    assert users[0].password==User.encrypted_password("password"),"password is not match"
+    assert users[0].password==User.encrypted_password("password",users[0].salt),"password is not match"
 
   end
 

@@ -8,3 +8,7 @@
 *.tmp
 tmp
 *.svn*
+/log
+/temp
+*.log
+log

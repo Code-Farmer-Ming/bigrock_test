@@ -246,6 +246,9 @@ label{
     height:100%;
     width:29%;
     border-left:1px solid #EdEdEd;
+    min-height:500px;
+    height:auto !important;
+    height:500px;
 }
 
 div.auto_complete ul li {
@@ -1099,17 +1102,44 @@ div.auto_complete ul strong.highlight {
 .register_button{
     background: url(/images/register.png);
     display: block;
-    width: 292px;
+    width: 291px;
     height:57px;
     margin: 0 auto;
     float: right;
 }
-
+.register_button:hover {
+     background-image: url(/images/register.png)  ;
+     background-position:0 58px;
+    display: block;
+    width: 291px;
+    height:57px;
+}
 #welcome_div{
     padding: 12px;
     overflow: auto;
+    background-color: #E1E9F8;
  
 }
+.welcome_hide,.welcome_show{
+     background-image: url(/images/welcome_roll_button.png);
+     width: 24px;
+     height: 24px;
+    display: block;
+    margin: 0 auto;
+}
+ 
+.welcome_hide:hover{
+   background-position:0px 24px;
+   background-color: transparent;
+}
+.welcome_show{
+    background-position:24px 0px;
+}
+.welcome_show:hover{
+    background-position:24px 24px;
+       background-color: transparent;
+}
+ 
 
 #user_count,#company_count,#group_count{
     font-size: 140%;

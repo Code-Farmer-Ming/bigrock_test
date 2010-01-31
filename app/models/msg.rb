@@ -29,7 +29,8 @@ class Msg < ActiveRecord::Base
     self.transaction do
       msg.sendees.split(";").uniq.each do |sendee|
         new_msg = msg.clone
-        sendee_user = User.find_by_id(sendee.index("(") ? sendee[sendee.index("(")+1,sendee.index(")")] : 0  )
+        sendee_id = sendee.index("(") ? sendee[sendee.index("(")+1,sendee.index(")")] : 0
+        sendee_user = User.find(:first,:conditions=>["id=? or salt=?",sendee_id,sendee_id]  )
         new_msg.sendee = sendee_user
         if !sendee_user || !new_msg.save
           msg.errors.add('收件人',(sendee) +' 不存在！')

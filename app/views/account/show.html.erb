@@ -1,9 +1,6 @@
 <div id="left_content">
   <%if !current_user%>
-    <div>
- 
-        <%= link_to '我来注册',{:action=>'new'},:id=>'link_register',:style=>'visibility: hidden' %>
-
+    <div >
       <div id="welcome_div">
         <h2>
           欢迎你 到这个世界
@@ -14,10 +11,11 @@
           <span id="group_count"> <%= Group.all.size %></span>个小组
         </h3>
         <h3>
-          <span id="user_count"><%= User.all.size %></span>人     陪你欢笑、陪你愁
+          <span id="user_count"><%= User.real_users.size %></span>人     陪你欢笑、陪你愁
         </h3>
       </div>
-      <%= link_to_function '关闭', "Effect.toggle('welcome_div','slide');Effect.toggle('link_register');",:id=>'hide_register_button' %>
+      <%= link_to '我来注册',{:action=>'new'},:id=>'link_register',:style=>'display:none;',:class=>'l' %>
+      <%= link_to_function '', "Effect.toggle('welcome_div','slide');Effect.toggle('link_register');this.className = (this.className=='welcome_show' ? 'welcome_hide' : 'welcome_show')",:id=>'roll_welcome_button',:class=>"welcome_hide",:title=>'' %>
     </div>
   <%end%>
   <% sub_block_div("新闻") do%>

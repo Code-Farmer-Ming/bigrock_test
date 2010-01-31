@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100118070059) do
+ActiveRecord::Schema.define(:version => 20100130122503) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -430,6 +430,7 @@ ActiveRecord::Schema.define(:version => 20100118070059) do
     t.string   "nick_name",  :limit => 128
     t.integer  "parent_id",                 :default => 0,         :null => false
     t.string   "state",      :limit => 12,  :default => "working"
+    t.string   "salt",                                             :null => false
   end
 
   create_table "work_items", :force => true do |t|

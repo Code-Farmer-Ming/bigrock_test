@@ -258,26 +258,29 @@ class User< ActiveRecord::Base
   attr_accessor                 :text_password
   validates_confirmation_of   :text_password,  :message=>"两次密码不同"
   attr_accessor                 :text_password_confirmation
+
+  #实际用户
+  named_scope :real_users,:conditions=>["parent_id=0"]
+
   #== 类方法开始
   
   #返回匿名用户
   def self.anonymity
     User.new()
   end
-
-  #START:加密密码
-  def self.encrypted_password(password)
-    string_to_hash = password
-    Digest::SHA1.hexdigest(string_to_hash)
+  #是否匿名函数
+  def anonymity?
+    new_record?
   end
+
   
   #END:加密密码
   #判断用户名、密码是否正确.返回一个数组，正确时第一个元素返回值"成功"和用户对象，否则 “邮件不存在” “密码错误”和空
   def  self.login(email,password)
-    user= User.find_by_email(email,:conditions=>"parent_id=0")
+    user= User.real_users.find_by_email(email)
     if user==nil
       ["#{email}用户不存在" ,user=nil]
-    else if (user.password!=encrypted_password(password))
+    else if (user.password!=encrypted_password(password,user.salt))
         ["密码错误" ,user=nil]
       else
         [authenticate(user) ,user]
@@ -312,6 +315,7 @@ class User< ActiveRecord::Base
   def is_alias?
     parent_id!=0
   end
+  
   def my_language
     top_language = my_languages.current_language
     top_language ? top_language.content : ""
@@ -328,7 +332,8 @@ class User< ActiveRecord::Base
 
   def text_password=(value)
     @text_password=value
-    self.password = User.encrypted_password(value)
+    create_new_salt
+    self.password = User.encrypted_password(value,salt)
   end
 
   #仅仅在创建新对象的时候，才返回密码明文，其他返回空 ？有点问题
@@ -376,6 +381,22 @@ class User< ActiveRecord::Base
       temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag) if temp_tag
       user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
     end
-
   end
+
+
+  #START:create_new_salt
+  def create_new_salt
+    self.salt = self.object_id.to_s + rand.to_s
+  end
+  #END:create_new_salt
+
+  private
+
+
+  #  #START:encrypted_password
+  def self.encrypted_password(password, salt)
+    string_to_hash = password + "salt" + salt
+    Digest::SHA1.hexdigest(string_to_hash)
+  end
+  #  #END:encrypted_password
 end
