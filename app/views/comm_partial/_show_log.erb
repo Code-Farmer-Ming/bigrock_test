@@ -134,7 +134,7 @@ for log in show_log
       temp = "状态改为：#{content_tag(:span,"&nbsp;",:class=>"user_state_#{log.changes}")+ User::STATE_TYPES[log.changes.to_sym]}"
     end 
   end
-  log_content  += content_tag(:div, content_tag(:p,time_ago_in_words_plus(log.created_at),:class=>"r log_time")+content_tag(:p,temp ))
+  log_content  +=  content_tag(:div, content_tag(:span,time_ago_in_words_plus(log.created_at),:class=>"r")+temp ,:class=>'topic_item')
   #if  log_temp  !=  log &&  log_type !=  log.log_type
   #log_content  = content_tag(:p, temp)+log_content
   #end
@@ -143,7 +143,8 @@ for log in show_log
 end%>
 <% content_tag (:div) ,:class=>hide_left ? "user_log_just_text" :  "user_log"  do%>
   <%= content_tag :h5,date_ago_in_words(log_date)  if ( show_date.to_date != log_date.to_date)  %>
-  <%= content_tag :div,log_text,:class=>"l"%>
-  <%=  content_tag :div, log_content ,:class=>"user_log_content"%>
-  <%= content_tag :p,"",:class=>"c" %>
+ <%= content_tag :div,log_text,:class=>"l" %>
+  <%=  content_tag :div, log_content ,:class=>"user_log_content "%>
+ 
+  <%= content_tag :div,"",:class=>"c" %>
 <%end   if log_text!=""%>

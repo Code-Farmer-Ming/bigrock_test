@@ -31,12 +31,17 @@ class NewsController < ApplicationController
   def new
     @page_title = "发布新闻"
     @company = Company.find(params[:company_id])
-    if  !@company.higher_creditability_employees.exists?(current_user)
-      flash[:notice]="你的资料真实度需要4星，才可以发布新闻！"
-      redirect_to @company
+    if @company.all_employees.exists?(current_user)
+      if !@company.higher_creditability_employees.exists?(current_user)
+        flash[:notice]="资料真实度需要4星，才可以发布新闻！"
+        redirect_to @company
+      else
+        @piece_of_news = Piecenews.new
+      end
     else
-      @piece_of_news = Piecenews.new
-    end    
+      flash[:notice] = "必须是公司的员工才能发布新闻"
+      redirect_to @company
+    end
   end
 
   # GET /news/1/edit

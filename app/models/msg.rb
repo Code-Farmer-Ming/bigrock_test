@@ -24,20 +24,25 @@ class Msg < ActiveRecord::Base
   #接收人 用；分隔
   attr_accessor       :sendees
   validates_presence_of  :sendee,:sender
-  #接收人 用；分隔
+  #接收人 用 分隔
   def self.save_all(msg)
-    self.transaction do
-      msg.sendees.split(";").uniq.each do |sendee|
-        new_msg = msg.clone
-        sendee_id = sendee.index("(") ? sendee[sendee.index("(")+1,sendee.index(")")] : 0
-        sendee_user = User.find(:first,:conditions=>["id=? or salt=?",sendee_id,sendee_id]  )
-        new_msg.sendee = sendee_user
-        if !sendee_user || !new_msg.save
-          msg.errors.add('收件人',(sendee) +' 不存在！')
-          raise ActiveRecord::Rollback
-          return false
+    if not msg.sendees.blank?
+      self.transaction do
+        msg.sendees.split(" ").uniq.each do |sendee|
+          new_msg = msg.clone
+          sendee_id = sendee ? sendee : 0
+          sendee_user = User.find(:first,:conditions=>["id=? or salt=?",sendee_id,sendee_id])
+          new_msg.sendee = sendee_user
+          if !sendee_user || !new_msg.save
+            msg.errors.add('收件人',(sendee_user ? sendee_user.name : '') +' 不存在！')
+            raise ActiveRecord::Rollback
+            return false
+          end
         end
       end
+    else
+      msg.errors.add('收件人  不能为空！')
+      return false
     end
   end
 

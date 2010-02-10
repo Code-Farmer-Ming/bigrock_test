@@ -8,8 +8,8 @@
         <%= f.text_field  :nick_name,:class=>"required  text",:title=>"请输入姓名",:maxlength=>10 %>
       </p>
       <p>
-        <%= f.label :email,"邮件",:class=>"filed_lab" %>
-        <%= f.text_field :email,:class=>"text required validate-email validate-ajax-#{check_email_account_path}",:maxlength=>64 %>
+        <%= f.label :email,"邮箱",:class=>"filed_lab" %>
+        <%= f.text_field :email,:class=>"text required validate-email validate-ajax-#{check_email_account_path}",:title=>"请输入邮箱",:maxlength=>64 %>
       </p>
       <p>
         <%= f.label :text_password,"密码" ,:class=>"filed_lab"%>

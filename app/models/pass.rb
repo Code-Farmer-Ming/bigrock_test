@@ -72,6 +72,8 @@ class Pass < ActiveRecord::Base
   has_many :ability_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "ability_value>0"
   has_many :eq_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "eq_value>0"
   has_many :creditability_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "creditability_value>0"
+ #按日期排序
+  named_scope :date_desc_order,:order=>"iscurrent desc,begin_date  desc"
   #Pass删除时的 要清除该pass对应的 其他人和公司的评价
   def before_destroy
     clear_data()

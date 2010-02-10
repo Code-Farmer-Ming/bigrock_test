@@ -1,13 +1,6 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-
-function oloadwindow() {
-    Nifty('ul#nav a', "top");
-    Nifty('div.main_info');
-    Nifty('div.user_icon',"small");
-}
-document.observe('dom:loaded', oloadwindow, false);
 //标签输入控制组件
 //实现标签的输入时的控制动作和控制
 TagInput = Class.create();
@@ -158,6 +151,8 @@ function AddHover(element){
 
 }
 
-
-
-
+    Event.observe(window, "load", function() {
+    Nifty('#nav a', "top");
+    Nifty('div.main_info');
+    Nifty('div.user_icon',"small");
+});

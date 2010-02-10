@@ -17,6 +17,6 @@
 <%if !company.follow_me_users.exists?(current_user) %>
   <%= link_to_remote "关注",{:url=>attention_account_path(:target_id=>company,:target_type=>company.class)},:class=>"button" %>
 <%else%>
-  <%= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>company)},:class=>"button" %>
+  <%= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>company,:target_type=>company.class)},:class=>"button" %>
 <%end%>
 <p class="clear" />

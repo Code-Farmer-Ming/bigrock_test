@@ -18,7 +18,7 @@
         :class=>"del_img_button",:title=>"删除" %>
     </span>
   <%end%>
-  <%= pass.title%>
+  <%= h  pass.title%>
 </h3>
 <div>
   <%= link_to pass.company.name,company_path(pass.company) %>
@@ -27,6 +27,6 @@
 <p class="date_field">
   <%=  localize(pass.begin_date,:format=>:long_month) %>&nbsp;-&nbsp;<%=  pass.is_current ? "现在" :(localize(pass.end_date,:format=>:long_month) + " ("+distance_of_time_in_words(pass.begin_date,pass.end_date).to_s+")")%>
 </p>
-<p>s
-  <%= pass.work_description %>
+<p>
+  <%= h pass.work_description %>
 </p>

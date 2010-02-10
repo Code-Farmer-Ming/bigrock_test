@@ -73,7 +73,7 @@ class AccountController < ApplicationController
       if result_text=="成功"
         redirect_to reurl.blank? ?  account_path() : reurl
       else
-        flash[:error] = result_text
+        flash.now[:error] = result_text
         render :action=>"login"
       end
     else
@@ -207,9 +207,9 @@ class AccountController < ApplicationController
     new_state_content =User::STATE_TYPES[new_state.to_sym]
     LogItem.create(:owner=>current_user,:log_type=>"state_change",:changes=>new_state,:operation=>"create")
     render :update do |page|
-      page.select(dom_id(current_user,"#state")).each do |item|
+      page.select(".current_user_state").each do |item|
         page << "value.title = '#{new_state_content}';"
-        page << "value.setAttribute('class','user_state_at_icon user_state_#{new_state}');"
+        page << "value.className ='user_state_at_icon user_state_#{new_state} current_user_state';"
       end
     end
   end

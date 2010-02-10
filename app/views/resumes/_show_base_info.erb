@@ -1,9 +1,5 @@
 <%resume = show_base_info%>
-<%if resume.user.setting.can_visibility?(:img_visibility,current_user) -%>
-  <div id="thumb_img"><span title="<%= User::STATE_TYPES[resume.user.state.to_sym || :working] %>"
-                            id="<%= dom_id(current_user,"state") %>"
-                            class="user_state_<%= resume.user.state || "working" %> user_state_at_icon"></span><%= image_tag  resume.user.icon_file_path-%></div>
-  <%end-%>
+
   <% if current_user?(resume.user) %>
   <span class="operation_lab"> <%= link_to_remote "",
       {:update=>"edit_container_user_base_info" ,

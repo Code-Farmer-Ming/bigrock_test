@@ -4,7 +4,7 @@
 </p>
 <p>
   <%= f.label :name,"业绩名称",:class=>"filed_lab" %>
-  <%= f.text_field :name ,:class=>"required text"  %>
+  <%= f.text_field :name ,:class=>"required text",:id=> dom_id(f.object,"name") %>
 </p>
 <p>
   <%= f.label :begin_date,"日期",:class=>"filed_lab"%>

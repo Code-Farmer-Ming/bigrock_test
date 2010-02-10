@@ -10,6 +10,6 @@
     </span>
   </div>
   <%= "[置顶]"  if topic_item.top_level %>
-  <%=  link_to topic_item.title,[topic_item.owner,topic_item],:target=>"_blank" %> <span><%= "回复#{topic_item.comments_count}" if topic_item.comments_count>0 %></span>
+  <%=  link_to topic_item.title,[topic_item.owner,topic_item],:target=>"_blank",:title=>topic_item.title %> <span><%= "回复#{topic_item.comments_count}" if topic_item.comments_count>0 %></span>
  
 </div>

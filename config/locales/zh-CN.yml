@@ -145,8 +145,8 @@
     models:
        group: "小组"
        user: "用户信息"
-       user: "用户信息"
        speciality: "专长"
+       msg: "消息"
     attributes:
        group:
           name:  "名称"

@@ -8,9 +8,9 @@
     <%end -%>
     <div id="current_user_img" class="l">
       <% link_to   "#"  do  -%><div class="user_icon" ><div class="icon" ><span
-              id="<%= dom_id(current_user,"state") %>"
+              
               title="<%= User::STATE_TYPES[current_user.state || :working] %>"
-              class="user_state_<%= current_user.state || "working" %> user_state_at_icon"></span><%=  image_tag current_user.icon_file_path(:thumb),:id=>"user_img_button" -%></div></div><%end-%>
+              class="user_state_<%= current_user.state || "working" %> user_state_at_icon current_user_state"></span><%=  image_tag current_user.icon_file_path(:thumb),:id=>"user_img_button",:title=>current_user.name -%></div></div><%end-%>
     </div>
     <div  id="current_user_operation">
       <div id="my_language_area">
@@ -39,11 +39,11 @@
       <% form_tag(url_for(:controller=>:account,:action=>"login")) do -%>
 
         <p>
-          <%= text_field_tag  :email, params[:email]  ,:class=>"required validate-email text",:title=>"*邮箱",:maxlength=>64  -%>
-          <%= text_default_value 'email',"邮件"  %>
+          <%= text_field_tag  :email, params[:email]  ,:class=>"text",:title=>"*邮箱",:maxlength=>64  -%>
+          <%= text_default_value 'email',"邮箱"  %>
         </p>
         <p>
-          <%= password_field_tag :password, params[:password],:class=>"required  text",:title=>"*密码",:maxlength=>18  -%>
+          <%= password_field_tag :password, params[:password],:class=>"text",:title=>"*密码",:maxlength=>18  -%>
           <%= text_default_value 'password',"密码"  %>
         </p>
         <%= submit_tag "登录" ,:disable_with=>"登录…",:disabled=>false  -%><%= check_box_tag  "auto_login", "true",false -%><label for="auto_login"  ><span title="一个月内自动登录">自动登录</span></label>

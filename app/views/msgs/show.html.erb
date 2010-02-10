@@ -1,11 +1,9 @@
 
-
-
 <div id="left_content">
   <%= render :partial=>"msgs/notification_types" %>
   <div id="msg_show">
     <%=  render :partial=>"msgs/msg_info",:object=>@msg%>
-    <div id="msg_responses">
+    <div id="msg_responses"  class="comment_text">
       <div id="response_infos">
         <%=  render :partial=>"msgs/msg_response",:collection=>@msg.msg_responses%>
       </div>
@@ -16,7 +14,7 @@
   {s.disabled=true;}.bind(this))",
           :complete=>"$$('input[name=\\'commit\\']').each(function(s) \
   {s.disabled=false;}.bind(this))",
-          :html=>{:class=>"required-validate", :method=>:put}  do |form| %>
+          :html=>{:class=>"required-validate comment_item", :method=>:put}  do |form| %>
           <%= form.text_area :content ,:id=>"response_comment",:class=>"required default_value",:title=>"输入你想说的话吧！"%>
    
           <p>
@@ -26,7 +24,7 @@
         <%end%>
 
       <%else%>
-        对方已经删除，不能回复，<%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的信息吧",
+        对方已经删除，不能回复，<%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
           new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
       <%end%>
     </div>
@@ -35,12 +33,11 @@
 <div id="right_content">
   <%  sub_block_div() do %>
 
-    <%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的信息吧",
+    <%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
       new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
     <br/>
-    <%= link_to '删除这条消息', account_msg_path(@msg,:type=>params[:type]), :confirm => '你确定吗?', :method => :delete %>
+    <%= link_to '×删除这条消息', account_msg_path(@msg,:type=>params[:type]), :confirm => '你确定吗?', :method => :delete %>
 
   <%end%>
 
 </div>
-

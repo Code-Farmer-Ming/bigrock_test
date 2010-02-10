@@ -48,11 +48,8 @@
     <%= tab_button("好友"+(@user.friends_user.size>0 ? "(#{@user.friends_user.size})"  : ""),"my_friends_tab" ) %>
     <%= tab_button("在关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
   <%end%>
-
-
   <div>
     <div id="my_friends_tab"  class="panel" >
-
       <%= render :partial=>"users/user_short_info",:collection=> @user.friends_user.find(:all,:limit=>6) %>
       <p class="text_center c">
         <%=   link_to("查看全部…",friends_user_path(@user)) if @user.friends_user.size>0%>
@@ -92,12 +89,10 @@
       <ul class="float_ul">
         <%= render :partial=>"groups/float_icon_name",:collection=>@user.groups.find(:all,:limit=>4)%>
       </ul>
-
     <%end%>
   <%end%>
   <% sub_block_div("动态 ",
     (link_to("全部",logs_user_path(@user))  if @user.log_items.size>0)) do%>
     <%= render :partial=>"comm_partial/show_log",:object=>@user.log_items.all(:limit=>8),:locals=>{:hide_left=>true} %>
   <%end%>
-
 </div>

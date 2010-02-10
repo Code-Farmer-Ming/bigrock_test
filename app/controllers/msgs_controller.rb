@@ -25,11 +25,13 @@ class MsgsController < ApplicationController
   def new
     @page_title = "写新消息"
     @msg= Msg.new
+    @msg.sendees = ''
     if params[:write_to]  
-      write_to= User.find(:first,:conditions=>["id=? or salt=?",params[:write_to],params[:write_to]])
-      if write_to
-        @msg.sendees="#{ write_to.name}(#{write_to.salt});"
-      end
+      @write_to= User.find(:first,:conditions=>["id=? or salt=?",params[:write_to],params[:write_to]])
+    
+#      if @write_to
+#        @msg.sendees="#{@write_to.salt}"
+#      end
     end
   end
 
@@ -39,7 +41,7 @@ class MsgsController < ApplicationController
     respond_to do |format|
       if Msg.save_all(@msg)
         format.html {
-          flash[:success] = "发送成功！"
+          flash[:success] = "消息发送成功！"
           redirect_to  :action=>"new" }
       else
         format.html {
@@ -61,10 +63,12 @@ class MsgsController < ApplicationController
   #查找用户
   def auto_complete_for_msg_sendees
     #    if (params[:company][:name]!="")
+    ActiveRecord::Base.include_root_in_json = false
+
     @items =  current_user.friends_user.find(:all,
-      :conditions =>"(lower(resumes.user_name) like lower('%#{params[:msg][:sendees]}%') )and resumes.is_current=#{true}",
-      :joins =>"join resumes on resumes.user_id=users.id " )
-    render :inline => "<ul><%= render :partial=>'msgs/user_list',:collection=>@items, :locals =>{:phrase=> '#{params[:msg][:sendees]}'} %></ul>"
+      :conditions =>"(lower(resumes.user_name) like lower('%#{params[:search]}%') )and resumes.is_current=#{true}",
+      :joins =>"join resumes on resumes.user_id=users.id ",:limit=>params[:max],:select=>"users.id   value,resumes.user_name  text" )
+    render :json => @items.to_json()
   end
   
   #回复

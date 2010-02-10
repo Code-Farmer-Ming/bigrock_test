@@ -5,7 +5,7 @@
 <p>
   <%= f.label :school_name ,"学校名称",:class=>"filed_lab"%>
 
-  <%=  text_field_with_auto_complete :education, :school_name,{:class=>"required text"},:controller=>"Educations" %>
+  <%=  text_field_with_auto_complete :education, :school_name,{:class=>"required text",:id=>dom_id(f.object,"school_name")},:controller=>"Educations" %>
 </p>
 <p>
   <%= f.label :degree ,"学历",:class=>"filed_lab"%>

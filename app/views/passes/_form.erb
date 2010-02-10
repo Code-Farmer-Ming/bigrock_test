@@ -17,7 +17,7 @@
 
 <p>
   <%= f.label :department,"部门" ,:class=>"filed_lab"  %>
-  <%=  text_field_with_auto_complete :pass,:department,{:class=>"required text"},
+  <%=  text_field_with_auto_complete :pass,:department,{:class=>"required text",:id=>dom_id(f.object,'department')},
     {:with=>"'company[name]='+$F('company_name')",
     #:active=>{:department_drop_list=>:click},
     :controller=>"Passes"
@@ -27,7 +27,7 @@
 <p>
   <%= f.label :title,"职位" ,:class=>"filed_lab" %>
 
-  <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text"},{:with=>"'company[name]='+$F('company_name')",
+  <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text",:id=>dom_id(f.object,'title')},{:with=>"'company[name]='+$F('company_name')",
     #:active=>{:title_drop_list=>:click},
     :controller=>"Passes"
     #,:extension_html=>"<span id='title_drop_list' class='drop_button'>&nabla;</span>"

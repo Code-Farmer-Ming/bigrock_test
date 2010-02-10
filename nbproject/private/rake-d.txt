@@ -48,6 +48,7 @@ doc\:plugins\:annotate_models=Generate documentation for the annotate_models plu
 doc\:plugins\:attachment_fu=Generate documentation for the attachment_fu plugin
 doc\:plugins\:attachment_fu_hacks=Generate documentation for the attachment_fu_hacks plugin
 doc\:plugins\:auto_complete=Generate documentation for the auto_complete plugin
+doc\:plugins\:auto_complete_like_facebook=Generate documentation for the auto_complete_like_facebook plugin
 doc\:plugins\:dynamic_popmenu=Generate documentation for the dynamic_popmenu plugin
 doc\:plugins\:enumerations_mixin=Generate documentation for the enumerations_mixin plugin
 doc\:plugins\:has_many_polymorphs=Generate documentation for the has_many_polymorphs plugin

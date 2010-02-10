@@ -20,7 +20,7 @@ class User< ActiveRecord::Base
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
   #经历
-  has_many :passes,:foreign_key=>"user_id"
+  has_many :passes,:foreign_key=>"user_id" ,:order=>"iscurrent asc,begin_date  desc"
   #当前所在的公司 可能当前就职于多家公司 不考虑多个简历的问题
   has_many :current_companies ,:through=>:passes,:source=>:company
   #别人对自己的评价
@@ -390,13 +390,15 @@ class User< ActiveRecord::Base
   end
   #END:create_new_salt
 
+
+
   private
-
-
   #  #START:encrypted_password
   def self.encrypted_password(password, salt)
     string_to_hash = password + "salt" + salt
     Digest::SHA1.hexdigest(string_to_hash)
   end
   #  #END:encrypted_password
+
+
 end

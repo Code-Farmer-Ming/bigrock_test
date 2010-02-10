@@ -119,6 +119,11 @@ label{
 .section{
     padding:0px 20px;
 }
+
+#user_base_info{
+ overflow: hidden;
+ height: 21px;
+}
 #resume_content dl{
     margin:0 0 0.5em 0;
 }
@@ -138,7 +143,7 @@ label{
     background: transparent url(/images/loading.gif) no-repeat center center;
 }
 .form_info h1{
-    font-family: ‘Arial Narrow’, sans-serif,Helvetica,Arial,sans-serif;
+    font-family: 'Arial Narrow',sans-serif,Helvetica,Arial,sans-serif;
     margin-bottom:20px;
 }
 .form_info .filed_lab{
@@ -207,9 +212,10 @@ label{
 }
 
 #group_content , #resume_content{
-    min-height:90px;
+    min-height:125px;
     height:auto !important; 
-    height:90px;
+    height:125px;
+
 }
 
 .pass_item{
@@ -361,19 +367,17 @@ ul#nav li{float:left;
           text-align: center
 }
 ul#nav a{
-         float:left;
-         width: 7em;
-         padding: 8px 0;
-         text-decoration:none;
-         color: #222
+    float:left;
+    width: 7em;
+    padding: 8px 0;
+    text-decoration:none;
+    color: #222
 }
 ul#nav .activelink a,ul#nav a:hover{
     color: #000;
     font-weight:bold;
-    background:white url(/images/input-text.png) repeat-x scroll left top;
+    background:#fff url(/images/input-text.png) repeat-x scroll left top;
 }
- 
- 
 
 #thumb_img{
     float:right;
@@ -381,7 +385,7 @@ ul#nav .activelink a,ul#nav a:hover{
     padding:1px;
     border:silver 1px solid;
     text-align:center;
-    background-color:white;
+    background-color:#fff;
     position:relative;
 }
 
@@ -411,15 +415,13 @@ ul#nav .activelink a,ul#nav a:hover{
     padding:4px;
 }
 .judge_infos{
-    background-color:white;
+    background-color:#fff;
     padding:0px 4px;
 }
-
 
 /*thumb img*/
 .upload_file_button{
     text-align:center;
-
     background-color: #ccccff;
 }
 
@@ -501,6 +503,9 @@ ul#nav .activelink a,ul#nav a:hover{
     margin:0px;
     line-height:1;
     margin-top:2px;
+    overflow:hidden;
+    white-space:normal;
+    word-break:break-all;
 }
 
 .user_icon,.user_icon_top{
@@ -616,20 +621,13 @@ ul#nav .activelink a,ul#nav a:hover{
     margin-bottom:8px;
 }
 .msg_text{
-    float:left;
-    margin-left:8px;
-    width:75%;
-
+    margin-left:160px;
 }
 .msg_text .msg_title{
     font-weight:bolder;
     padding:2px 10px;
     background-color:#E1E9F8;
     font-size:18px;
-}
-
-#msg_responses{
-    margin-left:75px;
 }
 
 #response_comment{
@@ -842,22 +840,6 @@ div.auto_complete ul strong.highlight {
     font-weight:bold;
 }
 /*用户日志信息*/
-.user_log .user_log_content{
-    margin-left:70px;
-}
-.user_log_content p{
-    border-bottom: 1px silver dashed;
-}
-.user_log_content .log_time{
-    color:gray;
-}
-.user_log_content div{
-    margin-left: 8px;
-}
-.user_log_just_text,.user_log{
-    margin-bottom:8px;
-
-}
 .user_log h5,.user_log_just_text h5{
     font-weight:bolder;
     margin:6px auto;
@@ -894,7 +876,7 @@ div.auto_complete ul strong.highlight {
 /*----------------*/
 .main_content{
     border-bottom:1px silver solid;
-    margin-bottom:8px;
+    margin-bottom:6px;
     min-height:100px;
     height: auto!important;
     height:100px;
@@ -913,7 +895,7 @@ div.auto_complete ul strong.highlight {
     /*   margin-bottom:8px;*/
     border-bottom:1px silver dotted ;
 }
-.text_content,.short_info,.judge_content,.comment_text{
+.user_log .user_log_content,.text_content,.short_info,.judge_content,.comment_text{
     margin-left:80px;
 }
 .group_short_content{
@@ -943,7 +925,7 @@ div.auto_complete ul strong.highlight {
     padding:4px 5px 4px 5px;
     overflow:auto;
 
-    border-top:#F0F0F0 solid 1px ;
+    border-bottom:#F0F0F0 solid 1px ;
 }
 .topic_item a{
     text-decoration:none;
@@ -960,7 +942,7 @@ div.auto_complete ul strong.highlight {
 .color_tr{
     background-color: #F5F5F5;
 }
-
+/*星星*/
 .big_star_0,.big_star_1,.big_star_2,.big_star_3,.big_star_4,.big_star_5{
     width:91px;
     background-image:url(/images/big_star.png);
@@ -1020,6 +1002,7 @@ div.auto_complete ul strong.highlight {
 .small_star_5{
     background-position: 0px -60px;
 }
+/*星星结束*/
 .process_bar{
     display:inline-block;
     background-color:gray;
@@ -1063,7 +1046,7 @@ div.auto_complete ul strong.highlight {
 .text_center{
     text-align:center;
 }
-
+/*用户状态*/
 .user_state_working,.user_state_freedom,.user_state_student{
     display:inline-block;
     font-size:12px;
@@ -1072,6 +1055,7 @@ div.auto_complete ul strong.highlight {
     height:10px;
     line-height:10px;
     background-repeat:no-repeat;
+    margin:0 2px 0 0;
 }
 .user_state_working{
     background-image:url(/images/im_working.png);
@@ -1088,6 +1072,8 @@ div.auto_complete ul strong.highlight {
     position:absolute;
     overflow:hidden;
 }
+/*用户状态 结束*/
+
 
 #ajax_login_form{
     width: 390px;
@@ -1108,8 +1094,8 @@ div.auto_complete ul strong.highlight {
     float: right;
 }
 .register_button:hover {
-     background-image: url(/images/register.png)  ;
-     background-position:0 58px;
+    background-image: url(/images/register.png)  ;
+    background-position:0 58px;
     display: block;
     width: 291px;
     height:57px;
@@ -1118,41 +1104,40 @@ div.auto_complete ul strong.highlight {
     padding: 12px;
     overflow: auto;
     background-color: #E1E9F8;
- 
+
 }
 .welcome_hide,.welcome_show{
-     background-image: url(/images/welcome_roll_button.png);
-     width: 24px;
-     height: 24px;
+    background-image: url(/images/welcome_roll_button.png);
+    width: 24px;
+    height: 24px;
     display: block;
     margin: 0 auto;
 }
- 
+
 .welcome_hide:hover{
-   background-position:0px 24px;
-   background-color: transparent;
+    background-position:0px 24px;
+    background-color: transparent;
 }
 .welcome_show{
     background-position:24px 0px;
 }
 .welcome_show:hover{
     background-position:24px 24px;
-       background-color: transparent;
+    background-color: transparent;
 }
- 
 
 #user_count,#company_count,#group_count{
     font-size: 140%;
     font-weight:bolder;
 }
 #user_count{
-color: red;
+    color: red;
 }
 #company_count{
     color:green;
 }
 #group_count{
-     color:blue;
+    color:blue;
 }
 #hide_register_button{
     width: 30px;
@@ -1160,10 +1145,7 @@ color: red;
     display:block;
     margin: 0 auto;
 }
-
- 
-
-/* #my_news{
-   height:200px;
-   overflow:auto;
-}*/
+.msg_title_input{
+    width: 390px;
+    display: inline-block;
+}

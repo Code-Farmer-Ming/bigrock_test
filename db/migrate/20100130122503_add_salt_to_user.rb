@@ -3,7 +3,7 @@ class AddSaltToUser < ActiveRecord::Migration
 remove_column :users, :salt
     add_column :users, :salt, :string,:limit=>255,:null=>false
     User.all.each { |item| item.create_new_salt
-      item.password += 'salt'+item.salt
+      item.text_password ='tt'
       item.save  }
   end
 

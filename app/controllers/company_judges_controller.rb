@@ -12,11 +12,19 @@ class CompanyJudgesController < ApplicationController
   end
   #这个 new_form 显示 form 用 参数传递给 new
   def new_form
+    company = Company.find(params[:company_id])
+  
     respond_to do |format|
       format.html { redirect_to :action=>:new,:company_id=>params[:company_id] }
       format.js  {
+
         render :update do |page|
+          if    company.all_employees.exists?(current_user)
           page << "Lightbox.show('/company_judges/new?company_id=#{params[:company_id]}')"
+          else
+                    flash.now[:notice] = "必须是公司的员工才能评价"
+             page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+          end
         end
       }
     end
