@@ -51,16 +51,3 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
             this.__handleFormSubmission(e);
     }
 });
-Element.prototype.triggerEvent = function(eventName)
-{
-    if (document.createEvent)
-    {
-        var evt = document.createEvent('HTMLEvents');
-        evt.initEvent(eventName, true, true);
-
-        return this.dispatchEvent(evt);
-    }
-
-    if (this.fireEvent)
-        return this.fireEvent('on' + eventName);
-}

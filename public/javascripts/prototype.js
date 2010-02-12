@@ -1653,7 +1653,7 @@ Ajax.Updater = Class.create(Ajax.Request, {
     if (receiver = $(receiver)) {
       if (options.insertion) {
         if (Object.isString(options.insertion)) {
-          var insertion = { };nsertion[options.insertion] = responseText;
+          var insertion = { };insertion[options.insertion] = responseText;
           receiver.insert(insertion);
         }
         else options.insertion(receiver, responseText);

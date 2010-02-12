@@ -1,11 +1,8 @@
 
 <div class="company_short_info" >
   <div class="l">
-
     <%= render :partial=>"companies/company_icon",:object=>company_short_info %>
-
   </div>
-
   <div class="short_info">
     <div class="company_name">
       <%= link_to  company_short_info.name,
@@ -20,10 +17,7 @@
       <%= small_star(company_short_info.judges.average("condition_value")|| 0  || 0) %>
     </div>
     <p>
-      <%= company_short_info.short_title %>
+      <%= company_short_title(company_short_info) %>
     </p>
-
   </div>
-
 </div>
-

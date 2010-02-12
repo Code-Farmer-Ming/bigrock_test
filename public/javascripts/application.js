@@ -1,6 +1,19 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
+function triggerEvent(trigger,eventName)
+{
+    trigger =$(trigger);
+    if (document.createEvent)
+    {
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent(eventName, true, true);
 
+        return trigger.dispatchEvent(evt);
+    }
+
+    if (this.fireEvent)
+        return trigger.fireEvent('on' + eventName);
+}
 //标签输入控制组件
 //实现标签的输入时的控制动作和控制
 TagInput = Class.create();
@@ -76,9 +89,8 @@ DropList.prototype= {
         this.src_select = $(src_select);
         this.option_collection = array_value
         this.target_select = $(target_select);
-        Event.observe(this.src_select, 'change',this.onchange.bindAsEventListener(this));
-        
-        this.src_select.triggerEvent('change');
+        Event.observe(this.src_select, 'change',this.onchange.bindAsEventListener(this));        
+//        triggerEvent(this.src_select,'change');
     },
     onchange : function(event){
         this.target_select.options.length = 0;
@@ -86,7 +98,7 @@ DropList.prototype= {
             this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
                 this.option_collection[this.src_select.value][i][0]);
         }
-        this.target_select.triggerEvent('change');
+        triggerEvent(this.src_select,'change');
     }    
 }
 
@@ -96,7 +108,6 @@ function PerpareNew(element)
     if (!el) return;
     el.show();
     el.scrollIntoView();
-
     el.select("Form").each(function(el){
         el.reset();
         el.focusFirstElement();
@@ -151,7 +162,7 @@ function AddHover(element){
 
 }
 
-    Event.observe(window, "load", function() {
+Event.observe(window, "load", function() {
     Nifty('#nav a', "top");
     Nifty('div.main_info');
     Nifty('div.user_icon',"small");

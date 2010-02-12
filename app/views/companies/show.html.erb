@@ -7,17 +7,17 @@
     <div id="thumb_img">
       <%= image_tag @company.icon_file_path %></div>
     <h4>
-      <%=h @company.short_title  %>
+      <%=  company_short_title @company  %>
     </h4>
     <div id="company_star_rating" >
       <%= render :partial=>"companies/show_star_rating" ,:object=>@company %>
     </div>
-    <div>
-      <h3>公司信息</h3>
-      <p>
-        <%=h(@company.description) %>
-      </p>
-    </div>
+    <p>
+    <h3>公司信息</h3>
+
+    <%=h(@company.description) %>
+    </p>
+
     <%if @company.phone && @company.phone.any?%>
       <p>
         <b>电话:</b>

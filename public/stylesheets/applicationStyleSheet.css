@@ -525,9 +525,10 @@ ul#nav .activelink a,ul#nav a:hover{
 
 .user_info{
     margin:6px;
-    width:300px;
+    width:290px;
     border: 1px solid silver;
     padding:0.5em;
+    overflow: auto;
 }
 
 /*小组 图标*/
@@ -798,7 +799,7 @@ ul#nav .activelink a,ul#nav a:hover{
 #company_tags{
     width:440px;
 }
-.tag,.disable_tag{
+.industry_tag,.tag,.disable_tag{
     padding:2px 4px;
     margin:1px;
     display:inline-block;
@@ -1046,6 +1047,9 @@ div.auto_complete ul strong.highlight {
 .text_center{
     text-align:center;
 }
+.set_center{
+    margin:0 auto;
+}
 /*用户状态*/
 .user_state_working,.user_state_freedom,.user_state_student{
     display:inline-block;
@@ -1148,4 +1152,10 @@ div.auto_complete ul strong.highlight {
 .msg_title_input{
     width: 390px;
     display: inline-block;
+}
+#search_result{
+    width: 640px;
+}
+#search_condition{
+    border-bottom: 1px solid  #EdEdEd;
 }

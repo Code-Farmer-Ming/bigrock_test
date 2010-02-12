@@ -20,10 +20,10 @@
     </div>
   </div>
 
-  <% sub_block_div("公司分类") do%>
+  <% sub_block_div("公司行业") do%>
     <div id="industry_link_list">
       <% Industry.all.each do |item| %>
-        <%=  link_to item.name,"#",:class=>"tag" %>
+        <%=  link_to item.name,"#",:class=>"industry_tag" %>
       <%end%>
     </div>
   <%end%>

@@ -37,7 +37,7 @@ class MsgTest < ActiveSupport::TestCase
   test "send_to_multi_msg_ok" do
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
     msg.sender_id = 2
-    msg.sendees="zhang(1);san(2)"
+    msg.sendees="1 2"
     assert Msg.save_all(msg),"同时发送多个信息失败"
 
   end

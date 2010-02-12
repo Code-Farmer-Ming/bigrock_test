@@ -9,18 +9,15 @@
   <%= rating_field :company_judge,:condition_value  %>
   <span id="advice-company_judge_condition_value" class="validation-advice"></span>
 </p>
-
 <p>
   <%= form.label :visiabled1,"是否匿名",:class=>"filed_lab" %>
 
   <%= form.check_box  :anonymous %> <%= form.label :anonymous,"匿名 (不显示评论人的信息)" %>
 </p>
-
 <p>
   <%=form.label :description,"评论",:class=>"filed_lab" %>
   <%= form.text_area :description ,:rows=>4 ,:class=>"tag_input"%>
 </p>
-
 <div>
   <div class="l">
   <%= label_tag "company_tags","通常描述" ,:class=>"filed_lab" %></div>

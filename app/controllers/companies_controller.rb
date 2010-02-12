@@ -1,6 +1,6 @@
 #TODO 增加一个根据 公司 的行业 、 所在地 、规模 、类型查找的页面
 class CompaniesController < ApplicationController
-  before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags]
+  before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags,:search]
 
   # GET /companies
   # GET /companies.xml    
@@ -67,7 +67,7 @@ class CompaniesController < ApplicationController
         format.js  {}
       else
         format.html {
-         flash[:notice] = @company.errors.full_messages.to_s
+          flash[:notice] = @company.errors.full_messages.to_s
           render :action => "new" }
         format.xml  { render :xml => @company.errors, :status => :unprocessable_entity }
         format.js  {}
@@ -144,4 +144,16 @@ class CompaniesController < ApplicationController
   def news
     @news = Piecenews.paginate :page => params[:page],:order=>"created_at desc"
   end
+  
+  def search()
+
+    @companies = Company.paginate :all,:conditions=>["(name like ? or ?='') and (industry_id=? or ?=0) and (company_type_id=? or ?=0) and (company_size_id=? or ?=0) and (state_id=? or ?=0) and (city_id=? or ?=0) ",
+      '%'+params[:search].to_s+'%', params[:search],params[:industry_id],params[:industry_id] || 0,
+      params[:company_type_id],params[:company_type_id] || 0,
+      params[:company_size_id] ,params[:company_size_id] || 0,
+      params[:state_id] ,params[:state_id] || 0,
+      params[:city_id],params[:city_id] || 0
+    ], :page => params[:page]
+    
+end
 end

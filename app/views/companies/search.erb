@@ -1,0 +1,39 @@
+<div id="left_content">
+  <h1>搜索</h1>
+  <div id="search_condition"  >
+    <% form_for "search",:url=>{:action=>'search'},:html=>{:method=>"get",:class=>'form_info inline'} do |f| %>
+      <div>
+        <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
+        <%#= text_default_value 'search',"输入公司名称" %>
+        <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
+      </div>
+      <p>
+        <%= label_tag :industry ,"所属行业",:class=>"filed_lab" %>
+        <%= select_tag  :industry_id,
+          options_for_select([['所有行业',0]]+Industry.all.collect {|p| [ p.name, p.id ] },:selected=>params[:industry_id].to_i),
+          {}  %>
+      </p>
+      <p>
+        <%= label_tag :company_type, "公司类型",:class=>"filed_lab" %>
+        <%= select_tag :company_type_id, options_for_select([['所有类型',0]]+CompanyType.all.collect{|p| [ p.name, p.id ] },params[:company_type_id].to_i)  %>
+      </p>
+      <p>
+        <%= label_tag  :size,"公司规模",:class=>"filed_lab" %>
+        <%= select_tag :company_size_id,options_for_select([['所有规模',0]]+CompanySize.all.collect {|p| [ p.name, p.id ] },params[:company_size_id].to_i) %>
+      </p>
+      <p>
+        <%=label_tag  :address ,"城市",:class=>"filed_lab" %>
+        <%= select_tag :state_id,options_for_select([['所有省',0]]+State.all.collect {|p| [p.name,p.id]},params[:state_id].to_i) %>
+        <%= select_tag :city_id,options_for_select([['所有市',0]]+City.find_all_by_state_id(params[:state_id]).collect{|q| [q.name,q.id] } ,params[:city_id].to_i) %>
+        <%=  drop_list("state_id","city_id",[[0,[[0,'所有市']]]]+State.all.collect {|p| [ p.id,[[0,'所有市']]+p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+      </p>
+    <%end%>
+  </div>
+  <div id="search_result" class="set_center">
+    <%= render :partial=>"companies/company_info_and_operation",:collection=>@companies %>
+    <%= will_paginate  @companies %>
+  </div>
+</div>
+<div id="right_content">
+
+</div>

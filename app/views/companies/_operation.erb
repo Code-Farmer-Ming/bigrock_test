@@ -1,22 +1,20 @@
-<%company = operation%>
+<%company = operation-%>
 <%# if company.all_employees.exists?(current_user) %>
-<% if my_judge= company.judges.find_by_user_id(current_user) %>
+<% if my_judge= company.judges.find_by_user_id(current_user) -%>
   <%= link_to_remote_lightbox("修改评价",
-    {:url=>edit_company_company_judge_path(company,my_judge)},:class=>"button" ) %>
-  <%=  link_to_remote "撤消评价",{:url=>company_company_judge_path(company,my_judge), :confirm => '你确定吗?', :method => :delete},:class=>"button"%>
-
-<%else%>
-
+    {:url=>edit_company_company_judge_path(company,my_judge)},:class=>"button" ) -%>
+  <%=  link_to_remote "撤消评价",{:url=>company_company_judge_path(company,my_judge), :confirm => '你确定吗?', :method => :delete},:class=>"button"-%>
+<%else-%>
   <%= link_to_remote("评价",
-    {:url=> {:controller=>"company_judges",:action=>:new_form,:company_id=>company}},:class=>"button") %>
-<%end%>
-<%= link_to  '编辑公司', edit_company_path(company),:class=>"button" %>
-<%= link_to  '发布新闻', new_company_piecenews_path(company),:class=>"button"%>
+    {:url=> {:controller=>"company_judges",:action=>:new_form,:company_id=>company}},:class=>"button") -%>
+<%end-%>
+<%= link_to  '编辑公司', edit_company_path(company),:class=>"button" -%>
+<%= link_to  '发布新闻', new_company_piecenews_path(company),:class=>"button"-%>
 <%#end%>
 
-<%if !company.follow_me_users.exists?(current_user) %>
-  <%= link_to_remote "关注",{:url=>attention_account_path(:target_id=>company,:target_type=>company.class)},:class=>"button" %>
-<%else%>
-  <%= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>company,:target_type=>company.class)},:class=>"button" %>
-<%end%>
-<p class="clear" />
+<%if !company.follow_me_users.exists?(current_user) -%>
+  <%= link_to_remote "关注",{:url=>attention_account_path(:target_id=>company,:target_type=>company.class)},:class=>"button" -%>
+<%else-%>
+  <%= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>company,:target_type=>company.class)},:class=>"button" -%>
+<%end-%>
+<p class="c" />

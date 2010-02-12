@@ -28,18 +28,18 @@ class MsgsControllerTest < ActionController::TestCase
     user_two = users(:two)
     get :new,:write_to=>user_two.to_param
     assert_response :success
-    assert_equal "#{ user_two.name}(#{user_two.id});", assigns(:msg).sendees
+    assert_equal "#{user_two.id}", assigns(:write_to).id.to_s
   end
   
   test  "create" do
     assert_difference("Msg.count",2) do
-      post :create, :msg=>{:title => "xc",:content=>"xccc",:sendees=>"sdd(2);s(3);"},:alias=>1
+      post :create, :msg=>{:title => "xc",:content=>"xccc",:sendees=>"2 3"},:alias=>1
     end
   end
 
   test "create with alias" do
     assert_difference("Msg.count",2) do
-      post :create, :msg=>{:title => "xc",:content=>"xccc",:sendees=>"sdd(2);s(3);"},:alias=>16
+      post :create, :msg=>{:title => "xc",:content=>"xccc",:sendees=>"2 3"},:alias=>16
     end
   end
 end

@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
     #    :destroy_version=>:delete,
     :tags=>:get,
     :logs=>:get },
-    :collection=>{:all_tags=>:get,:show_by_tag=>:get,:news=>:get} do |companies|
+    :collection=>{:all_tags=>:get,:show_by_tag=>:get,:news=>:get,:search=>:get} do |companies|
     companies.resources :company_judges
     companies.resources :topics do |topics|
       topics.resources :comments

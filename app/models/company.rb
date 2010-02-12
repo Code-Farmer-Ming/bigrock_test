@@ -133,12 +133,7 @@ class Company < ActiveRecord::Base
     end
     arr
   end
-
-    
-  #公司的 简短内容
-  def short_title
-    "#{self.industry.name if self.industry } #{self.company_type.name if self.company_type} #{ self.company_size.name if self.company_size }"
-  end
+ 
 
 
   #图标 文件路径

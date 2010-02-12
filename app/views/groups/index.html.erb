@@ -1,7 +1,7 @@
 <div id="left_content">
 
   <% sub_block_div("最新话题") do %>
-    <%= render :partial=>"groups/group_topic_item",:collection=>Topic.group_topics.all(:limit=>40,:order=>"created_at desc") %>
+    <%= render :partial=>"topics/topic_item",:collection=>Topic.group_topics.all(:limit=>40,:order=>"created_at desc"),:locals=>{:show_group=>true}%>
   <%end%>
   <% sub_block_div("小组标签",link_to("全部",:action=>:all_tags)) do %>
     <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>

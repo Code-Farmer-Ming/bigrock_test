@@ -33,13 +33,13 @@
       <%= tab_button("我创建的话题","my_topics") if @user%>
     <%end%>
     <%tab_panel("new_topics") do%>
-      <%= render :partial=>"groups/group_topic_item", :collection=>@topics %>
+      <%= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
     <%end%>
     <%tab_panel("join_topics") do%>
-      <%= render :partial=>"groups/group_topic_item",:collection=> @join_topics  %>
+      <%= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
     <%end%>
     <%tab_panel("my_topics") do%>
-      <%= render :partial=>"groups/group_topic_item",:collection=> @my_topics %>
+      <%= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
     <%end%>
   <%end%>
 </div>
