@@ -1,8 +1,19 @@
-<H1><%= @company.name  %>  员工</H1>
+<%#*公司的员工%>
 <div id="left_content" >
-  <%= render :partial=>"users/user_short_info",:collection=>  @employees %>
+  <h1><%= @company.name  %></h1>
+  <%= render :partial=>"companies/employee_type"  %>
+  <% @employees.each() do |employee| %>
+    <div class="<%= cycle("", "gray_color_background") { |unusedlocal|  } %>">
+      <div class="r">
+          <%= render :partial=>"users/operation",:object=>  employee %>
+      </div>
+      <%= render :partial=>"users/user_short_info",:object=>  employee,:locals=>{:pass=>params[:type]=='pass' ? employee.passes.find_by_company_id(params[:id]) : nil   } %>    
+    </div>
+  <%end%>
   <%= will_paginate  @employees  %>
 </div>
 <div id="right_content">
-  <%= link_to "返回 公司首页",company_path(@company) %>
+  <% sub_block_div() do %>
+    <%= link_to "返回[#{@company.name}]首页",company_path(@company) %>
+  <%end%>
 </div>

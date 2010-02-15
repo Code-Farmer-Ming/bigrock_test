@@ -1,8 +1,11 @@
 <h1><%= @company.name %> 评价信息</h1>
 <div id="left_content">
+  <div id="search_condition" class="form_info" >
+    <%= render :partial=>"companies/show_star_rating" ,:object=>@company %>
+  </div>
   <%= render :partial=>"company_judges/show_judge_info",:collection=> @company_jugdes %>
   <%= will_paginate  @company_jugdes %>
 </div>
 <div id="right_content">
-  <%= link_to "返回 公司首页",company_path(@company) %>
+  <%= link_to "返回 #{@company.name} 公司首页",company_path(@company) %>
 </div>

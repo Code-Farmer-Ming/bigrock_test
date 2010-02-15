@@ -20,7 +20,7 @@ require 'mime/types'
 class UserIcon < Attachment
   has_attachment :content_type => :image,
     :min_size => 0.kilobytes,
-    :max_size => 10.megabytes,
+    :max_size => 5.megabytes,
     :thumbnails   => { :thumb => '60x60>' },
     :resize_to => '100x100>' ,
     :path_prefix => 'public/images/upload/user_img'

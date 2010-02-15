@@ -1,4 +1,3 @@
-
 <%  remote_form_for(@company,:url => companies_path() ,:html => { :multipart => true, :class=>"form_info"}) do |f| %>
   <h1>创建新公司</h1>
   <%= render :partial=>"companies/form",:object=>f %>

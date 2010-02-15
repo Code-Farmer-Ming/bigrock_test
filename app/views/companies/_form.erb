@@ -4,7 +4,7 @@
 <div id="<%= dom_id(f.object,"error_msg") %>">
   <%= f.error_messages %>
 </div>
-<div id="thumb_img" class="company_img">
+<div class="thumb_img">
   <%= img_upload_field(attachments_path(), @company.icon_file_path,nil,
     {:button_text=>"上传文件",:post_params=>{:type=>CompanyIcon.to_s},:button_width=>60,:button_height=>18
     }) %>

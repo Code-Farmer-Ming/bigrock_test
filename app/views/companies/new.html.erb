@@ -7,4 +7,8 @@
     </p>
   <% end %>
 </div>
-<div id="right_content"></div>
+<div id="right_content">
+  <% sub_block_div() do%>
+    <%= link_to "<< 公司首页",companies_path() %>
+  <%end%>
+</div>

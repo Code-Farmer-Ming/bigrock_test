@@ -8,11 +8,8 @@
     <p>
       <%= link_to "返回所有公司首页" ,companies_path() %>
     </p>
-    <p>
-      <%= link_to "查看所有标签",all_tags_companies_path() %>
-    </p>
   <%end%>
-  <%sub_block_div("相关的标签") do%>
+  <%sub_block_div("相关的标签",link_to("查看所有标签",all_tags_companies_path())) do%>
     <%= render :partial=>"comm_partial/show_tag" ,:collection=> @similar_taggings  %>
   <%end%>
 </div>

@@ -20,7 +20,7 @@ class User< ActiveRecord::Base
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
   #经历
-  has_many :passes,:foreign_key=>"user_id" ,:order=>"is_current asc,begin_date  desc"
+  has_many :passes,:foreign_key=>"user_id" ,:order=>"begin_date desc,is_current desc"
   #当前所在的公司 可能当前就职于多家公司 不考虑多个简历的问题
   has_many :current_companies ,:through=>:passes,:source=>:company
   #别人对自己的评价

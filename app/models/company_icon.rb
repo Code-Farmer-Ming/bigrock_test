@@ -21,7 +21,7 @@ require 'mime/types'
 class CompanyIcon < Attachment
   has_attachment :content_type => :image,
     :min_size => 0.kilobytes,
-    :max_size => 10.megabytes,
+    :max_size => 5.megabytes,
     :resize_to => '100x100>' ,#120*90
     :thumbnails   => { :thumb => '68x68>' },
     :path_prefix => 'public/images/upload/company_img'

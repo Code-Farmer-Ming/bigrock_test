@@ -1,13 +1,13 @@
-<H1><%=   "#{@company.name}的动态记录"  %></H1>
+
 <div id="left_content">
-<%= render :partial=>"companies/log_type" %>
-<%= render :partial=>"comm_partial/show_log",:object=>@log_items,:locals=>{:hide_left=>true} %>
-<%= will_paginate @log_items%>
+  <h1><%=   "#{@company.name}的动态记录"  %></h1>
+  <%= render :partial=>"companies/log_type" %>
+  <%= render :partial=>"comm_partial/show_log",:object=>@log_items,:locals=>{:hide_left=>true} %>
+  <%= will_paginate @log_items%>
 </div>
 <div id="right_content">
-  <div class="sub_block">
-    <div class="sub_block_content">
+  <% sub_block_div() do%>
     <%= link_to "返回 #{@company.name}首页",company_path(@company) %>
-    </div>
-  </div>
+  <%end%>
+
 </div>

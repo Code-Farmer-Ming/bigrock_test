@@ -4,7 +4,7 @@
     <%=h(@group.name) %>
   </h1>
   <div id="group_info_show" class="main_info">
-    <div id="thumb_img">
+    <div class="thumb_img">
       <%= image_tag @group.icon_file_path -%></div>
     <div id="group_content">
       <%=  simple_format(auto_link(h(@group.description))) %>

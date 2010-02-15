@@ -37,6 +37,10 @@ one:
   website: MyString
   create_user_id: 1
   industry_id: 1
+  state_id: 1
+  city_id: 1
+  company_type_id: 1
+  company_size_id: 1
   version: 0
 
 two:
@@ -46,6 +50,10 @@ two:
   website: MyString
   industry_id: 1
   create_user_id: 1
+  state_id: 1
+  city_id: 1
+  company_type_id: 1
+  company_size_id: 1
   version: 0
   
 three:
@@ -55,4 +63,8 @@ three:
   website: MyString
   create_user_id: 1
   industry_id: 1
+  state_id: 2
+  city_id: 2
+  company_type_id: 2
+  company_size_id: 2
   version: 0

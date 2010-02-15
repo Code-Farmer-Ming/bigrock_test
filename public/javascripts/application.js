@@ -1,19 +1,18 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
-function triggerEvent(trigger,eventName)
-{
-    trigger =$(trigger);
-    if (document.createEvent)
-    {
-        var evt = document.createEvent('HTMLEvents');
-        evt.initEvent(eventName, true, true);
-
-        return trigger.dispatchEvent(evt);
-    }
-
-    if (this.fireEvent)
-        return trigger.fireEvent('on' + eventName);
-}
+//function triggerEvent(trigger,eventName)
+//{
+//    trigger =$(trigger);
+//    if (document.createEvent)
+//    {
+//        var evt = document.createEvent('HTMLEvents');
+//        evt.initEvent(eventName, true, true);
+//        return trigger.dispatchEvent(evt);
+//    }
+//
+//    if (this.fireEvent)
+//        return trigger.fireEvent('on' + eventName);
+//}
 //标签输入控制组件
 //实现标签的输入时的控制动作和控制
 TagInput = Class.create();
@@ -90,7 +89,10 @@ DropList.prototype= {
         this.option_collection = array_value
         this.target_select = $(target_select);
         Event.observe(this.src_select, 'change',this.onchange.bindAsEventListener(this));        
-//        triggerEvent(this.src_select,'change');
+        for(var i=0; i < this.option_collection[this.src_select.value].length; i++) {
+            this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
+                this.option_collection[this.src_select.value][i][0]);
+        }
     },
     onchange : function(event){
         this.target_select.options.length = 0;
@@ -98,7 +100,7 @@ DropList.prototype= {
             this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
                 this.option_collection[this.src_select.value][i][0]);
         }
-        triggerEvent(this.src_select,'change');
+//        triggerEvent(this.target_select,'change');
     }    
 }
 

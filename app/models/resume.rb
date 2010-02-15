@@ -36,7 +36,7 @@ class Resume < ActiveRecord::Base
   RESUME_TYPES=["中文","英文"]
  
   belongs_to:user,:class_name=> "User",:foreign_key =>"user_id"
-  has_many:passes,:dependent=>:destroy ,:order=>"begin_date desc"
+  has_many:passes,:dependent=>:destroy ,:order=>"begin_date desc,is_current desc"
   has_many :current_companies ,:through=>:passes,:source=>:company
   has_many:educations,:dependent=>:destroy,:order=>"begin_date desc"
   has_many :specialities,:dependent=>:destroy
@@ -66,7 +66,7 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
     end
   end
   #TODO:允许有多个 current pass
-  has_one :current_pass,:class_name=>"Pass",:conditions=>{:is_current=>true}
+  has_many :current_pass,:class_name=>"Pass",:conditions=>{:is_current=>true}
  
 
 

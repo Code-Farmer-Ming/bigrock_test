@@ -92,7 +92,7 @@ label{
 #footer{
     clear:both;
     margin-top:10px;
-    border-top:1px solid silver;
+    border-top:1px solid #EdEdEd;
     height:40px;
     margin:5px;
 }
@@ -121,8 +121,10 @@ label{
 }
 
 #user_base_info{
- overflow: hidden;
- height: 21px;
+    *overflow:hidden;
+    min-height:21px;
+    height:auto !important;
+    height: 21px;
 }
 #resume_content dl{
     margin:0 0 0.5em 0;
@@ -379,7 +381,7 @@ ul#nav .activelink a,ul#nav a:hover{
     background:#fff url(/images/input-text.png) repeat-x scroll left top;
 }
 
-#thumb_img{
+.thumb_img{
     float:right;
     /*margin-right:4px;*/
     padding:1px;
@@ -690,14 +692,17 @@ ul#nav .activelink a,ul#nav a:hover{
 
 /*邀请 同事评价 窗口*/
 #invite_yokemate{
-    border:1px solid gray;
-    float:left;
-    overflow:auto;
+    display: inline-block;
     min-height:1.6em;
     height:auto !important;
     height:1.7em;
+    width: 378px;
 }
-#invite_email,#invite_yokemate ,#invite_msg {
+#invite_yokemate input{
+    height:auto;
+    width:auto;
+}
+#invite_email,#invite_msg {
     width:380px;
 }
 #invite_msg{
@@ -940,7 +945,7 @@ div.auto_complete ul strong.highlight {
     font-size:90%;
     color:gray;
 }
-.color_tr{
+.gray_color_background{
     background-color: #F5F5F5;
 }
 /*星星*/
@@ -1077,8 +1082,6 @@ div.auto_complete ul strong.highlight {
     overflow:hidden;
 }
 /*用户状态 结束*/
-
-
 #ajax_login_form{
     width: 390px;
 }
@@ -1108,7 +1111,6 @@ div.auto_complete ul strong.highlight {
     padding: 12px;
     overflow: auto;
     background-color: #E1E9F8;
-
 }
 .welcome_hide,.welcome_show{
     background-image: url(/images/welcome_roll_button.png);

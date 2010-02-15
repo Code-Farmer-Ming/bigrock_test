@@ -8,29 +8,34 @@
   <div>
     <div class="panel" id="top_5_integration_company">
       <%= render :partial=>"companies/company_rank",:collection=>@integration_best_companies %>
-      <p class="c"/>
+           <p class="text_center c">
+        <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc',:condition_order=>'desc'} %>
+      </p>
     </div>
     <div class="panel" id="top_5_salary_company">
       <%= render :partial=>"companies/company_rank",:collection=> @salary_best_companies  %>
-      <p class="c"/>
+      <p class="text_center c">
+        <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc'} %>
+      </p>
     </div>
     <div  class="panel" id="top_5_condition_company">
       <%= render :partial=>"companies/company_rank",:collection=> @condition_best_companies  %>
-      <p class="c"/>
+      <p class="text_center c">
+        <%=  link_to "更多…",{:action=>'search',:condition_order=>'desc'} %>
+      </p>
     </div>
   </div>
 
   <% sub_block_div("公司行业") do%>
     <div id="industry_link_list">
       <% Industry.all.each do |item| %>
-        <%=  link_to item.name,"#",:class=>"industry_tag" %>
+        <%=  link_to item.name,{:action=>'search',:industry_id=>item.id},:class=>"industry_tag" %>
       <%end%>
     </div>
   <%end%>
-  <%sub_block_div("公司热门标签",link_to("全部标签",{:action=>"all_tags"})) do%>
-    <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>
+  <%sub_block_div("公司热门标签") do%>
+    <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>…<%=  link_to("全部标签",{:action=>"all_tags"})%>
   <%end%>
-
 </div>
 <div id="right_content">
   <% sub_block_div() do%>

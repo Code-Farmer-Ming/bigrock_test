@@ -1,29 +1,25 @@
-<%= render :partial=>"account/setting_types" %>
+
 <div id="left_content">
-  <div class="form_info" id="set_base_info_page">
+  <%= render :partial=>"account/setting_types" %>
 
-    <% form_for(@alias,:url=>{:action=>"set_alias"},:html=>{:method=>:put,:class=>"required-validate" }) do |f| %>
-      <%= f.error_messages %>
-      <div id="thumb_img">
-        <%= img_upload_field( attachments_path(),
-          @alias.icon_file_path,
-          nil,
-          {:button_text=>" 更改图片",:post_params=>{:type=>UserIcon.to_s},:button_width=>60,:button_height=>18
-          }) %>
-      </div>
-      <p>
-        <%= f.label :nick_name,"马甲名称",:class=>"filed_lab" %>
-        <%= f.text_field :nick_name,:class=>"required text",:maxlength=>16 %>
-      </p>
-      <p id="form_button">
-        <%= submit_tag "保存"  ,:class=>"button"  -%>
-      </p>
-
-    <% end %>
-  </div>
+  <% form_for(@alias,:url=>{:action=>"set_alias"},:html=>{:id=>"set_base_info_page",:method=>:put,:class=>"required-validate form_info" }) do |f| %>
+    <%= f.error_messages %>
+    <div class="thumb_img">
+      <%= img_upload_field( attachments_path(),
+        @alias.icon_file_path,
+        nil,
+        {:button_text=>" 更改图片",:post_params=>{:type=>UserIcon.to_s},:button_width=>60,:button_height=>18
+        }) %>
+    </div>
+    <p>
+      <%= f.label :nick_name,"马甲名称",:class=>"filed_lab" %>
+      <%= f.text_field :nick_name,:class=>"required text",:maxlength=>16 %>
+    </p>
+    <p id="form_button">
+      <%= submit_tag "保存"  ,:class=>"button"  -%>
+    </p>
+  <% end %>
 </div>
 <div id="right_content">
-  <p>
-    修改密码及邮箱
-  </p>
+
 </div>

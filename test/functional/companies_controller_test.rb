@@ -4,6 +4,7 @@ class CompaniesControllerTest < ActionController::TestCase
   def setup
     login_as(users(:one))
   end
+  
   test "index" do
     get :index
     assert_response :success
@@ -38,7 +39,6 @@ class CompaniesControllerTest < ActionController::TestCase
     login_as(users(:user_017))
     get :edit, :id => companies(:one).to_param
     assert_redirected_to :action => "show"
-
   end
 
   test "should update company" do
@@ -50,7 +50,6 @@ class CompaniesControllerTest < ActionController::TestCase
     assert_difference('Company.count', -1) do
       delete :destroy, :id => companies(:one).to_param
     end
-
     assert_redirected_to companies_path
   end
   
@@ -68,6 +67,22 @@ class CompaniesControllerTest < ActionController::TestCase
     get :news
     assert_response :success
     assert assigns(:news)
+  end
+  
+  test "search" do
+    get :search
+    assert_response :success
+    get :search,:industry_id=>2
+    assert_equal(0,  assigns(:companies).size)
+
+    get :search,:state_id=>2,:city_id=>2,:company_type_id=>2,:company_size_id=>2
+    assert_equal(1,  assigns(:companies).size)
+    
+    get :search,:state_id=>1,:city_id=>1,:company_type_id=>1,:company_size_id=>1
+    assert_equal(2,  assigns(:companies).size)
+
+    get :search,:industry_id=>1
+    assert_equal(3,  assigns(:companies).size)
   end
 
 end

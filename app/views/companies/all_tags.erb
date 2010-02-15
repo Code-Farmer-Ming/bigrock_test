@@ -1,6 +1,6 @@
-
 <div id="left_content">
   <h1>公司所有标签 </h1>
+  <%= render :partial=>"tags/search" %>
   <%= render :partial=>"comm_partial/show_tag" ,:collection=>@tags  %>
   <%= will_paginate  @tags %>
 </div>

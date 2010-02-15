@@ -1,5 +1,5 @@
 class CompanyJudgesController < ApplicationController
-  before_filter :check_login?,:except=>[:index,:auto_complete_for_tag]
+  before_filter :check_login?,:except=>[:auto_complete_for_tag]
 
   def new
     @company_judge= CompanyJudge.new
@@ -13,7 +13,6 @@ class CompanyJudgesController < ApplicationController
   #这个 new_form 显示 form 用 参数传递给 new
   def new_form
     company = Company.find(params[:company_id])
-  
     respond_to do |format|
       format.html { redirect_to :action=>:new,:company_id=>params[:company_id] }
       format.js  {
@@ -29,7 +28,6 @@ class CompanyJudgesController < ApplicationController
       }
     end
   end
-
 
   def create
     @company = Company.find(params[:company_id])
@@ -54,7 +52,6 @@ class CompanyJudgesController < ApplicationController
         }
       end
     end
-  
   end
 
   def edit

@@ -577,7 +577,7 @@ UI.PullDown = Class.create(UI.Options, {
 
         document.observe('mousedown',  this.outsideClickHandler);
         Event.observe(window,'scroll', this.placeHandler);
-        Event.observe(window,'resize', outsideClickHandler);
+        Event.observe(window,'resize', this.outsideClickHandler);
 
         return this;
     },

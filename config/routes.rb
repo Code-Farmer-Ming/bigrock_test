@@ -14,7 +14,6 @@ ActionController::Routing::Routes.draw do |map|
  
   map.resources :companies,
     :member=>{:employee_list=>:get,
-    :pass_employee_list=>:get,
     #    :destroy_version=>:delete,
     :tags=>:get,
     :logs=>:get },

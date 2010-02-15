@@ -1,13 +1,13 @@
 <%resume=show_resume%>
 <%if ! resume.nil? -%>
   <div id="base_info"  >
-    <%if resume.user.setting.can_visibility?(:img_visibility,current_user) -%>
-      <div id="thumb_img"><span title="<%= User::STATE_TYPES[resume.user.state.to_sym || :working] %>"
-                                id="<%= dom_id(current_user,"state") %>"
-                                class="user_state_<%= resume.user.state || "working" %> user_state_at_icon <%= current_user?(resume.user) ? "current_user_state" : "" %>"></span><%= image_tag  resume.user.icon_file_path-%></div>
-      <%end-%>
     <div id="user_base_info" class="section <%= current_user?(resume.user) ? "edit_section" : "" %>" >
-      <%= render(:partial=>"resumes/show_base_info",:object=>resume)%>
+      <%if resume.user.setting.can_visibility?(:img_visibility,current_user) -%>
+        <div class="thumb_img"><span title="<%= User::STATE_TYPES[resume.user.state.to_sym || :working] %>"
+                                     id="<%= dom_id(current_user,"state") %>"
+                                     class="user_state_<%= resume.user.state || "working" %> user_state_at_icon <%= current_user?(resume.user) ? "current_user_state" : "" %>"></span><%= image_tag  resume.user.icon_file_path-%></div>
+        <%end-%>
+        <%= render(:partial=>"resumes/show_base_info",:object=>resume)%>
     </div>
     <div id="edit_container_user_base_info" style="display:none" class="partial_container"  >
     </div>

@@ -1,6 +1,6 @@
 <% f = form %>
-<div id="thumb_img">
-  <%= img_upload_field( attachments_path(),
+<div class="thumb_img">
+  <%= img_upload_field(attachments_path(),
     @group.icon_file_path,
     nil,
     {:button_text=>"上传文件",:post_params=>{:type=>GroupIcon.to_s},:button_width=>60,:button_height=>18

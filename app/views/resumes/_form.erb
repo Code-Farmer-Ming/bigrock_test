@@ -11,7 +11,7 @@
 <%#= f.label :type_name,"类型" ,:class=>"filed_lab" %>
 <%#=f.select :type_name ,Resume::RESUME_TYPES %>
 <%#*</p>%>
-<div id="thumb_img">
+<div class="thumb_img">
   <%= img_upload_field( attachments_path(),
         @resume.user ? @resume.user.icon_file_path : User.anonymity.icon_file_path,
     nil,

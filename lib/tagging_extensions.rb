@@ -126,8 +126,8 @@ class ActiveRecord::Base #:nodoc:
       Tag.find(:all, options.merge({
             :select => "#{Tag.table_name}.*, sum(#{Tagging.table_name}.user_tags_count) AS use_count",
             :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{base_class.name}'
-
               AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
+         
             :order => options[:order] || "use_count DESC, #{Tag.table_name}.name",
             :group => "#{Tag.table_name}.id, #{Tag.table_name}.name"
           }))

@@ -51,7 +51,9 @@ class Company < ActiveRecord::Base
   belongs_to :create_user ,:class_name=>"User",:foreign_key=>"create_user_id"
   
   belongs_to :last_edit_user ,:class_name=>"User",:foreign_key=>"last_edit_user_id"
-
+  belongs_to :state
+  belongs_to :city
+   
   has_many :passes,:dependent=>:destroy
   has_many :judges,:class_name=>"CompanyJudge",:dependent=>:destroy,:order=>"created_at desc"
   #当前的员工
@@ -119,11 +121,8 @@ class Company < ActiveRecord::Base
   #不为空
   validates_presence_of       :name
 
-
-
-
   #相似的公司 先根据 标签的相似度查找 如果不存在 就从相同 行业里查找
-  def related_companies(limit=5)
+  def related_companies(limit=3)
     if limit==-1
       arr =  similar_tag_companis.find(:all)
       arr = Company.find_all_by_industry_id("#{industry_id}",:conditions=>"id<>#{id}") if arr.size<1

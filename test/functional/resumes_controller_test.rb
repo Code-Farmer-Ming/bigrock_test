@@ -40,12 +40,12 @@ class ResumesControllerTest < ActionController::TestCase
     assert_redirected_to user_resumes_path()
   end
 
-  test "should destroy resume" do
-    user=users(:one)
-    assert_difference('Resume.count', -1) do
-      delete :destroy, :id => resumes(:one).to_param,:user_id=>user
-    end
-
-    assert_redirected_to user_resumes_path
-  end
+#  test "should destroy resume" do
+#    user=users(:one)
+#    assert_difference('Resume.count', -1) do
+#      delete :destroy, :id => resumes(:one).to_param,:user_id=>user
+#    end
+#
+#    assert_redirected_to user_resumes_path
+#  end
 end
