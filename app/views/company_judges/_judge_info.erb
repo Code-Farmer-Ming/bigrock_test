@@ -2,7 +2,7 @@
 <div class="l">
   <%= render :partial=>"users/user_icon_name",:object=> ( judge.anonymous ? User.anonymity : judge.user  )%>
 </div>
-<div class="judge_content">
+<div class="icon_right_content">
   <p class="date_field"><%= localize(judge.created_at) %></p>
   <p>
     待遇

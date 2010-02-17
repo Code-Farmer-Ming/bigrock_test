@@ -11,18 +11,16 @@
   </div>
   <div class="msg_text">
 
-    <p class="msg_title">
+    <p class="news_title">
       <%= h  msg_info.title if msg_info.title%>
     </p>
-    <p class="comment_date">
+    <p class="date_field">
       <%= localize(msg_info.created_at) %>
     </p>
-    <p class="msg_content  text_content">
+    <div>
       <%=simple_format(msg_info.content) %>
       <%#*textilize%>
-    </p>
-
+    </div>
   </div>
-
   <div class="clear"></div>
 </div>

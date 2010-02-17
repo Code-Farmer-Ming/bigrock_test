@@ -2,9 +2,12 @@
 <div id="left_content">
   <h1><%= "#{current_user?(@user) ? "我" : @user.name}"  %>的好友列表</h1>
   <%= render :partial=>"users/friend_type" %>
+  <% if params[:type]=='follow_company' %>
+    <%= render :partial=>"companies/company_info_and_operation",:collection=>@friends_user %>
+  <%else%>
+    <%= render :partial=>"users/user_info_and_operation" ,:collection=>@friends_user  %>
+  <%end%>
 
-  <%= render :partial=>"users/user_or_company_info_and_operation" ,:collection=>@friends_user  %>
-  <p class="clear_float" />
   <%= will_paginate @friends_user %>
 </div>
 <div id="right_content">

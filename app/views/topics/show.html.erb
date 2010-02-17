@@ -10,8 +10,8 @@
     <div class="l" >
       <%=render :partial=>"users/user_icon_name",:object=>@topic.author %>
     </div>
-    <div class="main_content text_content">
-      <p class="comment_date">
+    <div class="main_content icon_right_content">
+      <p class="date_field">
         发布于 <%= " #{localize(@topic.author.created_at)}" %>
       </p>
       <div>
@@ -20,11 +20,11 @@
     </div>
     <p class="clear"></p>
   </div>
-  <div class="text_content">
+  <div class="icon_right_content">
     <div id="comments">
       <%= render :partial=>"comments/comment",:collection=>@topic.comments %>
     </div>
-    <div id="comment_reply" class="comment_item">
+    <div id="comment_reply" class="item_content">
       <%if  @can_reply%>
         <%= render :partial=>"comments/new_form",:object=>@topic %>
       <%else%>

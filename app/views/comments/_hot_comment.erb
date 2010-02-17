@@ -1,6 +1,6 @@
 <%comment = hot_comment
 show_news_title ||= false%>
-<div class="comment_item">
+<div class="item_content">
   <%if !show_news_title%>
     <%  link_to  "##{dom_id(comment)}" do  %>
       <%= simple_format(h(comment.content))%>

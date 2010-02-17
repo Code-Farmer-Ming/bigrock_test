@@ -1,6 +1,6 @@
 <div id="left_content">
-  <h1>搜索</h1>
-  <div id="search_condition"  >
+  <h2>搜索</h2>
+  <div class="bottom_gray_line"  >
     <% form_for "search",:url=>{:action=>'search'},:html=>{:method=>"get",:class=>'form_info inline'} do |f| %>
       <div>
         <%= label_tag :search ,"公司名称",:class=>"filed_lab" %>
@@ -39,7 +39,7 @@
       </p>
     <%end%>
   </div>
-  <div id="search_result" class="set_center">
+  <div id="search_result">
     <%= render :partial=>"companies/company_info_and_operation",:collection=>@companies %>
     <%= will_paginate  @companies %>
   </div>

@@ -3,7 +3,7 @@
   <%= render :partial=>"msgs/notification_types" %>
   <div id="msg_show">
     <%=  render :partial=>"msgs/msg_info",:object=>@msg%>
-    <div id="msg_responses"  class="comment_text">
+    <div id="msg_responses"  class="icon_right_content">
       <div id="response_infos">
         <%=  render :partial=>"msgs/msg_response",:collection=>@msg.msg_responses%>
       </div>

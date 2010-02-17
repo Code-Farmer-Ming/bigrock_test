@@ -1,6 +1,6 @@
-<div id="<%= dom_id(company_info_and_operation,"friend") %>" class="user_info l">
-  <%= render :partial=>"companies/company_short_info",:object=> company_info_and_operation %>
-  <div id="<%= dom_id(company_info_and_operation,"operation")%>">
+<div  class="item_content">
+  <div id="<%= dom_id(company_info_and_operation,"operation")%>" class="r">
     <%= render :partial=>"companies/operation",:object=>company_info_and_operation %>
   </div>
+  <%= render :partial=>"companies/company_short_info",:object=> company_info_and_operation %>
 </div>

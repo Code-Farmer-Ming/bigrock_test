@@ -1,9 +1,9 @@
-<%pass ||= nil%>
-<div class="user_short_info" id="<%= dom_id(user_short_info,"friend") %>">
+<%old_company ||= nil%>
+<div class="user_short_info"  >
   <div class="l">
     <%= render :partial=>"users/user_icon_name",:object=> user_short_info  %>
   </div>
-  <div class="short_info">
+  <div class="icon_right_content">
     <% user_short_info.current_resume.current_pass.each() do |current_pass| %>
       <div title="当前的工作">
         <b>
@@ -13,7 +13,7 @@
         <%= h current_pass.title%>
       </div>
     <%end if user_short_info.current_resume%>
-    <%if pass then%>
+    <%if old_company && (pass=user_short_info.passes.find_by_company_id(old_company)) then%>
     <div class="gray_color_background" title="过去的工作">
         <b>
           <%= link_to(pass.company.name,company_path(pass.company),:target=>"_blank")%>

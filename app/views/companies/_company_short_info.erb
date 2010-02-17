@@ -1,14 +1,13 @@
-
 <div class="company_short_info" >
   <div class="l">
     <%= render :partial=>"companies/company_icon",:object=>company_short_info %>
   </div>
-  <div class="short_info">
+  <div class="icon_right_content">
     <div class="company_name">
       <%= link_to  company_short_info.name,
         company_path(company_short_info)  %>
     </div>
-    <div class="company_star" >
+    <div class="date_field" >
       待遇 <%= small_star(company_short_info.judges.average("salary_value") || 0 ) %>
 <%#= rating_field(:judge,dom_id(company_short_info,"salary"+ rand(1000).to_s ),
 :value=>company_short_info.judges.average("salary_value")|| 0  || 0,:disabled=>"true",:full_class=>"input_full_star_small",:empty_class=>"input_empty_star_small") %>

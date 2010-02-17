@@ -168,7 +168,6 @@ label{
 /*用户注册页面*//*用户登录页面*/
 #new_user_page .text,
 #user_login_page .text{
-
     width:300px;
 }
 
@@ -525,16 +524,7 @@ ul#nav .activelink a,ul#nav a:hover{
     height:90px;
 }
 
-.user_info{
-    margin:6px;
-    width:290px;
-    border: 1px solid silver;
-    padding:0.5em;
-    overflow: auto;
-}
-
 /*小组 图标*/
-
 .group_icon{
     width:80px;
 }
@@ -610,7 +600,6 @@ ul#nav .activelink a,ul#nav a:hover{
     display:block;
 }
 
-
 #msg_list_table td{
     padding:4px 8px;
 }
@@ -625,12 +614,6 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 .msg_text{
     margin-left:160px;
-}
-.msg_text .msg_title{
-    font-weight:bolder;
-    padding:2px 10px;
-    background-color:#E1E9F8;
-    font-size:18px;
 }
 
 #response_comment{
@@ -742,35 +725,9 @@ ul#nav .activelink a,ul#nav a:hover{
     width:100%;
     height:3em;
 }
-
 /*公司简短信息*/
-.company_short_info{
-    margin-bottom: 2px;
-    display: inline-block;
-    overflow:auto;
-}
-.company_short_info{
-    display: inline-block!important;
-    display: inline;
-}
-.company_short_info .short_info{
-    /*
-     padding: 0px 4px;
-     width:160px;*/
-    overflow:hidden;
-}
-.company_star{
-    color:gray;
-}
 .company_name{
     font-weight: bolder;
-}
-.company_short_info img{
-    border-width :0px;
-
-}
-.company_short_info .icon{
-    float:left;
 }
 .company_short_info .icon .icon_inner{
     display:table-cell;
@@ -787,8 +744,6 @@ ul#nav .activelink a,ul#nav a:hover{
     vertical-align:middle;
 }
 
-/*.company_short_info  a { cursor:pointer; text-decoration:none;}*/
-.company_short_info a:hover { background-color:transparent;color:black;}
 .company_rank{
     overflow: auto;
     padding:8px;
@@ -853,26 +808,20 @@ div.auto_complete ul strong.highlight {
 }
 
 /*新闻*/
-.news_short_content{
-    margin-bottom:8px;
-}
 .news_title{
     font-weight:bold;
     background-color:#E1E9F8;
     padding:4px 8px;
 }
-
 /* up down 按钮*/
 .make_up_down{
     padding:2px;
 }
-
 .make_up,.make_down{
     padding:3px;
     text-align:center;
     width:26px;
 }
-
 .make_up{
     background-color:#E1E9F8;
 }
@@ -896,12 +845,12 @@ div.auto_complete ul strong.highlight {
     text-align:center;
 }
 
-.judge_item,.group_short_info,.comment_item{
+.item_content{
     padding:8px 2px;
     /*   margin-bottom:8px;*/
     border-bottom:1px silver dotted ;
 }
-.user_log .user_log_content,.text_content,.short_info,.judge_content,.comment_text{
+.icon_right_content{
     margin-left:80px;
 }
 .group_short_content{
@@ -912,25 +861,20 @@ div.auto_complete ul strong.highlight {
     height:auto !important;
     height:40px;
 }
-.comment_date{
-    color:gray;
-}
-.comment_item .editor_field{
+
+.item_content .editor_field{
     height:60px;
     width:500px;
 }
-/*回复结束*/
-
+/*End回复结束*/
 /*推荐*/
 .recommend_memo{
     height:120px;
 }
-
 /*话题*/
 .topic_item{
     padding:4px 5px 4px 5px;
     overflow:auto;
-
     border-bottom:#F0F0F0 solid 1px ;
 }
 .topic_item a{
@@ -952,7 +896,6 @@ div.auto_complete ul strong.highlight {
 .big_star_0,.big_star_1,.big_star_2,.big_star_3,.big_star_4,.big_star_5{
     width:91px;
     background-image:url(/images/big_star.png);
-
     display:inline-block;
     background-position: 0px 0px;
     height:16px;
@@ -980,7 +923,6 @@ div.auto_complete ul strong.highlight {
 .small_star_0,.small_star_1,.small_star_2,.small_star_3,.small_star_4,.small_star_5{
     width:68px;
     background-image:url(/images/small_star.png) ;
-
     display:inline-block;
     background-repeat:no-repeat;
     background-color:transparent;
@@ -1155,9 +1097,9 @@ div.auto_complete ul strong.highlight {
     width: 390px;
     display: inline-block;
 }
-#search_result{
-    width: 640px;
+#search{
+    font-weight: bolder;
 }
-#search_condition{
+.bottom_gray_line{
     border-bottom: 1px solid  #EdEdEd;
 }

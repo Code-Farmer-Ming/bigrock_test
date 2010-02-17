@@ -18,7 +18,7 @@ for log in show_log
       content_tag (:div),:class=>hide_left ? "user_log_just_text" :  "user_log" do%>
         <%= content_tag :h5,date_ago_in_words(log_date) if ( show_date.to_date != log_date.to_date)  %>
         <%= content_tag :div,log_text,:class=>"l" %>
-        <%= content_tag :div,log_content,:class=>"user_log_content"%>
+        <%= content_tag :div,log_content,:class=>"icon_right_content"%>
         <%= content_tag :p,"",:class=>"c" %>
       <%end
       show_date = log_date
@@ -144,7 +144,7 @@ end%>
 <% content_tag (:div) ,:class=>hide_left ? "user_log_just_text" :  "user_log"  do%>
   <%= content_tag :h5,date_ago_in_words(log_date)  if ( show_date.to_date != log_date.to_date)  %>
  <%= content_tag :div,log_text,:class=>"l" %>
-  <%=  content_tag :div, log_content ,:class=>"user_log_content "%>
+  <%=  content_tag :div, log_content ,:class=>"icon_right_content"%>
  
   <%= content_tag :div,"",:class=>"c" %>
 <%end   if log_text!=""%>
