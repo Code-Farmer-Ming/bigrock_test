@@ -1,7 +1,8 @@
 <div id="left_content">
   <%if !current_user%>
+   <%= link_to_function '我要注册', "Effect.toggle('welcome_div','slide');SetCookie('welcome_div_display',$('welcome_div').style.display=='none' ? 'block' : 'none')",:id=>'roll_welcome_button',:class=>"welcome_show",:title=>'' -%>
     <div >
-      <div id="welcome_div">
+      <div id="welcome_div" style="display:<%=  cookies[:welcome_div_display]%>">
         <h2>
           欢迎你 到这个世界
         </h2>
@@ -13,9 +14,10 @@
         <h3>
           <span id="user_count"><%= User.real_users.size %></span>人     陪你欢笑、陪你愁
         </h3>
+        <%= link_to_function "关闭","Effect.toggle('welcome_div','slide');SetCookie('welcome_div_display','none');" %>
       </div>
       <%#= link_to '我来注册',{:action=>'new'},:id=>'link_register',:style=>'display:none;',:class=>'l' %>
-      <%= link_to_function '', "Effect.toggle('welcome_div','slide');this.className = (this.className=='welcome_show' ? 'welcome_hide' : 'welcome_show')",:id=>'roll_welcome_button',:class=>"welcome_hide",:title=>'' -%>
+     
     </div>
   <%end%>
   <% sub_block_div("新闻") do%>

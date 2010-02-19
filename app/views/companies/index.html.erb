@@ -1,37 +1,42 @@
 <div id="left_content">
-
-  <%tabs do%>
-    <%= tab_button("综合最满意的公司","top_5_integration_company" ) %>
-    <%= tab_button("待遇最满意的公司","top_5_salary_company") %>
-    <%= tab_button("环境最满意的公司","top_5_condition_company") %>
+  <% sub_block_div("") do%>
+    <%tabs do%>
+      <%= tab_button("综合最满意的公司","top_5_integration_company" ) %>
+      <%= tab_button("待遇最满意的公司","top_5_salary_company") %>
+      <%= tab_button("环境最满意的公司","top_5_condition_company") %>
+    <%end%>
+    <div>
+      <div class="panel" id="top_5_integration_company">
+        <%= render :partial=>"companies/company_rank",:collection=>@integration_best_companies %>
+        <p class="text_center c">
+          <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc',:condition_order=>'desc'} %>
+        </p>
+      </div>
+      <div class="panel" id="top_5_salary_company">
+        <%= render :partial=>"companies/company_rank",:collection=> @salary_best_companies  %>
+        <p class="text_center c">
+          <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc'} %>
+        </p>
+      </div>
+      <div  class="panel" id="top_5_condition_company">
+        <%= render :partial=>"companies/company_rank",:collection=> @condition_best_companies  %>
+        <p class="text_center c">
+          <%=  link_to "更多…",{:action=>'search',:condition_order=>'desc'} %>
+        </p>
+      </div>
+    </div>
   <%end%>
-  <div>
-    <div class="panel" id="top_5_integration_company">
-      <%= render :partial=>"companies/company_rank",:collection=>@integration_best_companies %>
-           <p class="text_center c">
-        <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc',:condition_order=>'desc'} %>
-      </p>
-    </div>
-    <div class="panel" id="top_5_salary_company">
-      <%= render :partial=>"companies/company_rank",:collection=> @salary_best_companies  %>
-      <p class="text_center c">
-        <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc'} %>
-      </p>
-    </div>
-    <div  class="panel" id="top_5_condition_company">
-      <%= render :partial=>"companies/company_rank",:collection=> @condition_best_companies  %>
-      <p class="text_center c">
-        <%=  link_to "更多…",{:action=>'search',:condition_order=>'desc'} %>
-      </p>
-    </div>
-  </div>
-
+  
   <% sub_block_div("公司行业") do%>
-    <div id="industry_link_list">
-      <% Industry.all.each do |item| %>
-        <%=  link_to item.name,{:action=>'search',:industry_id=>item.id},:class=>"industry_tag" %>
-      <%end%>
-    </div>
+    <%i= 1%>
+    <ul id="industry_link_list" class="set_center">
+      <% Industry.all.each do |item| -%>
+        <li>
+          <%=  link_to item.name,{:action=>'search',:industry_id=>item.id} %>
+        </li>
+        <% i= i+1 -%>
+      <%end-%>
+    </ul>
   <%end%>
   <%sub_block_div("公司热门标签") do%>
     <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>…<%=  link_to("全部标签",{:action=>"all_tags"})%>

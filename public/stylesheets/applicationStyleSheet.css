@@ -743,24 +743,33 @@ ul#nav .activelink a,ul#nav a:hover{
 .company_short_info .icon .icon_inner img{
     vertical-align:middle;
 }
-
-.company_rank{
-    overflow: auto;
-    padding:8px;
-}
-.company_rank .rank{
-    float:right;
+.rank{
     font-size: 280%;
     font-weight:bolder;
-    vertical-align: middle;
     color:red;
 }
 /*tag 标签的css*/
 #company_tags{
     width:440px;
 }
-.industry_tag,.tag,.disable_tag{
+#industry_link_list
+{
+    width: 100%;
+    overflow:auto;
+}
+#industry_link_list li{
+    display: inline;
+    float: left;
+
+}
+#industry_link_list a{
+    width: 16em;
     padding:2px 4px;
+    display:block;
+}
+
+.tag,.disable_tag{
+    padding:2px 8px;
     margin:1px;
     display:inline-block;
     cursor:pointer;
@@ -889,7 +898,7 @@ div.auto_complete ul strong.highlight {
     font-size:90%;
     color:gray;
 }
-.gray_color_background{
+.gray_background{
     background-color: #F5F5F5;
 }
 /*星星*/
@@ -1054,23 +1063,21 @@ div.auto_complete ul strong.highlight {
     overflow: auto;
     background-color: #E1E9F8;
 }
-.welcome_hide,.welcome_show{
+.welcome_show{
     background-image: url(/images/welcome_roll_button.png);
-    width: 24px;
-    height: 24px;
+    width: 162px;
+    height: 25px;
     display: block;
-    margin: 0 auto;
+
+    text-align:center;
+    line-height:2.2;
 }
 
-.welcome_hide:hover{
-    background-position:0px 24px;
-    background-color: transparent;
-}
 .welcome_show{
-    background-position:24px 0px;
+    background-position:0px 0px ;
 }
 .welcome_show:hover{
-    background-position:24px 24px;
+    background-position:0px 25px;
     background-color: transparent;
 }
 

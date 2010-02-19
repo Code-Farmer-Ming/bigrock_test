@@ -14,7 +14,7 @@
       </div>
     <%end if user_short_info.current_resume%>
     <%if old_company && (pass=user_short_info.passes.find_by_company_id(old_company)) then%>
-    <div class="gray_color_background" title="过去的工作">
+    <div class="gray_background" title="过去的工作">
         <b>
           <%= link_to(pass.company.name,company_path(pass.company),:target=>"_blank")%>
         </b>

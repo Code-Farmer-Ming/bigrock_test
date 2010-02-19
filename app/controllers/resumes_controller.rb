@@ -2,17 +2,25 @@
 class ResumesController < ApplicationController
   in_place_edit_for :resume, :name
   in_place_edit_for :resume,:self_description
-  before_filter :check_login?,:except=>[:show]
+  before_filter :check_login?,:except=>[:index,:render_resume]
  
  
   def render_resume
     render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
   end
+  def index
+    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @resume }
+    end
+  end
   # GET /resumes/1
   # GET /resumes/1.xml
   def show
-#    @resumes = Resume.find_all_by_user_id(params[:user_id])
-    @resume = Resume.find_by_id_and_user_id!(params[:id],params[:user_id])
+    #    @resumes = Resume.find_all_by_user_id(params[:user_id])
+    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
     
     respond_to do |format|
       format.html # show.html.erb
@@ -90,8 +98,8 @@ class ResumesController < ApplicationController
   # DELETE /resumes/1
   # DELETE /resumes/1.xml
   def destroy
-#    @resume = Resume.find(params[:id])
-#    @resume.destroy
+    #    @resume = Resume.find(params[:id])
+    #    @resume.destroy
 
     respond_to do |format|
       format.html { redirect_to( user_resumes_path()) }

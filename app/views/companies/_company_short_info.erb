@@ -1,3 +1,4 @@
+<%  show_tag ||= false %>
 <div class="company_short_info" >
   <div class="l">
     <%= render :partial=>"companies/company_icon",:object=>company_short_info %>
@@ -9,8 +10,6 @@
     </div>
     <div class="date_field" >
       待遇 <%= small_star(company_short_info.judges.average("salary_value") || 0 ) %>
-<%#= rating_field(:judge,dom_id(company_short_info,"salary"+ rand(1000).to_s ),
-:value=>company_short_info.judges.average("salary_value")|| 0  || 0,:disabled=>"true",:full_class=>"input_full_star_small",:empty_class=>"input_empty_star_small") %>
       <br />
       环境
       <%= small_star(company_short_info.judges.average("condition_value")|| 0  || 0) %>
@@ -18,5 +17,10 @@
     <p>
       <%= company_short_title(company_short_info) %>
     </p>
+    <%if show_tag%>
+    <p class="gray_background">
+      <b>&nbsp;标签:</b><%= render :partial=>"companies/tag_topN_list",:object=>company_short_info %>
+    </p>
+    <%end%>
   </div>
 </div>

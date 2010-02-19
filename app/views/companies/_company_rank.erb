@@ -1,4 +1,6 @@
-<div class="<%= cycle("company_rank gray_color_background", "company_rank") %>"   >
-  <span class="rank"><%= company_rank_counter+1%></span>
-  <%= render :partial=>"companies/company_short_info",:object=>company_rank  %>
+<div  class="item_content">
+  <div class="r rank">
+   <%= company_rank_counter+1%>
+  </div>
+  <%= render :partial=>"companies/company_short_info",:object=> company_rank %>
 </div>

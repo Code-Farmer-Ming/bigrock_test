@@ -49,7 +49,7 @@
 }
 .tab_button ul {
     margin:0;
-    padding:10px 10px 0 15px;
+    padding:2px 10px 0 15px;
     list-style:none;
 }
 .tab_button li {
@@ -84,10 +84,10 @@
     background-position:100% -42px;
 }
 
-.tab_button a.active-tab  {
+.tab_button a.active-tab {
     background-position:0% -42px;
 }
-.tab_button  a.active-tab  span {
+.tab_button  a.active-tab span {
     background-position:100% -42px;
 }
 .tab_button{
