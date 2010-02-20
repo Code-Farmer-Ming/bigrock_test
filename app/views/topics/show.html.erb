@@ -13,6 +13,11 @@
     <div class="main_content icon_right_content">
       <p class="date_field">
         发布于 <%= " #{localize(@topic.author.created_at)}" %>
+        &nbsp;
+        被推荐 <%= link_to "#{@topic.recommends.size}次",
+          recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic) %>
+        &nbsp;
+        回复 <%= link_to "#{@topic.comments.size}次","#comments" %>
       </p>
       <div>
         <%= simple_format(auto_link(h(@topic.content))) %>

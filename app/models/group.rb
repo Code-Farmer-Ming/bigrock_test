@@ -92,7 +92,7 @@ class Group < ActiveRecord::Base
   has_many :add_applications ,:foreign_key=>"respondent_id",
     :dependent=>:destroy,:class_name=>"AddGroupApplication",:source=>:applicant
   #推荐
-  has_many :recommends,:as=>:recommendable,:dependent=>:destroy
+  has_many :recommends,:as=>:recommendable,:dependent=>:destroy,:order=>"created_at desc"
 
   #新创建的 小组
   named_scope :new_groups,:order=>"created_at desc"

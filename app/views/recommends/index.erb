@@ -1,6 +1,10 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%= "index" %>
+<div id="left_content">
+  <h1></h1>
+  <%  sub_block_div() do %>
+    <%= render :partial=>"recommends/recommend_info",:collection=>@recommends %>
+    <%= will_paginate @recommends %>
+  <%end%>
+</div>
+<div id="right_content">
+  
+</div>

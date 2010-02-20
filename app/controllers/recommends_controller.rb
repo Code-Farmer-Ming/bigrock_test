@@ -17,7 +17,8 @@ class RecommendsController < ApplicationController
     end
   end
   def index
-    
+    @recommends = Recommend.
+      paginate_all_by_recommendable_id_and_recommendable_type(params[:recommendable_id],params[:recommendable_type],:page=>params[:page])
   end
   #显示 推荐窗口
   def new_form

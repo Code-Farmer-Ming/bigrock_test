@@ -13,12 +13,12 @@
       <b>创建于 </b><%=  localize(@group.created_at)%>
     </p>
     <p>
-      <b>标签 </b>  <%= render :partial=>"comm_partial/show_tag" ,:collection=>@group.all_tags(:limit=>10)  %>
+      <b>标签 </b>  <%= render :partial=>"comm_partial/show_tag" ,:collection=>@group.all_tags(:limit=>4)  %>
     </p>
     <p>
       <b>成员 </b> <%= link_to("#{@group.members_count}",group_members_path(@group),:class=>"member_count")%>
       <b>话题 </b> <%= link_to("#{@group.topics_count}",group_topics_path(@group))%>
-      <b>被推荐 </b> <%= link_to("#{@group.recommends_count}")%>
+      <b>被推荐 </b> <%= link_to("#{@group.recommends_count}",recommends_path(:recommendable_type=>@group.class.to_s,:recommendable_id=>@group.to_param),:class=>"recommend_count")%>
     </p>
   </div>
 

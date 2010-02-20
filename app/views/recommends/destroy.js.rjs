@@ -1,6 +1,6 @@
 # TODO Operate on the page object
 page["recommend_operation"].replace_html render(:partial=>"comm_partial/recommend_operation",:object=>@recommendable)
 page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
-page.select(".recommand_count").each do |item|
+page.select(".recommend_count").each do |item|
   page.replace_html item,@recommend.recommendable.recommends.count
 end

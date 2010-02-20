@@ -858,6 +858,7 @@ div.auto_complete ul strong.highlight {
     padding:8px 2px;
     /*   margin-bottom:8px;*/
     border-bottom:1px silver dotted ;
+    overflow:auto;
 }
 .icon_right_content{
     margin-left:80px;

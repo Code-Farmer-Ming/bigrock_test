@@ -1,0 +1,12 @@
+<div  class="l" >
+  <%= render :partial=>"users/user_icon_name",:object=>recommend_info_content.user%>
+</div>
+<div class="icon_right_content">
+  <p class="date_field">
+    <%=  localize(recommend_info_content.created_at) %>
+  </p>
+  <blockquote>
+    <%= h recommend_info_content.memo %>
+  </blockquote>
+</div>
+<p class="c"/>

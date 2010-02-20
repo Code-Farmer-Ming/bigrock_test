@@ -12,6 +12,10 @@
         发布于 <%= " #{localize(@piece_of_news.created_at)}" %>
         <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{localize(@piece_of_news.updated_at)}"  \
           if  @piece_of_news.last_edit_user%>
+        &nbsp;
+        被推荐 <%= link_to "#{@piece_of_news.recommends.size}次",recommends_path(:recommendable_type=>@piece_of_news.class.to_s,:recommendable_id=>@piece_of_news) %>
+        &nbsp;
+        回复 <%= link_to "#{@piece_of_news.comments.size}次","#comments" %>
       </p>
       <div class="l news_company_icon">
         <%= render :partial=>"companies/company_icon",:object=>@company   %>
@@ -24,7 +28,7 @@
     <%= render :partial=>"comments/comment",:collection=>@piece_of_news.comments %>
   </div>
   <div class="item_content">
-      <%= render :partial=>"comments/new_form",:object=>@piece_of_news %>
+    <%= render :partial=>"comments/new_form",:object=>@piece_of_news %>
   </div>
 </div>
 <div id="right_content">
@@ -41,7 +45,7 @@
   <%end%>
   <% sub_block_div() do %>
   <%#= link_to "#{@company.name}所有有新闻", company_news_path(params[:company_id]) %>
-    <%= link_to "#{@company.name}首页", company_path(params[:company_id]) %>
+    <%= link_to "#{@company.name}首页", company_path(@company) %>
   <%end%>
   <% sub_block_div("热门回复") do %>
     <%= render :partial=>"comments/hot_comment",

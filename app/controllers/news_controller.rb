@@ -1,11 +1,23 @@
 class NewsController < ApplicationController
-  before_filter :check_login?,:except=>[:show]
+  before_filter :check_login?,:except=>[:show,:index]
   # GET /news
   # GET /news.xml
   def index
-    @company = Company.find(params[:company_id])
-    @news = @company.news.paginate :page => params[:page]
-    @page_title =   "#{@company.name} 新闻"
+    if params[:company_id] then
+      @company = Company.find(params[:company_id])
+      @news = @company.news.paginate :page => params[:page]
+      @hot_news=@company.news.populars(:limit=>10)
+      @most_recommand=  @company.news.most_recommand(:limit=>10)
+      @most_recommand_comment =  Comment.news_comments.hot_comments(:conditions=>["commentable_id=?",@company],:limit=>10)
+      @page_title =   "#{@company.name} 新闻"
+    else
+      @news = Piecenews.paginate :order=>"created_at desc",:page => params[:page]
+      @hot_news=Piecenews.populars(:limit=>10)
+      @most_recommand=  Piecenews.most_recommand(:limit=>10)
+      @most_recommand_comment = Comment.news_comments.hot_comments(:limit=>10)
+      @page_title =   "新闻"
+    end
+      
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @news }
@@ -16,8 +28,8 @@ class NewsController < ApplicationController
   # GET /news/1.xml
   def show
     @piece_of_news = Piecenews.find(params[:id])
-    @company = Company.find(params[:company_id])
-    @is_manager  =@company.current_employee?(current_user) #TODO:current_employee 需要做信用检查
+    @company = @piece_of_news.owner
+    @is_manager  =@company.current_employee?(current_user)
     @page_title= "新闻 " + @piece_of_news.title
   
     respond_to do |format|
@@ -39,7 +51,7 @@ class NewsController < ApplicationController
         @piece_of_news = Piecenews.new
       end
     else
-      flash[:notice] = "必须是公司的员工才能发布新闻"
+      flash[:notice] = "必须是公司的员工，才能发布新闻"
       redirect_to @company
     end
   end
@@ -47,6 +59,18 @@ class NewsController < ApplicationController
   # GET /news/1/edit
   def edit
     @company = Company.find(params[:company_id])
+    
+    if @company.all_employees.exists?(current_user)
+      if !@company.higher_creditability_employees.exists?(current_user)
+        flash[:notice]="资料真实度需要4星，才可以编辑新闻！"
+        redirect_to @company
+        return
+      end
+    else
+      flash[:notice] = "必须是公司的员工，才可以编辑新闻！"
+      redirect_to @company
+      return
+    end
     @piece_of_news = @company.news.find_by_id(params[:id])
     @page_title="编辑新闻"
   end
@@ -89,6 +113,18 @@ class NewsController < ApplicationController
   # DELETE /news/1
   # DELETE /news/1.xml
   def destroy
+    @company = Company.find(params[:company_id])
+    if @company.all_employees.exists?(current_user)
+      if !@company.higher_creditability_employees.exists?(current_user)
+        flash[:notice]="资料真实度需要4星，才可以编辑新闻！"
+        redirect_to @company
+        return
+      end
+    else
+      flash[:notice] = "必须是公司的员工，才可以编辑新闻！"
+      redirect_to @company
+      return
+    end
     @piece_of_news = Piecenews.find_by_id_and_company_id(params[:id],params[:company_id])
     @piece_of_news.destroy
     respond_to do |format|

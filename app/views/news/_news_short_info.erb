@@ -8,8 +8,9 @@ show_icon ||= false
 
   <div class="news_content">
     <p class="r">
-      <b>被推荐 </b> <%= link_to piece_news.recommends_count,'',:class=>"recommand_count" %> 次
-      <b>回复 </b> <%= link_to piece_news.comments_count,'',:class=>"" %> 次
+      <b>认为不错</b> <%= link_to piece_news.up,'',:class=>"recommand_count" %>人
+      <b>不行</b> <%= link_to piece_news.down,'',:class=>"recommand_count" %>人
+      <b> 回复 </b> <%= link_to  "#{piece_news.comments.size}次",company_piecenews_path(piece_news.owner,piece_news)+"?#comments",:class=>"" %>
     </p>
     <p class="date_field">
       <%=link_to piece_news.create_user.name ,user_path(piece_news.create_user) %> <%= " #{localize(piece_news.created_at)} 发布 " %>
@@ -19,6 +20,7 @@ show_icon ||= false
     <div class="r">
       <%= render :partial=>"companies/company_icon",:object=>piece_news.owner if show_icon  %>
     </div>
+     
     <div>
       <%= h(truncate("#{piece_news.content}", :length=>255))%>
     </div>

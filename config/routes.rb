@@ -3,13 +3,13 @@ ActionController::Routing::Routes.draw do |map|
     groups.resources :topics  do |topics|
       topics.resources :comments
     end
+    #    groups.resources :recommends
     groups.resources :members,:member=>{:to_root=>:post,:to_manager=>:post,:to_normal=>:post}
     groups.resources :add_group_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
   end
 
   map.resources :recommends
-
-  #  map.resources :news
+  map.resources :news,:only=>[:index]
   map.resources :attachments
  
   map.resources :companies,
@@ -17,15 +17,16 @@ ActionController::Routing::Routes.draw do |map|
     #    :destroy_version=>:delete,
     :tags=>:get,
     :logs=>:get },
-    :collection=>{:all_tags=>:get,:show_by_tag=>:get,:news=>:get,:search=>:get} do |companies|
+    :collection=>{:all_tags=>:get,:show_by_tag=>:get,:search=>:get} do |companies|
     companies.resources :company_judges
     companies.resources :topics do |topics|
       topics.resources :comments
     end
-    companies.resources :news  do |news|
+    companies.resources :news   do |news|
       news.resources :comments
     end
   end
+  
   map.resource :account,:controller=>"account",
     :collection =>{ :forget_password=>:get,
     :set_resume_visibility=>[:get,:put],

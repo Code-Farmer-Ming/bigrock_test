@@ -63,11 +63,7 @@ class CompaniesControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  test "company_news" do
-    get :news
-    assert_response :success
-    assert assigns(:news)
-  end
+ 
   
   test "search" do
     get :search

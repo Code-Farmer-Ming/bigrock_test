@@ -131,11 +131,7 @@ class CompaniesController < ApplicationController
       @employees = @company.pass_employees.paginate :page => params[:page]
     end
   end
-
-
-  def news
-    @news = Piecenews.paginate :page => params[:page],:order=>"created_at desc"
-  end
+ 
 
   def search()
     order_str = params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : 'id'
