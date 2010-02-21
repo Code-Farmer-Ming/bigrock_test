@@ -41,6 +41,12 @@ class NewsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     get :edit, :id => news(:one).to_param,:company_id=>1
+    assert_redirected_to company_path(assigns(:company))
+    pass1 = users(:one).passes.find_by_company_id(1)
+    pass1.creditability_value = 5
+    pass1.judges_count=1
+    pass1.save
+    get :edit, :id => news(:one).to_param,:company_id=>1
     assert_response :success
   end
 
@@ -52,6 +58,13 @@ class NewsControllerTest < ActionController::TestCase
   end
 
   test "should destroy news" do
+    assert_difference('Piecenews.count', 0) do
+      delete :destroy, :id => news(:one).to_param,:company_id=>1
+    end
+    pass1 = users(:one).passes.find_by_company_id(1)
+    pass1.creditability_value = 5
+    pass1.judges_count=1
+    pass1.save
     assert_difference('Piecenews.count', -1) do
       delete :destroy, :id => news(:one).to_param,:company_id=>1
     end

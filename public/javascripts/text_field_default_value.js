@@ -39,7 +39,10 @@ TextDefaultValue.prototype= {
         else
         {
             this.inputText.style.color=this.options.default_text_color;
-            this.inputText.value=this.defaultValue;
+            if (!this.inputText.value || this.inputText.value=='')
+            {
+                this.inputText.value=this.defaultValue;
+            }
             this.inputText.observe('focus',function(){
                 if (this.inputText.value==this.defaultValue){
                     this.inputText.value='';

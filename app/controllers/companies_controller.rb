@@ -132,11 +132,14 @@ class CompaniesController < ApplicationController
     end
   end
  
-
   def search()
-    order_str = params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : 'id'
-    order_str +=','+(params[:condition_order] && !params[:condition_order].blank? ? "condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : 'id')
+    order_str =  params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : ''
 
+    if order_str.blank?
+      order_str =  params[:condition_order] && !params[:condition_order].blank? ? "condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : ''
+    else
+      order_str +=  params[:condition_order] && !params[:condition_order].blank? ? ",condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : ''
+    end
     @companies = Company.paginate :all,
       :conditions=>["(name like ? or ?='') and (industry_id=? or ?=0) and (company_type_id=? or ?=0)"+
         " and (company_size_id=? or ?=0) and (state_id=? or ?=0) and (city_id=? or ?=0) ",

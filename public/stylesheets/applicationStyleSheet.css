@@ -77,7 +77,9 @@ label{
 #errorExplanation ul li {
     font-size: 12px;
 }
-
+#main{
+    min-width:1024px;
+}
 /* header*/
 #header{
     height:80px;
@@ -103,6 +105,7 @@ label{
     min-height: 440px;
     height:auto !important; 
     height: 440px;
+
 }
 
 #resume_content .inplaceeditor-form,.partial_container{

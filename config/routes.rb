@@ -22,7 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     companies.resources :topics do |topics|
       topics.resources :comments
     end
-    companies.resources :news   do |news|
+    companies.resources :news,:collection=>{:search=>:get}   do |news|
       news.resources :comments
     end
   end

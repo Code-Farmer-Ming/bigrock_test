@@ -146,4 +146,24 @@ class NewsController < ApplicationController
     @piece_news.save
     render :partial => "comm_partial/update_up_down_panel",:object=> @piece_news
   end
+  #搜索新闻
+  def search
+    order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order]=="asc" ? 'asc' : 'desc') : "")
+
+    if order_str.blank?
+      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
+    else
+      order_str +=  params[:created_order] && !params[:created_order].blank?  ? ",created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
+    end
+
+    search_str = "%"+params[:search].to_s.strip+"%"
+    if params[:company_id] then
+      @company = Company.find(params[:company_id])
+      @news = @company.news.paginate :conditions=>["title like ? or content like ? ",
+        search_str, search_str],:order=>order_str,:page => params[:page]
+    else
+      @news = Piecenews.paginate :conditions=>["title like ? or content like ? ",
+        search_str, search_str],:order=>order_str,:page => params[:page]
+    end
+  end
 end

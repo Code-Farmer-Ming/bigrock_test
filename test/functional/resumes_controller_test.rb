@@ -22,11 +22,11 @@ class ResumesControllerTest < ActionController::TestCase
 
   end
 
-  test "should show resume" do
-    user=users(:one)
-    get :show, :id => resumes(:one).to_param,:user_id=>user.to_param
-    assert_response :success
-  end
+#  test "should show resume" do
+#    user=users(:one)
+#    get :show, :id => resumes(:one).to_param,:user_id=>user.to_param
+#    assert_response :success
+#  end
 
   test "should get edit" do
     user=users(:one)
