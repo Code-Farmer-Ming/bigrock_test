@@ -32,6 +32,7 @@ class CommentsController < ApplicationController
   #顶
   def up
     @comment = Comment.find(params[:id])
+    @comment.votes << Vote.new(:value=>1,:user=>current_user)
     @comment.up += 1
     @comment.save
     render :partial => "comm_partial/update_up_down_panel",:object=>@comment
@@ -40,6 +41,7 @@ class CommentsController < ApplicationController
   def down
     @comment = Comment.find(params[:id])
     @comment.down += 1
+    @comment.votes << Vote.new(:value=>-1,:user=>current_user)
     @comment.save
     render :partial => "comm_partial/update_up_down_panel",:object=>@comment
   end

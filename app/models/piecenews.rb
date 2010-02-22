@@ -30,6 +30,6 @@ class Piecenews < ActiveRecord::Base
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy
   #动态信息
   has_many :log_items,:as=>:owner,:dependent => :destroy
-
+  has_many :votes,:as=>:owner
 
 end

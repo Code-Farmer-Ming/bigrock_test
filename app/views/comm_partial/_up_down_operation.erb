@@ -1,5 +1,5 @@
 <% up_down_object = up_down_operation
-stop_clik ||= false%>
+stop_clik ||= up_down_operation.votes.exists?(["user_id=?",current_user])%>
 <div class="make_up" >
   <div  style="height:<%= "#{up_down_object.up}px;line-height:0px;" %> "></div>
   <%= "#{up_down_object.up}" %><br />

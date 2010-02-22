@@ -19,7 +19,7 @@
 class Judge < ActiveRecord::Base
   belongs_to :pass,:counter_cache => true
   #被评价用户
-  belongs_to:user,:class_name=> "User",:foreign_key =>"user_id"
+  belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
   #评价用户
   belongs_to :judger,:class_name=> "User",:foreign_key => "judger_id"
   def before_create

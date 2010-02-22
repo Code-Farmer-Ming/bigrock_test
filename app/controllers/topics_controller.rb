@@ -141,6 +141,7 @@ class TopicsController < ApplicationController
   #顶 新闻
   def up
     @topic = Topic.find(params[:id])
+    @topic.votes << Vote.new(:value=>1,:user=>current_user)
     @topic.up += 1
     @topic.save
     render :partial => "comm_partial/update_up_down_panel",:object=>@topic
@@ -149,6 +150,7 @@ class TopicsController < ApplicationController
   def down
     @topic = Topic.find(params[:id])
     @topic.down += 1
+    @topic.votes << Vote.new(:value=>-1,:user=>current_user)
     @topic.save
     render :partial => "comm_partial/update_up_down_panel",:object=>@topic
   end

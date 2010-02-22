@@ -28,7 +28,7 @@ class Topic < ActiveRecord::Base
   
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy
   has_many :comments,:as=>:commentable,:dependent=>:destroy
-
+  has_many :votes,:as=>:owner
 
 
   #热门话题
