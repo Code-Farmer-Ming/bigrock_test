@@ -52,19 +52,7 @@ class CompaniesControllerTest < ActionController::TestCase
     end
     assert_redirected_to companies_path
   end
-  
-  test "company_tags" do
-    get :tags, :id => companies(:one).to_param
-    assert_response :success   
-  end
-  
-  test "company_show_by_tag" do
-    get :show_by_tag, :tag_id => tags(:tags_001)
-    assert_response :success
-  end
-  
- 
-  
+    
   test "search" do
     get :search
     assert_response :success
@@ -77,8 +65,22 @@ class CompaniesControllerTest < ActionController::TestCase
     get :search,:state_id=>1,:city_id=>1,:company_type_id=>1,:company_size_id=>1
     assert_equal(2,  assigns(:companies).size)
 
-    get :search,:industry_id=>1
+    get :search,:industry_id=>1,:salary_order=>:asc
     assert_equal(3,  assigns(:companies).size)
+    assert_equal 1,assigns(:companies).first.id
+    assert_equal 3,assigns(:companies).last.id
+    get :search,:industry_id=>1,:salary_order=>:desc
+    assert_equal 3,assigns(:companies).first.id
+    assert_equal 1,assigns(:companies).last.id
+    get :search,:industry_id=>1,:condition_order=>:asc
+    assert_equal 3,assigns(:companies).first.id
+    assert_equal 1,assigns(:companies).last.id
+    get :search,:industry_id=>1,:condition_order=>:desc
+    assert_equal 1,assigns(:companies).first.id
+    assert_equal 3,assigns(:companies).last.id
+    
+    get :search,:industry_id=>1,:condition_order=>:desc,:salary_order=>:desc
+    assert_equal 3,assigns(:companies).first.id
   end
 
 end

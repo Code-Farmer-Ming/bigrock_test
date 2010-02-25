@@ -23,6 +23,7 @@ class TopicsController < ApplicationController
     if @topic.owner_type=="Group"#group topics
       @can_reply =  @topic.owner.is_member?(current_user)
     end
+    @comments = @topic.comments.paginate :page => params[:page]
     @is_owner = is_owner?(@topic)
     @is_manager  = is_manager?(@topic)
     @page_title= " 话题 " + @topic.title
@@ -124,15 +125,14 @@ class TopicsController < ApplicationController
           format.xml  { head :ok }
         else
           format.html {
-            flash.now[:error]="删除错误 "+$!
-            render :action=>:show }
+            flash[:error]="删除错误 "+$!
+            redirect_to([owner,@topic]) }
           format.xml  { head :ok }
         end
       else
         format.html {
-          flash.now[:error]="删除错误"
-          render :action=>:show
-          
+          flash[:error]="删除错误"
+          redirect_to([owner,@topic])
         }
         format.xml  { head :fails }
       end
@@ -186,6 +186,19 @@ class TopicsController < ApplicationController
       page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
     end    
   end
+  
+  def search
+    search_str = "%#{params[:search]}%"
+    @topics = nil
+    if params[:group_id]
+      @owner = Group.find(params[:group_id])
+      @topics = @owner.topics.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
+    elsif  params[:company_id]
+      @owner = Company.find(params[:company_id])
+      @topics = @owner.topics.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
+    end
+  end
+  
   private
   #检查当前用户的权限
   def is_manager?(topic)

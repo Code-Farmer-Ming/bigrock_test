@@ -1,0 +1,19 @@
+<div id="left_content">
+  <div class="bottom_gray_line "  >
+    <h2><%= "#{ @owner ? @owner.name : '' } 搜索话题" %></h2>
+    <p class="r">
+      搜索结果<%= @topics.size %>条
+    </p>
+    <p class="c"/>
+  </div>
+  <%= render :partial=>"topics/topic_item",:collection=> @topics,:locals=>{:show_group=>!@owner} %>
+  <%= will_paginate  @topics %>
+</div>
+<div id="right_content">
+  <% sub_block_div("") do%>
+    <%= link_to "<<返回[#{@owner.name}]话题首页",[@owner,"topics"] %>
+  <%end%>
+  <% sub_block_div("搜索条件") do%>
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入小组名称"} %>
+  <%end%>
+</div>

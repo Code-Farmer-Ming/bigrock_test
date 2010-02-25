@@ -1,0 +1,17 @@
+<div id="left_content">
+  <div class="bottom_gray_line "  >
+    <h1><%= "搜索小组" %></h1>
+    <p class="r">
+      搜索结果<%= @groups.size %>条
+    </p>
+    <p class="c"/>
+  </div>
+    <%= render :partial=>"groups/short_info",:collection=> @groups %>
+  <%= will_paginate  @groups %>
+</div>
+<div id="right_content">
+  <% sub_block_div() do%>
+   <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入小组名称"} %>
+  <%end%>
+  <%= link_to "<<返回小组首页",groups_path() %>
+</div>

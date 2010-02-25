@@ -2,6 +2,6 @@
   <%= f.error_messages %>
   <%= render :partial=>"resumes/form" ,:object=>f %>
   <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %>
-  <%= link_to_function "取消","Element.hide('edit_container_user_base_info');Element.show('user_base_info');//Element.show('summary_info')" %>
+  <%= link_to_function "取消","Element.hide('edit_container_user_base_info');Element.show('user_base_info');Element.show('main_thumb_img');//Element.show('summary_info')" %>
 <% end %>
 

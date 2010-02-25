@@ -41,6 +41,9 @@ one:
   city_id: 1
   company_type_id: 1
   company_size_id: 1
+  salary_value: 1
+  condition_value: 3
+  company_judges_count: 1
   version: 0
 
 two:
@@ -54,6 +57,9 @@ two:
   city_id: 1
   company_type_id: 1
   company_size_id: 1
+  salary_value: 2
+  condition_value: 2
+  company_judges_count: 1
   version: 0
   
 three:
@@ -67,4 +73,7 @@ three:
   city_id: 2
   company_type_id: 2
   company_size_id: 2
+  salary_value: 3
+  condition_value: 1
+  company_judges_count: 1
   version: 0

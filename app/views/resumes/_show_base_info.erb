@@ -3,7 +3,7 @@
   <% if current_user?(resume.user) %>
   <span class="operation_lab"> <%= link_to_remote "",
       {:update=>"edit_container_user_base_info" ,
-      :before=>" PerpareEdit('user_base_info')",
+      :before=>" PerpareEdit('user_base_info');Element.hide('main_thumb_img')",
       :complete=>"$('edit_container_user_base_info').select('Form').each(function(el){ el.focusFirstElement();})",
       :url=>edit_user_resume_path(resume.user,resume),:method=>"get"},
       :class=>"edit_img_button",:title=>"编辑"%>

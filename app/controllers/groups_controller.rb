@@ -48,6 +48,7 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     @group = Group.new(params[:group])
+    @group.group_type_id = 0
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
       @group.icon = GroupIcon.find(params[:uploaded_file_id])
     end
@@ -167,7 +168,7 @@ class GroupsController < ApplicationController
       end     
     end
   end
-  #根据 tag 显示相关 公司的信息
+  #根据 tag 显示相关 小组的信息
   def show_by_tag
     @tag = Tag.find(params[:tag_id])
     #    taggable_ids = @tag.taggings.all(:conditions=>["taggable_type=?",Company.to_s],:limit=>10,:order=>"user_tags_count desc").map(&:taggable_id)
@@ -184,5 +185,9 @@ class GroupsController < ApplicationController
       :conditions =>" lower(name) like '%#{params[:group][:tag_list].downcase}%' ",
       :select=>"distinct name" )
     render :inline => "<%= auto_complete_result @items, 'name', '#{params[:group][:tag_list]}' %>"
+  end
+  def search
+    search_str = "%#{params[:search]}%"
+    @groups = Group.paginate(:conditions=>["name like ? or description like ?",search_str,search_str] ,:page => params[:page])
   end
 end

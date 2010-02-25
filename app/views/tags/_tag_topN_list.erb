@@ -1,0 +1,2 @@
+<%= render :partial=>"tags/show_tag",:collection=> tag_topN_list.taggings.all(:limit=>5,:order=>"user_tags_count desc") %>
+<%= link_to "…所有#{tag_topN_list.taggings.size}个",[tag_topN_list,:tags] if tag_topN_list.taggings.size>5 %>

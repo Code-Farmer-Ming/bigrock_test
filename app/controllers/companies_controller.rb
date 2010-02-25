@@ -5,6 +5,7 @@ class CompaniesController < ApplicationController
   # GET /companies
   # GET /companies.xml    
   def index
+    @page_title="公司 首页"
     @newly_companies = Company.all(:limit=>3,:order=>"created_at desc")
     @salary_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc")
     @condition_best_companies =  Company.all(:limit=>3,:order=>"condition_value/company_judges_count desc")
@@ -97,22 +98,7 @@ class CompaniesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  #显示某个公司的所有 标签
-  def tags
-    @company = Company.find(params[:id])
-    @tags = @company.all_tags(:conditions=>["name like ? or ?=''", '%'+params[:search].to_s+'%', params[:search]]).paginate :page => params[:page]
-  end
-  #根据 tag 显示相关 公司的信息
-  def show_by_tag
-    @tag = Tag.find(params[:tag_id])
-    #    taggable_ids = @tag.taggings.all(:conditions=>["taggable_type=?",Company.to_s],:limit=>10,:order=>"user_tags_count desc").map(&:taggable_id)
-    @similar_taggings = Company.find_related_tags(@tag.name,:limit=>10) #Tagging.find(:all,:conditions=>["taggable_id in (?) and tag_id<>?",taggable_ids,@tag.id],:limit=>10,:order=>"user_tags_count desc")
-    @companies = @tag.taggables.paginate_by_taggable_type "Company", :page => params[:page],:order=>params[:order]
-  end
-  #所有关于公司的 标签
-  def all_tags
-    @tags =  Company.all_tags(:conditions=>["name like ? or ?=''", '%'+params[:search].to_s+'%', params[:search]]).paginate :page => params[:page]
-  end
+
 
   def logs
     @company = Company.find(params[:id])
@@ -133,12 +119,12 @@ class CompaniesController < ApplicationController
   end
  
   def search()
-    order_str =  params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : ''
+    order_str =  params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : nil
 
-    if order_str.blank?
-      order_str =  params[:condition_order] && !params[:condition_order].blank? ? "condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : ''
+    if !order_str
+      order_str =  params[:condition_order] && !params[:condition_order].blank? ? "condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : nil
     else
-      order_str +=  params[:condition_order] && !params[:condition_order].blank? ? ",condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : ''
+      order_str +=  params[:condition_order] && !params[:condition_order].blank? ? ",condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : ""
     end
     @companies = Company.paginate :all,
       :conditions=>["(name like ? or ?='') and (industry_id=? or ?=0) and (company_type_id=? or ?=0)"+

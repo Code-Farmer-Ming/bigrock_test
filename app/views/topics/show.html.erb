@@ -27,7 +27,8 @@
   </div>
   <div class="icon_right_content">
     <div id="comments">
-      <%= render :partial=>"comments/comment",:collection=>@topic.comments %>
+      <%= render :partial=>"comments/comment",:collection=>@comments %>
+        <%= will_paginate  @comments %>
     </div>
     <div id="comment_reply" class="item_content">
       <%if  @can_reply%>

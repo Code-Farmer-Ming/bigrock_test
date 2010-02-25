@@ -21,14 +21,19 @@ one:
   id: 1
   company_id: 1
   title: MyString
-  content: MyText
+  content: MyText1
   create_user_id: 1
   last_edit_user_id: 1
+  up: 1
+  down: 0
+  created_at: <%= DateTime.now-1.days %>
 
 two:
   id: 2
   company_id: 1
   title: MyString
-  content: MyText
+  content: MyText2
   create_user_id: 1
   last_edit_user_id: 1
+  up: 0
+  down: 1

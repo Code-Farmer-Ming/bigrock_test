@@ -131,4 +131,19 @@ class TopicsControllerTest < ActionController::TestCase
     assert_equal true,topics(:one).top_level
     assert_equal "设置错误" ,flash[:error]
   end
+  
+  test "search" do
+    get :search,{:company_id=>1}
+    assert_response :success
+    get :search,{:company_id=>1,:search=>"MyString"}
+    assert_equal 2,assigns(:topics).size
+    get :search,{:company_id=>1,:search=>"MyText1"}
+    assert_equal 1,assigns(:topics).size
+
+    get :search,{:group_id=>1}
+    assert_response :success
+    get :search,{:group_id=>1,:search=>"MyString"}
+    assert_equal 1,assigns(:topics).size
+    assert_equal 3,assigns(:topics).first.id
+  end
 end

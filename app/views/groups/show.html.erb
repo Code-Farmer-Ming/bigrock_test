@@ -13,7 +13,10 @@
       <b>创建于 </b><%=  localize(@group.created_at)%>
     </p>
     <p>
-      <b>标签 </b>  <%= render :partial=>"comm_partial/show_tag" ,:collection=>@group.all_tags(:limit=>4)  %>
+      <b>标签 </b>
+       <span id="tag_topN_list">
+        <%= render :partial=>"tags/tag_topN_list",:object=>@group %>
+      </span>
     </p>
     <p>
       <b>成员 </b> <%= link_to("#{@group.members_count}",group_members_path(@group),:class=>"member_count")%>

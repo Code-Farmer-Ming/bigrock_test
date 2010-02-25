@@ -32,7 +32,6 @@ class CompanyJudgesController < ApplicationController
   def create
     @company = Company.find(params[:company_id])
     @judge = CompanyJudge.new(params[:company_judge])
- 
     current_user.tag_something(@company, params[:user_tags])
     @judge.user = current_user
 

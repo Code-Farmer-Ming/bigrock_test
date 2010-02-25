@@ -7,6 +7,7 @@
 </div>
 
 <div id="right_content">
+  <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索话题"} %>
   <%  sub_block_div() do %>
     <%= link_to "+发言", {:action=>:new,:controller=>:topics} ,:class=>"button" %>
   <p class="clear" />

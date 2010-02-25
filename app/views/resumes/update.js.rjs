@@ -1,5 +1,7 @@
 # TODO Operate on the page object
 page["user_base_info"].show
+page["main_thumb_img"].show
+ 
 #page << "if ($('summary_info')!=null) Element.show('summary_info');"
 page[dom_id(@resume,'user_name')].replace_html @resume.user_name
 page["edit_container_user_base_info"].hide

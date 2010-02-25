@@ -9,9 +9,9 @@
       写于
       <%=  time_ago_in_words_plus(topic_item.created_at)%>
     </span>
-      <%=  link_to "[#{topic_item.owner.name}]",group_path(topic_item.owner),:title=>"#{topic_item.owner.name}小组"  if show_group%>
+      <%=  link_to "[#{topic_item.owner.name}]",[topic_item.owner],:title=>"#{topic_item.owner.name}"  if show_group%>
   </div>
   <%= "[置顶]"  if show_group && topic_item.top_level   %>
-  <%=  link_to topic_item.title,[topic_item.owner,topic_item],:target=>"_blank",:title=>topic_item.title %> <span><%= "回复#{topic_item.comments_count}" if topic_item.comments_count>0 %></span>
+  <%=  link_to highlight(h(topic_item.title),params[:search]),[topic_item.owner,topic_item],:target=>"_blank",:title=>topic_item.title %> <span><%= "回复#{topic_item.comments_count}" if topic_item.comments_count>0 %></span>
  
 </div>

@@ -26,7 +26,7 @@
       </div>
     </div>
   <%end%>
-  
+
   <% sub_block_div("公司行业") do%>
     <%i= 1%>
     <ul id="industry_link_list" class="set_center">
@@ -38,8 +38,8 @@
       <%end-%>
     </ul>
   <%end%>
-  <%sub_block_div("公司热门标签") do%>
-    <%= render :partial=>"comm_partial/show_tag" ,:collection=>@hot_tags  %>…<%=  link_to("全部标签",{:action=>"all_tags"})%>
+  <%sub_block_div("公司热门标签",link_to("全部",tags_path(:type=>:Company))) do%>
+    <%= render :partial=>"tags/tag_info" ,:collection=>@hot_tags,:locals=>{:type=>:Company}  %> <%=  link_to("…",tags_path(:type=>:Company))%>
   <%end%>
 </div>
 <div id="right_content">

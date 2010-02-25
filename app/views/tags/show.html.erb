@@ -1,0 +1,23 @@
+<div id="left_content">
+  <h1><%= "#{@tag.name} 标签" %></h1>
+  <%if @tag_type=='Company'%>
+    <%= render :partial=>"companies/company_info_and_operation",:collection=>@objects %>
+  <%else%>
+    <%= render :partial=>"groups/short_info",:collection=>@objects %>
+  <%end%>
+  <%= will_paginate  @objects %>
+</div>
+<div id="right_content">
+  <%sub_block_div("") do%>
+    <p>
+      <%if @tag_type=='Company'%>
+        <%= link_to "返回所有公司首页" ,companies_path() %>
+      <%else%>
+        <%= link_to "返回所有小组首页" ,groups_path() %>
+      <%end%>
+    </p>
+  <%end%>
+  <%sub_block_div("相关的标签",link_to("查看所有标签",tags_path(:type=>@tag_type))) do%>
+    <%= render :partial=>"tags/tag_info" ,:collection=> @similar_taggings,:locals=>{:type=>@tag_type} %>
+  <%end%>
+</div>

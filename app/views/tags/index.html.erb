@@ -1,0 +1,13 @@
+<div id="left_content">
+  <h1><%= @label %>  所有标签 </h1>
+  <%= render :partial=>"tags/search" %>
+  <%if @owner%>
+    <%= render :partial=>"tags/show_tag" ,:collection=>@tags,:locals=>{:type=>@tag_type}  %>
+  <%else%>
+    <%= render :partial=>"tags/tag_info" ,:collection=>@tags ,:locals=>{:type=>@tag_type}  %>
+  <%end%>
+  <%= will_paginate  @tags %>
+</div>
+<div id="right_content">
+  <%= link_to "<< 返回[#{@label}]首页" ,[ @owner ||  @tag_type.to_s.downcase.pluralize] %>
+</div>

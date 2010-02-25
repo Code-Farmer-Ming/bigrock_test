@@ -8,11 +8,11 @@ class WorkItemsControllerTest < ActionController::TestCase
     login_as(@user_one)
   end
  
-
-  test "should get new" do
-    get :new,:user_id=>@user_one.id,:resume_id=>@resume_one.id,:pass_id=>@pass_one.id
-    assert_response :success
-  end
+#
+#  test "should get new" do
+#    get :new,:user_id=>@user_one.id,:resume_id=>@resume_one.id,:pass_id=>@pass_one.id
+#    assert_response :success
+#  end
 
   test "should create work_item" do
     assert_difference('WorkItem.count') do

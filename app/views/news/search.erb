@@ -13,7 +13,7 @@
     <p class="c"/>
   </div>
   <div id="search_result">
-    <%= render :partial=>"news/news_short_info",:collection=>@news %>
+    <%= render :partial=>"news/news_short_info",:collection=>@news,:locals=>{:show_icon=>!@company} %>
     <%= will_paginate  @news %>
   </div>
 </div>

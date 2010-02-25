@@ -1,8 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :groups,:member=>{:invite_join=>[:get,:post]}, :collection=>{:all_tags=>:get,:show_by_tag=>:get} do |groups|
-    groups.resources :topics  do |topics|
+  map.resources :groups,:member=>{:invite_join=>[:get,:post]},
+    :collection=>{:search=>:get} do |groups|
+    groups.resources :topics, :collection=>{:search=>:get}  do |topics|
       topics.resources :comments
     end
+    groups.resources :tags
     #    groups.resources :recommends
     groups.resources :members,:member=>{:to_root=>:post,:to_manager=>:post,:to_normal=>:post}
     groups.resources :add_group_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
@@ -11,15 +13,18 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :recommends
   map.resources :news,:only=>[:index]
   map.resources :attachments
- 
+  map.resources :tags
+  
   map.resources :companies,
     :member=>{:employee_list=>:get,
     #    :destroy_version=>:delete,
-    :tags=>:get,
+     
     :logs=>:get },
-    :collection=>{:all_tags=>:get,:show_by_tag=>:get,:search=>:get} do |companies|
+    :collection=>{:search=>:get} do |companies|
     companies.resources :company_judges
-    companies.resources :topics do |topics|
+    companies.resources :tags,:only=>[:index]
+ 
+    companies.resources :topics ,:collection=>{:search=>:get} do |topics|
       topics.resources :comments
     end
     companies.resources :news,:collection=>{:search=>:get}   do |news|

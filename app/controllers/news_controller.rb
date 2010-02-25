@@ -30,6 +30,7 @@ class NewsController < ApplicationController
     @piece_of_news = Piecenews.find(params[:id])
     @company = @piece_of_news.owner
     @is_manager  =@company.current_employee?(current_user)
+    @comments = @piece_of_news.comments.paginate :page => params[:page]
     @page_title= "新闻 " + @piece_of_news.title
   
     respond_to do |format|
@@ -150,14 +151,13 @@ class NewsController < ApplicationController
   end
   #搜索新闻
   def search
-    order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order]=="asc" ? 'asc' : 'desc') : "")
+    order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
 
-    if order_str.blank?
-      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
+    if !order_str
+      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : nil
     else
       order_str +=  params[:created_order] && !params[:created_order].blank?  ? ",created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
     end
-
     search_str = "%"+params[:search].to_s.strip+"%"
     if params[:company_id] then
       @company = Company.find(params[:company_id])

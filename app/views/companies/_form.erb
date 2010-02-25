@@ -48,11 +48,9 @@
   <%= f.text_field :website ,:class=>"text" %>
   <%  i=0 %>
   <%@company.versions.find_version_by_column(:website).each do |version| %>
-
     <%= link_to_function "版本#{i+=1}","$('company_website').value='#{version.website}'",:title=>"#{version.website}" %>
   <%end%>
 </p>
-
 <p>
   <%  i=0 %>
   <%= f.label :address, "地址",:class=>"filed_lab" %>
@@ -75,4 +73,3 @@
     <%= link_to_function "版本#{i+=1}","$('company_description').value=this.title",:title=>"#{version.description}" %>
   <%end%>
 </p>
-

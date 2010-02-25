@@ -2,34 +2,40 @@
 show_icon ||= false
 %>
 <div class="news_short_content" >
+
   <p class="news_title">
-    <%= link_to "#{piece_news.title}", company_piecenews_path(piece_news.owner,piece_news),:target=>"_blank" %>
+    <%= link_to "#{highlight(piece_news.title,params[:search])}", company_piecenews_path(piece_news.owner,piece_news),:target=>"_blank" %>
   </p>
   <div class="news_content">
-    <%#*<p class="r">%>
-      <%#*<b>认为不错</b>%>
+<%#*<p class="r">%>
+<%#*<b>认为不错</b>%>
 <%#= link_to piece_news.up,'',:class=>"recommand_count" %>
-      <%#*人%>
-      <%#*<b>不行</b>%>
+<%#*人%>
+<%#*<b>不行</b>%>
 <%#= link_to piece_news.down,'',:class=>"recommand_count" %>
-      <%#*人%> 
-     
-    <%#*</p>%>
+<%#*人%> 
+
+<%#*</p>%>
+
     <p class="date_field">
       <%=link_to piece_news.create_user.name ,user_path(piece_news.create_user) %> <%= " #{localize(piece_news.created_at)} 发布 " %>
       <%=  link_to(piece_news.last_edit_user.name ,users_path(piece_news.last_edit_user)) + " #{localize(piece_news.created_at)} 修改" if  piece_news.last_edit_user%>
     </p>
-     <p class="c"></p>
+
     <div class="r">
       <%= render :partial=>"companies/company_icon",:object=>piece_news.owner if show_icon  %>
     </div>
-    <div>
-      <%= h(truncate("#{piece_news.content}", :length=>255))%>
-    </div>
     <p>
-       <b> 回复 </b> <%= link_to  "#{piece_news.comments.size}次",company_piecenews_path(piece_news.owner,piece_news)+"?#comments",:class=>"" %>
-      <%= link_to "查看详细…", company_piecenews_path(piece_news.owner,piece_news),:target=>"_blank" %>  <%= link_to '编辑', edit_company_piecenews_path(piece_news.owner,piece_news) if piece_news.owner.current_employees.exists?(current_user)%>
+      <%= highlight(h(truncate("#{piece_news.content}", :length=>255)),params[:search])%>
+    </p>
+    <p>
+      <b> 回复 </b> <%= link_to  "#{piece_news.comments.size}次",company_piecenews_path(piece_news.owner,piece_news)+"?#comments",:class=>"" %>
+      &nbsp;
+      <%= link_to '编辑', edit_company_piecenews_path(piece_news.owner,piece_news) if piece_news.owner.current_employees.exists?(current_user)%>
+      &nbsp;
       <%= link_to '删除', company_piecenews_path(piece_news.owner,piece_news), :confirm => '确定删除吗?', :method => :delete if piece_news.owner.current_employees.exists?(current_user) %>
+      &nbsp;
+      <%= link_to "查看详细…", company_piecenews_path(piece_news.owner,piece_news),:target=>"_blank" %>
     </p>    <p class="c"></p>
   </div>
 </div>

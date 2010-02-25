@@ -9,11 +9,7 @@
 #  user_tags_count :integer       default(0), not null
 #
 
-taggings_004: 
-  tag_id: "2"
-  id: "4"
-  taggable_type: Company
-  taggable_id: "2"
+
 taggings_001: 
   tag_id: "1"
   id: "1"
@@ -24,3 +20,20 @@ taggings_002:
   id: "2"
   taggable_type: Company
   taggable_id: "2"
+taggings_003:
+  tag_id: "1"
+  id: "3"
+  taggable_type: Group
+  taggable_id: "2"
+  
+taggings_004:
+  tag_id: "2"
+  id: "4"
+  taggable_type: Company
+  taggable_id: "2"
+  
+taggings_005:
+  tag_id: "2"
+  id: "5"
+  taggable_type: Group
+  taggable_id: "1"

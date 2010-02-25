@@ -12,7 +12,6 @@ class AccountController < ApplicationController
       format.xml  { render :xml => @user }
     end
   end
-
   #保存
   def create
     @user = User.new(params[:user])
@@ -83,7 +82,6 @@ class AccountController < ApplicationController
         format.js{ render :update do |page|
             page << "Lightbox.show('/account/ajax_login')"
           end }
-   
       end
     end
   end
@@ -215,7 +213,7 @@ class AccountController < ApplicationController
   end
 
   def search
-        @page_title ="基本设置"
+    @page_title ="基本设置"
   end
 
   def set_base_info

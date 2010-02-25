@@ -25,7 +25,8 @@
     <p class="clear"></p>
   </div>
   <div id="comments">
-    <%= render :partial=>"comments/comment",:collection=>@piece_of_news.comments %>
+    <%= render :partial=>"comments/comment",:collection=>@comments %>
+    <%= will_paginate  @comments %>
   </div>
   <div class="item_content">
     <%= render :partial=>"comments/new_form",:object=>@piece_of_news %>
