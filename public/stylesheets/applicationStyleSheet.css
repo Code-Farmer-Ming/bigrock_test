@@ -818,6 +818,9 @@ div.auto_complete ul strong.highlight {
     margin:6px auto;
     color:gray;
 }
+.user_log{
+    margin-bottom:1px;
+}
 
 /*新闻*/
 .news_title{
