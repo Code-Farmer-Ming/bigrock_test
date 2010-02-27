@@ -1,6 +1,6 @@
 <div id="left_content">
   <%if !current_user%>
-   <%= link_to_function '我要注册', "Effect.toggle('welcome_div','slide');SetCookie('welcome_div_display',$('welcome_div').style.display=='none' ? 'block' : 'none')",:id=>'roll_welcome_button',:class=>"welcome_show",:title=>'' -%>
+    <%= link_to_function '我要注册', "Effect.toggle('welcome_div','slide');SetCookie('welcome_div_display',$('welcome_div').style.display=='none' ? 'block' : 'none')",:id=>'roll_welcome_button',:class=>"welcome_show",:title=>'' -%>
     <div >
       <div id="welcome_div" style="display:<%=  cookies[:welcome_div_display]%>">
         <h2>
@@ -16,8 +16,8 @@
         </h3>
         <%= link_to_function "关闭","Effect.toggle('welcome_div','slide');SetCookie('welcome_div_display','none');" %>
       </div>
-      <%#= link_to '我来注册',{:action=>'new'},:id=>'link_register',:style=>'display:none;',:class=>'l' %>
-     
+  <%#= link_to '我来注册',{:action=>'new'},:id=>'link_register',:style=>'display:none;',:class=>'l' %>
+
     </div>
   <%end%>
   <% sub_block_div("新闻") do%>
@@ -36,19 +36,22 @@
     <%end%>
     <%tab_panel("new_topics") do%>
       <%= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
+      <%= link_to "更多…",{:action=>"my_topics"} %>
     <%end%>
     <%tab_panel("join_topics") do%>
       <%= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
+      <%= link_to "更多…",{:action=>"my_topics",:type=>"join"} %>
     <%end%>
     <%tab_panel("my_topics") do%>
       <%= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
+      <%= link_to "更多…",{:action=>"my_topics",:type=>"create"} %>
     <%end%>
   <%end%>
 </div>
 <div id ="right_content">
-  <%# sub_block_div() do %>
-    <%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入文字"} %>
-  <%#end%>
+<%# sub_block_div() do %>
+<%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入文字"} %>
+<%#end%>
 <%# sub_block_div("登录") do%>
 
 <%# form_tag(url_for(:controller=>:account,:action=>"login")) do -%>

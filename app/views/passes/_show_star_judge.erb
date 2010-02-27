@@ -3,11 +3,13 @@
   <span>工作能力</span>
   <%
   judge_count =pass.ability_judges.size
-  yokemate_count=pass.judges.count%>
- 
-  <%= big_star(judge_count>0 ? pass.ability_value/judge_count : judge_count) %>
-  <%=  " <span class=\"red_text\">#{pass.ability_value*2/judge_count }</span>分" if judge_count>0 %>
-  <%=  link_to_function "详细>>", "Element.toggle('#{dom_id(pass,"ability_detail_judge")}')"%>
+  yokemate_count=pass.judges.size%>
+
+  <%= middle_star(pass.average_judge("ability_value") ) %>
+  <%=  " <span class=\"red_text\">#{pass.average_judge("ability_value")  }</span>" %>
+
+  <%=  link_to_function "详细>>",
+    " Element.toggle('#{dom_id(pass,"ability_detail_judge")}');if (Element.visible('#{dom_id(pass,"ability_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
   <div class="detail_judge" id="<%=dom_id(pass,"ability_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>
       <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.ability_judge_count(i))) %>
@@ -17,10 +19,12 @@
 </div>
 <div >
   <span>人际处理</span>
-  <% judge_count =pass.eq_judges.size %>
-  <%= big_star(judge_count>0 ? pass.eq_value/judge_count : judge_count) %>
-  <%=  " <span class=\"red_text\">#{pass.eq_value*2/judge_count }</span>分" if judge_count>0 %>
-  <%=  link_to_function "详细>>", "Element.toggle('#{dom_id(pass,"eq_detail_judge")}')"%>
+
+  <%= middle_star(pass.average_judge("eq_value")) %>
+  <%=  " <span class=\"red_text\">#{pass.average_judge("eq_value") }</span>" %>
+  <%=  link_to_function "详细>>",
+    " Element.toggle('#{dom_id(pass,"eq_detail_judge")}');if (Element.visible('#{dom_id(pass,"eq_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
+
   <div class="detail_judge" id="<%=dom_id(pass,"eq_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>
       <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.eq_judge_count(i))) %>
@@ -30,10 +34,11 @@
 </div>
 <div >
   <span>资料真实</span>
-  <% judge_count=pass.creditability_judges.size%>
-  <%= big_star(judge_count>0 ? pass.creditability_value/judge_count: judge_count) %>
-  <%=  " <span class=\"red_text\">#{pass.creditability_value*2/judge_count }</span>分" if judge_count>0 %>
-  <%=  link_to_function "详细>>", "Element.toggle('#{dom_id(pass,"creditability_detail_judge")}')"%>
+  <%= middle_star(pass.average_judge("creditability_value")) %>
+  <%=  " <span class=\"red_text\">#{pass.average_judge("creditability_value")}</span>"  %>
+  <%=  link_to_function "详细>>",
+    " Element.toggle('#{dom_id(pass,"creditability_detail_judge")}');if (Element.visible('#{dom_id(pass,"creditability_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
+
   <%= link_to "(共#{pass.judges.count}人评价)",user_resume_pass_judges_path(pass.user,pass.resume,pass.id) if pass.judges.count>0%>
   <div class="detail_judge" id="<%=dom_id(pass,"creditability_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>

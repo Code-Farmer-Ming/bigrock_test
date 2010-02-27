@@ -13,7 +13,7 @@
 <%#*</p>%>
 <div class="thumb_img">
   <%= img_upload_field( attachments_path(),
-        @resume.user ? @resume.user.icon_file_path : User.anonymity.icon_file_path,
+    @resume.user ? @resume.user.icon_file_path : User.anonymity.icon_file_path,
     nil,
     {:button_text=>"上传文件",:post_params=>{:type=>UserIcon.to_s},:button_width=>60,:button_height=>18
     }) %>
@@ -33,16 +33,16 @@
   <%=f.date_select :birthday,:start_year => 1930  %>
 </p>
 <p>
-  <%= f.label :website1,"博客" ,:class=>"filed_lab"  %>
-  <%=f.text_field :website1,:class=>"text" %>
+  <%= f.label :blog_website,"博客" ,:class=>"filed_lab"  %>
+  <%=f.text_field :blog_website,:class=>"text" %>
 </p>
 <p>
-  <%= f.label :website2,"网站",:class=>"filed_lab" -%>
-  <%=f.text_field :website2,:class=>"text"  -%>
+  <%= f.label :personal_website,"网站",:class=>"filed_lab" -%>
+  <%=f.text_field :personal_website,:class=>"text"  -%>
 </p>
 <br />
 <p>
-  <%= f.label :qq,"MSN",:class=>"filed_lab" -%>
+  <%= f.label :msn,"MSN",:class=>"filed_lab" -%>
   <%=f.text_field :msn ,:class=>"text"  -%>
 </p>
 <p>
@@ -50,20 +50,23 @@
   <%=f.text_field :qq ,:class=>"text"   %>
 </p>
 <p>
-  <%= f.label :phone1,"移动电话" ,:class=>"filed_lab" %>
-  <%=f.text_field :phone1 ,:class=>"text"  %>
+  <%= f.label :mobile,"移动电话" ,:class=>"filed_lab" %>
+  <%=f.text_field :mobile ,:class=>"text"  %>
 </p>
 <p>
-  <%= f.label :phone2,"固定电话" ,:class=>"filed_lab" %>
-  <%=f.text_field :phone2 ,:class=>"text"  %>
+  <%= f.label :telephone,"固定电话" ,:class=>"filed_lab" %>
+  <%=f.text_field :telephone ,:class=>"text"  %>
 </p>
 <p>
   <%= f.label :address,"居住地址" ,:class=>"filed_lab" %>
+  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
+  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+  <%=  drop_list("resume_state_id","resume_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
   <%=f.text_field :address ,:class=>"text"  %>
 </p>
 <%if action_name=="new"%>
   <br />
   <p> <%= f.label :self_description,"自我描述" ,:class=>"filed_lab" %>
 
-  <%= f.text_area :self_description ,:rows=>6 %></p>
+    <%= f.text_area :self_description ,:rows=>6 %></p>
 <%end%>

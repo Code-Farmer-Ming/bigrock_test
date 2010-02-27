@@ -1,0 +1,14 @@
+<div id="left_content">
+ <%= render :partial=>"account/topic_type" %>
+  <%  sub_block_div() do %>
+    <%= render :partial=>"topics/topic_item",:collection=>@topics,:locals=>{:show_group=>true} %>
+    <%= will_paginate @topics %>
+  <%end%>
+</div>
+
+<div id="right_content">
+  <% sub_block_div() do %>
+    <%= link_to "返回 我的首页",account_path() %>
+  <%end%>
+
+</div>

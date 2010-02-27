@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100221083254) do
+ActiveRecord::Schema.define(:version => 20100226042129) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -313,12 +313,12 @@ ActiveRecord::Schema.define(:version => 20100221083254) do
     t.date     "birthday"
     t.boolean  "sex"
     t.string   "address"
-    t.string   "phone1"
-    t.string   "phone2"
+    t.string   "mobile"
+    t.string   "telephone"
     t.string   "phone3"
     t.string   "phone4"
-    t.string   "website1"
-    t.string   "website2"
+    t.string   "blog_website"
+    t.string   "personal_website"
     t.string   "website3"
     t.string   "website4"
     t.string   "photo",                          :default => "imagesdefault_thumb.png"
@@ -332,6 +332,8 @@ ActiveRecord::Schema.define(:version => 20100221083254) do
     t.boolean  "is_current",                     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "city_id"
+    t.integer  "state_id"
   end
 
   create_table "specialities", :force => true do |t|

@@ -17,6 +17,8 @@
 class User< ActiveRecord::Base
   #状态
   STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还在学校"}
+
+  
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
   #经历
@@ -327,7 +329,11 @@ class User< ActiveRecord::Base
     else
       icon ? (icon.public_filename) : "default_user.png"
     end
- 
+  end
+  #评价平均评价值
+  def avg_judge_value
+     value = judges.all(:select=>["avg(eq_value+creditability_value+ability_value)/3  avg_judge_value"])[0].avg_judge_value
+    value && (value.is_a?(Fixnum) ? value.to_f : value).to_d
   end
 
   def text_password=(value)
@@ -351,7 +357,7 @@ class User< ActiveRecord::Base
     current = taggble_list.collect.map { |item| item.tag.name }.join(Tag::DELIMITER) if taggble_list
       
   end
-  #对某个可以做评价的对象做评价 如公司
+  #对某个可以做 做标签 的对象做标签 如公司
   def tag_something(taggable_object,tags)
     return  if  !taggable_object.taggable?  || taggable_object.tag_list == tags
     list = tag_cast_to_string(tags)
@@ -359,39 +365,34 @@ class User< ActiveRecord::Base
     current = []
     tagging_list = taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
         :taggable_type=>taggable_object.class.to_s.camelize})
-    #获取 当前评价
+    #获取 当前的标签
     current = tagging_list.collect.map { |item| item.tag.name } if tagging_list
-    #需要新添加的评价
+    #需要新添加的标签
     add_list = list-current
    
     destroy_list = current - list
     add_list.each do |tag_name|
       temp_tag = Tag.find_or_create_by_name(tag_name)
       temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
-      #是否有同样的评价
+      #是否有同样的标签
       if !temp_tagging
         taggable_object.tags << temp_tag
         temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
       end
       user_tags << UserTag.new(:tagging=>temp_tagging)
     end
-    #需要删除的评价
+    #需要删除的标签
     destroy_list.each do |tag_name|
       temp_tag = Tag.find_or_create_by_name(tag_name)
       temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag) if temp_tag
       user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
     end
   end
-
-
   #START:create_new_salt
   def create_new_salt
     self.salt = self.object_id.to_s + rand.to_s
   end
   #END:create_new_salt
-
-
-
   private
   #  #START:encrypted_password
   def self.encrypted_password(password, salt)
@@ -399,6 +400,4 @@ class User< ActiveRecord::Base
     Digest::SHA1.hexdigest(string_to_hash)
   end
   #  #END:encrypted_password
-
-
 end

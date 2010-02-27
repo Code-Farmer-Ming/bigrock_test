@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_filter :check_login?,:except=>[:index,:show,:show_by_tag,:all_tags]
+  before_filter :check_login?,:except=>[:index,:show]
   # GET /groups
   # GET /groups.xml
   def index
@@ -168,24 +168,14 @@ class GroupsController < ApplicationController
       end     
     end
   end
-  #根据 tag 显示相关 小组的信息
-  def show_by_tag
-    @tag = Tag.find(params[:tag_id])
-    #    taggable_ids = @tag.taggings.all(:conditions=>["taggable_type=?",Company.to_s],:limit=>10,:order=>"user_tags_count desc").map(&:taggable_id)
-    @similar_taggings = Group.find_related_tags(@tag.name,:limit=>10) #Tagging.find(:all,:conditions=>["taggable_id in (?) and tag_id<>?",taggable_ids,@tag.id],:limit=>10,:order=>"user_tags_count desc")
-    @groups = @tag.taggables.paginate_by_taggable_type "Group", :page => params[:page],:order=>params[:order]
-  end
-  #所有关于小组的 标签
-  def all_tags
-    @tags =  Group.all_tags.paginate :page => params[:page]
-  end
- 
+   
   def auto_complete_for_tag
     @items =  Tag.find(:all,
       :conditions =>" lower(name) like '%#{params[:group][:tag_list].downcase}%' ",
       :select=>"distinct name" )
     render :inline => "<%= auto_complete_result @items, 'name', '#{params[:group][:tag_list]}' %>"
   end
+  
   def search
     search_str = "%#{params[:search]}%"
     @groups = Group.paginate(:conditions=>["name like ? or description like ?",search_str,search_str] ,:page => params[:page])

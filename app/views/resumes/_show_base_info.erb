@@ -31,25 +31,25 @@
   </p>
 <%end%>
 <% if resume.user.setting.can_visibility?(:blog_site_visibility,current_user) &&
-    !resume.website1.blank?   %>
+    !resume.blog_website.blank?   %>
   <span  class="operation_lab">
     <%= render :partial=>"resumes/visibility_set",
       :locals=>{:value=>resume.user.setting.blog_site_visibility,:visibility_value=>"blog_site",:resume=>resume} if  current_user?(resume.user) %>
   </span>
   <p>
     <span>博客</span>
-    <%=auto_link_urls(h(resume.website1))   -%>
+    <%=auto_link_urls(h(resume.blog_website))   -%>
   </p>
 <%end%>
 <% if resume.user.setting.can_visibility?(:web_site_visibility,current_user) &&
-    !resume.website2.blank? %>
+    !resume.personal_website.blank? %>
   <span  class="operation_lab">
     <%= render :partial=>"resumes/visibility_set",
       :locals=>{:value=>resume.user.setting.web_site_visibility,:visibility_value=>"web_site",:resume=>resume} if  current_user?(resume.user) %>
   </span>
   <p>
     <span>网站</span>
-    <%=auto_link_urls(h(resume.website2))   -%>
+    <%=auto_link_urls(h(resume.personal_website))   -%>
   </p>
 <%end%>
 <%= render :partial=>"resumes/show_contact_info",:object=>resume %>

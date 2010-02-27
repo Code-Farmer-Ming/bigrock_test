@@ -12,7 +12,7 @@
     </div>
     <div class="main_content icon_right_content">
       <p class="date_field">
-        发布于 <%= " #{localize(@topic.author.created_at)}" %>
+        发布于 <%= " #{time_ago_in_words_plus(@topic.author.created_at)}" %>
         &nbsp;
         被推荐 <%= link_to "#{@topic.recommends.size}次",
           recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic) %>

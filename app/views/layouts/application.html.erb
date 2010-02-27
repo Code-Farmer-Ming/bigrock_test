@@ -9,11 +9,15 @@
 
     <%= stylesheet_link_tag 'blueprint/screen','blueprint/plugins/buttons/screen',:cache => true %>
     <%= stylesheet_link_tag 'blueprint/print',:media => "print"  %>
-    <%= javascript_include_tag "prototype.js","scriptaculous.js"  ,:cache => true%>
     <!--[if lt IE 8]>
     <%= stylesheet_link_tag 'blueprint/ie' %>
-    <![endif]-->
+<![endif]-->
     <%= stylesheet_link_tag  :all ,:cache => true%>
+    <%= javascript_include_tag "prototype.js","builder","effects","dragdrop",
+      "controls","niftycube","application","lightbox",'ratings_component',
+      "swfupload","fabtabulous","control_extensions","validation_cn",'text_field_default_value',"dynamic_popmenu",
+      'prototype_ui_auto_complete_like_facebook/prototype-ui'  ,:cache => true%>
+
   </head>
   <body>
     <div id="main">

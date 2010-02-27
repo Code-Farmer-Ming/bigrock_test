@@ -14,7 +14,7 @@
     </div>
     <p>
     <h3>公司信息</h3>
-    <%=h(@company.description) %>
+    <%=simple_format(auto_link(h(@company.description))) %>
     </p>
 
     <%if @company.phone && @company.phone.any?%>
@@ -32,7 +32,7 @@
     <% if @company.website && @company.website.any?  %>
       <p>
         <b>网站:</b>
-        <%= auto_link(h(@company.website))%>
+        <%= auto_link(h(@company.website), :all, :target => "_blank")%>
       </p>
     <%end%>
     <p>

@@ -55,7 +55,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users,:collection =>{},
     :member=>{:yokemate_list=>:get, :logs=>:get,:friends=>:get,:groups=>:get} do |users|
- 
+    users.resources :judges,:only=>[:index]
     users.resources :topics
     users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}
       resumes.resources :passes,:member=>{:available_yokemates=>:get,:send_invite=>:post} do |passes|

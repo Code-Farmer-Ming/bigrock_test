@@ -5,7 +5,7 @@ class MailerServer < ActionMailer::Base
     sent_at = Time.now
     subject '重设密码'
     recipients token.user.email
-    from       'zhangming321@21cn.com'
+    from       'tomorrownull@163.com'
     sent_on    sent_at
     content_type "text/html"
     body       :greeting => token
@@ -17,7 +17,7 @@ class MailerServer < ActionMailer::Base
     sent_at = Time.now
     subject  msg.title
     recipients msg.sendees
-    from       'zhangming321@21cn.com'
+    from       'tomorrownull@163.com'
     sent_on    sent_at
 
     body       :greeting => msg

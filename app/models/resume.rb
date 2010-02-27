@@ -34,8 +34,10 @@
 class Resume < ActiveRecord::Base
   #简历类型
   RESUME_TYPES=["中文","英文"]
- 
+  belongs_to :state
+  belongs_to :city
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
+  
   has_many :passes,:dependent=>:destroy ,:order=>"begin_date desc,is_current desc"
   has_many :current_companies ,:through=>:passes,:source=>:company
   has_many :educations,:dependent=>:destroy,:order=>"begin_date desc"

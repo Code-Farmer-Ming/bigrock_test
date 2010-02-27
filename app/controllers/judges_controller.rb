@@ -60,9 +60,10 @@ class JudgesController < ApplicationController
       end
     end
   end
+
   def index
     @user = User.find(params[:user_id])
-    if params[:pass_id]=='-1'
+    if !params[:pass_id]
       @judges= @user.judges.paginate :page => params[:page]
     else
       @pass = Pass.find(params[:pass_id])

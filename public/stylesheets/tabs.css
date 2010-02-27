@@ -57,7 +57,7 @@
     margin:0;
     padding:0;
 }
-.tab_button a {
+.tab_button .tabs a {
     float:left;
     background:url("/images/tableft1.gif") no-repeat left top;
     margin:0;

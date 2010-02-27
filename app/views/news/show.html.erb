@@ -9,8 +9,8 @@
     <div>
       <p class="date_field">
         <%=link_to @piece_of_news.create_user.name ,user_path(@piece_of_news.create_user) %>
-        发布于 <%= " #{localize(@piece_of_news.created_at)}" %>
-        <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{localize(@piece_of_news.updated_at)}"  \
+        发布于 <%= " #{time_ago_in_words_plus(@piece_of_news.created_at)}" %>
+        <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{time_ago_in_words_plus(@piece_of_news.updated_at)}"  \
           if  @piece_of_news.last_edit_user%>
         &nbsp;
         被推荐 <%= link_to "#{@piece_of_news.recommends.size}次",recommends_path(:recommendable_type=>@piece_of_news.class.to_s,:recommendable_id=>@piece_of_news) %>

@@ -1,0 +1,9 @@
+<div class="tab">
+  <ul class="item">
+    <li id="<%= "current_tab" if (params[:type]=="all" || !params[:type]) %>" ><%= link_to "最新的话题", "?type=all"  %> </li>
+    <li id="<%= "current_tab" if params[:type]=="join" %>" ><%= link_to "我参与的话题", "?type=join"  %> </li>
+    <li  id="<%= "current_tab" if params[:type]=="create" %>"><%= link_to   "我创建的话题", "?type=create" %></li>
+
+  </ul>
+  <p class="clear_float"></p>
+</div>

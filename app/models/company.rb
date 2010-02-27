@@ -105,9 +105,9 @@ class Company < ActiveRecord::Base
   has_one :icon,:class_name=>"CompanyIcon",:foreign_key=>"master_id",:dependent=>:destroy
 
 
-  belongs_to :industry_root
-  belongs_to :industry_second
-  belongs_to :industry_third
+#  belongs_to :industry_root
+#  belongs_to :industry_second
+#  belongs_to :industry_third
   belongs_to :industry
 
   belongs_to :company_type
@@ -133,8 +133,6 @@ class Company < ActiveRecord::Base
     arr
   end
  
-
-
   #图标 文件路径
   def icon_file_path(thumbnail=nil)
     if (thumbnail)

@@ -2,7 +2,7 @@
 module ApplicationHelper
   #获取百分比
   def get_percent(count,sub_count)
-    (count>0) ? (Float(sub_count)/count)*100 : 0
+    (count>0) ? ((sub_count.to_f/count.to_f)*100).to_d : 0
   end
   def date_ago_in_words(date_time)
     if  date_time.to_date ==  Time.now.tomorrow.to_date
@@ -21,11 +21,15 @@ module ApplicationHelper
       end
     end
   end
-  def time_ago_in_words_plus(date_time,max_date=1)
-    if (Time.now.to_date - date_time.to_date)<=max_date
-      date_time.strftime('%H:%M')
-    else
+  
+  def time_ago_in_words_plus(date_time)
+    date_str = date_ago_in_words(date_time)
+    if (Time.now.to_date - date_time.to_date)<1
       time_ago_in_words(date_time)
+    elsif date_str !=date_time.to_date
+      date_str +" "+ date_time.strftime('%H:%M')
+    else
+      localize(date_time)
     end
   end
 
@@ -47,9 +51,14 @@ module ApplicationHelper
   def process_bar(value)
     content_tag(:span,"",:class=>"process_bar",:style=>"width:#{value}px;")+"#{value}%"
   end
+
   #大星星 
   def big_star(star)
     content_tag(:span,"",:class=>"big_star_#{star.to_i}").strip
+  end
+  #中大星星
+  def middle_star(star)
+    content_tag(:span,"",:class=>"middle_star_#{star.to_i}").strip
   end
   #小星星
   def small_star(star)

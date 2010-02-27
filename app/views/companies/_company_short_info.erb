@@ -13,6 +13,7 @@
       <br />
       环境
       <%= small_star(company_short_info.judges.average("condition_value")|| 0  || 0) %>
+       <%= link_to("(#{object.condition_judge_count}人",company_company_judges_path(object))+"评价)" if object.judges.size>0 %>
     </div>
     <p>
       <%= company_short_title(company_short_info) %>

@@ -134,7 +134,7 @@ for log in show_log
       temp = "状态改为：#{content_tag(:span,"&nbsp;",:class=>"user_state_#{log.changes}")+ User::STATE_TYPES[log.changes.to_sym]}"
     end 
   end
-  log_content  +=  content_tag(:div, content_tag(:span,time_ago_in_words_plus(log.created_at),:class=>"r")+temp ,:class=>'topic_item')
+  log_content  +=  content_tag(:div, content_tag(:span,log.created_at.strftime('%H:%M'),:class=>"r")+temp ,:class=>'topic_item')
   #if  log_temp  !=  log &&  log_type !=  log.log_type
   #log_content  = content_tag(:p, temp)+log_content
   #end

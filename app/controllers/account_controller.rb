@@ -63,6 +63,22 @@ class AccountController < ApplicationController
     end
   end
   
+  
+  def my_topics
+    @user= current_user
+    case params[:type]
+    when "all"
+      @page_title = "最新的话题"
+      @topics = @user.my_follow_group_topics.paginate :all, :page => params[:page]
+    when "join"
+      @page_title = "我参与的话题"
+      @topics =  @user.join_topics.paginate :all, :page => params[:page]
+    else
+      @page_title = "我创建的话题"
+      @topics = @user.my_topics.paginate :all , :page => params[:page]
+    end
+  end
+
   #登录
   def login
     @page_title ="登录"
@@ -115,7 +131,6 @@ class AccountController < ApplicationController
   #
   #忘记密码
   def forget_password
-
     @page_title ="取回密码"
     if request.post?
       user= User.find_by_email(params[:email])
