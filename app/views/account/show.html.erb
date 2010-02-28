@@ -36,15 +36,15 @@
     <%end%>
     <%tab_panel("new_topics") do%>
       <%= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
-      <%= link_to "更多…",{:action=>"my_topics"} %>
+      <%= link_to "更多…",{:action=>"my_topics"} if @topics.size>10%>
     <%end%>
     <%tab_panel("join_topics") do%>
       <%= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
-      <%= link_to "更多…",{:action=>"my_topics",:type=>"join"} %>
+      <%= link_to "更多…",{:action=>"my_topics",:type=>"join"}  if @join_topics && @join_topics.size>10%>
     <%end%>
     <%tab_panel("my_topics") do%>
       <%= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
-      <%= link_to "更多…",{:action=>"my_topics",:type=>"create"} %>
+      <%= link_to "更多…",{:action=>"my_topics",:type=>"create"} if @my_topics && @my_topics.size>10%>
     <%end%>
   <%end%>
 </div>
