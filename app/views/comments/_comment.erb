@@ -10,7 +10,7 @@
   </div>
   <div class="icon_right_content">
     <p class="date_field">
-      <%= localize(comment.created_at) %>
+      <%= time_ago_in_words_plus(comment.created_at) %>
     </p>
     <div id="<%= dom_id(comment,"content") %>" ><%=  simple_format(h(comment.content)) %></div>
     <p>

@@ -37,7 +37,7 @@ Rails::Initializer.run do |config|
   config.time_zone = 'Beijing'
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => '222.73.57.80:3000' }
   config.i18n.default_locale = "zh-CN"
 end
 
