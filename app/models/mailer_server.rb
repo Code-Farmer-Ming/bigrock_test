@@ -19,7 +19,7 @@ class MailerServer < ActionMailer::Base
     recipients msg.sendees
     from       'tomorrownull@163.com'
     sent_on    sent_at
-
+    content_type "text/html"
     body       :greeting => msg
   end
 

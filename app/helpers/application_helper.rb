@@ -2,8 +2,9 @@
 module ApplicationHelper
   #获取百分比
   def get_percent(count,sub_count)
-    (count>0) ? ((sub_count.to_f/count.to_f)*100).to_d : 0
+    (count>0) ?  ((sub_count.to_f/count.to_f)*100).round(1) : 0
   end
+ 
   def date_ago_in_words(date_time)
     if  date_time.to_date ==  Time.now.tomorrow.to_date
       return "明天"

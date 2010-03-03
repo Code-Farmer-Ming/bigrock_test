@@ -123,7 +123,7 @@ label{
     padding:0px 20px;
 }
 #base_info p span{
-  font-weight:bold;
+    font-weight:bold;
 }
 #user_base_info{
     *overflow:hidden;
@@ -911,7 +911,7 @@ div.auto_complete ul strong.highlight {
     background-color: #F5F5F5;
 }
 .big_star_judge{
- margin: 2px;
+    margin: 2px;
 }
 /*星星*/
 .big_star_0,.big_star_1,.big_star_2,.big_star_3,.big_star_4,.big_star_5，
@@ -921,7 +921,7 @@ div.auto_complete ul strong.highlight {
     display:inline-block;
     background-position: 0px 0px;
     height:21px;
- 
+    font-size:10px;
     background-repeat:no-repeat;
 }
 .big_star_0{
@@ -978,7 +978,7 @@ div.auto_complete ul strong.highlight {
     background-color:transparent;
     color:#fff;
     padding:0px;
-    font-size:9px;
+    font-size:10px;
     font-weight:normal;
     height:12px;
 }

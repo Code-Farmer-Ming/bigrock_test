@@ -18,6 +18,7 @@ one:
 two:
   user_id: 1
   tagging_id: 2
+  
 three:
   user_id: 2
   tagging_id: 4

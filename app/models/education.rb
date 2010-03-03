@@ -17,7 +17,23 @@
 class Education < ActiveRecord::Base
   belongs_to:resume
   acts_as_logger :log_action=>["create"],:owner_attribute=>"resume.user",:log_type=>"resume"
-  validates_uniqueness_of     :school_name
-  validates_presence_of :school_name
+ 
+  belongs_to  :school
+
+
+  attr_accessor                 :school_name
+
+
+  def school_name=(name)
+    self.school = School.find_or_create_by_name(name)
+  end
+
+  def school_name
+    self.school ? self.school.name : ""
+  end
+
+  def after_destroy
+    self.school.destroy
+  end
 
 end

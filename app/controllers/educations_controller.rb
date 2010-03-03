@@ -1,4 +1,5 @@
 class EducationsController < ApplicationController
+  before_filter :check_login?
   # GET /educations/new
   # GET /educations/new.xml
   def new
@@ -80,9 +81,8 @@ class EducationsController < ApplicationController
 
   #查询 学校名称
   def auto_complete_for_education_school_name
-    @items =  Education.find(:all,
-      :conditions =>"(lower(school_name) like '%#{params[:education][:school_name].downcase}%' )   ",
-      :select=>"distinct school_name" )
+    @items =  School.find(:all,
+      :conditions =>["lower(name) like ?    ","%#{params[:education][:school_name].downcase}%"])
     render :inline => "<%= auto_complete_result @items, 'school_name', '#{params[:education][:school_name]}' %>"
   end
 end

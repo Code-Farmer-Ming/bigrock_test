@@ -69,4 +69,10 @@ class SpecialitiesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+    #查询 专长名称
+  def auto_complete_for_speciality_name
+    @items =  Skill.find(:all,
+      :conditions =>["lower(name) like ?    ","%#{params[:speciality][:name].downcase}%"])
+    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:speciality][:name]}' %>"
+  end
 end

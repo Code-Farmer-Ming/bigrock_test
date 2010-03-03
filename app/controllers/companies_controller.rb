@@ -112,9 +112,9 @@ class CompaniesController < ApplicationController
   def employee_list
     @company = Company.find(params[:id])
     if params[:type].blank? || params[:type]=='current' then
-      @employees = @company.current_employees.paginate :page => params[:page]
+      @employees = @company.current_employees.paginate  :conditions=>"nick_name like '%#{params[:search]}%'", :page => params[:page]
     else
-      @employees = @company.pass_employees.paginate :page => params[:page]
+      @employees = @company.pass_employees.paginate  :conditions=>"nick_name like '%#{params[:search]}%'",:page => params[:page]
     end
   end
  

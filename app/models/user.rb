@@ -208,9 +208,11 @@ class User< ActiveRecord::Base
   #
   has_many :my_comments,:class_name=>"Comment",:foreign_key=>"user_id"
   has_many :join_topics,:through=>:my_comments,:source=>:commentable,:source_type=>"Topic",:uniq => :true,:order=>"topics.created_at desc"
-  #我发言的话题 TODO:需要包括 马甲的发言
+  #我发言的话题  
   has_many :my_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:dependent => :destroy
-  
+    #我发言的话题
+  has_many :my_created_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:conditions =>'author_id=#{id} or author_id= #{aliases.first.id}'
+
   #参与小组的话题
   has_many :my_follow_group_topics ,:class_name=>"Topic",
     :finder_sql => 'select topics.* from topics INNER JOIN  members on topics.owner_id=members.group_id and topics.owner_type=\'Group\'
@@ -333,7 +335,7 @@ class User< ActiveRecord::Base
   #评价平均评价值
   def avg_judge_value
      value = judges.all(:select=>["avg(eq_value+creditability_value+ability_value)/3  avg_judge_value"])[0].avg_judge_value
-    value && (value.is_a?(Fixnum) ? value.to_f : value).to_d
+    value && (value.is_a?(Fixnum) ? value.to_f : value).to_f.round(1)
   end
 
   def text_password=(value)
@@ -388,6 +390,7 @@ class User< ActiveRecord::Base
       user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
     end
   end
+
   #START:create_new_salt
   def create_new_salt
     self.salt = self.object_id.to_s + rand.to_s

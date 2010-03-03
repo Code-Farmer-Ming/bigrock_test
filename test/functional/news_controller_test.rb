@@ -72,6 +72,8 @@ class NewsControllerTest < ActionController::TestCase
   end
 
   test "up_news" do
+    news(:one).up =0
+    news(:one).save
     get :show, :id => news(:one).to_param,:company_id=>1
     assert_response :success
     xhr :post,:up,:id=>news(:one).to_param

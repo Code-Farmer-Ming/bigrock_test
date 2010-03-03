@@ -12,7 +12,22 @@
 
 class Speciality < ActiveRecord::Base
   belongs_to :resume
-  validates_uniqueness_of     :name
-  validates_presence_of :name
+  belongs_to  :skill
+
+ 
+  attr_accessor                 :name
+
+
+  def name=(name)
+    self.skill = Skill.find_or_create_by_name(name)
+  end
+  
+  def name
+    self.skill ? self.skill.name : ""
+  end
+  
+  def after_destroy
+      self.skill.destroy
+  end
 
 end

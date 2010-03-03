@@ -77,3 +77,20 @@ three:
   condition_value: 1
   company_judges_count: 1
   version: 0
+  
+foru:
+  id: 4
+  name: MyString4
+  description: MyText
+  website: MyString
+  create_user_id: 1
+  industry_id: 0
+  state_id: 0
+  city_id: 0
+  company_type_id: 0
+  company_size_id: 0
+  salary_value: 0
+  condition_value: 0
+  company_judges_count: 0
+ 
+  version: 0

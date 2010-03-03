@@ -3,9 +3,12 @@ require 'test_helper'
 class CompanyTest < ActiveSupport::TestCase
 
   test "change_judge" do
+    company = Company.find(4)
     judge = CompanyJudge.new(:salary_value=>3,:condition_value=>4,:description=>"说明")
-    company = Company.find(1)
+ 
     company.judges << judge
+   
+
     company.reload()
     assert_equal 3,company.salary_value
     assert_equal 4,company.condition_value

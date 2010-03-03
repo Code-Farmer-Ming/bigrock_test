@@ -112,10 +112,11 @@ class PassesController < ApplicationController
   #发送评价邀请信息
   def send_invite
     @msg = Msg.new(params[:msg])
+    pass = Pass.find(params[:id])
     @msg.sender = current_user
     @msg.sender_stop = true
     @msg.title = "你的同事 #{current_user.name}邀请你对其评价"
-    @msg.content += "<br><a href=' #{user_path(current_user)}' > 来评价我</a>"
+    @msg.content += "我是你在<a href=' #{company_url(pass.company)}' >#{ pass.company.name}</a>的同事#{current_user.name}，<br/>赶快来对我评价吧!<a href=' #{user_url(current_user)}' > 来评价我</a>"
     MailerServer.deliver_send_invite(@msg)   if !@msg.sendees.blank?
     if (params[:yokemates])
       Msg.transaction do

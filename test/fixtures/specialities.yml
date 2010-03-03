@@ -14,12 +14,12 @@
 
 one:
   id: 1
-  name: MyString
+  skill_id: 1
   description: MyString
   resume_id: 1
 
 two:
   id: 2
-  name: MyString
+  skill_id: 2
   description: MyString
   resume_id: 1

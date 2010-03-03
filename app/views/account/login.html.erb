@@ -7,7 +7,7 @@
     <%= render :partial=>"account/login_form"  %>
 
     <p id="form_button">
-      <%= submit_tag "登录" ,:disable_with=>"登录…",:class=>"button"  -%> &nbsp; <%=link_to "我来注册",:action=>"new" -%> &nbsp;<%=link_to "忘记密码?",forget_password_account_path()%>
+      <%= submit_tag "登录" ,:disable_with=>"登录…",:class=>"button"  -%> &nbsp; <%=link_to "我来注册",:action=>"new",:reurl=>params[:reurl] -%> &nbsp;<%=link_to "忘记密码?",forget_password_account_path()%>
     </p>
 
   <% end %>

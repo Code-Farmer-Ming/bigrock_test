@@ -3,19 +3,22 @@
   <%remote_form_for :msg,
     :url=> send_invite_user_resume_pass_path(params[:user_id],params[:resume_id],@pass),
     :method=>:post do |form| %>
-
-    <label class="filed_lab">已注册同事</label>
-    <ul id="invite_yokemate" class="pui-autocomplete-holder" >
+    <p>
+      <label class="filed_lab">已注册同事</label>
+      <span style="display: inline-block;">
+        <ul id="invite_yokemate" class="pui-autocomplete-holder" >
       <%@pass.available_yokemates.each do |yokemate|%>
         <li class="pui-autocomplete-input">
           <%=  check_box_tag "yokemates[]", yokemate.id,false,:id=>"yokemates#{yokemate.id}"%><label for="<%= "yokemates#{yokemate.id}" %>"><%= yokemate.name %></label>
         </li>
       <%end%>
-    </ul>
+        </ul>
+      </span>
+    </p>
     <p>
       <label for="invite_email" class="filed_lab">未注册同事</label>
       <%= form.text_field :sendees,:id=>"invite_email",:class=>"text"  %>
-      多个email以";"分隔
+      多个email以","分隔
     </p>
     <p>
       <label for="invite_msg" class="filed_lab">说点什么</label>

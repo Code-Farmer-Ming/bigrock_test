@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100226042129) do
+ActiveRecord::Schema.define(:version => 20100302154253) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(:version => 20100226042129) do
   end
 
   create_table "educations", :force => true do |t|
-    t.string   "school_name"
     t.date     "begin_date"
     t.date     "end_date"
     t.text     "description"
@@ -136,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20100226042129) do
     t.string   "major"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   :null => false
   end
 
   create_table "friends", :force => true do |t|
@@ -336,12 +336,28 @@ ActiveRecord::Schema.define(:version => 20100226042129) do
     t.integer  "state_id"
   end
 
-  create_table "specialities", :force => true do |t|
+  create_table "schools", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schools", ["name"], :name => "index_schools_on_name"
+
+  create_table "skills", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "skills", ["name"], :name => "index_skills_on_name"
+
+  create_table "specialities", :force => true do |t|
     t.string   "description"
     t.integer  "resume_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "skill_id",    :null => false
   end
 
   create_table "states", :force => true do |t|

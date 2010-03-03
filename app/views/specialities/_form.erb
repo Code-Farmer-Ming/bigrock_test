@@ -4,7 +4,8 @@
 </p>
 <p>
   <%= f.label :name,"专长",:class=>"filed_lab" %>
-  <%= f.text_field :name ,:class=>"required text",:id=>dom_id(f.object,"name") %>
+
+  <%=  text_field_with_auto_complete :speciality, :name,{:class=>"required text",:id=>dom_id(f.object,"name")},:controller=>"Specialities" %>
 </p>
 <p>
   <%= f.label :description,"描述",:class=>"filed_lab" %>

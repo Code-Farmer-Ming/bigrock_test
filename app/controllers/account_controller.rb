@@ -28,7 +28,7 @@ class AccountController < ApplicationController
     respond_to do |format|
       if @user.save
         session[:user]=@user
-        format.html {  flash[:success] = '恭喜你注册你成功';redirect_to(account_path()) }
+        format.html {  flash[:success] = '恭喜你注册你成功'; redirect_to( params[:reurl]  || account_path()) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
@@ -53,7 +53,7 @@ class AccountController < ApplicationController
       @news = @user.my_follow_company_news.find(:all,:limit=>20)
       @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
       @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
-      @my_topics = @user.my_topics.find(:all,:limit=>20)
+      @my_topics = @user.my_created_topics.all(:limit=>20)
       @join_topics =  @user.join_topics.find(:all,:limit=>20)
     else
       @page_title ="首页"
@@ -75,7 +75,7 @@ class AccountController < ApplicationController
       @topics =  @user.join_topics.paginate :all, :page => params[:page]
     else
       @page_title = "我创建的话题"
-      @topics = @user.my_topics.paginate :all , :page => params[:page]
+      @topics = @user.my_created_topics.paginate :all , :page => params[:page]
     end
   end
 
