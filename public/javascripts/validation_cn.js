@@ -510,7 +510,8 @@ Object.extend(Validation, {
         }
     },
     getAdvice : function(name, elm) {
-        return elm.parentNode.select('#advice-' + name + '-' + ValidationUtils.getElmID(elm))[0] || elm.parentNode.select('#advice-' + ValidationUtils.getElmID(elm))[0];
+        return $prototype('advice-' + name + '-' + ValidationUtils.getElmID(elm)) || $prototype('advice-' + ValidationUtils.getElmID(elm));
+        //return elm.parentNode.select('#advice-' + name + '-' + ValidationUtils.getElmID(elm))[0] || elm.parentNode.select('#advice-' + ValidationUtils.getElmID(elm))[0];
     },
     reset : function(elm) {
         elm = $prototype(elm);

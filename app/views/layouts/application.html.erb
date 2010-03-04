@@ -7,17 +7,12 @@
     <meta name="keywords" content="<%= @key_words %>" />
     <title> <%=  @page_title%></title>
 
-    <%= stylesheet_link_tag 'blueprint/screen','blueprint/plugins/buttons/screen'%>
+    <%=  stylesheet_link_merged :base %>
     <%= stylesheet_link_tag 'blueprint/print',:media => "print"  %>
     <!--[if lt IE 8]>
     <%= stylesheet_link_tag 'blueprint/ie' %>
-<![endif]-->
-    <%= stylesheet_link_tag  :all ,:cache => true%>
-    <%= javascript_include_tag "prototype.js","builder","effects","dragdrop",
-      "controls","niftycube","application","lightbox",'ratings_component',
-      "swfupload","fabtabulous","control_extensions","validation_cn",'text_field_default_value',"dynamic_popmenu",
-      'prototype_ui_auto_complete_like_facebook/prototype-ui'  ,:cache => true%>
-
+    <![endif]-->
+    <%= javascript_include_merged :base %>
   </head>
   <body>
     <div id="main">

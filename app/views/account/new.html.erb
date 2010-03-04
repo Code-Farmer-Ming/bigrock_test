@@ -3,6 +3,8 @@
     <h1>注册</h1>
     <% form_for(:user,  @user,:url=>{:action=>"create"},:html=>{:class=>"required-validate"}) do |f| %>
       <%= f.error_messages %>
+      <%= hidden_field_tag :request_company_id, params[:request_company_id] %>
+      <%= hidden_field_tag :request_user_id, params[:request_user_id] %>
       <p>
         <%= f.label :nick_name,"姓名",:class=>"filed_lab" %>
         <%= f.text_field  :nick_name,:class=>"required  text",:title=>"请输入姓名",:maxlength=>10 %>

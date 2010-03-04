@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+ 
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
     groups.resources :topics, :collection=>{:search=>:get}  do |topics|

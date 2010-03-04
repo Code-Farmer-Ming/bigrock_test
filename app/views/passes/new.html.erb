@@ -1,0 +1,13 @@
+<div id="left_content">
+  <h1>创建工作经历</h1>
+
+  <%  form_for(@pass,:url=> user_resume_passes_path(params[:user_id],params[:resume_id]),
+    :html=>{:method=>:post,:class=>"form_info required-validate"}) do |f| %>
+
+    <%= render :partial=>"passes/form" ,:object=>f %>
+    <%= f.submit '保存',:class=>"button" %>     <%= link_to_function "取消" ,"Element.hide('new_pass_container');"%>
+  <% end %>
+</div>
+<div id="right_content">
+
+</div>

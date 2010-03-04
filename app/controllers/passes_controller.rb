@@ -1,10 +1,16 @@
 class PassesController < ApplicationController
+  before_filter :check_login?
   auto_complete_for :company, :name
+
 
   # GET /passes/new
   # GET /passes/new.xml
   def new
     @pass = Pass.new
+    if params[:request_company_id]
+      flash[:notice] = "再填写一下你的资料"
+      @pass.company_id = params[:request_company_id]
+    end
     respond_to do |format|
       format.html {} # new.html.erb
       format.js {}
@@ -33,7 +39,7 @@ class PassesController < ApplicationController
           page << "Lightbox.show('#{new_company_path(:"company[name]"=>params[:company][:name])}');"
         end
       else
-        redirect_to new_company_path(:company[name]=>params[:company][:name])
+        redirect_to new_company_path(:company[:name]=>params[:company][:name])
       end
       return
     end
@@ -45,8 +51,7 @@ class PassesController < ApplicationController
       if @pass.save
         format.html {
           flash[:notice] = '保存成功.'
-          redirect_to new_user_resume_pass_path(params[:user_id],
-            params[:resume_id])
+          redirect_to  user_path(params[:request_user_id] || params[:user_id])
         }
         format.xml  { render :xml => @pass, :status => :created, :location => @pass }
         format.js {    }
@@ -65,20 +70,20 @@ class PassesController < ApplicationController
   def update
     @pass = Pass.find(params[:id])
     #TODO 这里需要优化 去掉查询公司名称
-#    if @pass.company.name != params[:company][:name]
-#      @company= Company.find_by_name(params[:company][:name])
-#      if !@company
-#        if (request.xhr?)
-#          render :update do |page|
-#            page << "Lightbox.show('#{new_company_path(:"company[name]"=>params[:company][:name])}');"
-#          end
-#        else
-#          redirect_to new_company_path(:company[name]=>params[:company][:name])
-#        end
-#        return
-#      end
-#       @pass.company = @company
-#    end
+    #    if @pass.company.name != params[:company][:name]
+    #      @company= Company.find_by_name(params[:company][:name])
+    #      if !@company
+    #        if (request.xhr?)
+    #          render :update do |page|
+    #            page << "Lightbox.show('#{new_company_path(:"company[name]"=>params[:company][:name])}');"
+    #          end
+    #        else
+    #          redirect_to new_company_path(:company[name]=>params[:company][:name])
+    #        end
+    #        return
+    #      end
+    #       @pass.company = @company
+    #    end
     respond_to do |format|
       if @pass.update_attributes(params[:pass])
         format.html {flash[:notice] = '更新成功！.'; redirect_to( user_resume_path(params[:user_id],params[:resume_id])) }
@@ -113,12 +118,16 @@ class PassesController < ApplicationController
   def send_invite
     @msg = Msg.new(params[:msg])
     pass = Pass.find(params[:id])
-    @msg.sender = current_user
-    @msg.sender_stop = true
-    @msg.title = "你的同事 #{current_user.name}邀请你对其评价"
-    @msg.content += "我是你在<a href=' #{company_url(pass.company)}' >#{ pass.company.name}</a>的同事#{current_user.name}，<br/>赶快来对我评价吧!<a href=' #{user_url(current_user)}' > 来评价我</a>"
-    MailerServer.deliver_send_invite(@msg)   if !@msg.sendees.blank?
+    
+    @msg.sendees.split(";").uniq.each do |sendee|
+      MailerServer.deliver_send_invite(sendee,pass,@msg)
+    end
     if (params[:yokemates])
+      @msg.sender = current_user
+      @msg.sender_stop = true
+      @msg.title = "你在 #{pass.company} 的同事 #{current_user.name} 邀请你对其工作进行评价"
+      @msg.content += "你好<br />我是你在<a href=' #{company_url(pass.company)}' >#{ pass.company.name}</a>的同事"+
+        "<a href=' #{user_url(current_user)}' > #{current_user.name}</a>，<br/>赶快来<a href=' #{user_url(current_user)}' >评价我</a>吧!"
       Msg.transaction do
         params[:yokemates].each do |id|
           new_msg = @msg.clone
@@ -129,7 +138,7 @@ class PassesController < ApplicationController
           end
         end
       end
-    end  
+    end
   end
  
   #根据公司 查询 对应的部门

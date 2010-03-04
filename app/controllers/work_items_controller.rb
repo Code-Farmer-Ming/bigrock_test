@@ -1,4 +1,5 @@
 class WorkItemsController < ApplicationController
+   before_filter :check_login?
   # GET /work_lists/new
   # GET /work_lists/new.xml
   def new

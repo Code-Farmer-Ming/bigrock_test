@@ -1,3 +1,7 @@
 你好
 <br/>
-<%=@greeting.content%>
+我是你在 <%= link_to @pass.company.name,@pass.company %> 的同事 <%= link_to @pass.user.name,@pass.user %>
+<br />
+<%= @msg.content %>
+<br />
+我需要你对我的工作做个评价，点击这里<%= link_to "来评价我",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！

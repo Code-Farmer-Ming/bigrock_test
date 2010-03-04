@@ -3,10 +3,11 @@ class AccountController < ApplicationController
   before_filter :check_login?,:except=>[:ajax_login,:get_news,:login,:ajax_login,:new,:create,:forget_password,:reset_password,:show,:check_email]
   
   def new
+    flash[:notice] = "请先快速的注册一下" if params[:request_company_id]
     @page_title ="注册"
     @user= User.new
     @user.nick_name = ""
-    @user.email = params[:email] if params[:email]
+    @user.email = params[:email]
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }
@@ -28,7 +29,8 @@ class AccountController < ApplicationController
     respond_to do |format|
       if @user.save
         session[:user]=@user
-        format.html {  flash[:success] = '恭喜你注册你成功'; redirect_to( params[:reurl]  || account_path()) }
+        format.html {  flash[:success] = '恭喜你注册你成功'
+          redirect_to( params[:request_company_id] ?  new_user_resume_pass_path(@user,resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id])  : params[:reurl] || account_path()) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
@@ -288,7 +290,7 @@ class AccountController < ApplicationController
 
   #检查email是否存在
   def check_email
-    if (User.find_all_by_email(params[:value]).size==0)
+    if (!User.exists?(["email=?",params[:value]]))
       render :text=> ""
     else
       render :text=> "邮件地址已经注册过了！如果忘记 " + "<a href='#{forget_password_account_path(:email=>params[:value])}'>找回密码</a>"

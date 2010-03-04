@@ -13,14 +13,13 @@ class MailerServer < ActionMailer::Base
 
   end
   #发送评价邀请信息
-  def send_invite(msg)
-    sent_at = Time.now
-    subject  msg.title
-    recipients msg.sendees
+  def send_invite(sendee,pass,msg)
+    subject  "你在 #{pass.company.name} 的同事 #{pass.user.name} 邀请你对其工作进行评价"
+    recipients sendee
     from       'tomorrownull@163.com'
-    sent_on    sent_at
+    sent_on    Time.now
     content_type "text/html"
-    body       :greeting => msg
+    body       :pass => pass,:msg=>msg,:sendee=>sendee
   end
 
 end

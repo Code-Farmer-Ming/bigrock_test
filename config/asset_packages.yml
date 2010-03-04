@@ -1,0 +1,32 @@
+--- 
+javascripts: 
+- base: 
+  - prototype
+  - builder
+  - effects
+  - dragdrop
+  - controls
+  - control_extensions
+  - in_place_completer
+  - lightbox
+  - validation_cn
+  - text_field_default_value
+  - swfupload
+  - ratings_component
+  - prototype-ui
+  - niftycube
+  - fabtabulous
+  - dynamic_popmenu  
+  - application
+stylesheets: 
+- base:
+  - blueprint/screen
+  - blueprint/plugins/buttons/screen
+  - auto_complete_like_facebook
+  - dynamic_popmenu
+  - lightbox
+  - niftyCorners
+  - ratings
+  - style_min
+  - tabs
+  - applicationStyleSheet

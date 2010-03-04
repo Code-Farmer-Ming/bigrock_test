@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+   before_filter :check_login?
   def index
     @group = Group.find_by_id(params[:group_id])
     if @group
