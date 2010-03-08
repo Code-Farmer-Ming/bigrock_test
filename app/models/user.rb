@@ -353,7 +353,7 @@ class User< ActiveRecord::Base
   def get_tags(taggable_object)
     return  if  !taggable_object.taggable?
     current = []
-    taggble_list = taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
+    taggble_list = self.taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
         :taggable_type=>taggable_object.class.to_s.camelize})
     #获取 当前评价
     current = taggble_list.collect.map { |item| item.tag.name }.join(Tag::DELIMITER) if taggble_list

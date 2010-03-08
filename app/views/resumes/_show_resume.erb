@@ -12,15 +12,15 @@
     <div id="edit_container_user_base_info" style="display:none" class="partial_container"  >
     </div>
   </div>
-  <%= javascript_tag(" AddHover('base_info')") %>
+  <%= javascript_tag(" AddHover('base_info')")  if current_user?(resume.user)%>
   <%if resume.user.setting.can_visibility?(:self_description_visibility,current_user)%>
     <div id="self_description"  >
       <%= render :partial=>"resumes/show_self_description",:object=>resume %>
     </div>
-    <%= javascript_tag(" AddHover('self_description')") %>
+    <%= javascript_tag(" AddHover('self_description')")   if current_user?(resume.user)%>
   <%end%>
 
-  <%if resume.user.setting.can_visibility?(:pass_visibility,current_user)%>
+  <%if resume.user.setting.can_visibility?(:pass_visibility,current_user) || resume.yokemates.exists?(current_user) %>
     <div id="pass" >
       <div id="pass_infos" style="display:<%=  (resume.passes.length>0 || ( current_user?(resume.user))) ? "" : "none" %>">
         <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
@@ -36,10 +36,10 @@
       </div>
       <div id="new_pass_container" style="display:none" class="partial_container"  >
         <%= render_component :controller=>"passes",:action=>:new,
-          :params=>{:user_id=>resume.user.id,:resume_id=>resume.id} %>
+          :params=>{:user_id=>resume.user.id,:resume_id=>resume.id}   if current_user?(resume.user)%>
       </div>
     </div>
-    <%= javascript_tag(" AddHover('pass')") %>
+    <%= javascript_tag(" AddHover('pass')")   if current_user?(resume.user)%>
   <%end%>
   <% if resume.user.setting.can_visibility?(:edu_visibility,current_user)  %>
     <div id="education">
@@ -59,10 +59,10 @@
       </div>
       <div id="new_education_container" class="partial_container" style="display:none;">
         <%= render_component :controller=>"educations",:action=>:new,
-          :params=>{:user_id=>resume.user.id,:resume_id=>resume.id} %>
+          :params=>{:user_id=>resume.user.id,:resume_id=>resume.id}   if current_user?(resume.user)%>
       </div>
     </div>
-    <%= javascript_tag(" AddHover('education')") %>
+    <%= javascript_tag(" AddHover('education')")   if current_user?(resume.user)%>
   <%end%>
   <% if resume.user.setting.can_visibility?(:speciality_visibility,current_user) && (( current_user?(resume.user)) || resume.specialities.length>0)  %>
     <div id="speciality">
@@ -81,10 +81,10 @@
       </dl>
       <div id ="new_speciality_container" class="partial_container" style="display:none;">
         <%= render_component :controller=>"specialities",:action=>:new,
-          :params=>{:user_id=>resume.user.id,:resume_id=>resume.id} %>
+          :params=>{:user_id=>resume.user.id,:resume_id=>resume.id}   if current_user?(resume.user)%>
       </div>
     </div>
-    <%= javascript_tag(" AddHover('speciality')") %>
+    <%= javascript_tag(" AddHover('speciality')")   if current_user?(resume.user)%>
 
   <%end%>
 <%else%>

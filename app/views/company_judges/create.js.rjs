@@ -2,7 +2,7 @@ page<<"Lightbox.close()"
 page.replace_html("company_star_rating",render(:partial=>"companies/show_star_rating",:object=>@company))
 page.replace_html(dom_id(@company,"operation"),render(:partial=>"companies/operation",:object=>@company))
 page.insert_html :top,"company_judge_infos" ,render(:partial=>"company_judges/show_judge_info",:object=>@judge)
-page.replace_html("tag_topN_list",render(:partial=>"companies/tag_topN_list",:object=>@company))
+page.replace_html("tag_topN_list",render(:partial=>"tags/tag_topN_list",:object=>@company))
 
 page.select("#company_judge_count").each do |item|
   page.replace_html("company_judge_count",render(:text=>"评价信息" +(@company.judges.size>0 ? "(#{@company.judges.size})" : "")))

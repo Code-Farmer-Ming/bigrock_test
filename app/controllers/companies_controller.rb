@@ -1,4 +1,4 @@
-#TODO 增加一个根据 公司 的行业 、 所在地 、规模 、类型查找的页面
+
 class CompaniesController < ApplicationController
   before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags,:search]
 

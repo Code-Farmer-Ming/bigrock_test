@@ -1,4 +1,4 @@
-<div id="single_column">
+<div id="left_content">
 
 
 
@@ -7,9 +7,26 @@
     <%= render :partial=>"account/login_form"  %>
 
     <p id="form_button">
-      <%= submit_tag "登录" ,:disable_with=>"登录…",:class=>"button"  -%> &nbsp; <%=link_to "我来注册",:action=>"new",:reurl=>params[:reurl] -%> &nbsp;<%=link_to "忘记密码?",forget_password_account_path()%>
+      <%= submit_tag "登录" ,:disable_with=>"登录…",:class=>"button"  -%>
     </p>
 
   <% end %>
 
+
+</div>
+<div id="right_content">
+  <% sub_block_div do%>
+    <dl>
+      <dt>注册</dt>
+      <dd>
+        我要 <%=link_to "注册",:action=>"new",:reurl=>params[:reurl] -%> ，非常快。
+      </dd>
+      <p>
+      <dt>忘记密码</dt>
+      <dd>
+        我有账号忘记密码了，<%=link_to "找回密码？",forget_password_account_path()%>
+      </dd>
+      </p>
+    </dl>
+  <%end%>
 </div>

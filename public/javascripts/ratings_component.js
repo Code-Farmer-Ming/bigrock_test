@@ -6,7 +6,7 @@ function StarRank() {
 }
 
 StarRank.prototype = {
-    titles:new Array('1星', '2星', '3星', '4星', '5星'),
+    titles:new Array('很差', '差', '一般', '好', '非常好 '),
     /* 星星的三种状态图片*/
     //三个 class的名称
     imgEmpty_class:'output_empty_star',
@@ -39,6 +39,7 @@ StarRank.prototype = {
                 this.links[i].className = this.imgEmpty_class;
             }
         }
+        this.title.update(this.titles[this.rankValue-1]);
     },
 
     create:function(divParent, id) {
@@ -47,8 +48,10 @@ StarRank.prototype = {
         this.id = id;
    
         this.links = new Array(5);
+        this.title = document.createElement("span");
         for(var i = 5; i >= 1; i--) {
             var lnk1
+            
             if (this.disabled)
             {
                 lnk1 = document.createElement("span");
@@ -76,6 +79,7 @@ StarRank.prototype = {
            $(divParent).insertBefore(lnk1,$(divParent).childNodes[0]);
            this.links[i-1] = lnk1;
         }
+        $(divParent).insert(this.title);
         this.refresh();
     },
 
@@ -112,6 +116,7 @@ StarRank.prototype = {
                 }
             }
         }
+        this.title.update(this.titles[value-1]);
         this.rankMouseOver(sender, id, value);
     },
 

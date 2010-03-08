@@ -1,3 +1,6 @@
+<%content_for :script  do%>
+  <%= javascript_include_merged :dragdrop %>
+<%end if current_user%>
 <div id="left_content">
   <%if !current_user%>
     <%= link_to_function '我要注册', "Effect.toggle('welcome_div','slide');SetCookie('welcome_div_display',$('welcome_div').style.display=='none' ? 'block' : 'none')",:id=>'roll_welcome_button',:class=>"welcome_show",:title=>'' -%>
