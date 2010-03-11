@@ -39,7 +39,7 @@ class PassesController < ApplicationController
           page << "Lightbox.show('#{new_company_path(:"company[name]"=>params[:company][:name])}');"
         end
       else
-        redirect_to new_company_path(:company[:name]=>params[:company][:name])
+        redirect_to new_company_path(:"company[:name]"=>params[:company][:name])
       end
       return
     end

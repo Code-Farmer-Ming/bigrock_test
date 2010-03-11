@@ -30,7 +30,7 @@ class Pass < ActiveRecord::Base
   belongs_to :company
   belongs_to :user ,:class_name=>"User",:foreign_key => "user_id"
 
-  
+  #TODO:是否需要改进？
   #获取 某个 工作经历 中的同事
   has_many :yokemates, :class_name => "User",
     :finder_sql => "select b.* from passes a join users b on a.user_id=b.id where (begin_date between '\#{begin_date}' and '\#{end_date}'
@@ -46,10 +46,17 @@ class Pass < ActiveRecord::Base
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
       find_by_sql(sql)
     end
-    #    def exists?(*args)
-    #      sql = @finder_sql
-    #      find_by_sql(sql)
-    #    end
+    def exists?(*args)
+      options = args.extract_options!
+      options[:conditions] =expand_id_conditions(args)
+      options[:limit] =1
+      sql = @finder_sql
+      sql += sanitize_sql " and  #{options[:conditions]}" if options[:conditions]
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql).size >0
+    end
   end
  
   #获取所有可以评价的同事的

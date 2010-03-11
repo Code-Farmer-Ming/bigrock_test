@@ -210,8 +210,29 @@ class User< ActiveRecord::Base
   has_many :join_topics,:through=>:my_comments,:source=>:commentable,:source_type=>"Topic",:uniq => :true,:order=>"topics.created_at desc"
   #我发言的话题  
   has_many :my_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:dependent => :destroy
-    #我发言的话题
-  has_many :my_created_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:conditions =>'author_id=#{id} or author_id= #{aliases.first.id}'
+  #我发言的话题 包括 马甲创建的
+  has_many :my_created_topics,:class_name=>"Topic" ,
+    :finder_sql =>'select * from topics where author_id=#{id} or author_id= #{aliases.first.id}' do
+    def find(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+      sql += sanitize_sql " and  #{options[:conditions]}" if options[:conditions]
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+    
+    def all(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+      sql += sanitize_sql " and  #{options[:conditions]}" if options[:conditions]
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+  end
 
   #参与小组的话题
   has_many :my_follow_group_topics ,:class_name=>"Topic",
@@ -334,7 +355,7 @@ class User< ActiveRecord::Base
   end
   #评价平均评价值
   def avg_judge_value
-     value = judges.all(:select=>["avg(eq_value+creditability_value+ability_value)/3  avg_judge_value"])[0].avg_judge_value
+    value = judges.all(:select=>["avg(eq_value+creditability_value+ability_value)/3  avg_judge_value"])[0].avg_judge_value
     value && (value.is_a?(Fixnum) ? value.to_f : value).to_f.round(1)
   end
 
@@ -352,15 +373,14 @@ class User< ActiveRecord::Base
   #获取用户的做的标签
   def get_tags(taggable_object)
     return  if  !taggable_object.taggable?
-    current = []
     taggble_list = self.taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
         :taggable_type=>taggable_object.class.to_s.camelize})
     #获取 当前评价
-    current = taggble_list.collect.map { |item| item.tag.name }.join(Tag::DELIMITER) if taggble_list
-      
+    taggble_list ? taggble_list.collect.map { |item| item.tag.name }.join(Tag::DELIMITER) : []
   end
+  
   #对某个可以做 做标签 的对象做标签 如公司
-  def tag_something(taggable_object,tags)
+  def tag_something(taggable_object,tags=[])
     return  if  !taggable_object.taggable?  || taggable_object.tag_list == tags
     list = tag_cast_to_string(tags)
  
@@ -383,6 +403,10 @@ class User< ActiveRecord::Base
       end
       user_tags << UserTag.new(:tagging=>temp_tagging)
     end
+    #    user_tags.find(:all,:conditions=>
+    #        ["tags.name in (?)",destroy_list],
+    #      :joins=>"join tags  join taggings on tags.id=taggings.tag_id and taggings.id=user_tags.tagging_id").each do |tag_name|
+    #      tag_name.destroy
     #需要删除的标签
     destroy_list.each do |tag_name|
       temp_tag = Tag.find_or_create_by_name(tag_name)
@@ -390,7 +414,10 @@ class User< ActiveRecord::Base
       user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
     end
   end
-
+  #删除 对某个对象做的 标签
+  def remove_something_tag(taggable_object)
+    tag_something(taggable_object)
+  end
   #START:create_new_salt
   def create_new_salt
     self.salt = self.object_id.to_s + rand.to_s

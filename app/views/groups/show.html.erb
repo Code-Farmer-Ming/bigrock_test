@@ -14,9 +14,9 @@
     </p>
     <p>
       <b>标签 </b>
-       <span id="tag_topN_list">
-        <%= render :partial=>"tags/tag_topN_list",:object=>@group %>
-      </span>
+
+        <%= render :partial=>"tags/tag_info",:collection=>@group.all_tags(:limit=>5),:locals=>{:type=>:Group} %>
+       <%= link_to "…所有#{@group.all_tags.size}个",[@group,:tags] %>
     </p>
     <p>
       <b>成员 </b> <%= link_to("#{@group.members_count}",group_members_path(@group),:class=>"member_count")%>
@@ -45,15 +45,11 @@
     <p class ="clear"/>
   <%end%>
 
-  <% sub_block_div("成员也喜欢去的小组") do %>
-    <ul class="float_ul">
-      <%= render :partial=>"groups/float_icon_name",:collection=> @group.related_popular_groups.all(:limit=>8)%>
-    </ul>
-  <%end%>
-
   <% sub_block_div("相关小组") do %>
     <ul class="float_ul">
-      <%= render :partial=>"groups/float_icon_name",:collection=> @group.similar_tag_groups.all(:limit=>8)%>
+      <%= render :partial=>"groups/float_icon_name",:collection=> @group.similar_tag_groups.all(:limit=>3)%>
+      <%= render :partial=>"groups/float_icon_name",:collection=> @group.related_popular_groups.all(:limit=>3)%>
+
     </ul>
   <%end%>
 </div>

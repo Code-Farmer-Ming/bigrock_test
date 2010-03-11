@@ -117,6 +117,5 @@ class PassTest < ActiveSupport::TestCase
     passes_one.reload
     assert_equal 0, passes_one.available_yokemates.size
   end
-  
  
 end

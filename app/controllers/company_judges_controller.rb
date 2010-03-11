@@ -19,10 +19,10 @@ class CompanyJudgesController < ApplicationController
 
         render :update do |page|
           if    company.all_employees.exists?(current_user)
-          page << "Lightbox.show('/company_judges/new?company_id=#{params[:company_id]}')"
+            page << "Lightbox.show('/company_judges/new?company_id=#{params[:company_id]}')"
           else
-                    flash.now[:notice] = "必须是公司的员工才能评价"
-             page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+            flash.now[:notice] = "必须是公司的员工才能评价"
+            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
           end
         end
       }
@@ -61,7 +61,6 @@ class CompanyJudgesController < ApplicationController
   end
 
   def update
-  
     @company_judge = CompanyJudge.find(params[:id])
     current_user.tag_something(@company_judge.company, params[:user_tags])
 
@@ -74,6 +73,8 @@ class CompanyJudgesController < ApplicationController
   def destroy
     @company_judge = current_user.judged_companies.find(params[:id])
     @company_judge.destroy
+    current_user.remove_something_tag(@company_judge.company)
+   
     respond_to do |format|
       format.xml  { head :ok }
       format.js {}

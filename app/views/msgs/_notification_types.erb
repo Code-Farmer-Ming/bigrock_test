@@ -1,9 +1,9 @@
 <h1>消息</h1>
 <div class="tab">
   <ul class="item">
-    <li id="<%= "current_tab" if controller.action_name =="index" && params[:type]!="recieve" && params[:type]!="send"  %>" ><%= link_to "新消息", account_msgs_path(:type=>:new)  %> </li>
-    <li id="<%= "current_tab" if controller.action_name =="index" && params[:type]=="recieve" %>" ><%= link_to "收到的消息",account_msgs_path(:type=>:recieve)  %> </li>
-    <li  id="<%= "current_tab" if controller.action_name =="index" && params[:type]=="send" %>"><%= link_to   "发送的消息",account_msgs_path(:type=>:send) %></li>
-    <li  id="<%= "current_tab" if controller.action_name =="set_resume_visibility" %>">  <%= link_to "+写消息",new_account_msg_path()%></li>
+    <li><%= link_to "新消息", account_msgs_path(:type=>:new),:class=>(controller.action_name =="index" && params[:type]!="recieve" && params[:type]!="send"  ? "active-tab" : "" ) %> </li>
+    <li><%= link_to "收到的消息",account_msgs_path(:type=>:recieve) ,:class=>(controller.action_name =="index" && params[:type]=="recieve"  ? "active-tab" : "" %> </li>
+    <li><%= link_to   "发送的消息",account_msgs_path(:type=>:send),:class=>(controller.action_name =="index" && params[:type]=="send"  ? "active-tab" : ""  %></li>
+    <li><%= link_to "+写消息",new_account_msg_path()%></li>
   </ul>
 </div>

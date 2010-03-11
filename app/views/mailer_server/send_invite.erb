@@ -4,4 +4,4 @@
 <br />
 <%= @msg.content %>
 <br />
-我需要你对我的工作做个评价，点击这里<%= link_to "来评价我",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！
+我需要你对我的工作做个评价，点击这个链接<%= link_to "来评价我#{new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user)}",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！

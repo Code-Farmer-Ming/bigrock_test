@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :check_login?
-  # before_filter :check_login?,:except=>[:login,:new,:create,:forget_password,:reset_password]
+ 
 
  
   def show

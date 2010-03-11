@@ -431,50 +431,6 @@ ul#nav .activelink a,ul#nav a:hover{
     background-color: #ccccff;
 }
 
-/* tab */
-.tab {
-    padding:0px;
-    margin:0px;
-    border-bottom:1px solid #E1E9F8;
-    margin-bottom:4px;
-    width:100%;
-    overflow:auto;
-}
-
-.tab  ul{
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
-}
-.tab ul li{
-    float: left;
-    margin:0px;
-    margin-left:2px;
-
-    text-align:center;
-}
-.tab UL LI A {
-    line-height:25px;
-    display: inline-block;
-    text-decoration: none;
-    padding: 0 25px;
-    font-weight: bold;
-    float: left;
-}
-.tab UL LI#current_tab{
-
-    background-color: #E1E9F8;
-    font-weight: bold;
-    color:black;
-}
-
-
-.tab ul li  a:hover {
-    color:black;
-    background-color: #E1E9F8;
-    font-weight: bold;
-}/* 鼠标经过状态 */
-
 /* sub_block 小模块*/
 .sub_block{
     margin-bottom:4px;

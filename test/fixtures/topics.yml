@@ -67,8 +67,20 @@ foru:
   author_id: 1
   title: MyString
   content: MyText
-
   up: 0
   down: 0
   comments_count: 0
   view_count: 0
+  
+five:
+  id: 5
+  owner_id: 3
+  owner_type: Company
+  author_id: 17
+  title: MyString
+  content: MyText
+  up: 0
+  down: 0
+  comments_count: 0
+  view_count: 0
+

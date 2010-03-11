@@ -66,6 +66,18 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
       find_by_sql(sql)
     end
+    def exists?(*args)
+      options = args.extract_options!
+
+      options[:conditions] =expand_id_conditions(args)
+      options[:limit] =1
+      sql = @finder_sql
+      sql += sanitize_sql " and  #{options[:conditions]}" if options[:conditions]
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql).size >0
+    end
   end
   #TODO:允许有多个 current pass
   has_many :current_pass,:class_name=>"Pass",:conditions=>{:is_current=>true}

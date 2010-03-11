@@ -257,4 +257,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, user_one.all_groups.count
 
   end
+
+  test "my_topic" do
+    user_one = users(:one)
+    assert_equal 3, user_one.my_topics.count
+    assert_equal 4, user_one.my_created_topics.count
+  end
 end

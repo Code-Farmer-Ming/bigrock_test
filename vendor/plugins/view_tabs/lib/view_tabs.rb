@@ -14,7 +14,7 @@ module ViewTabs
 
   def tabs(id="",html_option={},&block)
     contenttag =content_tag(:div, content_tag(:ul,(capture(&block).chomp.strip if !block.blank?),:id=>id,:class=>(html_option[:class] ? html_option[:class] : "tabs")),
-      :class=>"tab_button")
+      :class=>"tab")
     concat(contenttag.chomp.strip)
   end
 

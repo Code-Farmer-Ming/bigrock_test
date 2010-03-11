@@ -1,11 +1,11 @@
 <h1>设置</h1>
+
 <div class="tab">
-  <ul class="item">
-    <li id="<%= "current_tab" if controller.action_name =="set_base_info" %>" ><%= link_to "基本设置",set_base_info_account_path() %> </li>
-     <li id="<%= "current_tab" if controller.action_name =="set_password" %>" ><%= link_to "密码设置", :action=>"set_password" %> </li>
-    <li  id="<%= "current_tab" if controller.action_name =="set_user_auth" %>"><%= link_to   "隐私设置",set_user_auth_account_path()%></li>
- 
-    <li  id="<%= "current_tab" if controller.action_name =="set_alias" %>"><%= link_to   "马甲设置",{:action=>"set_alias"}%></li>
+  <ul>
+    <li><%= link_to "基本设置",set_base_info_account_path(),:class=>controller.action_name !="set_base_info" || "active-tab"    %> </li>
+    <li><%= link_to   "密码设置",{ :action=>"set_password"},:class=>controller.action_name !="set_password" || "active-tab"   %> </li>
+    <li><%= link_to   "隐私设置",set_user_auth_account_path(),:class=>controller.action_name !="set_user_auth" || "active-tab" %></li>
+    <li><%= link_to   "马甲设置",{:action=>"set_alias"},:class=>controller.action_name !="set_alias" || "active-tab"%></li>
   </ul>
   <p class="clear_float"></p>
 </div>

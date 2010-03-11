@@ -11,10 +11,11 @@ class MailerServerTest < ActionMailer::TestCase
 
   test "send_invite" do
     @expected.subject = Msg.find(:first).title
-
+ 
     @expected.body    = ""
     @expected.date    = Time.now
-    assert_equal @expected.subject, MailerServer.create_send_invite(Msg.find(:first)).subject
+    pass = passes(:one)
+    assert_equal @expected.subject, MailerServer.create_send_invite("test@email.com",pass,Msg.find(:first)).subject
   end
 
 end

@@ -1,3 +1,4 @@
+<%type ||= nil%>
 <span class="tag" title="<%=  "有#{show_tag.user_tags_count}人这样描述"%>">
   <%=   link_to show_tag.tag.name + "(#{show_tag.user_tags_count })",tag_path(object.tag,:type=>type)  %>
 </span>

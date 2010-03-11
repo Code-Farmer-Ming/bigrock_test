@@ -3,21 +3,27 @@ class TagsController < ApplicationController
   #一种 根据固定的id显示 某一company 或 group下面的tag
   #另一种   company 或 group类型的所有的tag
   def index
-    
-    @tag_type = params[:type] || "Company"
+        
     if params[:group_id]
       @owner = Group.find(params[:group_id])
+      @tag_type = Group.to_s
     elsif params[:company_id]
       @owner = Company.find(params[:company_id])
+      @tag_type ="Company"
+    else
+      @tag_type ||= params[:type] || "Company"
     end
-    if @owner
+ 
+    if  @owner && params[:company_id]
       @tags = @owner.taggings.paginate :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%'],
         :joins=>:tag,:order=>"user_tags_count desc", :page => params[:page]
-      @label=  @owner.name
+    elsif @owner
+      @tags = @owner.all_tags( :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%']).paginate :page => params[:page]
     else
       @tags =@tag_type.camelize.constantize.all_tags( :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%']).paginate :page => params[:page]
       @label=   @tag_type.to_s.downcase.eql?("company") ? "公司" : "小组"
     end
+    @label=  @owner.name   if @owner 
   end
   
   def show

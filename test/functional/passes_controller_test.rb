@@ -18,7 +18,7 @@ class PassesControllerTest < ActionController::TestCase
     assert_difference('Pass.count') do
       post :create, :pass => {:title=>"普通员工" },:user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"}
     end
-    assert_redirected_to new_user_resume_pass_path(@userone,@resumeone)
+    assert_redirected_to @userone
     resume= Pass.find_all_by_resume_id(@resumeone)
     assert(resume.length>0,"count error"+resume.length.to_s)
     assert_equal(resume[0].resume_id,@resumeone.id)  
