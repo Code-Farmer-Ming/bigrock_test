@@ -32,25 +32,25 @@
         <%= label_tag :industry ,"所属行业",:class=>"filed_lab" %><br/>
         <%= select_tag  :industry_id,
           options_for_select([['所有行业',0]]+Industry.all.collect {|p| [ p.name, p.id ] },:selected=>params[:industry_id].to_i),
-          {:onchange=>'this.form.submit();'}  %>
+          {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
       <p>
         <%= label_tag :company_type, "公司类型",:class=>"filed_lab" %><br/>
         <%= select_tag :company_type_id, options_for_select([['所有类型',0]]+CompanyType.all.collect{|p| [ p.name, p.id ] },params[:company_type_id].to_i),
-          {:onchange=>'this.form.submit();'} %>
+          {:onchange=>'this.form.onsubmit();this.form.submit(); '} %>
       </p>
       <p>
         <%= label_tag  :size,"公司规模",:class=>"filed_lab" %><br/>
         <%= select_tag :company_size_id,options_for_select([['所有规模',0]]+CompanySize.all.collect {|p| [ p.name, p.id ] },params[:company_size_id].to_i),
-          {:onchange=>'this.form.submit();'}  %>
+          {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
 
       <p>
         <%=label_tag  :address ,"城市",:class=>"filed_lab" %><br/>
         <%= select_tag :state_id,options_for_select([['所有省',0]]+State.all.collect {|p| [p.name,p.id]},params[:state_id].to_i),
-          {:onchange=>'this.form.submit();return false;'}  %>
+          {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
         <%= select_tag :city_id,options_for_select([['所有市',0]]+City.find_all_by_state_id(params[:state_id]).collect{|q| [q.name,q.id] } ,params[:city_id].to_i),
-          {:onchange=>'this.form.submit();return false;'}  %>
+          {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
         <%=  drop_list("state_id","city_id",[[0,[[0,'所有市']]]]+State.all.collect {|p| [ p.id,[[0,'所有市']]+p.cities.all.collect{|q| [q.id,q.name] } ] })%>
       </p>
     <%end%>

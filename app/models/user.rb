@@ -356,7 +356,7 @@ class User< ActiveRecord::Base
   #评价平均评价值
   def avg_judge_value
     value = judges.all(:select=>["avg(eq_value+creditability_value+ability_value)/3  avg_judge_value"])[0].avg_judge_value
-    value && (value.is_a?(Fixnum) ? value.to_f : value).to_f.round(1)
+    ((value && (value.is_a?(Fixnum) ? value.to_f : value)) || 0).to_f.round(1)
   end
 
   def text_password=(value)

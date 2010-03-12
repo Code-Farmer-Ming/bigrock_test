@@ -1,7 +1,7 @@
 <div class="tab">
   <ul class="item">
-    <li  ><%= link_to "当前员工", "?type=current",:class=>!(params[:type]=="current" || params[:type]=='' || params[:type].nil?) || "active-tab"    %> </li>
-    <li  ><%= link_to "过去的员工", "?type=pass",:class=> ! params[:type]=="pass" || "active-tab" %> </li>
+    <li  ><%= link_to "当前员工", "?type=current",:class=>(params[:type]=="current" || params[:type]=='' || params[:type].nil?) ? "active-tab" : ""   %> </li>
+    <li  ><%= link_to "过去的员工", "?type=pass",:class=>  params[:type]=="pass" ? "active-tab" : "" %> </li>
   </ul>
   <p class="clear_float" />
 </div>

@@ -1,10 +1,6 @@
 <div id="single_column">
   <%= link_to "查看更详细资料>>",@resume.user,:class=>"r" %>
-  <h1>
-    <%=  h(@resume.user_name)%>
-    &nbsp;
-    <%= big_star(@resume.user.avg_judge_value) %><span class="red_text"><%=  @resume.user.avg_judge_value%></span><%= link_to "#{@resume.user.judges.size}人评价",user_judges_path(@resume.user),:class=>:user_my_language %>
-  </h1>
+  <%= render :partial=>"users/info_head",:object=>@resume.user %>
   <div id="resume_info_show" class="main_info">
     <div id="resume_content">
     </div>

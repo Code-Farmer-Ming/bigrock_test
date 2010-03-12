@@ -152,7 +152,7 @@ class GroupsController < ApplicationController
   def invite_join
     @group = Group.find_by_id(params[:id])
     @invite =  JoinGroupInvite.new(params[:join_group_invite])
-    @friends = current_user.friends_user.paginate :conditions=>"users.nick_name like '%#{params[:search]}%'", :page => params[:page], :per_page=>1
+    @friends = current_user.friends_user.paginate :conditions=>"users.nick_name like '%#{params[:search]}%'", :page => params[:page]
     if request.post?
       if (params[:invite_user])
         params[:invite_user].each do |friend|

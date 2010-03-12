@@ -33,7 +33,7 @@ class Education < ActiveRecord::Base
   end
 
   def after_destroy
-    self.school.destroy
+    self.school && self.school.destroy
   end
 
 end

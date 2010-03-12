@@ -6,7 +6,7 @@
 <%= hidden_field_tag :request_user_id, params[:request_user_id] %>
 <p>
   <%= f.label :company_name,"公司"  ,:class=>"filed_lab" %>
-  <% if @_first_render.name=='edit' %>
+  <% if @_first_render.name=='edit' || f.object.company %>
     <%=   hidden_field_tag :"company[name]",  f.object.company.name%>
     <%= f.object.company.name %>
   <%else%>

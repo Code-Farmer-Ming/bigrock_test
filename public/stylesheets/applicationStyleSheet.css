@@ -417,6 +417,9 @@ ul#nav .activelink a,ul#nav a:hover{
     font-weight:bold;
     font-size:14px;
 }
+.big_text{
+    font-size:2.5em;
+}
 .pass_judge{
     padding:4px;
 }
@@ -777,7 +780,7 @@ div.auto_complete ul strong.highlight {
     color:gray;
 }
 .user_log{
-    margin-bottom:1px;
+    margin-bottom:4px;
 }
 
 /*新闻*/

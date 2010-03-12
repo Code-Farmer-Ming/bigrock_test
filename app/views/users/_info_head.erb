@@ -1,0 +1,10 @@
+    <h1>
+      <span id="<%= dom_id(object.current_resume,'user_name') %>">
+        <%=  h(object.name)%></span>&nbsp;
+      <%= big_star(object.avg_judge_value|| 0) %>
+      <span class="red_text">
+        <span class="big_text"><%=  object.avg_judge_value.to_i%></span>.
+        <%=  ((object.avg_judge_value % 0.1)).to_i %>
+      </span>
+      <%= link_to "(#{object.judges.size}人评价)",user_judges_path(object),:class=>:user_my_language %>
+    </h1>

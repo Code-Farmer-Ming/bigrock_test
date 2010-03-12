@@ -1,5 +1,10 @@
-  <% form_for "search",{},:html=>{:method=>"get",:class=>'form_info inline bottom_gray_line'} do |f| %>
-    <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
+<% form_for "search",{},:html=>{:method=>"get",:class=>'form_info inline bottom_gray_line'} do |f| %>
+  <div class="r">
+    共<%= @tags.size %>条
+  </div>
+  <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
   <%= hidden_field_tag "type",@template.params[:type] %>
-    <%=  f.submit "搜索标签" ,:disable_with=>"搜索标签",:disabled => false,:class=>"button"%>
-  <%end%>
+  <%=  f.submit "搜索标签" ,:disable_with=>"搜索标签",:disabled => false,:class=>"button"%>
+
+
+<%end%>

@@ -31,5 +31,5 @@ stylesheets:
   - style_min
   - tabs
   - applicationStyleSheet
-- prototype-ui:
   - auto_complete_like_facebook
+  

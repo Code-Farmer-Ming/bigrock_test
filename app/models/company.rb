@@ -155,7 +155,7 @@ class Company < ActiveRecord::Base
     current_employees.exists?(user)
   end
   
-  #TODO 这里可能会有点问题 当Vsersion.pass的的时候
+
   class Version
     belongs_to :edit_user, :class_name => '::User', :foreign_key => 'last_edit_user'
     #按 列 查找版本内容

@@ -27,7 +27,7 @@ class Speciality < ActiveRecord::Base
   end
   
   def after_destroy
-      self.skill.destroy
+    self.skill &&  self.skill.destroy
   end
 
 end

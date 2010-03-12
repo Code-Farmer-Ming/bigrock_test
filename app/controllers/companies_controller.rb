@@ -1,4 +1,4 @@
-
+#company judge 环境和 薪水 是否综合到一个参数！！！！
 class CompaniesController < ApplicationController
   before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags,:search]
 
@@ -57,7 +57,7 @@ class CompaniesController < ApplicationController
     end
     respond_to do |format|
       if  @company.save
-        format.html {flash[:notice] = 'Company was successfully created.'
+        format.html {flash[:notice] = '公司创建成功！'
           redirect_to(@company) }
         format.xml  { render :xml => @company, :status => :created, :location => @company }
         format.js  {}

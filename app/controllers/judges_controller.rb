@@ -47,7 +47,7 @@ class JudgesController < ApplicationController
       end
     end
   end
-  #TODO:Judge.find直接查询有一定的危险
+ 
   def destroy
     @judge =current_user.judged.find(params[:id])
     respond_to do |format|

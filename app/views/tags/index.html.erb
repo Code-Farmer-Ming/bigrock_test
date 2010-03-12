@@ -1,10 +1,8 @@
 <div id="left_content">
   <h1><%= @label %>  所有标签 </h1>
- 
+
   <%= render :partial=>"tags/search" %>
-   <p class="r">
-    共<%= @tags.size %>条
-  </p>
+ 
   <div>
     <%if  params[:company_id]%>
       <%= render :partial=>"tags/show_tag" ,:collection=>@tags,:locals=>{:type=>@tag_type}  %>

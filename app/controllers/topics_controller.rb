@@ -35,7 +35,7 @@ class TopicsController < ApplicationController
 
   # GET /topics/new
   # GET /topics/new.xml
-  #TODO: 其他 group等的判断
+ 
   def new
     @topic = Topic.new
     if params[:company_id] #company
@@ -206,7 +206,9 @@ class TopicsController < ApplicationController
       topic.owner.is_manager_member?(current_user)
     else #company topics
       topic.owner.current_employee?(current_user)  #TODO:current_employee 需要做信用检查
+#       topic.owner.higher_creditability_employees.exists?(current_user)
     end
+ 
   end
   #当前用户是否 拥有者
   def is_owner?(topic)

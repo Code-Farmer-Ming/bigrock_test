@@ -1,5 +1,5 @@
 <div class="item_content">
-  <div class="r">
+  <div class="r" id="<%= dom_id(user_info_and_operation,"operation")%>">
     <%= render :partial=>"users/operation",:object=>user_info_and_operation %>
   </div>
   <%= render :partial=>"users/user_short_info",:object=>user_info_and_operation,:locals=>{:old_company=>old_company ||= nil  } %>

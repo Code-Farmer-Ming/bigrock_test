@@ -79,7 +79,7 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
       find_by_sql(sql).size >0
     end
   end
-  #TODO:允许有多个 current pass
+ 
   has_many :current_pass,:class_name=>"Pass",:conditions=>{:is_current=>true}
  
 

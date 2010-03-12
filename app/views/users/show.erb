@@ -1,10 +1,6 @@
 <div id="left_content">
   <div id="resume_info" >
-    <h1> 
-      <span id="<%= dom_id(@user.current_resume,'user_name') %>">
-        <%=  h(@user.name)%></span>&nbsp;
-      <%= big_star(@user.avg_judge_value|| 0) %><span class="red_text"><%=  @user.avg_judge_value%></span><%= link_to "#{@user.judges.size}人评价",user_judges_path(@user),:class=>:user_my_language %>
-    </h1>
+    <%= render :partial=>"users/info_head",:object=>@user %>
     <div class="tab" >
       <div class="l">
         <span id="<%= dom_id(@user,"my_language") %>" class="user_my_language" >

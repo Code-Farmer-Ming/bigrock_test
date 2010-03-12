@@ -169,7 +169,6 @@ class AccountController < ApplicationController
       end
     else
       flash[:error] = "重设密码链接错误！"
-      #TODO: 要定向到专门的错误信息显示页面
       redirect_to(login_account_path())
     end
   end
