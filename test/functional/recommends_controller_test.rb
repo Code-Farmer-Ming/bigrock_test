@@ -13,6 +13,7 @@ class RecommendsControllerTest < ActionController::TestCase
   end
 
   test "should create recommend" do
+    Recommend.destroy_all()
     assert_difference('Recommend.count') do
       xhr :post, :create, :recommend => { :memo=>"我推荐这个",:recommendable_type=>"Piecenews",:recommendable_id=>1}
     end

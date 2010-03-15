@@ -23,7 +23,8 @@ class TagsController < ApplicationController
       @tags =@tag_type.camelize.constantize.all_tags( :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%']).paginate :page => params[:page]
       @label=   @tag_type.to_s.downcase.eql?("company") ? "公司" : "小组"
     end
-    @label=  @owner.name   if @owner 
+    @label=  @owner.name   if @owner
+    @page_title =   @label +"的所有标签"
   end
   
   def show
@@ -32,6 +33,7 @@ class TagsController < ApplicationController
     @objects = @tag.taggables.paginate :conditions=>["taggable_type=?",@tag_type],:page => params[:page]
     #    taggable_ids = @tag.taggings.all(:conditions=>["taggable_type=?",Company.to_s],:limit=>10,:order=>"user_tags_count desc").map(&:taggable_id)
     @similar_taggings = @tag_type.to_s.camelize.constantize.find_related_tags(@tag.name,:limit=>10) #Tagging.find(:all,:conditions=>["taggable_id in (?) and tag_id<>?",taggable_ids,@tag.id],:limit=>10,:order=>"user_tags_count desc")
+    @page_title =  "#{@tag.name} 标签"
   end
   
 

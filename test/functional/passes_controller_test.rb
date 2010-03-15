@@ -15,6 +15,7 @@ class PassesControllerTest < ActionController::TestCase
   end
 
   test "should create pass" do
+    Pass.destroy_all()
     assert_difference('Pass.count') do
       post :create, :pass => {:title=>"普通员工" },:user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"}
     end

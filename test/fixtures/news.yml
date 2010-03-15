@@ -13,6 +13,7 @@
 #  up                :integer       default(0)
 #  down              :integer       default(0)
 #  comments_count    :integer       
+#  recommends_count  :integer       default(0)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

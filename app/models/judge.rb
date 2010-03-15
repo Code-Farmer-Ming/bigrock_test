@@ -22,6 +22,10 @@ class Judge < ActiveRecord::Base
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
   #评价用户
   belongs_to :judger,:class_name=> "User",:foreign_key => "judger_id"
+  #TODO: 需要添加上可以 column为空的时候 统计所有
+  named_scope :judge_star, lambda { |column_name,star| { :conditions => ["#{column_name}=?",star] }
+  }
+
   def before_create
     pass.ability_value += ability_value
     pass.eq_value += eq_value

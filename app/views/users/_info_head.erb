@@ -1,10 +1,33 @@
-    <h1>
-      <span id="<%= dom_id(object.current_resume,'user_name') %>">
-        <%=  h(object.name)%></span>&nbsp;
-      <%= big_star(object.avg_judge_value|| 0) %>
-      <span class="red_text">
-        <span class="big_text"><%=  object.avg_judge_value.to_i%></span>.
-        <%=  ((object.avg_judge_value % 0.1)).to_i %>
-      </span>
-      <%= link_to "(#{object.judges.size}人评价)",user_judges_path(object),:class=>:user_my_language %>
-    </h1>
+<h1>
+  <span id="<%= dom_id(object.current_resume,'user_name') %>">
+    <%=  h(object.name)%></span>&nbsp;
+    <span id="whole_judge_star" >
+    <%= big_star(object.avg_judge_value()|| 0) %>
+
+  <span class="red_text">
+    <span class="big_text"><%=  object.avg_judge_value.to_i%></span>.
+    <%=  ((object.avg_judge_value % 0.1)).to_i %>
+  </span>
+  <%= link_to "(#{object.judges.size}人评价)",user_judges_path(object),:class=>:user_my_language %>  </span>
+</h1>
+<div id="whole_judge_detail_star" style=" display:none;">
+
+  <p>
+    <span>工作能力</span>
+    <%= middle_star(object.avg_judge_value("ability_value")) %>
+    <span class="red_text"><%=  object.avg_judge_value("ability_value")%></span>
+  </p>
+  <p>
+    <span>交际能力</span>
+    <%= middle_star(object.avg_judge_value("eq_value")) %>
+    <span class="red_text"><%=  object.avg_judge_value("eq_value")%></span>
+  </p>
+  <p>
+    <span>资料真实</span>
+    <%= middle_star(object.avg_judge_value("creditability_value")) %>
+    <span class="red_text"><%=  object.avg_judge_value("creditability_value")%></span>
+  </p>
+
+
+</div>
+<%= popmenu('whole_judge_star','whole_judge_detail_star','hover') %>

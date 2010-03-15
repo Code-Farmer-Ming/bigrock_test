@@ -3,10 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <meta name="description" content="<%= @page_description %>" />
-    <meta name="keywords" content="<%= @key_words %>" />
+    <meta name="description" content="<%= (@page_title || "")+" "+(@page_description || "") %>" />
+    <meta name="keywords" content="<%=  (@page_title || "")+" "+(@page_keywords || "") %>" />
     <title> <%=  @page_title%></title>
-
     <%=  stylesheet_link_merged :base %>
     <%= stylesheet_link_tag 'blueprint/print',:media => "print"  %>
     <!--[if lt IE 8]>
@@ -44,17 +43,17 @@
       </div>
       <div id="footer">
         <h4>
-          copyright   &copy; 2009-2010</h4>
+          copyright   &copy; 2008-2010</h4>
       </div>
     </div>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-15077514-3");
-pageTracker._trackPageview();
-} catch(err) {}</script>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-15077514-3");
+        pageTracker._trackPageview();
+      } catch(err) {}</script>
   </body>
 </html>

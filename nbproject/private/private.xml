@@ -6,5 +6,13 @@
             <url>public/javascripts/prototype_ui_auto_complete_like_facebook/prototype-ui.js</url>
             <line>463</line>
         </file>
+        <file>
+            <url>app/models/recommend.rb</url>
+            <line>2</line>
+        </file>
+        <file>
+            <url>app/views/users/_info_head.erb</url>
+            <line>10</line>
+        </file>
     </editor-bookmarks>
 </project-private>

@@ -2,7 +2,7 @@
 <div >
   <span>工作能力</span>
   <%
-  judge_count =pass.ability_judges.size
+  #judge_count =pass.judges.size
   yokemate_count=pass.judges.size%>
 
   <%= middle_star(pass.average_judge("ability_value") ) %>
@@ -12,7 +12,7 @@
     " Element.toggle('#{dom_id(pass,"ability_detail_judge")}');if (Element.visible('#{dom_id(pass,"ability_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
   <div class="detail_judge" id="<%=dom_id(pass,"ability_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>
-      <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.ability_judge_count(i))) %>
+      <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.judge_count_by_star("ability_value",i))) %>
       <br />
     <%end%>
   </div>
@@ -27,7 +27,7 @@
 
   <div class="detail_judge" id="<%=dom_id(pass,"eq_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>
-      <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.eq_judge_count(i))) %>
+      <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.judge_count_by_star("eq_value",i))) %>
       <br />
     <%end%>
   </div>
@@ -42,7 +42,7 @@
   <%= link_to "(共#{pass.judges.count}人评价)",user_resume_pass_judges_path(pass.user,pass.resume,pass.id) if pass.judges.count>0%>
   <div class="detail_judge" id="<%=dom_id(pass,"creditability_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>
-      <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.creditability_judge_count(i))) %>
+      <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.judge_count_by_star("creditability_value",i))) %>
       <br />
     <%end%>
   </div>

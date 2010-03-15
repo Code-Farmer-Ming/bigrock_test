@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def yokemate_list
     @user = User.find(params[:id])
+    @page_title ="#{@user.name} 同事信息列表"
     if !params[:pass_id]
       @yokemates=@user.current_resume.yokemates.paginate :page => params[:page]
     else
@@ -23,6 +24,7 @@ class UsersController < ApplicationController
   #用户的活动日志记录
   def logs
     @user = User.find(params[:id])
+     @page_title ="#{@user.name} 动态记录"
     if params[:type]=="" || params[:type]==nil || params[:type]=="all"
       @log_items = @user.log_items.paginate :page => params[:page]
     else
@@ -32,6 +34,7 @@ class UsersController < ApplicationController
 
   def friends
     @user = User.find(params[:id])
+    @page_title ="#{@user.name} 好友列表"
     case params[:type]
     when "my_follow"
       @friends_user =@user.my_follow_users.paginate :conditions=>"nick_name like '%#{params[:search]}%'", :page => params[:page]
@@ -51,7 +54,7 @@ class UsersController < ApplicationController
   
   def groups
     @user = User.find(params[:id])
-    @page_title ="#{@user.name}的小组"
+    @page_title ="#{@user.name} 参加的小组"
     if current_user?(@user)
       case params[:type]
       when "manage"

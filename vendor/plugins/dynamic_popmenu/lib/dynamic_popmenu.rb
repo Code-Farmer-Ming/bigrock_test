@@ -3,8 +3,8 @@ module DynamicPopmenu
 
   #		  target_id		 触发弹出菜单的 元素
   #			pop_id	  需要弹出的元素
-  def popmenu(target_id,pop_id )
-    function ="  new DynamicPopmenu('#{target_id}','#{pop_id }')"
+  def popmenu(target_id,pop_id,target_event='click' )
+    function ="  new DynamicPopmenu('#{target_id}','#{pop_id }','#{target_event}')"
     javascript_tag(function)
   end
  

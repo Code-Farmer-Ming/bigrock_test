@@ -78,14 +78,14 @@ class PassTest < ActiveSupport::TestCase
     passes_one.judges << judge
 
     assert_not_nil passes_one.judges.find(judge)
-    assert_equal 1,passes_one.ability_judge_count(4)
-    assert_equal 0,passes_one.ability_judge_count(1)
+    assert_equal 1,passes_one.judge_count_by_star("ability_value",4)
+    assert_equal 0,passes_one.judge_count_by_star("ability_value",1)
 
-    assert_equal 1,passes_one.eq_judge_count(3)
-    assert_equal 0,passes_one.eq_judge_count(1)
+    assert_equal 1,passes_one.judge_count_by_star("eq_value",3)
+    assert_equal 0,passes_one.judge_count_by_star("eq_value",1)
 
-    assert_equal 1,passes_one.creditability_judge_count(5)
-    assert_equal 0,passes_one.creditability_judge_count(1)
+    assert_equal 1,passes_one.judge_count_by_star("creditability_value",5)
+    assert_equal 0,passes_one.judge_count_by_star("creditability_value",1)
   end
 
   test "is_yokemate" do

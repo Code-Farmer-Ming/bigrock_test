@@ -123,6 +123,7 @@ class CompanyTest < ActiveSupport::TestCase
   end
   #测试 真实度高的用户  creditability_value >= 4为真实度高的用户
   test "hight creditability user" do
+    Judge.delete_all()
     company_one = companies(:one)
     user_one = users(:one)
     user_two = users(:two)
@@ -134,7 +135,9 @@ class CompanyTest < ActiveSupport::TestCase
     pass = user_two.passes.find(2)
 
     pass.judges << judge
+    assert pass.save
     pass.reload
+   
     company_one.reload
     assert_equal 1,pass.judges.size
     assert_equal 1,pass.judges_count

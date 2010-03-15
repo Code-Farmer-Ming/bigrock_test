@@ -79,7 +79,7 @@ class Pass < ActiveRecord::Base
   has_many :ability_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "ability_value>0"
   has_many :eq_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "eq_value>0"
   has_many :creditability_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "creditability_value>0"
- #按日期排序
+  #按日期排序
   named_scope :date_desc_order,:order=>"iscurrent desc,begin_date  desc"
   #Pass删除时的 要清除该pass对应的 其他人和公司的评价
   def before_destroy
@@ -107,21 +107,22 @@ class Pass < ActiveRecord::Base
     #取消 对公司的评价
     CompanyJudge.destroy_all(:company_id=>company,:user_id=>user )
   end
+  
+  #column_name 如下值
   #ability
-  def ability_judge_count(star=0)
-    self.judges.find(:all,:conditions=>"ability_value=#{star} or (ability_value>#{star} and #{star}=0)").size
-  end
   #eq_value
-  def eq_judge_count(star=0)
-    self.judges.find(:all,:conditions=>"eq_value=#{star} or (eq_value>#{star} and #{star}=0)").size
-  end
   #creditability
-  def creditability_judge_count(star=0)
-    self.judges.find(:all,:conditions=>"creditability_value=#{star} or (creditability_value>#{star} and #{star}=0)").size
+  def judge_count_by_star(column_name,star=0)
+    self.judges.judge_star(column_name,star).size
   end
 
-  def average_judge(cloum_name)
-    self.judges.average(cloum_name)
+  #TODO：速度可以优化 使用
+  # creditability_value :integer       default(0)
+  #  ability_value       :integer       default(0)
+  #  eq_value            :integer       default(0)
+  #judges_count
+  def average_judge(column_name)
+    self.judges.average(column_name)
   end
   #是否 同事 可以评价
   def yokemate?(user)
@@ -130,7 +131,6 @@ class Pass < ActiveRecord::Base
       or end_date between '#{begin_date}' and '#{end_date}'
       or '#{begin_date}' between begin_date and end_date
       or '#{end_date}' between begin_date and end_date) and id<>#{id} and user_id=#{user ? user.id : -1}").size > 0
-
   end
 
 end

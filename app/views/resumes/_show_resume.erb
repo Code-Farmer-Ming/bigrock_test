@@ -20,7 +20,7 @@
     <%= javascript_tag(" AddHover('self_description')")   if current_user?(resume.user)%>
   <%end%>
 
-  <%if resume.user.setting.can_visibility?(:pass_visibility,current_user) || resume.yokemates.exists?(current_user.to_param) %>
+  <%if resume.user.setting.can_visibility?(:pass_visibility,current_user) || resume.yokemates.exists?(current_user.to_param || 0) %>
     <div id="pass" >
       <div id="pass_infos" style="display:<%=  (resume.passes.length>0 || ( current_user?(resume.user))) ? "" : "none" %>">
         <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">

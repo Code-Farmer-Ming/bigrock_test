@@ -17,6 +17,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @page_title =  @group.name + " 小组"
+    @page_keywords=@group.tag_list
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @group }
@@ -151,6 +152,7 @@ class GroupsController < ApplicationController
   #邀请好友加入
   def invite_join
     @group = Group.find_by_id(params[:id])
+    @page_title = " 邀请好友加入 " + @group.name
     @invite =  JoinGroupInvite.new(params[:join_group_invite])
     @friends = current_user.friends_user.paginate :conditions=>"users.nick_name like '%#{params[:search]}%'", :page => params[:page]
     if request.post?
@@ -178,6 +180,7 @@ class GroupsController < ApplicationController
   
   def search
     search_str = "%#{params[:search]}%"
+    @page_title = " 小组信息搜索 "
     @groups = Group.paginate(:conditions=>["name like ? or description like ?",search_str,search_str] ,:page => params[:page])
   end
 end

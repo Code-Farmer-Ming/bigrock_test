@@ -73,7 +73,7 @@ class NewsController < ApplicationController
       return
     end
     @piece_of_news = @company.news.find_by_id(params[:id])
-    @page_title="编辑新闻"
+    @page_title= @piece_of_news.title+ " 编辑"
   end
 
   # POST /news
@@ -151,6 +151,7 @@ class NewsController < ApplicationController
   end
   #搜索新闻
   def search
+    @page_title= "新闻搜索"
     order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
 
     if !order_str

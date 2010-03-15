@@ -4,9 +4,9 @@
 #
 #  id                    :integer       not null, primary key
 #  owner_id              :integer       not null
-#  owner_type            :string(255)   default(""), not null
+#  owner_type            :string(255)   not null
 #  author_id             :integer       not null
-#  title                 :string(128)   default(""), not null
+#  title                 :string(128)   not null
 #  content               :text          default(""), not null
 #  up                    :integer       default(0)
 #  down                  :integer       default(0)
@@ -18,6 +18,7 @@
 #  can_comment           :boolean       default(TRUE)
 #  last_comment_user_id  :integer       
 #  last_comment_datetime :datetime      
+#  recommends_count      :integer       default(0)
 #
 
 class Topic < ActiveRecord::Base

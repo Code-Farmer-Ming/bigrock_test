@@ -51,7 +51,7 @@ class AccountController < ApplicationController
   def show
     @user= current_user
     if @user
-      @page_title =" #{@user.name} 首页"
+      @page_title =" #{@user.name} 的首页"
       @news = @user.my_follow_company_news.find(:all,:limit=>20)
       @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
       @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
@@ -59,6 +59,7 @@ class AccountController < ApplicationController
       @join_topics =  @user.join_topics.find(:all,:limit=>20)
     else
       @page_title ="首页"
+      @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境"
       @news = Piecenews.find(:all,:limit=>20,:order=>"news.created_at desc")
       @topics = Topic.group_topics.find(:all,:limit=>20,:order=>"topics.last_comment_datetime desc")
       @logs = LogItem.find(:all,:limit=>10,:order=>"created_at desc");
@@ -192,7 +193,7 @@ class AccountController < ApplicationController
   end
   #设置 档案 可视的权限
   def set_resume_visibility
-    @page_title ="设置资料查看权限"
+ 
     @user =  current_user
     if  !request.post?
       return
@@ -205,7 +206,7 @@ class AccountController < ApplicationController
   end
   #用户隐私设置
   def set_user_auth
-    @page_title ="权限设置"
+    @page_title ="用户隐私设置"
     @user = current_user
     if request.put?
       if @user.setting.update_attributes(params[:user_setting])
@@ -215,6 +216,7 @@ class AccountController < ApplicationController
   end
   #设置用户的状态
   def set_user_state
+
     current_user.update_attribute("state", params[:state] || User::STATE_TYPES.keys[0].to_s())
 
     new_state = params[:state] || User::STATE_TYPES.keys[0].to_s
@@ -250,6 +252,7 @@ class AccountController < ApplicationController
   end
   
   def set_alias
+    @page_title ="马甲设置"
     @alias = current_user.aliases.first
     if request.put?
       if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
@@ -327,6 +330,7 @@ class AccountController < ApplicationController
 
   #所有我关注对象的日志记录
   def follow_logs
+    @page_title ="我所关注好友的动态"
     if params[:type]=="all" || params[:type]=="" || params[:type]==nil
       @log_items = current_user.my_follow_log_items.paginate :page => params[:page]
     else

@@ -10,13 +10,24 @@
 DynamicPopmenu = Class.create();
  
 DynamicPopmenu.prototype= {
-    initialize : function(target,popElement){
+    initialize : function(target,popElement,target_event){
         if ( target != null)
         {
             this.target=$(target);
             this.popElement = $(popElement);
-            Event.observe(this.target, 'click',this.onclick.bind(this));
-            Event.observe(document, 'click',this.ondocumentClick.bind(this));
+            if ((typeof(target_event)=="undefined") || (target_event=='click'))
+            {
+             
+                Event.observe(this.target, 'click',this.onclick.bind(this));
+                Event.observe(document, 'click',this.ondocumentClick.bind(this));
+            }
+            else
+            {
+                Event.observe(this.target, 'mouseover',this.onclick.bind(this));
+                Event.observe(this.target, 'mouseout',function(e){
+                    this.popElement.style.display = "none";
+                }.bind(this));
+            }
         }
     },
     ondocumentClick : function(event){

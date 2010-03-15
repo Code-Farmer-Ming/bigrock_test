@@ -9,8 +9,11 @@ class ResumesController < ApplicationController
     render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
   end
   def index
-    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
 
+    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
+    @page_title= "#{@resume.user.name} 个人简历"
+    @page_description = "#{@resume.user.name} 工作经历、教育经历、技能"
+    @page_keywords = "工作经历、教育经历、技能"
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @resume }
@@ -21,7 +24,6 @@ class ResumesController < ApplicationController
   def show
     #    @resumes = Resume.find_all_by_user_id(params[:user_id])
     @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
-    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @resume }
@@ -30,13 +32,13 @@ class ResumesController < ApplicationController
 
   # GET /resumes/new
   # GET /resumes/new.xml
-#  def new
-#    @resume = Resume.new
-#    respond_to do |format|
-#      format.html # new.html.erb
-#      format.xml  { render :xml => @resume }
-#    end
-#  end
+  #  def new
+  #    @resume = Resume.new
+  #    respond_to do |format|
+  #      format.html # new.html.erb
+  #      format.xml  { render :xml => @resume }
+  #    end
+  #  end
 
   # GET /resumes/1/edit
   def edit
@@ -50,29 +52,29 @@ class ResumesController < ApplicationController
 
   # POST /resumes
   # POST /resumes.xml
-#  def create
-#    @resume = Resume.new(params[:resume])
-#    @resume.user_id = params[:user_id]
-#    @resume.name =  "#{@resume.user_name}的档案 #{@resume.id}"
-#    @resume.is_current =true
-#    @resume.type_name =   Resume::RESUME_TYPES[0]
-#    respond_to do |format|
-#      if @resume.save
-#        flash[:notice] = '简历已经创建成功.'
-#
-#        format.html {
-#          if params[:commit]=="下一步"
-#            redirect_to new_user_resume_pass_path(params[:user_id],@resume)
-#            return
-#          end
-#          redirect_to(user_resumes_path()) }
-#        format.xml  { render :xml => @resume, :status => :created, :location => [:user,@resume] }
-#      else
-#        format.html { render :action => "new" }
-#        format.xml  { render :xml => @resume.errors, :status => :unprocessable_entity }
-#      end
-#    end
-#  end
+  #  def create
+  #    @resume = Resume.new(params[:resume])
+  #    @resume.user_id = params[:user_id]
+  #    @resume.name =  "#{@resume.user_name}的档案 #{@resume.id}"
+  #    @resume.is_current =true
+  #    @resume.type_name =   Resume::RESUME_TYPES[0]
+  #    respond_to do |format|
+  #      if @resume.save
+  #        flash[:notice] = '简历已经创建成功.'
+  #
+  #        format.html {
+  #          if params[:commit]=="下一步"
+  #            redirect_to new_user_resume_pass_path(params[:user_id],@resume)
+  #            return
+  #          end
+  #          redirect_to(user_resumes_path()) }
+  #        format.xml  { render :xml => @resume, :status => :created, :location => [:user,@resume] }
+  #      else
+  #        format.html { render :action => "new" }
+  #        format.xml  { render :xml => @resume.errors, :status => :unprocessable_entity }
+  #      end
+  #    end
+  #  end
 
   # PUT /resumes/1
   # PUT /resumes/1.xml

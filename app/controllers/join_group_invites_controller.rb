@@ -1,6 +1,6 @@
 class JoinGroupInvitesController < ApplicationController
   def index
-    @page_title ="加入小组邀请"
+    @page_title ="加入小组邀请信息列表"
     @invites =  current_user.join_group_invites.paginate :page => params[:page]
   end
 

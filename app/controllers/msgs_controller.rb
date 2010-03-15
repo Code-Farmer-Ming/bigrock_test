@@ -3,6 +3,7 @@ class MsgsController < ApplicationController
   
   def show
     @msg = current_user.all_msgs.find(params[:id])
+    @page_title = @msg.title if @msg
     if @msg
       @msg.read_msg(current_user)
       @msg_response = MsgResponse.new()
@@ -20,6 +21,7 @@ class MsgsController < ApplicationController
     else
       @msgs =  current_user.new_msgs.paginate :page => params[:page]
     end
+    @page_title =  "#{current_user.name} 消息"
   end
   
   def new
@@ -29,9 +31,9 @@ class MsgsController < ApplicationController
     if params[:write_to]  
       @write_to= User.find(:first,:conditions=>["id=? or salt=?",params[:write_to],params[:write_to]])
     
-#      if @write_to
-#        @msg.sendees="#{@write_to.salt}"
-#      end
+      #      if @write_to
+      #        @msg.sendees="#{@write_to.salt}"
+      #      end
     end
   end
 

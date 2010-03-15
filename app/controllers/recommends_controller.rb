@@ -17,6 +17,7 @@ class RecommendsController < ApplicationController
     end
   end
   def index
+    @page_title= "推荐列表"
     @recommends = Recommend.
       paginate_all_by_recommendable_id_and_recommendable_type(params[:recommendable_id],params[:recommendable_type],:page=>params[:page])
   end

@@ -20,6 +20,9 @@ class CompaniesController < ApplicationController
   # GET /companies/1.xml
   def show
     @company = Company.find(params[:id])
+    @page_title=" #{@company.name}"
+    @page_description = ",#{@company.name}员工的信息,公司企业博客"
+    @page_keywords = @company.tag_list
     respond_to do |format|
       format.html {} # show.html.erb
       format.xml  { render :xml => @company }
@@ -28,6 +31,7 @@ class CompaniesController < ApplicationController
   # GET /companies/new
   # GET /companies/new.xml
   def new
+    @page_title=" 创建公司信息"
     @company = Company.new
     @company.name = params[:company] ? params[:company][:name] : ""
     @company_icon= CompanyIcon.new
@@ -41,6 +45,7 @@ class CompaniesController < ApplicationController
   # GET /companies/1/edit
   def edit
     @company = Company.find(params[:id])
+    @page_title=" 编辑 #{@company.name} 信息"
     @company_icon= CompanyIcon.new
     if !@company.all_employees.exists?(current_user)
       flash[:notice] = "必须是公司的员工才能修改公司资料"
@@ -102,6 +107,7 @@ class CompaniesController < ApplicationController
 
   def logs
     @company = Company.find(params[:id])
+    @page_title=" #{@company.name} 动态记录信息"
     if params[:type]=="" || params[:type]==nil || params[:type]=="all"
       @log_items = @company.log_items.paginate :page => params[:page]
     else
@@ -111,6 +117,7 @@ class CompaniesController < ApplicationController
   
   def employee_list
     @company = Company.find(params[:id])
+    @page_title=" #{@company.name} 员工记录"
     if params[:type].blank? || params[:type]=='current' then
       @employees = @company.current_employees.paginate  :conditions=>"nick_name like '%#{params[:search]}%'", :page => params[:page]
     else
@@ -119,8 +126,8 @@ class CompaniesController < ApplicationController
   end
  
   def search()
+    @page_title=" 公司信息搜索"
     order_str =  params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : nil
-
     if !order_str
       order_str =  params[:condition_order] && !params[:condition_order].blank? ? "condition_value/company_judges_count "+ (params[:condition_order].to_s=='asc' ? 'asc' : 'desc') : nil
     else

@@ -2,11 +2,8 @@
 #
 # Table name: industries
 #
-#  id                :integer       not null, primary key
-#  industry_third_id :integer       
-#  name              :string(255)   
-#  created_at        :datetime      
-#  updated_at        :datetime      
+#  id   :integer       not null, primary key
+#  name :string(255)   
 #
 
 class Industry < ActiveRecord::Base

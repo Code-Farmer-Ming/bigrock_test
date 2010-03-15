@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100302154253) do
+ActiveRecord::Schema.define(:version => 20100315062526) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -33,10 +33,14 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.datetime "updated_at"
   end
 
+  add_index "attentions", ["user_id", "target_id", "target_type"], :name => "index_attentions_on_user_id_and_target_id_and_target_type", :unique => true
+
   create_table "cities", :force => true do |t|
     t.integer "state_id",               :null => false
     t.string  "name",     :limit => 32
   end
+
+  add_index "cities", ["name"], :name => "index_cities_on_name"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id"
@@ -75,6 +79,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.integer  "topics_count",         :default => 0,  :null => false
   end
 
+  add_index "companies", ["name"], :name => "index_companies_on_name"
+
   create_table "company_judges", :force => true do |t|
     t.integer  "company_id"
     t.integer  "user_id"
@@ -87,17 +93,23 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.boolean  "anonymous",       :default => false
   end
 
+  add_index "company_judges", ["company_id", "user_id"], :name => "index_company_judges_on_company_id_and_user_id", :unique => true
+
   create_table "company_sizes", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "company_sizes", ["name"], :name => "index_company_sizes_on_name"
+
   create_table "company_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "company_types", ["name"], :name => "index_company_types_on_name"
 
   create_table "company_versions", :force => true do |t|
     t.integer  "company_id"
@@ -138,6 +150,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.integer  "school_id",   :null => false
   end
 
+  add_index "educations", ["resume_id", "school_id"], :name => "index_educations_on_resume_id_and_school_id", :unique => true
+
   create_table "friends", :force => true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
@@ -145,6 +159,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "friends", ["user_id", "friend_id"], :name => "index_friends_on_user_id_and_friend_id", :unique => true
 
   create_table "group_types", :force => true do |t|
     t.string   "name"
@@ -165,9 +181,13 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.integer  "recommends_count", :default => 0
   end
 
+  add_index "groups", ["name"], :name => "index_groups_on_name"
+
   create_table "industries", :force => true do |t|
     t.string "name"
   end
+
+  add_index "industries", ["name"], :name => "index_industries_on_name"
 
   create_table "industry_roots", :force => true do |t|
     t.string   "name"
@@ -203,6 +223,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.boolean  "anonymous",           :default => true
   end
 
+  add_index "judges", ["pass_id", "user_id", "judger_id"], :name => "index_judges_on_pass_id_and_user_id_and_judger_id", :unique => true
+
   create_table "log_items", :force => true do |t|
     t.string   "logable_type"
     t.integer  "logable_id"
@@ -224,6 +246,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "members", ["group_id", "user_id"], :name => "index_members_on_group_id_and_user_id", :unique => true
 
   create_table "msg_responses", :force => true do |t|
     t.integer  "msg_id"
@@ -286,6 +310,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.integer  "judges_count",        :default => 0
   end
 
+  add_index "passes", ["company_id", "resume_id", "user_id"], :name => "index_passes_on_company_id_and_resume_id_and_user_id", :unique => true
+
   create_table "recommends", :force => true do |t|
     t.integer  "user_id",                            :null => false
     t.string   "memo",               :default => ""
@@ -294,6 +320,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "recommends", ["user_id", "recommendable_type", "recommendable_id"], :name => "index_recommendable_user", :unique => true
 
   create_table "requisitions", :force => true do |t|
     t.integer  "applicant_id"
@@ -304,6 +332,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.datetime "updated_at"
     t.string   "applicant_type"
   end
+
+  add_index "requisitions", ["applicant_id", "respondent_id", "applicant_type", "type"], :name => "index_requisition_applicant", :unique => true
 
   create_table "resumes", :force => true do |t|
     t.string   "name"
@@ -360,9 +390,13 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.integer  "skill_id",    :null => false
   end
 
+  add_index "specialities", ["resume_id", "skill_id"], :name => "index_specialities_on_resume_id_and_skill_id", :unique => true
+
   create_table "states", :force => true do |t|
     t.string "name", :limit => 32
   end
+
+  add_index "states", ["name"], :name => "index_states_on_name"
 
   create_table "taggings", :force => true do |t|
     t.integer "tag_id",                         :null => false
@@ -432,6 +466,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.string   "apply_friend_auth",           :default => "允许"
   end
 
+  add_index "user_settings", ["user_id"], :name => "index_user_settings_on_user_id"
+
   create_table "user_tags", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "tagging_id", :null => false
@@ -451,6 +487,9 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.string   "salt",                                             :null => false
   end
 
+  add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["salt"], :name => "index_users_on_salt"
+
   create_table "votes", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -459,6 +498,8 @@ ActiveRecord::Schema.define(:version => 20100302154253) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "votes", ["owner_id", "owner_type", "user_id"], :name => "index_votes_on_owner_id_and_owner_type_and_user_id", :unique => true
 
   create_table "work_items", :force => true do |t|
     t.string   "name"

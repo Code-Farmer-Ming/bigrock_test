@@ -133,6 +133,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
   
   test "join invite  post" do
+    JoinGroupInvite.destroy_all
     assert_difference("JoinGroupInvite.count",2) do
       post  :invite_join,:id=>groups(:one).id,:invite_user=>[16,3],:join_group_invite=>{:memo=>"ok"}
     end

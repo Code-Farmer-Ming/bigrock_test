@@ -63,6 +63,7 @@ class JudgesController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
+    @page_title ="#{@user.name} 的评价信息"
     if !params[:pass_id]
       @judges= @user.judges.paginate :page => params[:page]
     else

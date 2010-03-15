@@ -1,6 +1,7 @@
 class AddFriendApplicationsController < ApplicationController
   before_filter :check_login?
   def index
+    @page_title ="好友申请"
     @add_friend_applications = current_user.add_friend_applications.paginate :page => params[:page]
     respond_to do |format|
       format.html # index.html.erb

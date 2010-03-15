@@ -10,12 +10,12 @@
 #  birthday         :date          
 #  sex              :boolean       
 #  address          :string(255)   
-#  phone1           :string(255)   
-#  phone2           :string(255)   
+#  mobile           :string(255)   
+#  telephone        :string(255)   
 #  phone3           :string(255)   
 #  phone4           :string(255)   
-#  website1         :string(255)   
-#  website2         :string(255)   
+#  blog_website     :string(255)   
+#  personal_website :string(255)   
 #  website3         :string(255)   
 #  website4         :string(255)   
 #  photo            :string(255)   default("imagesdefault_thumb.png")
@@ -29,6 +29,8 @@
 #  is_current       :boolean       
 #  created_at       :datetime      
 #  updated_at       :datetime      
+#  city_id          :integer       
+#  state_id         :integer       
 #
 
 class Resume < ActiveRecord::Base
@@ -81,7 +83,7 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
   end
  
   has_many :current_pass,:class_name=>"Pass",:conditions=>{:is_current=>true}
- 
+
 
 
 

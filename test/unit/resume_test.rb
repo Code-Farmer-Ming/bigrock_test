@@ -3,6 +3,7 @@ require 'test_helper'
 class ResumeTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "sub_pass" do
+    pass=Pass.destroy_all
     resume_one = resumes(:one)
     pass=Pass.new
     pass.company_id=1

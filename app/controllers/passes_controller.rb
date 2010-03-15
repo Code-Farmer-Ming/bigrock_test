@@ -7,6 +7,7 @@ class PassesController < ApplicationController
   # GET /passes/new.xml
   def new
     @pass = Pass.new
+    @page_title= "添加工作经历"
     if params[:request_company_id]
       flash[:notice] = "再填写一下你的资料"
       @pass.company_id = params[:request_company_id]

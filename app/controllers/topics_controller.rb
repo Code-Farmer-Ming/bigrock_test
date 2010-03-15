@@ -9,6 +9,7 @@ class TopicsController < ApplicationController
       @owner = Group.find(params[:group_id])
     end
     @topics = @owner.topics.paginate :page => params[:page]
+    @page_title = "#{@owner.name} 话题"
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @topics }
@@ -19,6 +20,7 @@ class TopicsController < ApplicationController
   # GET /topics/1.xml
   def show
     @topic = Topic.find(params[:id])
+ 
     @can_reply = true
     if @topic.owner_type=="Group"#group topics
       @can_reply =  @topic.owner.is_member?(current_user)
@@ -37,6 +39,7 @@ class TopicsController < ApplicationController
   # GET /topics/new.xml
  
   def new
+    @page_title= "新建话题"
     @topic = Topic.new
     if params[:company_id] #company
       @owner = Company.find(params[:company_id])
@@ -51,6 +54,7 @@ class TopicsController < ApplicationController
 
   # GET /topics/1/edit
   def edit
+    @page_title= "编辑话题"
     @topic = Topic.find(params[:id])
     if !is_manager?(@topic) && !is_owner?(@topic)
       flash[:error] = "操作错误"
@@ -189,6 +193,7 @@ class TopicsController < ApplicationController
   
   def search
     search_str = "%#{params[:search]}%"
+    @page_title= "搜索话题"
     @topics = nil
     if params[:group_id]
       @owner = Group.find(params[:group_id])

@@ -385,6 +385,7 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .msg_title_input{ width: 390px; display: inline-block}
 #search{ font-weight: bolder}
 .bottom_gray_line{ border-bottom: 1px solid #EdEdEd}
+#whole_judge_detail_star{ border:solid 1px #DEDEDE; border-top:none; background:#FFFFFF; position:absolute; margin:0px; padding:8px 10px; clear:both; z-index:299}
  .pui-autocomplete-holder {margin: 0; border: 1px solid #999; overflow: hidden; padding: 0px 5px; font:normal 12px Verdana, Arial, sans-serif; height: auto !important; height: 1%; background:white url(/images/input-text.png) repeat-x scroll left top}
 .pui-autocomplete-holder li {float: left; position: relative; list-style-type: none; margin: 4px 0 }
  .pui-autocomplete-holder li.pui-autocomplete-input {margin: 2px 0; height: 20px}

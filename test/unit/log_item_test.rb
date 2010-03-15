@@ -79,6 +79,7 @@ class LogItemTest < ActiveSupport::TestCase
     assert_equal 1,LogItem.find_all_by_log_type_and_operation("company_news","create").size
   end
   test "create_and_destroy_recommend" do
+    Recommend.destroy_all
     user_one = users(:one)
     recommend = Recommend.new()
     recommend.memo = "my recommend"

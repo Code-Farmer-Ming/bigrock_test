@@ -2,12 +2,9 @@
 #
 # Table name: cities
 #
-#  id         :integer       not null, primary key
-#  state_id   :integer       
-#  name       :string(255)   
-#  user_id    :integer       
-#  created_at :datetime      
-#  updated_at :datetime      
+#  id       :integer       not null, primary key
+#  state_id :integer       not null
+#  name     :string(32)    
 #
 
 class City < ActiveRecord::Base

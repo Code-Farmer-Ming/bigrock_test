@@ -3,14 +3,15 @@
 # Table name: users
 #
 #  id         :integer       not null, primary key
-#  email      :string(255)   default(""), not null
-#  password   :string(255)   default(""), not null
+#  email      :string(255)   not null
+#  password   :string(255)   not null
 #  is_active  :boolean       
 #  created_at :datetime      
 #  updated_at :datetime      
 #  nick_name  :string(128)   
 #  parent_id  :integer       default(0), not null
 #  state      :string(12)    default("working")
+#  salt       :string(255)   not null
 #
 
 
@@ -353,11 +354,21 @@ class User< ActiveRecord::Base
       icon ? (icon.public_filename) : "default_user.png"
     end
   end
-  #评价平均评价值
-  def avg_judge_value
-    value = judges.all(:select=>["avg(eq_value+creditability_value+ability_value)/3  avg_judge_value"])[0].avg_judge_value
-    ((value && (value.is_a?(Fixnum) ? value.to_f : value)) || 0).to_f.round(1)
+ 
+  #平均 评价的评分
+  def avg_judge_value(judge_name=nil)
+    fv = self.passes.sum("judges_count")
+    if (fv)>0
+      if judge_name
+        (self.passes.sum(judge_name) / fv).to_f.round(1)
+      else
+         (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
+      end
+    else
+      0.0
+    end
   end
+  
 
   def text_password=(value)
     @text_password=value

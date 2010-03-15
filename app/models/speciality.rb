@@ -3,11 +3,11 @@
 # Table name: specialities
 #
 #  id          :integer       not null, primary key
-#  name        :string(255)   
 #  description :string(255)   
 #  resume_id   :integer       
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  skill_id    :integer       not null
 #
 
 class Speciality < ActiveRecord::Base

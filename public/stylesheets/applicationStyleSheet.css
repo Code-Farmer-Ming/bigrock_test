@@ -1068,7 +1068,6 @@ div.auto_complete ul strong.highlight {
     width: 162px;
     height: 25px;
     display: block;
-
     text-align:center;
     line-height:2.2;
 }
@@ -1109,4 +1108,15 @@ div.auto_complete ul strong.highlight {
 }
 .bottom_gray_line{
     border-bottom: 1px solid  #EdEdEd;
+}
+#whole_judge_detail_star{
+    border:solid 1px #DEDEDE;
+    border-top:none;
+    background:#FFFFFF;
+    position:absolute;
+    margin:0px;
+    padding:8px 10px;
+    clear:both;
+    z-index:299;
+   
 }

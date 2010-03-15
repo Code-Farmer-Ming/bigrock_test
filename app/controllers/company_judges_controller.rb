@@ -2,6 +2,7 @@ class CompanyJudgesController < ApplicationController
   before_filter :check_login?,:except=>[:auto_complete_for_tag]
 
   def new
+    @page_title=" 评价公司"
     @company_judge= CompanyJudge.new
     @company_judge.company = Company.find(params[:company_id])
     respond_to do |format|
@@ -83,6 +84,7 @@ class CompanyJudgesController < ApplicationController
   
   def index
     @company=Company.find(params[:company_id])
+    @page_title="#{@company.name} 评价信息列表"
     @company_jugdes =   @company.judges.paginate :page => params[:page]
   end
 

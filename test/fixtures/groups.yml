@@ -2,16 +2,17 @@
 #
 # Table name: groups
 #
-#  id             :integer       not null, primary key
-#  name           :string(255)   default(""), not null
-#  description    :text          default(""), not null
-#  group_type_id  :integer       not null
-#  join_type      :string(255)   default(""), not null
-#  create_user_id :integer       not null
-#  members_count  :integer       default(0)
-#  topics_count   :integer       default(0)
-#  created_at     :datetime      
-#  updated_at     :datetime      
+#  id               :integer       not null, primary key
+#  name             :string(255)   not null
+#  description      :text          default(""), not null
+#  group_type_id    :integer       not null
+#  join_type        :string(255)   not null
+#  create_user_id   :integer       not null
+#  members_count    :integer       default(0)
+#  topics_count     :integer       default(0)
+#  created_at       :datetime      
+#  updated_at       :datetime      
+#  recommends_count :integer       default(0)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

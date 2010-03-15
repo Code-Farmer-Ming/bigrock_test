@@ -2,10 +2,8 @@
 #
 # Table name: states
 #
-#  id         :integer       not null, primary key
-#  name       :string(255)   
-#  created_at :datetime      
-#  updated_at :datetime      
+#  id   :integer       not null, primary key
+#  name :string(32)    
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

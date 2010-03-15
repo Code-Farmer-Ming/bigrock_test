@@ -1,6 +1,7 @@
 class AddGroupApplicationsController < ApplicationController
-  #TODO 添加 批量操作
+  #TODO 添加 批量操作 能批量加入或批量忽略
   def index
+    @page_title ="加入小组申请列表"
     @group = Group.find_by_id(params[:group_id])
     if @group
       @add_applications = @group.add_applications.paginate :page => params[:page]
