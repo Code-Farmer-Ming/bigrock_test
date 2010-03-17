@@ -16,7 +16,7 @@ class UserTest < ActiveSupport::TestCase
   test "create" do
     user=User.new
   
-    user.email="email"
+    user.email="email@gmail.com"
     user.text_password="password"
     user.text_password_confirmation = "password"
     assert user.text_password=="password","text_password is not match"
@@ -26,15 +26,15 @@ class UserTest < ActiveSupport::TestCase
     assert !user.errors.invalid?(:password),"password is nil"
     assert !user.errors.invalid?(:nickName),"nickname is nil"
 
-    users= User.find_all_by_email("email")
-    assert users!=nil ,"users is nil"
-    assert users[0].password==User.encrypted_password("password",users[0].salt),"password is not match"
+    users= User.find_all_by_email("email@gmail.com")
+    assert users.length>0 ,"users is nil"
+    assert users[0].password ==User.encrypted_password("password",users[0].salt),"password is not match"
 
   end
 
   test "create_exist_email" do
     user=User.new
-    user.email="email"
+    user.email="email@email.com"
     user.text_password="password"
     user.text_password_confirmation = "password"
     assert user.valid?,"user.errors"
@@ -105,7 +105,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "send_msg" do
-    msg = Msg.new(:sender_id=>1,:sendee_id=>2,:title=>"",:content=>"")
+    msg = Msg.new(:sender_id=>1,:sendee_id=>2,:title=>"title",:content=>"content")
     msg.save
     user= users(:one)
     assert_equal 2, user.send_msgs.size
@@ -115,7 +115,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, user.send_msgs.size
   end
   test "recive_msg" do
-    msg = Msg.new(:sender_id=>2,:sendee_id=>1,:title=>"",:content=>"")
+    msg = Msg.new(:sender_id=>2,:sendee_id=>1,:title=>"title",:content=>"content")
     msg.save
     user= users(:one)
     assert_equal 2, user.receive_msgs.size

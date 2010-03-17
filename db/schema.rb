@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100315062526) do
+ActiveRecord::Schema.define(:version => 20100317092118) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -290,6 +290,7 @@ ActiveRecord::Schema.define(:version => 20100315062526) do
     t.integer  "down",              :default => 0
     t.integer  "comments_count"
     t.integer  "recommends_count",  :default => 0
+    t.integer  "view_count",        :default => 0
   end
 
   create_table "passes", :force => true do |t|

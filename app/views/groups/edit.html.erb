@@ -1,6 +1,6 @@
-<div id="left_content">
-  <h1>编辑 <%= @group.name %> 小组</h1>
 
+<div id="left_content">
+<%= render :partial=>"groups/manage_type" %>
   <% form_for(@group) do |f| %>
     <%= f.error_messages %>
     <%= render :partial=>"groups/form" ,:object=>f %>
@@ -11,10 +11,7 @@
 
 </div>
 <div id="right_content">
-  <% sub_block_div() do %>
-    <%= link_to "成员管理", group_members_path(@group),:class=>"button" %>
-    <p class="clear" />
-  <%end%>
+
   <% sub_block_div() do %>
     <%= link_to "返回 #{ @group.name}小组", @group %>
   <%end%>

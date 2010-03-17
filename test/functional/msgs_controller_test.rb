@@ -33,13 +33,13 @@ class MsgsControllerTest < ActionController::TestCase
   
   test  "create" do
     assert_difference("Msg.count",2) do
-      post :create, :msg=>{:title => "xc",:content=>"xccc",:sendees=>"2 3"},:alias=>1
+      post :create, :msg=>{:title => "xcfffff",:content=>"xcccxxxxxxx",:sendees=>"2 3"},:alias=>1
     end
   end
 
   test "create with alias" do
     assert_difference("Msg.count",2) do
-      post :create, :msg=>{:title => "xc",:content=>"xccc",:sendees=>"2 3"},:alias=>16
+      post :create, :msg=>{:title => "xcxxx",:content=>"xcccxx",:sendees=>"2 3"},:alias=>16
     end
   end
 end

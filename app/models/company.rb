@@ -29,6 +29,9 @@
 #
 
 class Company < ActiveRecord::Base
+  validates_length_of :name, :within => 3..128
+  validates_uniqueness_of :name
+  
   acts_as_versioned   :if_changed => ["description","name","website","address"],:limit=>4
   #不记录 这些字段的变化
   self.non_versioned_columns << 'company_type_id'
@@ -105,9 +108,9 @@ class Company < ActiveRecord::Base
   has_one :icon,:class_name=>"CompanyIcon",:foreign_key=>"master_id",:dependent=>:destroy
 
 
-#  belongs_to :industry_root
-#  belongs_to :industry_second
-#  belongs_to :industry_third
+  #  belongs_to :industry_root
+  #  belongs_to :industry_second
+  #  belongs_to :industry_third
   belongs_to :industry
 
   belongs_to :company_type

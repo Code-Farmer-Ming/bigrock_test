@@ -13,7 +13,8 @@
 class Member < ActiveRecord::Base
   #成员类型
   MEMBER_TYPES = ["root","manager","normal"]
-
+  validates_uniqueness_of :user_id, :scope => :group_id,:message =>"已经加入小组啦"
+  
   belongs_to :group,:counter_cache => true
   belongs_to :user ,:class_name=>"User",:foreign_key=>"user_id"
 end

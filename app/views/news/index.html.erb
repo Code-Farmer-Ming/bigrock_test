@@ -3,6 +3,18 @@
     <%= render :partial=>"companies/company_icon",:object=>@company if @company%>
   </div>
   <h1><%= "#{@company ? @company.name : ''} 新闻" %> </h1>
+  <div class="bottom_gray_line">
+    <p class='r'>
+      <%= label_tag :search ,"排序",:class=>"filed_lab" %>
+      <%= select_tag :up_order_select,options_for_select([["不排序",''],["按好评降序",'desc'],["按好评升序",'asc']],params[:up_order]),
+        {:onchange=>"$('up_order').value = this.value;$('search_submit').click();"} %>
+      <%= select_tag :created_order_select,options_for_select([["不排序",''],["按发布日期降序",'desc'],["按发布日期升序",'asc']],params[:created_order]),
+        {:onchange=>"$('created_order').value = this.value;$('search_submit').click();"} %>
+
+      记录共<%= @news.size %>条
+    </p>
+    <p class="c"/>
+  </div>
   <p class="clear"></p>
   <%= render :partial=>"news/news_short_info",:collection=>@news,:locals=>{:show_icon=>!@company}%>
   <%= will_paginate @news %>
@@ -10,7 +22,15 @@
 </div>
 <div id="right_content">
   <% sub_block_div() do%>
-    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索新闻"} %>
+    <% form_for "search",{},:html=>{:id=>'search_form',:method=>"get",:class=>''} do |f| %>
+      <p>
+        <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
+        <%= text_default_value 'search',"输入标题或内容" %>
+        <%= hidden_field_tag :created_order,params[:created_order],:id=>"created_order"%>
+        <%= hidden_field_tag :up_order,params[:up_order],:id=>"up_order"%>
+        <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
+      </p>
+    <%end%>
   <%end%>
   <%sub_block_div('') do%>
     <%= link_to "返回[#{@company.name}]首页",company_path(@company)  %>
@@ -21,7 +41,7 @@
   <%sub_block_div('最热门新闻',link_to("全部",{:action=>:search,:up_order=>"desc"})) do%>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@hot_news%>
   <%end%>
- 
+
   <%sub_block_div("被推荐最多的新闻") do%>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=> @most_recommand %>
   <%end%>

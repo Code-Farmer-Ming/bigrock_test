@@ -12,20 +12,25 @@
     <p>
       <b>创建于 </b><%=  localize(@group.created_at)%>
     </p>
-    <p>
-      <b>标签 </b>
+    <%if @group.all_tags.size>0%>
+      <p>
+        <b>标签 </b>
 
         <%= render :partial=>"tags/tag_info",:collection=>@group.all_tags(:limit=>5),:locals=>{:type=>:Group} %>
-       <%= link_to "…所有#{@group.all_tags.size}个",[@group,:tags] %>
-    </p>
+        <%= link_to "…所有#{@group.all_tags.size}个",[@group,:tags] %>
+      </p>
+    <%end%>
     <p>
-      <b>成员 </b> <%= link_to("#{@group.members_count}",group_members_path(@group),:class=>"member_count")%>
-      <b>话题 </b> <%= link_to("#{@group.topics_count}",group_topics_path(@group))%>
-      <b>被推荐 </b> <%= link_to("#{@group.recommends_count}",recommends_path(:recommendable_type=>@group.class.to_s,:recommendable_id=>@group.to_param),:class=>"recommend_count")%>
+      <b>成员</b> <%= link_to("#{@group.members_count}",group_members_path(@group),:class=>"member_count")%>
+      &nbsp;
+      <b>话题</b> <%= link_to("#{@group.topics_count}",group_topics_path(@group))%>
+      &nbsp;
+      <b>被推荐</b> <%= link_to("#{@group.recommends_count}",recommends_path(:recommendable_type=>@group.class.to_s,:recommendable_id=>@group.to_param),:class=>"recommend_count")%>
     </p>
   </div>
 
-  <% sub_block_div("话题(#{@group.topics_count})", (link_to("全部", group_topics_path(@group)) if @group.topics_count>0)) do %>
+  <% sub_block_div("话题(#{@group.topics_count})", (link_to("+我发言",new_group_topic_path(@group) ,:title=>"我来发布新话题")+
+        '&nbsp;&nbsp;' +link_to("全部", group_topics_path(@group)))) do %>
     <%= render :partial=>"topics/topic_item",:collection=>@group.topics.all(:limit=>20) %>
   <%end%>
 </div>

@@ -11,6 +11,8 @@
 #
 
 class Attention < ActiveRecord::Base
+  validates_uniqueness_of :user_id,:scope => [:target_id,:target_type],:message => "已经关注啦"
+
   belongs_to :user,:class_name=>"User"  ,:foreign_key=>"user_id"
   belongs_to :target,:polymorphic=>true
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:logable=>"target"

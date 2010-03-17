@@ -15,6 +15,8 @@
 #
 
 class Msg < ActiveRecord::Base
+  
+  validates_length_of :title, :within => 3..128
   #消息 的回复
   has_many :msg_responses ,:class_name=>"MsgResponse",:dependent=>:destroy
   #发送者

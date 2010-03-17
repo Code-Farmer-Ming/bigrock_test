@@ -1,17 +1,28 @@
 class NewsController < ApplicationController
-  before_filter :check_login?,:except=>[:show,:index]
+  before_filter :check_login?,:except=>[:show,:index,:search]
   # GET /news
   # GET /news.xml
   def index
+    order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
+
+    if !order_str
+      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : nil
+    else
+      order_str +=  params[:created_order] && !params[:created_order].blank?  ? ",created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
+    end
+    search_str = "%"+params[:search].to_s.strip+"%"
+    
     if params[:company_id] then
       @company = Company.find(params[:company_id])
-      @news = @company.news.paginate :page => params[:page]
+      @news = @company.news.paginate :conditions=>["title like ? or content like ? ",
+        search_str, search_str],:order=>order_str,:page => params[:page]
       @hot_news=@company.news.populars(:limit=>10)
       @most_recommand=  @company.news.most_recommand(:limit=>10)
       @most_recommand_comment =  Comment.news_comments.hot_comments(:conditions=>["commentable_id=?",@company],:limit=>10)
       @page_title =   "#{@company.name} 新闻"
     else
-      @news = Piecenews.paginate :order=>"created_at desc",:page => params[:page]
+      @news = Piecenews.paginate :conditions=>["title like ? or content like ? ",
+        search_str, search_str],:order=>order_str,:page => params[:page]
       @hot_news=Piecenews.populars(:limit=>10)
       @most_recommand=  Piecenews.most_recommand(:limit=>10)
       @most_recommand_comment = Comment.news_comments.hot_comments(:limit=>10)
@@ -32,6 +43,7 @@ class NewsController < ApplicationController
     @is_manager  =@company.current_employee?(current_user)
     @comments = @piece_of_news.comments.paginate :page => params[:page]
     @page_title= "新闻 " + @piece_of_news.title
+    @piece_of_news.update_attribute(:view_count, @piece_of_news.view_count+1)
   
     respond_to do |format|
       format.html # show.html.erb

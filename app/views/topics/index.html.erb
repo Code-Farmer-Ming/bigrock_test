@@ -1,5 +1,11 @@
 <div id="left_content">
   <h1><%= "#{@owner.name}" %></h1>
+  <div class="bottom_gray_line "  >
+        <p class="r">
+      <%= @topics.size %>条
+    </p>
+    <p class="c"/>
+  </div>
   <%  sub_block_div() do %>
     <%= render :partial=>"topics/topic_item",:collection=>@topics %>
     <%= will_paginate @topics %>
@@ -7,10 +13,10 @@
 </div>
 
 <div id="right_content">
-  <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索话题"} %>
+  <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索话题",:url=>""} %>
   <%  sub_block_div() do %>
     <%= link_to "+发言", {:action=>:new,:controller=>:topics} ,:class=>"button" %>
-  <p class="clear" />
+    <p class="clear" />
   <%end%>
 
   <% sub_block_div() do %>

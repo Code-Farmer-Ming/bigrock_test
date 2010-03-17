@@ -14,6 +14,8 @@
 #
 
 class Comment < ActiveRecord::Base
+  validates_uniqueness_of :user_id,:scope => [:commentable_id,:commentable_type],:message => "已经存在啦"
+  
   belongs_to :commentable ,:polymorphic => true,:counter_cache=>true , :touch => true # 2.3.4使用的 添加删除 comments的时候 更新 topic的 updated_at
   belongs_to :user ,:class_name=>"User",:foreign_key=>"user_id"
 

@@ -16,6 +16,8 @@
         被推荐 <%= link_to "#{@piece_of_news.recommends.size}次",recommends_path(:recommendable_type=>@piece_of_news.class.to_s,:recommendable_id=>@piece_of_news) %>
         &nbsp;
         回复 <%= link_to "#{@piece_of_news.comments.size}次","#comments" %>
+         &nbsp;
+        浏览 <%= "#{ @piece_of_news.view_count}次" %>
       </p>
       <div class="l news_company_icon">
         <%= render :partial=>"companies/company_icon",:object=>@company   %>

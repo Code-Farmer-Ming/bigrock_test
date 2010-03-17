@@ -88,23 +88,22 @@ class NewsControllerTest < ActionController::TestCase
     news(:one).reload
     assert_equal 1,news(:one).down
   end
-  test "search" do
-    get :search
-    assert_response :success
-    get :search,:search=>"MyString"
+  test "index search" do
+
+    get :index,:search=>"MyString"
     assert_equal 2,assigns(:news).size
      
-    get :search,:search=>"MyText1"
+    get  :index,:search=>"MyText1"
     assert_equal 1,assigns(:news).first.id
 
-    get :search,:search=>"MyString",:created_order=>:asc
+    get  :index,:search=>"MyString",:created_order=>:asc
     assert_equal 1,assigns(:news).first.id
-    get :search,:search=>"MyString",:created_order=>:null_order
+    get  :index,:search=>"MyString",:created_order=>:null_order
     assert_equal 2,assigns(:news).first.id
     #按投票多少排序
-    get :search,:search=>"MyText",:up_order=>:asc
+    get  :index,:search=>"MyText",:up_order=>:asc
     assert_equal 2,assigns(:news).first.id
-    get :search,:search=>"MyText",:up_order=>:null_order
+    get  :index,:search=>"MyText",:up_order=>:null_order
     assert_equal 1,assigns(:news).first.id
   end
 end

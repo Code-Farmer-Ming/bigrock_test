@@ -16,6 +16,8 @@
 #
 
 class Group < ActiveRecord::Base
+  validates_uniqueness_of :name
+  validates_length_of :name, :within => 3..35
   #加入小组的类型 开放型 申请型 保密型
   JOIN_TYPES=[["开放式小组","open"],["需申请小组","application"],["秘密小组","secrecy"]]
   belongs_to :create_user,:class_name=>"User",:foreign_key=>"create_user_id"

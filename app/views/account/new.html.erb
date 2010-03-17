@@ -1,5 +1,5 @@
 <div id="left_content">
-  <div class="form_info" id="new_user_page">
+  <div class="form_info center_block" id="new_user_page">
     <h1>注册</h1>
     <% form_for(:user,  @user,:url=>{:action=>"create"},:html=>{:class=>"required-validate"}) do |f| %>
       <%= f.error_messages %>
@@ -23,17 +23,17 @@
           :class=>"text validate-equals-user_text_password useTitle",:title=>"两次输入的密码不相同",:maxlength=>18 %>
       </p>
       <p id="form_button">
-<%= f.submit '注册',:disable_with=>"注册…",:class=>"button"  %> &nbsp;  <%= link_to '注册了,去登录',login_account_path %>
+        <%= f.submit '注册',:disable_with=>"注册…",:class=>"button"  %> &nbsp;  <%= link_to '注册了,去登录',login_account_path %>
       </p>
     <% end %>
   </div>
 </div>
 <div id="right_content">
-    <% sub_block_div do%>
+  <% sub_block_div do%>
     <dl>
       <dt>注册</dt>
       <dd>
-        只需很简单，即可注册成功。
+        简单一步，即可注册成功。
       </dd>
       <p>
       <dt>忘记密码</dt>

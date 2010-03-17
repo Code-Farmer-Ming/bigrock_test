@@ -8,19 +8,19 @@
     <div>
       <div class="panel" id="top_5_integration_company">
         <%= render :partial=>"companies/company_rank",:collection=>@integration_best_companies %>
-        <p class="text_center c">
+        <p class="c">
           <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc',:condition_order=>'desc'} %>
         </p>
       </div>
       <div class="panel" id="top_5_salary_company">
         <%= render :partial=>"companies/company_rank",:collection=> @salary_best_companies  %>
-        <p class="text_center c">
+        <p class="c">
           <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc'} %>
         </p>
       </div>
       <div  class="panel" id="top_5_condition_company">
         <%= render :partial=>"companies/company_rank",:collection=> @condition_best_companies  %>
-        <p class="text_center c">
+        <p class="c">
           <%=  link_to "更多…",{:action=>'search',:condition_order=>'desc'} %>
         </p>
       </div>

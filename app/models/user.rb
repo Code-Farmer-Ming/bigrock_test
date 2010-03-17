@@ -19,6 +19,16 @@ class User< ActiveRecord::Base
   #状态
   STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还在学校"}
 
+  #字段验证
+  validates_presence_of       :email,:password
+
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create
+
+ 
+  validates_uniqueness_of     :email, :message=>"邮件地址不能重复"
+  attr_accessor                 :text_password
+  validates_confirmation_of   :text_password,  :message=>"两次密码不同"
+  attr_accessor                 :text_password_confirmation
   
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
@@ -278,12 +288,7 @@ class User< ActiveRecord::Base
   has_one:current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>"is_current=#{true}"
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
-  #字段验证
-  validates_presence_of       :email,:password
-  validates_uniqueness_of     :email, :message=>"邮件地址不能重复"
-  attr_accessor                 :text_password
-  validates_confirmation_of   :text_password,  :message=>"两次密码不同"
-  attr_accessor                 :text_password_confirmation
+ 
 
   #实际用户
   named_scope :real_users,:conditions=>["parent_id=0"]
@@ -362,7 +367,7 @@ class User< ActiveRecord::Base
       if judge_name
         (self.passes.sum(judge_name) / fv).to_f.round(1)
       else
-         (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
+        (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
       end
     else
       0.0

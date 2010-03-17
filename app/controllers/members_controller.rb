@@ -2,9 +2,10 @@ class MembersController < ApplicationController
   before_filter :check_login?
   def index
     @group = Group.find_by_id(params[:group_id])
-    @page_title = "#{@group.name} 成员信息列表"
+    @page_title = "#{@group.name}小组 成员管理"
     if @group
-      @normal_members = @group.normal_members.paginate :conditions=>"users.nick_name like '%#{params[:search]}%'",
+      @normal_members = @group.normal_members.paginate :joins=>"join resumes on users.id = resumes.user_id ",
+        :conditions=>[" resumes.user_name like ?",'%'+(params[:search] || '')+'%'],
         :page => params[:page] 
     end
   end

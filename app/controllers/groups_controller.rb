@@ -154,7 +154,7 @@ class GroupsController < ApplicationController
     @group = Group.find_by_id(params[:id])
     @page_title = " 邀请好友加入 " + @group.name
     @invite =  JoinGroupInvite.new(params[:join_group_invite])
-    @friends = current_user.friends_user.paginate :conditions=>"users.nick_name like '%#{params[:search]}%'", :page => params[:page]
+    @friends = current_user.friends_user.paginate :joins=>" join resumes on resumes.user_id=users.id", :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     if request.post?
       if (params[:invite_user])
         params[:invite_user].each do |friend|

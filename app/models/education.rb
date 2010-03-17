@@ -15,6 +15,8 @@
 #
 
 class Education < ActiveRecord::Base
+  validates_uniqueness_of :resume_id, :scope =>:school_id,:message =>"已经有这个学校啦"
+  
   belongs_to:resume
   acts_as_logger :log_action=>["create"],:owner_attribute=>"resume.user",:log_type=>"resume"
  

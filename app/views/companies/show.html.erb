@@ -77,16 +77,16 @@
   <div>
     <div id="current_employees_tab"  class="panel" >
       <%= render :partial=>"users/user_short_info",:collection=> @company.current_employees.find(:all,:order=>'created_at desc',:limit=>4) %>
-      <p class="text_center c">
-        <%=   link_to("查看全部…",employee_list_company_path(@company)) if @company.current_employees.size>0%>
+      <p class="c">
+        <%=   link_to("更多…",employee_list_company_path(@company)) if @company.current_employees.size>0%>
       </p>
     </div>
     <div id="pass_employees_tab"  class="panel" >
       <% @company.pass_employees.find(:all,:limit=>4).each() do |employee| %>
         <%= render :partial=>"users/user_short_info",:object=>  employee,:locals=>{:old_company=>params[:id]} %>
       <%end%>
-      <p class="text_center c">
-        <%=   link_to("查看全部…",employee_list_company_path(@company,:type=>'pass')) if @company.pass_employees.size>0%>
+      <p class="c">
+        <%=   link_to("更多…",employee_list_company_path(@company,:type=>'pass')) if @company.pass_employees.size>0%>
       </p>
     </div>
   </div>

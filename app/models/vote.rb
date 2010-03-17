@@ -12,6 +12,10 @@
 #
 
 class Vote < ActiveRecord::Base
+  validates_uniqueness_of   :user_id,:scope =>[:owner_id,:owner_type]
+    
+
   belongs_to :user
   belongs_to :owner,:polymorphic => true;
+
 end

@@ -22,6 +22,9 @@
 #
 
 class Topic < ActiveRecord::Base
+  validates_length_of :title, :within => 3..128
+  validates_length_of :content, :minimum => 4
+  
   belongs_to :owner,:polymorphic => true,:counter_cache => true
   belongs_to :author,:class_name=>"User",:foreign_key=>"author_id"
   #  belongs_to :last_comment_user ,:class_name=>"User",:foreign_key=>"last_comment_user_id"

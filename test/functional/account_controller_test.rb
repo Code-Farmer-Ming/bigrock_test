@@ -29,7 +29,7 @@ class AccountControllerTest < ActionController::TestCase
   end
   
   test "create" do
-    email ="zhang@ming.com1"
+    email ="zhang@ming1.com"
     assert_difference("User.count",2) do
       post  :create ,:user=>{
         :email=>email,

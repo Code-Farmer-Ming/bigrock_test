@@ -33,14 +33,14 @@ class TopicsControllerTest < ActionController::TestCase
 
   test "should create company topic" do
     assert_difference('Topic.count') do
-      post :create, :topic => {:author_id=>1,:title=>"",:content=>""},:company_id=>1
+      post :create, :topic => {:author_id=>1,:title=>"tester",:content=>"通天塔订单"},:company_id=>1
     end
     assert_redirected_to [assigns(:topic).owner,assigns(:topic)]
   end
   
   test "should create company topic with alias" do
     assert_difference('Topic.count') do
-      post :create, :topic => {:title=>"with alias" },:company_id=>1,:alias=>@userone.aliases.first.to_param
+      post :create, :topic => {:title=>"with alias",:content=>"sdfsdddd" },:company_id=>1,:alias=>@userone.aliases.first.to_param
     end
     assert_redirected_to [assigns(:topic).owner,assigns(:topic)]
     assert_equal @userone.aliases.first,assigns(:topic).author
@@ -48,7 +48,7 @@ class TopicsControllerTest < ActionController::TestCase
   
   test "should create group topic" do
     assert_difference('Topic.count') do
-      post :create, :topic => {:title=>"test" },:group_id=>1
+      post :create, :topic => {:title=>"test" ,:content=>"dddsxddddd"},:group_id=>1
     end
     assert_redirected_to [assigns(:topic).owner,assigns(:topic)]
     assert_equal @userone,assigns(:topic).author

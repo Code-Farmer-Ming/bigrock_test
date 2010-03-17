@@ -1,14 +1,15 @@
 class TopicsController < ApplicationController
-  before_filter :check_login?,:except=>[:show,:index]
+  before_filter :check_login?,:except=>[:show,:index,:search]
   # GET /topics
   # GET /topics.xml
   def index
+    search_str = "%#{params[:search]}%"
     if params[:company_id]
       @owner = Company.find(params[:company_id])
     else
       @owner = Group.find(params[:group_id])
     end
-    @topics = @owner.topics.paginate :page => params[:page]
+    @topics = @owner.topics.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
     @page_title = "#{@owner.name} 话题"
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +21,7 @@ class TopicsController < ApplicationController
   # GET /topics/1.xml
   def show
     @topic = Topic.find(params[:id])
- 
+    @topic.update_attribute(:view_count, @topic.view_count+1)
     @can_reply = true
     if @topic.owner_type=="Group"#group topics
       @can_reply =  @topic.owner.is_member?(current_user)
@@ -211,7 +212,7 @@ class TopicsController < ApplicationController
       topic.owner.is_manager_member?(current_user)
     else #company topics
       topic.owner.current_employee?(current_user)  #TODO:current_employee 需要做信用检查
-#       topic.owner.higher_creditability_employees.exists?(current_user)
+      #       topic.owner.higher_creditability_employees.exists?(current_user)
     end
  
   end

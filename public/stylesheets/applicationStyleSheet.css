@@ -16,6 +16,9 @@ a{
     text-decoration:none;
     /*  color: #669900;*/
 }
+#flash_msg a{
+    text-decoration: underline;
+}
 label{
     cursor: pointer;
 }
@@ -448,7 +451,7 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 .sub_block .sub_block_content{
     padding:4px 0px;
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
 }
 .sub_block_operation{
@@ -693,6 +696,9 @@ ul#nav .activelink a,ul#nav a:hover{
 .company_name{
     font-weight: bolder;
 }
+.company_short_info{
+    margin-bottom: 0.8em;
+}
 .company_short_info .icon .icon_inner{
     display:table-cell;
     vertical-align:middle;
@@ -779,8 +785,9 @@ div.auto_complete ul strong.highlight {
     margin:6px auto;
     color:gray;
 }
+
 .user_log{
-    margin-bottom:4px;
+    margin-bottom:0.8em;
 }
 
 /*新闻*/
@@ -1041,7 +1048,6 @@ div.auto_complete ul strong.highlight {
 }
 .panel{
     overflow:hidden;
-
 }
 .register_button{
     background: url(/images/register.png);
@@ -1050,34 +1056,17 @@ div.auto_complete ul strong.highlight {
     height:57px;
     margin: 0 auto;
     float: right;
-}
-.register_button:hover {
-    background-image: url(/images/register.png)  ;
-    background-position:0 58px;
-    display: block;
-    width: 291px;
-    height:57px;
-}
-#welcome_div{
-    padding: 12px;
-    overflow: auto;
-    background-color: #E1E9F8;
-}
-.welcome_show{
-    background-image: url(/images/welcome_roll_button.png);
-    width: 162px;
-    height: 25px;
-    display: block;
-    text-align:center;
-    line-height:2.2;
+    border: 1px #E1E9F8 solid;
 }
 
-.welcome_show{
-    background-position:0px 0px ;
+.register_button:hover {
+   border: 1px silver solid;
 }
-.welcome_show:hover{
-    background-position:0px 25px;
-    background-color: transparent;
+
+#welcome_div{
+    padding: 14px;
+    overflow: auto;
+    background-color: #E1E9F8;
 }
 
 #user_count,#company_count,#group_count{
@@ -1118,5 +1107,11 @@ div.auto_complete ul strong.highlight {
     padding:8px 10px;
     clear:both;
     z-index:299;
-   
+}
+.center_block{
+    margin: 0 auto;
+    width: 650px;
+}
+.half_width{
+    width: 49%;
 }

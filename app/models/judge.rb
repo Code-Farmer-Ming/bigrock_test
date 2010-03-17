@@ -17,6 +17,8 @@
 #
 
 class Judge < ActiveRecord::Base
+  validates_uniqueness_of :user_id, :scope =>[:pass_id,:judger_id],:message =>"已经评价啦"
+  
   belongs_to :pass,:counter_cache => true
   #被评价用户
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"

@@ -31,6 +31,8 @@ show_icon ||= false
     <p>
       <b> 回复 </b> <%= link_to  "#{piece_news.comments.size}次",company_piecenews_path(piece_news.owner,piece_news)+"?#comments",:class=>"" %>
       &nbsp;
+      浏览 <%= "#{ piece_news.view_count}次" %>
+      &nbsp;
       <%= link_to '编辑', edit_company_piecenews_path(piece_news.owner,piece_news) if piece_news.owner.current_employees.exists?(current_user)%>
       &nbsp;
       <%= link_to '删除', company_piecenews_path(piece_news.owner,piece_news), :confirm => '确定删除吗?', :method => :delete if piece_news.owner.current_employees.exists?(current_user) %>
