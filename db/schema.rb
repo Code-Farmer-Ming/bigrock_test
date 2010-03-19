@@ -291,6 +291,7 @@ ActiveRecord::Schema.define(:version => 20100317092118) do
     t.integer  "comments_count"
     t.integer  "recommends_count",  :default => 0
     t.integer  "view_count",        :default => 0
+    t.datetime "last_edit_at"
   end
 
   create_table "passes", :force => true do |t|

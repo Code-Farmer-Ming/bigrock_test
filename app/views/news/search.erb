@@ -3,8 +3,8 @@
   <div class="bottom_gray_line">
     <p class='r'>
       <%= label_tag :search ,"排序",:class=>"filed_lab" %>
-      <%= select_tag :up_order_select,options_for_select([["不排序",''],["按好评降序",'desc'],["按好评升序",'asc']],params[:up_order]),
-        {:onchange=>"$('up_order').value = this.value;$('search_submit').click();"} %>
+      <%= select_tag :up_order_select,options_for_select([["不排序",''],["按浏览量降序",'desc'],["按浏览量升序",'asc']],params[:view_count]),
+        {:onchange=>"$('view_count').value = this.value;$('search_submit').click();"} %>
       <%= select_tag :created_order_select,options_for_select([["不排序",''],["按发布日期降序",'desc'],["按发布日期升序",'asc']],params[:created_order]),
         {:onchange=>"$('created_order').value = this.value;$('search_submit').click();"} %>
 
@@ -32,7 +32,7 @@
         <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
         <%= text_default_value 'search',"输入标题或内容" %>
         <%= hidden_field_tag :created_order,params[:created_order],:id=>"created_order"%>
-        <%= hidden_field_tag :up_order,params[:up_order],:id=>"up_order"%>
+        <%= hidden_field_tag :view_count,params[:view_count],:id=>"view_count"%>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
       </p>
     <%end%>

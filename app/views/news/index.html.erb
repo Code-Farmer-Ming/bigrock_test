@@ -6,9 +6,9 @@
   <div class="bottom_gray_line">
     <p class='r'>
       <%= label_tag :search ,"排序",:class=>"filed_lab" %>
-      <%= select_tag :up_order_select,options_for_select([["不排序",''],["按好评降序",'desc'],["按好评升序",'asc']],params[:up_order]),
-        {:onchange=>"$('up_order').value = this.value;$('search_submit').click();"} %>
-      <%= select_tag :created_order_select,options_for_select([["不排序",''],["按发布日期降序",'desc'],["按发布日期升序",'asc']],params[:created_order]),
+      <%= select_tag :up_order_select,options_for_select([["不排序",''],["按浏览量降序",'desc'],["按浏览量升序",'asc']],params[:view_count]),
+        {:onchange=>"$('view_count').value = this.value;$('search_submit').click();"} %>
+      <%= select_tag :created_order_select,options_for_select([["按发布日期降序",'desc'],["按发布日期升序",'asc']],params[:created_order]),
         {:onchange=>"$('created_order').value = this.value;$('search_submit').click();"} %>
 
       记录共<%= @news.size %>条
@@ -27,7 +27,7 @@
         <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
         <%= text_default_value 'search',"输入标题或内容" %>
         <%= hidden_field_tag :created_order,params[:created_order],:id=>"created_order"%>
-        <%= hidden_field_tag :up_order,params[:up_order],:id=>"up_order"%>
+        <%= hidden_field_tag :view_count,params[:view_count],:id=>"view_count"%>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
       </p>
     <%end%>
@@ -37,15 +37,15 @@
     <br class="clear"/>
     <%= link_to '我来发布新闻', new_company_piecenews_path(params[:company_id]),:class=>"button" %>
   <%end if @company%>
-
-  <%sub_block_div('最热门新闻',link_to("全部",{:action=>:search,:up_order=>"desc"})) do%>
+<%#*,link_to("全部",{:action=>:search,:view_count=>"desc"})%>
+  <%sub_block_div('最热门新闻') do%>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@hot_news%>
   <%end%>
 
-  <%sub_block_div("被推荐最多的新闻") do%>
-    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=> @most_recommand %>
+  <%sub_block_div("评价最高的新闻") do%>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=> @higher_scope_news %>
   <%end%>
-  <%sub_block_div("最热门回复") do%>
-    <%= render :partial=>"comments/hot_comment",:collection=> @most_recommand_comment,:locals=>{:show_news_title=>true} %>
+  <%sub_block_div("评价最高的回复") do%>
+    <%= render :partial=>"comments/hot_comment",:collection=> @higher_scope_comments,:locals=>{:show_news_title=>true} %>
   <%end%>
 </div>

@@ -36,13 +36,17 @@ class Topic < ActiveRecord::Base
 
 
   #热门话题
-  named_scope :hot_topic,:conditions=>["up>10"],:order=>"up desc"
+  #TODO 加上 日期限制 近期最热门的话题
+  named_scope :hot,:conditions=>["view_count>10"],:order=>"view_count desc"
+  #评分最高的话题
+  named_scope :highter_scope,:conditions=>["(up-down)>10"],:order=>"up-down desc"
+
   named_scope :new_topics,:order=>"topics.created_at desc"
   named_scope :group_topics,:conditions=>["owner_type='Group'"]
  
   #相关的话题
   def related_topics(limit=10)
-    owner.topics.all(:conditions=>["id<>?",self], :order=>"up-down desc" ,:limit=>limit)
+    owner.topics.all(:conditions=>["id<>?",self], :limit=>limit).new_topics
   end
   
   def last_comment

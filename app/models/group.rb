@@ -19,7 +19,7 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :within => 3..35
   #加入小组的类型 开放型 申请型 保密型
-  JOIN_TYPES=[["开放式小组","open"],["需申请小组","application"],["秘密小组","secrecy"]]
+  JOIN_TYPES=[["开放式小组","open"],["需申请小组","application"]]
   belongs_to :create_user,:class_name=>"User",:foreign_key=>"create_user_id"
   #图标
   has_one :icon,:class_name=>"GroupIcon",:foreign_key=>"master_id",:dependent=>:destroy
@@ -100,6 +100,7 @@ class Group < ActiveRecord::Base
   named_scope :new_groups,:order=>"created_at desc"
   #帖子最多的小组
   named_scope :most_topics_groups,:order=>"topics_count desc"
+  named_scope :most_activity,:order=>"updated_at desc"
   #推荐最多的小组
   named_scope :most_recommend_groups,:order=>"recommends_count desc"
   validates_uniqueness_of  :name

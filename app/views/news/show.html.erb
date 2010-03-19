@@ -10,10 +10,11 @@
       <p class="date_field">
         <%=link_to @piece_of_news.create_user.name ,user_path(@piece_of_news.create_user) %>
         发布于 <%= " #{time_ago_in_words_plus(@piece_of_news.created_at)}" %>
-        <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{time_ago_in_words_plus(@piece_of_news.updated_at)}"  \
+        <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{time_ago_in_words_plus(@piece_of_news.last_edit_at)}"  \
           if  @piece_of_news.last_edit_user%>
-        &nbsp;
-        被推荐 <%= link_to "#{@piece_of_news.recommends.size}次",recommends_path(:recommendable_type=>@piece_of_news.class.to_s,:recommendable_id=>@piece_of_news) %>
+        <%#*&nbsp;%>
+        <%#*被推荐%>
+        <%#= link_to "#{@piece_of_news.recommends.size}次",recommends_path(:recommendable_type=>@piece_of_news.class.to_s,:recommendable_id=>@piece_of_news) %>
         &nbsp;
         回复 <%= link_to "#{@piece_of_news.comments.size}次","#comments" %>
          &nbsp;
@@ -50,9 +51,9 @@
   <%#= link_to "#{@company.name}所有有新闻", company_news_path(params[:company_id]) %>
     <%= link_to "#{@company.name}首页", company_path(@company) %>
   <%end%>
-  <% sub_block_div("热门回复") do %>
+  <% sub_block_div("评价最高的回复") do %>
     <%= render :partial=>"comments/hot_comment",
-      :collection=>@piece_of_news.comments.hot_comments.all(:limit=>20) %>
+      :collection=>@piece_of_news.comments.higher_scope.all(:limit=>20) %>
   <%end%>
 
   <% sub_block_div("相关新闻") do %>

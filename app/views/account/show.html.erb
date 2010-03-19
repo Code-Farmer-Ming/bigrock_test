@@ -16,22 +16,20 @@
         <span id="user_count"><%= User.real_users.size %></span>人     陪你欢笑、陪你愁
       </h3>
     </div>
-
     <% sub_block_div() do%>
       <div class="l half_width">
-        <% sub_block_div("待遇最好的公司") do%>
+        <% sub_block_div("待遇最好的公司", link_to("更多…",{:controller=>:companies,:action=>'search',:salary_order=>'desc'})) do%>
           <%= render :partial=>"companies/company_short_info",:collection=>@salary_best_companies %>
-          <%=  link_to "更多…",{:controller=>:companies,:action=>'search',:salary_order=>'desc'} %>
+         
         <%end%>
       </div>
       <div class="r half_width">
-        <% sub_block_div("环境最好的公司") do%>
+        <% sub_block_div("环境最好的公司",link_to("更多…",{:controller=>:companies,:action=>'search',:condition_order=>'desc'})) do%>
           <%= render :partial=>"companies/company_short_info",:collection=>@condition_best_companies %>
-          <%=  link_to "更多…",{:controller=>:companies,:action=>'search',:condition_order=>'desc'} %>
         <%end%>
       </div>
     <%end%>
-    <% sub_block_div("新闻",link_to("更多",news_path())) do%>
+    <% sub_block_div("新闻",link_to("更多…",news_path())) do%>
       <div id="my_news">
       </div>
       <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
@@ -91,11 +89,11 @@
   <%end%>
   <%if !@user%>
     <%  sub_block_div("热门话题") do %>
-      <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@topics %>
+      <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@hot_topics %>
     <%end%>
-    <%sub_block_div("热门小组",link_to("更多",groups_path())) do%>
+    <%sub_block_div("最活跃小组",link_to("更多",groups_path())) do%>
       <ul class="float_ul">
-        <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_topics_groups.all(:limit=>6)%>
+        <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
       </ul>
     <%end%>
   <%end%>

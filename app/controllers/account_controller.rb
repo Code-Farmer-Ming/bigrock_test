@@ -53,7 +53,7 @@ class AccountController < ApplicationController
     if @user
       @page_title =" #{@user.name} 的首页"
       @news = @user.my_follow_company_news.find(:all,:limit=>6)
-      @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
+      @hot_topics = @user.my_follow_group_topics.find(:all,:limit=>20)
       @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
       @my_topics = @user.my_created_topics.all(:limit=>20)
       @join_topics =  @user.join_topics.find(:all,:limit=>20)
@@ -61,10 +61,10 @@ class AccountController < ApplicationController
       @page_title ="首页"
       @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境"
       @news = Piecenews.find(:all,:limit=>4,:order=>"news.created_at desc")
-      @topics = Topic.hot_topic(:limit=>20,:order=>"topics.last_comment_datetime desc")
+      @hot_topics = Topic.hot(:limit=>20,:order=>"topics.last_comment_datetime desc")
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-      @salary_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc")
-      @condition_best_companies =  Company.all(:limit=>3,:order=>"condition_value/company_judges_count desc")
+      @salary_best_companies =  Company.all(:limit=>4,:order=>"salary_value/company_judges_count desc")
+      @condition_best_companies =  Company.all(:limit=>4,:order=>"condition_value/company_judges_count desc")
     end
   end
   

@@ -21,6 +21,6 @@ class Comment < ActiveRecord::Base
 
   has_many :votes,:as=>:owner
     
-  named_scope :hot_comments,:conditions=>["comments.up-comments.down>10"],:order=>"comments.up-comments.down desc"
+  named_scope :higher_scope,:conditions=>["comments.up-comments.down>10"],:order=>"comments.up-comments.down desc"
   named_scope :news_comments,:conditions=>["commentable_type=?",Piecenews.class.to_s]
 end

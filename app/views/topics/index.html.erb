@@ -24,10 +24,10 @@
   <%end%>
 
   <%  sub_block_div("热门话题") do %>
-    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@owner.topics.hot_topic(:limit=>15) %>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@owner.topics.hot(:limit=>15) %>
   <%end%>
 
-  <%  sub_block_div("热门回复") do %>
-    <%= render :partial=>"comments/hot_comment",:collection=>@owner.comments.hot_comments.all(:limit=>20),:locals=>{:show_news_title=>true} %>
+  <%  sub_block_div("评价最高的回复") do %>
+    <%= render :partial=>"comments/hot_comment",:collection=>@owner.comments.higher_scope.all(:limit=>20),:locals=>{:show_news_title=>true} %>
   <%end%>
 </div>

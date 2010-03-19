@@ -43,9 +43,9 @@
   <%end if !current_user?(@user)%>
 
   <%tabs() do%>
-    <%= tab_button("同事"+(@user.current_resume.yokemates.size>0 ? "(#{@user.current_resume.yokemates.size})" : ""),"my_yokemates_tab") %>
     <%= tab_button("好友"+(@user.friends_user.size>0 ? "(#{@user.friends_user.size})"  : ""),"my_friends_tab" ) %>
     <%= tab_button("在关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
+    <%= tab_button("同事"+(@user.current_resume.yokemates.size>0 ? "(#{@user.current_resume.yokemates.size})" : ""),"my_yokemates_tab") %>
   <%end%>
   <div>
     <div id="my_friends_tab"  class="panel" >

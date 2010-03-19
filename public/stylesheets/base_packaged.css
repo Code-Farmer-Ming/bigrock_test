@@ -9,7 +9,7 @@ a img {border:none;}
  html {font-size:100.01%;}
 body {font-size:75%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;}
 h1, h2, h3, h4, h5, h6 {font-weight:normal;color:#111;}
-h1 {font-size:3em;line-height:1;margin-bottom:0.5em;}
+h1 {font-size:3em;line-height:1.2;margin-bottom:0.5em;}
 h2 {font-size:2em;margin-bottom:0.75em;}
 h3 {font-size:1.5em;line-height:1;margin-bottom:1em;}
 h4 {font-size:1.2em;line-height:1.25;margin-bottom:1.25em;}
@@ -168,6 +168,7 @@ select.validation-passed, input.validation-passed, textarea.validation-passed { 
 .tab ul li a:hover,.tab .active-tab {border-top:4px #96B4FF solid; color:black; background-color: #E1E9F8; font-weight: bold}
   a:hover {background-color:#E1E9F8;color: #005BAA }
 a{ text-decoration:none;  }
+#flash_msg a{ text-decoration: underline}
 label{ cursor: pointer}
 .fieldWithErrors {padding: 2px; background-color: red}
 .main_info h1 {font-size:130%; font-weight:900; margin:0 0 10px }
@@ -247,7 +248,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
  .upload_file_button{ text-align:center; background-color: #ccccff}
  .sub_block{ margin-bottom:4px; padding:2px}
 .sub_block .sub_block_title{ font-weight:bolder; padding:0px 2px ; border-bottom-style: dotted; border-bottom-width: 1px; font-size:14px}
-.sub_block .sub_block_content{ padding:4px 0px; overflow: auto; width: 100%}
+.sub_block .sub_block_content{ padding:4px 0px; overflow: hidden; width: 100%}
 .sub_block_operation{ float:right; text-align:right}
   .user_icon ,.group_icon{ background-color:#E1E9F8; text-align:center; padding:5px}
 .group_icon p,.user_icon p{ padding:0px; margin:0px; line-height:1; margin-top:2px; overflow:hidden; white-space:normal; word-break:break-all}
@@ -294,6 +295,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 #my_language_area form{ position: absolute; top: 0px; left:0px; width:100%}
 #my_language_area textarea{ width:100%; height:3em}
  .company_name{ font-weight: bolder}
+.company_short_info{ margin-bottom: 0.8em}
 .company_short_info .icon .icon_inner{ display:table-cell; vertical-align:middle; text-align:center; height:68px; line-height:68px; width:68px; *font-size: 59px; *font-family:Arial}
 .company_short_info .icon .icon_inner img{ vertical-align:middle}
 .rank{ font-size: 280%; font-weight:bolder; color:red}
@@ -311,7 +313,7 @@ div.auto_complete ul li {margin:0; padding:3px}
 div.auto_complete ul li.selected {background-color: #ffb}
 div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-weight:bold}
  .user_log h5,.user_log_just_text h5{ font-weight:bolder; margin:6px auto; color:gray}
-.user_log{ margin-bottom:4px}
+.user_log{ margin-bottom:0.8em}
  .news_title{ font-weight:bold; background-color:#E1E9F8; padding:4px 8px}
  .make_up_down{ padding:2px}
 .make_up,.make_down{ padding:3px; text-align:center; width:26px}
@@ -371,12 +373,9 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
  #ajax_login_form{ width: 390px}
 #ajax_login_form .text{ width: 240px}
 .panel{ overflow:hidden}
-.register_button{ background: url(/images/register.png); display: block; width: 291px; height:57px; margin: 0 auto; float: right}
-.register_button:hover {background-image: url(/images/register.png) ; background-position:0 58px; display: block; width: 291px; height:57px}
-#welcome_div{ padding: 12px; overflow: auto; background-color: #E1E9F8}
-.welcome_show{ background-image: url(/images/welcome_roll_button.png); width: 162px; height: 25px; display: block; text-align:center; line-height:2.2}
-.welcome_show{ background-position:0px 0px }
-.welcome_show:hover{ background-position:0px 25px; background-color: transparent}
+.register_button{ background: url(/images/register.png); display: block; width: 291px; height:57px; margin: 0 auto; float: right; border: 1px #E1E9F8 solid}
+.register_button:hover {border: 1px silver solid}
+#welcome_div{ padding: 14px; overflow: auto; background-color: #E1E9F8}
 #user_count,#company_count,#group_count{ font-size: 140%; font-weight:bolder}
 #user_count{ color: red}
 #company_count{ color:green}
@@ -386,6 +385,8 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 #search{ font-weight: bolder}
 .bottom_gray_line{ border-bottom: 1px solid #EdEdEd}
 #whole_judge_detail_star{ border:solid 1px #DEDEDE; border-top:none; background:#FFFFFF; position:absolute; margin:0px; padding:8px 10px; clear:both; z-index:299}
+.center_block{ margin: 0 auto; width: 650px}
+.half_width{ width: 49%}
  .pui-autocomplete-holder {margin: 0; border: 1px solid #999; overflow: hidden; padding: 0px 5px; font:normal 12px Verdana, Arial, sans-serif; height: auto !important; height: 1%; background:white url(/images/input-text.png) repeat-x scroll left top}
 .pui-autocomplete-holder li {float: left; position: relative; list-style-type: none; margin: 4px 0 }
  .pui-autocomplete-holder li.pui-autocomplete-input {margin: 2px 0; height: 20px}

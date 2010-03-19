@@ -3,10 +3,10 @@ class NewsController < ApplicationController
   # GET /news
   # GET /news.xml
   def index
-    order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
+    order_str =  (params[:view_count] && !params[:view_count].blank?  ?  "view_count " + (params[:view_count].to_s=="asc" ? 'asc' : 'desc') : nil)
 
     if !order_str
-      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : nil
+      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : "created_at desc"
     else
       order_str +=  params[:created_order] && !params[:created_order].blank?  ? ",created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
     end
@@ -16,16 +16,16 @@ class NewsController < ApplicationController
       @company = Company.find(params[:company_id])
       @news = @company.news.paginate :conditions=>["title like ? or content like ? ",
         search_str, search_str],:order=>order_str,:page => params[:page]
-      @hot_news=@company.news.populars(:limit=>10)
-      @most_recommand=  @company.news.most_recommand(:limit=>10)
-      @most_recommand_comment =  Comment.news_comments.hot_comments(:conditions=>["commentable_id=?",@company],:limit=>10)
+      @hot_news=@company.news.hot(:limit=>10)
+      @higher_scope_news=  @company.news.highter_scope(:limit=>10)
+      @higher_scope_comments =  Comment.news_comments.higher_scope(:conditions=>["commentable_id=?",@company],:limit=>10)
       @page_title =   "#{@company.name} 新闻"
     else
       @news = Piecenews.paginate :conditions=>["title like ? or content like ? ",
         search_str, search_str],:order=>order_str,:page => params[:page]
-      @hot_news=Piecenews.populars(:limit=>10)
-      @most_recommand=  Piecenews.most_recommand(:limit=>10)
-      @most_recommand_comment = Comment.news_comments.hot_comments(:limit=>10)
+      @hot_news=Piecenews.hot(:limit=>10)
+      @higher_scope_news=  Piecenews.highter_scope(:limit=>10)
+      @higher_scope_comments = Comment.news_comments.higher_scope(:limit=>10)
       @page_title =   "新闻"
     end
       
@@ -164,10 +164,10 @@ class NewsController < ApplicationController
   #搜索新闻
   def search
     @page_title= "新闻搜索"
-    order_str =  (params[:up_order] && !params[:up_order].blank?  ?  "up-down " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
+    order_str =  (params[:view_count] && !params[:view_count].blank?  ?  "view_count " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
 
     if !order_str
-      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : nil
+      order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : "created_at desc"
     else
       order_str +=  params[:created_order] && !params[:created_order].blank?  ? ",created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : ""
     end
