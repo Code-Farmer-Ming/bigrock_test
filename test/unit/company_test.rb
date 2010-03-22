@@ -109,18 +109,18 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal 4, Company.find_related_tags("伟大的公司").size
     assert_equal ["好公司","不赖的公司","大公司","新公司"],Company.find_related_tags("伟大的公司").collect{|p| p.name}
   end
-  #相关的公司
-  test "related_company" do
-    company = Company.find(1)
-    company_two = Company.find(2)
-    company_three = Company.find(3)
-
-    assert company.related_companies(5).index(companies(:two))
-    assert_equal 1, company.related_companies(-1).size
-
-    assert_equal 1, company_two.related_companies(-1).size
-    assert_equal 2, company_three.related_companies(-1).size
-  end
+#  #相关的公司
+#  test "related_company" do
+#    company = Company.find(1)
+#    company_two = Company.find(2)
+#    company_three = Company.find(3)
+#
+#    assert company.related_companies(5).index(companies(:two))
+#    assert_equal 1, company.related_companies(-1).size
+#
+#    assert_equal 1, company_two.related_companies(-1).size
+#    assert_equal 2, company_three.related_companies(-1).size
+#  end
   #测试 真实度高的用户  creditability_value >= 4为真实度高的用户
   test "hight creditability user" do
     Judge.delete_all()

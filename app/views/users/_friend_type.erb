@@ -2,7 +2,7 @@
   <ul class="item">
     <li><%= link_to "好友", "?type=friend",:class=>(params[:type]=="friend" || params[:type]=='' ||  params[:type].nil? ? "active-tab" : "" )  %> </li>
     <li><%= link_to "在关注谁", "?type=my_follow",:class=>(params[:type]=="my_follow" ? "active-tab" : "" )  %> </li>
-    <li><%= link_to   "谁关注我", "?type=follow_me",:class=>(params[:type]=="follow_me" ? "active-tab" : "" ) if current_user?(@user) %></li>
+    <li><%= link_to   "谁关注我", "?type=follow_me",:class=>(params[:type]=="follow_me" ? "active-tab" : "" ) if current_user?(object) %></li>
     <li><%= link_to   "关注的公司", "?type=follow_company",:class=>(params[:type]=="follow_company" ? "active-tab" : "" )  %></li>
 
   </ul>

@@ -1,8 +1,8 @@
-<h1><%= @group.name %> 小组</h1>
+<h1><%= object.name %> 小组</h1>
 <div class="tab">
   <ul>
-    <li><%= link_to "小组编辑", edit_group_path(@group),:class=>(controller.controller_name=="groups" && controller.action_name=="edit") ?  "active-tab" :""   %> </li>
-    <li><%= link_to "成员管理", group_members_path(@group),:class=>(controller.controller_name=="members" && controller.action_name=="index") ?  "active-tab" :""   %> </li>
+    <li><%= link_to "小组编辑", edit_group_path(object),:class=>(controller.controller_name=="groups" && controller.action_name=="edit") ?  "active-tab" :""   %> </li>
+    <li><%= link_to "成员管理", group_members_path(object),:class=>(controller.controller_name=="members" && controller.action_name=="index") ?  "active-tab" :""   %> </li>
 
   </ul>
   <p class="clear_float"></p>

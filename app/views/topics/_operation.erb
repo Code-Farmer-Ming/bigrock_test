@@ -1,23 +1,21 @@
 
 <%= topic = operation %>
 <span id="recommend_operation">
-  <%= render :partial=>"comm_partial/recommend_operation",:object=>@topic %>
+  <%= render :partial=>"comm_partial/recommend_operation",:object=>topic %>
 </span>
-<%if @is_manager %>
-  <% if @topic.top_level %>
-    <%= link_to_remote '取消置顶',{:url=>{:action=>:cancel_top_level,:id=>@topic}}, \
-      :class=>"button"  %>
-  <%else%>
-    <%= link_to_remote  '置顶',{:url=>{:action=>:set_top_level,:id=>@topic}},\
-      :class=>"button"  %>
-  <%end%>
+
+<%if is_manager %>
+  <span id="top_level_operation">
+    <%= render :partial=>"topics/top_level_operation" ,:object=>topic%>
+  </span>
 <%end%>
 
-<%= link_to "发言", {:action=>:new,:controller=>:topics} ,:class=>"button",:title=>"我来发布新话题"  if @can_reply%>
-<%= link_to '编辑',  {:action=>:edit,:id=>@topic},
-   :method => :get ,:class=>"button" \
-    if  @is_owner    %>
-<%= link_to '删除',  [@topic.owner,@topic],
+
+<%= link_to "发言", {:action=>:new,:controller=>:topics} ,:class=>"button",:title=>"我来发布新话题"  if can_reply%>
+<%= link_to '编辑',  {:action=>:edit,:id=>topic},
+  :method => :get ,:class=>"button" \
+  if  is_owner    %>
+<%= link_to '删除',  [topic.owner,topic],
   :confirm => '确定删除吗?', :method => :delete ,:class=>"button negative" \
-  if @is_owner  || @is_manager    %>
-<br class="clear"/>
+  if is_owner  || is_manager    %>
+<div class="clear"/>

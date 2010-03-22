@@ -35,7 +35,8 @@ label{
 .main_info h2 {
     font-size:120%;
     font-weight:900;
-    margin:0 0 10px
+    margin:0 0 10px;
+    /*border-bottom: 1px silver solid;*/
 }
 .main_info h3 {
     font-size:110%;
@@ -161,6 +162,7 @@ label{
     text-align: right;
     margin:0px 3px;
     display:inline-block;
+    float: left;
     /*  line-height:22px;*/
 }
 .form_info .group_lab{
@@ -224,7 +226,6 @@ label{
     min-height:125px;
     height:auto !important; 
     height:125px;
-
 }
 
 .pass_item{
@@ -784,6 +785,9 @@ div.auto_complete ul strong.highlight {
     font-weight:bolder;
     margin:6px auto;
     color:gray;
+}
+.user_log_just_text .icon_right_content{
+    margin-left: 8px;
 }
 
 .user_log{

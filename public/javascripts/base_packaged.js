@@ -731,7 +731,7 @@ exceptionMessage=exceptionValues.join("\n")||"";exceptionValues=exceptionMessage
 console.value+=message+"\n";console.scrollTop=console.scrollHeight-console.clientHeight;}catch(ex){alert("Exception: "+ex.name+" Message: "+ex.message);}};function StarRank(){}
 StarRank.prototype={titles:new Array('很差','差','一般','好','非常好 '),imgEmpty_class:'output_empty_star',imgOver_class:'input_full_star',imgFull_class:'output_full_star',links:null,id:null,rankValue:0,disabled:false,disabledMessage:'请稍后再点击评级^_^',setRankValue:function(value){if(typeof(value)!='undefined'&&value!=null){this.rankValue=Number(value);this.refresh();}},refresh:function(){for(var i=0;i<this.links.length;i++)
 {if(this.rankValue>i){this.links[i].className=this.imgFull_class;}else{this.links[i].className=this.imgEmpty_class;}}
-this.title.update(this.titles[this.rankValue-1]);},create:function(divParent,id){this.create=null;var _self=this;this.id=id;this.links=new Array(5);this.title=document.createElement("span");for(var i=5;i>=1;i--){var lnk1
+this.title.update(this.titles[this.rankValue-1]||'&nbsp;');},create:function(divParent,id){this.create=null;var _self=this;this.id=id;this.links=new Array(5);this.title=document.createElement("span");this.title.setAttribute('style',"DISPLAY: inline-block;");for(var i=5;i>=1;i--){var lnk1
 if(this.disabled)
 {lnk1=document.createElement("span");}
 else{lnk1=document.createElement("a");lnk1.setAttribute('href',"javascript:;");}

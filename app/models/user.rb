@@ -18,7 +18,8 @@
 class User< ActiveRecord::Base
   #状态
   STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还在学校"}
-
+  
+ acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"is_alias?"
   #字段验证
   validates_presence_of       :email,:password
 
@@ -292,6 +293,9 @@ class User< ActiveRecord::Base
 
   #实际用户
   named_scope :real_users,:conditions=>["parent_id=0"]
+
+  #最新加入
+  named_scope :newly_order,:order=>"users.created_at desc"
 
   #== 类方法开始
   

@@ -4,9 +4,9 @@
   :html=>{:class=>"form_info"} do |judge| %>
   <h2>评价 <%= h @company_judge.company.name  %></h2>
   <%= render :partial=>"company_judges/form",:object=>judge %>
-  <p class="form_button">
-    <%= judge.submit("保存",:disable_with=>"保存…",:disabled => false ,:class=>"button")  %> <%=  link_to_close_lightbox "取消"  %>
-  </p>
+
+  <%= judge.submit("保存",:disable_with=>"保存…",:disabled => false ,:class=>"button")  %> <%=  link_to_close_lightbox "取消"  %>
+
 <%end%>
 <%=  javascript_tag("validation = new Validation('new_company_judge',{immediate:true,useTitles:true,stopOnFirst:true});
   Event.observe('new_company_judge','reset',function() {validation.reset();},false);") %>

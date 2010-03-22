@@ -27,6 +27,7 @@ one:
   last_edit_user_id: 1
   up: 1
   down: 0
+  view_count: 1
   created_at: <%= DateTime.now-1.days %>
 
 two:

@@ -14,7 +14,7 @@
 .output_empty_star,.input_full_star,.output_full_star
 {
     DISPLAY: inline-block;
-    VERTICAL-ALIGN: middle;
+    /*VERTICAL-ALIGN: middle;*/
     WIDTH: 16px;
     HEIGHT: 16px;
     line-height:normal;

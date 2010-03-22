@@ -134,5 +134,13 @@ class Pass < ActiveRecord::Base
       or '#{begin_date}' between begin_date and end_date
       or '#{end_date}' between begin_date and end_date) and id<>#{id} and user_id=#{user ? user.id : -1}").size > 0
   end
+  #用户 是否有可见的权限
+  def can_visibility?(user)
+    self.user.setting.can_visibility?(:pass_visibility,user)
+  end
+  #是否有 工作业绩
+  def has_work_items?
+    self.work_items.size>0
+  end
 
 end

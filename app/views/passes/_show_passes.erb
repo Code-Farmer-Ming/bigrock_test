@@ -1,5 +1,5 @@
 <% pass=  show_passes %>
-<%if pass.user.setting.can_visibility?(:pass_visibility,current_user) || pass.yokemates.exists?(current_user.id)  %>
+<%if pass.can_visibility?(current_user) || pass.yokemates.exists?(current_user.id)  %>
   <div id="<%= dom_id(pass,"container") %>"  class="pass_item">
     <div id="<%= dom_id(pass) %>"   class="section <%= current_user?(pass.user) ? "edit_section" : "" %>">
       <%= render :partial=>"passes/show_pass_info",:object=>pass %>
@@ -7,7 +7,7 @@
     <div id="<%= dom_id(pass,"edit_container") %>"  style="display:none" class="partial_container" >
 
     </div>
-    <%if (pass.work_items.length>0 || current_user?(pass.user))%>
+    <%if (pass.has_work_items? || current_user?(pass.user))%>
       <div id="<%= dom_id(pass,"work_items_container") %>" >
         <div  class="section <%= current_user?(pass.user) ? "edit_section" : "" %>" >
           <% content_tag :div,  :class=>"operation_lab" do %>

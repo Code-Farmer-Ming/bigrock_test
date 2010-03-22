@@ -55,7 +55,7 @@
     </p>
   </div>
   <%  sub_block_div("新闻",(link_to("全部", company_news_path(@company) ) if @company.news.size>0)) do  %>
-    <%= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>10) %>
+    <%= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>5) %>
   <%end%>
   <%  sub_block_div("话题", link_to("+发言",new_company_topic_path(@company),:title=>"我来发布新话题")+
       "&nbsp;"+(link_to("全部", company_topics_path(@company)))) do  %>
@@ -103,6 +103,6 @@
   <%end if @company.judges.size>0%>
 
   <% sub_block_div("相关公司") do %>
-    <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies %>
+    <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies.limit(4) %>
   <%end%>
 </div>

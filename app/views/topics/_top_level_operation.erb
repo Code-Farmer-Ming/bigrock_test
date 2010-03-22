@@ -1,0 +1,7 @@
+<% if object.top_level %>
+  <%= link_to_remote '取消置顶',{:url=>{:action=>:cancel_top_level,:id=>object}}, \
+    :class=>"button"  %>
+<%else%>
+  <%= link_to_remote  '置顶',{:url=>{:action=>:set_top_level,:id=>object}},\
+    :class=>"button"  %>
+<%end%>

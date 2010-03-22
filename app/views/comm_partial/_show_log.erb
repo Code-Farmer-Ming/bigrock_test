@@ -39,6 +39,7 @@ for log in show_log
   end
 
   case log.log_type
+
   when "MyLanguage"
     case log.operation
     when "create"
@@ -132,8 +133,14 @@ for log in show_log
     case log.operation
     when "create"
       temp = "状态改为：#{content_tag(:span,"&nbsp;",:class=>"user_state_#{log.changes}")+ User::STATE_TYPES[log.changes.to_sym]}"
-    end 
+    end
+  when "join_group" #加入小组
+    temp = "加入了：#{link_to(log.logable.name ,
+    group_path(log.logable),:target=>"_blank" )} 小组"
+  when "register_account" #注册账户
+     temp = "注册了账号"
   end
+
   log_content  +=  content_tag(:div, content_tag(:span,log.created_at.strftime('%H:%M'),:class=>"r")+temp ,:class=>'topic_item')
   #if  log_temp  !=  log &&  log_type !=  log.log_type
   #log_content  = content_tag(:p, temp)+log_content
@@ -143,8 +150,8 @@ for log in show_log
 end%>
 <% content_tag (:div) ,:class=>hide_left ? "user_log_just_text" :  "user_log"  do%>
   <%= content_tag :h5,date_ago_in_words(log_date)  if ( show_date.to_date != log_date.to_date)  %>
- <%= content_tag :div,log_text,:class=>"l" %>
+  <%= content_tag :div,log_text,:class=>"l" %>
   <%=  content_tag :div, log_content ,:class=>"icon_right_content"%>
- 
+
   <%= content_tag :div,"",:class=>"c" %>
 <%end   if log_text!=""%>

@@ -4,7 +4,7 @@
   <%= render :partial=>"companies/employee_type"  %>
   <%= render :partial=>"users/user_info_and_operation",:collection=>  @employees,
     :locals=>{:old_company=>params[:type]=='pass' ? params[:id] : nil   } %>
-  <%= will_paginate  @employees  %>
+  <%#= will_paginate  @employees  %>
 </div>
 <div id="right_content">
   <% sub_block_div() do %>

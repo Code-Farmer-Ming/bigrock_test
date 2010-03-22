@@ -46,7 +46,7 @@ class MembersController < ApplicationController
           page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
           page.delay(0.5) do
             page["group_member_user_#{params[:id]}"].remove
-            page.insert_html :bottom ,"group_root_list",render(:partial=>"members/member",:object=>@group.all_members.find(params[:id]))
+            page.insert_html :bottom ,"group_root_list",render(:partial=>"members/member",:object=>memb.user,:locals=>{:group=>@group})
           end
         end
         return
@@ -76,7 +76,7 @@ class MembersController < ApplicationController
             page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
             page.delay(0.5) do
               page["group_member_user_#{params[:id]}"].remove
-              page.insert_html :bottom ,"group_manager_list",render(:partial=>"members/member",:object=>@group.all_members.find(params[:id]))
+              page.insert_html :bottom ,"group_manager_list",render(:partial=>"members/member",:object=>memb.user,:locals=>{:group=>@group})
             end
           end
           return
@@ -105,7 +105,7 @@ class MembersController < ApplicationController
           page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
           page.delay(0.5) do
             page["group_member_user_#{params[:id]}"].remove
-            page.insert_html :bottom ,"group_member_list",render(:partial=>"members/member",:object=>@group.all_members.find(params[:id]))
+            page.insert_html :bottom ,"group_member_list",render(:partial=>"members/member",:object=>memb.user,:locals=>{:group=>@group})
           end
         end
         return
@@ -117,7 +117,4 @@ class MembersController < ApplicationController
       page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
     end
   end
-
-
-
 end

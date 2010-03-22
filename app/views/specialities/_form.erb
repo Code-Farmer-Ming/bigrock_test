@@ -6,8 +6,10 @@
   <%= f.label :name,"专长",:class=>"filed_lab" %>
 
   <%=  text_field_with_auto_complete :speciality, :name,{:class=>"required text",:id=>dom_id(f.object,"name")},:controller=>"Specialities" %>
+  <%= f.label :name1,"&nbsp;",:class=>"filed_lab" %><span class="date_field">每栏只写一个，有利于被检索到</span>
+<p class="c"></p>
 </p>
-<p>
+<p >
   <%= f.label :description,"描述",:class=>"filed_lab" %>
   <%= f.text_area :description ,:rows=>3%>
 </p>

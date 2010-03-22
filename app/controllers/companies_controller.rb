@@ -119,9 +119,11 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
     @page_title=" #{@company.name} 员工记录"
     if params[:type].blank? || params[:type]=='current' then
-      @employees = @company.current_employees.paginate  :conditions=>"nick_name like '%#{params[:search]}%'", :page => params[:page]
+      @employees = @company.current_employees.paginate(:joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'],:select=>"users.*",:order=>"users.created_at",:page => params[:page])
     else
-      @employees = @company.pass_employees.paginate  :conditions=>"nick_name like '%#{params[:search]}%'",:page => params[:page]
+      @employees = @company.pass_employees.paginate   :joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'],:select=>"users.*",:order=>"users.created_at",:page => params[:page]
     end
   end
  

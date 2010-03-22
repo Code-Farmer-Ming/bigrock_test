@@ -170,7 +170,7 @@ class TopicsController < ApplicationController
       flash.now[:error] = "设置错误"
     end
     render :update do |page|
-      page["topic_operation"].replace_html render(:partial=>"topics/operation")
+      page["top_level_operation"].replace_html render(:partial=>"topics/top_level_operation",:object=>@topic)
       page["topic_operation"].visual_effect :highlight
       page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
     end    
@@ -186,7 +186,7 @@ class TopicsController < ApplicationController
       flash.now[:error] = "设置错误"
     end
     render :update do |page|
-      page["topic_operation"].replace_html render(:partial=>"topics/operation")
+      page["top_level_operation"].replace_html render(:partial=>"topics/top_level_operation",:object=>@topic)
       page["topic_operation"].visual_effect :highlight
       page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
     end    

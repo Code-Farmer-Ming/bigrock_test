@@ -71,7 +71,7 @@ class Company < ActiveRecord::Base
   #所有的员工
   has_many :all_employees ,
     :source=>:user,:through=>:passes
-  #相似的公司
+  #相似标签的公司
   has_many :similar_tag_companis,:class_name=>"Company",
     :finder_sql=>'select * from (select id ,sum(tags) tag_count,count(1) same_tags
                                 from (select e.taggable_id id ,e.user_tags_count tags from
@@ -85,6 +85,24 @@ class Company < ActiveRecord::Base
       options = args.extract_options!
       sql = @finder_sql
  
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+  end
+  #相关的公司 根据 当前公司的员工 曾经参加过的公
+  has_many :related_companies ,:class_name=>"Company",
+    :finder_sql=>'select c.* from
+        (select user_id from passes  where company_id=#{id}) a
+        join passes b on a.user_id=b.user_id and b.company_id<>#{id}
+        join companies c on b.company_id= c.id
+        group by b.company_id
+        order by count(*)' do
+    def find(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+
       sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
       sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
@@ -115,26 +133,31 @@ class Company < ActiveRecord::Base
 
   belongs_to :company_type
   belongs_to :company_size
+  named_scope :limit, lambda { |size| { :limit => size } }
+
 
   #named_scope
   #  named_scope :same_industry_companies ,:conditions => {:industry_id => '#{industry_id}'}
+  #
+  #
   #验证
   #唯一
   validates_uniqueness_of     :name
   #不为空
   validates_presence_of       :name
 
-  #相似的公司 先根据 标签的相似度查找 如果不存在 就从相同 行业里查找
-  def related_companies(limit=3)
-    if limit==-1
-      arr =  similar_tag_companis.find(:all)
-      arr = Company.find_all_by_industry_id("#{industry_id}",:conditions=>"id<>#{id}") if arr.size<1
-    else
-      arr = similar_tag_companis.find(:all,:limit=>limit)
-      arr =  Company.find_all_by_industry_id("#{industry_id}",:conditions=>"id<>#{id}",:limit=>limit) if arr.size<1
-    end
-    arr
-  end
+  #  #相似的公司 先根据 标签的相似度查找 如果不存在 就从相同 行业里查找
+  #  def related_companies(limit=3)
+  #    if limit==-1
+  #      arr =  similar_tag_companis.find(:all)
+  #      arr = Company.find_all_by_industry_id("#{industry_id}",:conditions=>"id<>#{id}") if arr.size<1
+  #    else
+  #      arr = similar_tag_companis.find(:all,:limit=>limit)
+  #      arr =  Company.find_all_by_industry_id("#{industry_id}",:conditions=>"id<>#{id}",:limit=>limit) if arr.size<1
+  #    end
+  #    arr
+  #  end
+
  
   #图标 文件路径
   def icon_file_path(thumbnail=nil)

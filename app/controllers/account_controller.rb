@@ -49,14 +49,18 @@ class AccountController < ApplicationController
   end
  
   def show
+    @add_friend_request_size = 0
+    @join_group_invites_size =0
     @user= current_user
     if @user
       @page_title =" #{@user.name} 的首页"
       @news = @user.my_follow_company_news.find(:all,:limit=>6)
-      @hot_topics = @user.my_follow_group_topics.find(:all,:limit=>20)
+      @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
       @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
       @my_topics = @user.my_created_topics.all(:limit=>20)
       @join_topics =  @user.join_topics.find(:all,:limit=>20)
+      @add_friend_request_size = @user.add_friend_applications.size
+      @join_group_invites_size = @user.join_group_invites.size
     else
       @page_title ="首页"
       @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境"

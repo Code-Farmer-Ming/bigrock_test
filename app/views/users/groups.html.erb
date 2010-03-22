@@ -1,7 +1,7 @@
 
 <div id="left_content" >
   <h1><%= "#{@user.name}的小组" %></h1>
-  <%= render :partial=>"users/group_type"  %>
+  <%= render :partial=>"users/group_type" ,:object=>@user %>
   <% sub_block_div("") do %>
     <%= render :partial=>"groups/short_info",:collection=>@groups%>
   <%end%>

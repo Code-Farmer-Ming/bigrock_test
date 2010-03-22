@@ -127,7 +127,7 @@ class GroupsController < ApplicationController
     group = Group.find_by_id(params[:id])
     
     if (group.roots.size==1 && group.is_root?(current_user))
-      flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
+      flash.now[:notice] = "小组必须有一个组长，在指定其他人为组长后才能退出。"
       render :update do |page|
         page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end

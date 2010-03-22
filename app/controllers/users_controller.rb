@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   #用户的活动日志记录
   def logs
     @user = User.find(params[:id])
-     @page_title ="#{@user.name} 动态记录"
+    @page_title ="#{@user.name} 动态记录"
     if params[:type]=="" || params[:type]==nil || params[:type]=="all"
       @log_items = @user.log_items.paginate :page => params[:page]
     else
@@ -35,15 +35,20 @@ class UsersController < ApplicationController
   def friends
     @user = User.find(params[:id])
     @page_title ="#{@user.name} 好友列表"
+
     case params[:type]
     when "my_follow"
-      @friends_user =@user.my_follow_users.paginate :conditions=>"nick_name like '%#{params[:search]}%'", :page => params[:page]
+      @friends_user =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     when "follow_me"
-      @friends_user =@user.follow_me_users.paginate :conditions=>"nick_name like '%#{params[:search]}%'",:page => params[:page]
+      @friends_user =@user.follow_me_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     when "follow_company"
-      @friends_user =@user.my_follow_companies.paginate :conditions=>"name like '%#{params[:search]}%'",:page => params[:page]
+      @friends_user =@user.my_follow_companies.paginate :joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     else
-      @friends_user = @user.friends_user.paginate :conditions=>"nick_name like '%#{params[:search]}%'",:page => params[:page]
+      @friends_user = @user.friends_user.paginate  :joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     end
 
     respond_to do |format|

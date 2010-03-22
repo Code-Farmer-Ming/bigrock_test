@@ -17,7 +17,7 @@
       <%= link_to("编辑","",:id=>dom_id(comment,"edit")) if current_user?(comment.user)%>
       <%= link_to_remote('删除',
         :url=> [comment.commentable.owner,comment.commentable,comment] ,
-        :confirm => '你确定吗?', :method => :delete) if (current_user?(comment.user) || @is_owner || @is_manager ) %>
+        :confirm => '你确定吗?', :method => :delete) if (current_user?(comment.user) || is_owner || is_manager ) %>
     </p>
   </div>
 

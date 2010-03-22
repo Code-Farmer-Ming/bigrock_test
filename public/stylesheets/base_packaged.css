@@ -147,7 +147,7 @@ b.tb6{border-width: 0 3px}
 b.tb7{border-width: 0 2px;height:2px}
 b.tb8{border-width: 0 1px;height:2px}
 b.ts1{border-width: 0 2px}
-  .output_empty_star,.input_full_star,.output_full_star {DISPLAY: inline-block; VERTICAL-ALIGN: middle; WIDTH: 16px; HEIGHT: 16px; line-height:normal; font-size:6px; margin:0px 1px}
+  .output_empty_star,.input_full_star,.output_full_star {DISPLAY: inline-block;  WIDTH: 16px; HEIGHT: 16px; line-height:normal; font-size:6px; margin:0px 1px}
 .output_empty_star {background-image: url(../images/output_empty_star.gif)}
 .input_full_star {background-image: url(../images/input_full_star.gif)}
 .output_full_star {background-image: url(../images/output_full_star.gif)}
@@ -172,7 +172,7 @@ a{ text-decoration:none;  }
 label{ cursor: pointer}
 .fieldWithErrors {padding: 2px; background-color: red}
 .main_info h1 {font-size:130%; font-weight:900; margin:0 0 10px }
-.main_info h2 {font-size:120%; font-weight:900; margin:0 0 10px }
+.main_info h2 {font-size:120%; font-weight:900; margin:0 0 10px;  }
 .main_info h3 {font-size:110%; font-weight:900; margin:0px; padding-bottom:6px; padding-top:3px}
 .main_info h4 {font-size:100%; font-weight:900; margin-bottom:1px}
 #errorExplanation {width: 400px; border: 2px solid red; padding: 7px; padding-bottom: 12px; margin-bottom: 20px; background-color: #f0f0f0}
@@ -194,7 +194,7 @@ label{ cursor: pointer}
 .form_info{ padding:6px 6px; margin:6px 6px }
 .loading{ display:block; margin: 0 auto 0 auto; width:100%; height:32px; background: transparent url(/images/loading.gif) no-repeat center center}
 .form_info h1{ font-family: 'Arial Narrow',sans-serif,Helvetica,Arial,sans-serif; margin-bottom:20px}
-.form_info .filed_lab{ width: 6em; text-align: right; margin:0px 3px; display:inline-block;  }
+.form_info .filed_lab{ width: 6em; text-align: right; margin:0px 3px; display:inline-block; float: left;  }
 .form_info .group_lab{ color:blue}
 .form_info #form_button{ padding:12px}
 #search{ width:75%}
@@ -313,6 +313,7 @@ div.auto_complete ul li {margin:0; padding:3px}
 div.auto_complete ul li.selected {background-color: #ffb}
 div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-weight:bold}
  .user_log h5,.user_log_just_text h5{ font-weight:bolder; margin:6px auto; color:gray}
+.user_log_just_text .icon_right_content{ margin-left: 8px}
 .user_log{ margin-bottom:0.8em}
  .news_title{ font-weight:bold; background-color:#E1E9F8; padding:4px 8px}
  .make_up_down{ padding:2px}

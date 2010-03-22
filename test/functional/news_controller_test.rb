@@ -100,10 +100,10 @@ class NewsControllerTest < ActionController::TestCase
     assert_equal 1,assigns(:news).first.id
     get  :index,:search=>"MyString",:created_order=>:null_order
     assert_equal 2,assigns(:news).first.id
-    #按投票多少排序
-    get  :index,:search=>"MyText",:up_order=>:asc
+    #按浏览多少排序
+    get  :index,:search=>"MyText",:view_count=>:asc
     assert_equal 2,assigns(:news).first.id
-    get  :index,:search=>"MyText",:up_order=>:null_order
+    get  :index,:search=>"MyText",:view_count=>:null_order
     assert_equal 1,assigns(:news).first.id
   end
 end

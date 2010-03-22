@@ -1,11 +1,12 @@
 <%= form.error_messages %>
-<p>
+<p style="overflow: auto">
   <%= form.label :salary_value,"待遇",:class=>"filed_lab" %>
   <%= rating_field :company_judge,:salary_value  %>
   <span id="advice-company_judge_salary_value" class="validation-advice"></span>
 </p>
-<p>
+<p style="overflow: auto">
   <%= form.label "company[saler1]","工作环境",:class=>"filed_lab" %>
+ 
   <%= rating_field :company_judge,:condition_value  %>
   <span id="advice-company_judge_condition_value" class="validation-advice"></span>
 </p>

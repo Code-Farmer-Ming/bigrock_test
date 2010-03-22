@@ -1,8 +1,8 @@
 <div class="tab">
   <ul class="item">
     <li><%= link_to "全部", "?type=all",:class=>(params[:type]=="all"  || params[:type]=='' || params[:type].nil? ?  "active-tab" :"")  %> </li>
-    <li><%= link_to "马甲身份参加的小组", "?type=hidden",:class=>(params[:type]=="hidden" ?  "active-tab" :"")  if current_user?(@user)%> </li>
-    <li><%= link_to   "我管理的小组", "?type=manage",:class=>(params[:type]=="manage" ?  "active-tab" :"") if current_user?(@user) %></li>
-    <li><%= link_to   "我创建的小组", "?type=create",:class=>(params[:type]=="create" ?  "active-tab" :"") if current_user?(@user) %></li>
+    <li><%= link_to "马甲身份参加的小组", "?type=hidden",:class=>(params[:type]=="hidden" ?  "active-tab" :"")  if current_user?(object)%> </li>
+    <li><%= link_to   "我管理的小组", "?type=manage",:class=>(params[:type]=="manage" ?  "active-tab" :"") if current_user?(object) %></li>
+    <li><%= link_to   "我创建的小组", "?type=create",:class=>(params[:type]=="create" ?  "active-tab" :"") if current_user?(object) %></li>
   </ul>
 </div>

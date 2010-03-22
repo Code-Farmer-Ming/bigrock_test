@@ -20,7 +20,7 @@
       <div class="l half_width">
         <% sub_block_div("待遇最好的公司", link_to("更多…",{:controller=>:companies,:action=>'search',:salary_order=>'desc'})) do%>
           <%= render :partial=>"companies/company_short_info",:collection=>@salary_best_companies %>
-         
+
         <%end%>
       </div>
       <div class="r half_width">
@@ -68,23 +68,23 @@
 
 </div>
 <div id ="right_content">
-  <% sub_block_div() do%>
-    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、新闻、话题、小组"} %>
-  <%end%>
+<%# sub_block_div() do%>
+<%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、新闻、话题、小组"} %>
+<%#end%>
   <% sub_block_div("申请") do%>
-    <p> 你有 <%= @user.add_friend_applications.size %> 个好友申请
+    <p> 你有 <%= @add_friend_request_size %> 个好友申请
       <%= link_to "查看" ,account_add_friend_applications_path() %>
     </p>
-  <%end  if  @user && @user.add_friend_applications.size>0 %>
+  <%end  if  @add_friend_request_size>0 %>
 
   <% sub_block_div("邀请") do %>
     <p>
-      你有   <%= link_to @user.join_group_invites.size,
+      你有   <%= link_to @join_group_invites_size,
         account_join_group_invites_path() %> 个加入小组邀请
     </p>
-  <%end  if  @user && @user.join_group_invites.size>0%>
+  <%end  if @join_group_invites_size>0%>
 
-  <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user && @user.my_follow_log_items.size>0)) do %>
+  <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
   <%if !@user%>

@@ -1,20 +1,21 @@
-<% if @group.is_manager_member?(current_user) %>
+<% 
+if group.is_manager_member?(current_user) %>
   <div class="l user_extension" id="<%= dom_id(member,"group_member") %>">
     <%= render :partial=>"users/user_icon_name",:object=> member %>
     <p>
-      <%= link_to_remote "▁",{:url=>to_normal_group_member_path(@group,member)},
-          :title=>"设为普通成员"  if member.members.find_by_group_id(@group).member_type!=Member::MEMBER_TYPES[2] &&  @group.is_root?(current_user)  %>
+      <%= link_to_remote "▁",{:url=>to_normal_group_member_path(group,member)},
+          :title=>"设为普通成员"  if member.members.find_by_group_id(group).member_type!=Member::MEMBER_TYPES[2] &&  group.is_root?(current_user)  %>
 
-      <%= link_to_remote "▃",{:url=>to_manager_group_member_path(@group,member)},
-        :title=>"设为管理员" if member.members.find_by_group_id(@group).member_type!=Member::MEMBER_TYPES[1] && @group.is_root?(current_user) %>
+      <%= link_to_remote "▃",{:url=>to_manager_group_member_path(group,member)},
+        :title=>"设为管理员" if member.members.find_by_group_id(group).member_type!=Member::MEMBER_TYPES[1] && group.is_root?(current_user) %>
 
       <%= link_to_remote "▆",{:url=>{:action=>:to_root,:id=>member}},
-        :title=>"设为组长" if member.members.find_by_group_id(@group).member_type!=Member::MEMBER_TYPES[0] && @group.is_root?(current_user) %>
+        :title=>"设为组长" if member.members.find_by_group_id(group).member_type!=Member::MEMBER_TYPES[0] && group.is_root?(current_user) %>
 
-      <%= link_to_remote "×",{:url=>group_member_path(@group,member),
+      <%= link_to_remote "×",{:url=>group_member_path(group,member),
         :confirm => '你确定吗?', :method => :delete},
         :title=>"从小组里删除" if
-      current_user?(member) || member.members.find_by_group_id(@group).member_type==Member::MEMBER_TYPES[2] || @group.is_root?(current_user)
+      current_user?(member) || member.members.find_by_group_id(group).member_type==Member::MEMBER_TYPES[2] || group.is_root?(current_user)
     %>
 
     </p>

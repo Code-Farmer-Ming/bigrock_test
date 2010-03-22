@@ -164,7 +164,7 @@ class NewsController < ApplicationController
   #搜索新闻
   def search
     @page_title= "新闻搜索"
-    order_str =  (params[:view_count] && !params[:view_count].blank?  ?  "view_count " + (params[:up_order].to_s=="asc" ? 'asc' : 'desc') : nil)
+    order_str =  (params[:view_count] && !params[:view_count].blank?  ?  "view_count " + (params[:view_count].to_s=="asc" ? 'asc' : 'desc') : nil)
 
     if !order_str
       order_str =  params[:created_order] && !params[:created_order].blank?  ? "created_at "+ (params[:created_order].to_s=='asc' ? 'asc' : 'desc') : "created_at desc"

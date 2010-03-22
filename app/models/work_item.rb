@@ -15,4 +15,8 @@
 
 class WorkItem < ActiveRecord::Base
   belongs_to:pass
+  def user
+    pass.user
+  end
+
 end

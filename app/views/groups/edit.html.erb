@@ -1,6 +1,6 @@
 
 <div id="left_content">
-<%= render :partial=>"groups/manage_type" %>
+<%= render :partial=>"groups/manage_type",:object=>@group %>
   <% form_for(@group) do |f| %>
     <%= f.error_messages %>
     <%= render :partial=>"groups/form" ,:object=>f %>

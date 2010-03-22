@@ -61,14 +61,14 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal Group::JOIN_TYPES[1][1],Group.find_by_name("test group").join_type
   end
 
-  #创建 需要申请加入的小组
-  test "should create secret group" do
-    Group.destroy_all()
-    assert_difference('Group.count') do
-      post :create, :group => {:name=>"test group", :group_type_id=>0,:join_type=>Group::JOIN_TYPES[2][1] }
-    end
-    assert_equal Group::JOIN_TYPES[2][1],Group.find_by_name("test group").join_type
-  end
+  #创建 秘密小组
+#  test "should create secret group" do
+#    Group.destroy_all()
+#    assert_difference('Group.count') do
+#      post :create, :group => {:name=>"test group", :group_type_id=>0,:join_type=>Group::JOIN_TYPES[2][1] }
+#    end
+#    assert_equal Group::JOIN_TYPES[2][1],Group.find_by_name("test group").join_type
+#  end
 
   test "should show group" do
     get :show, :id => groups(:one).to_param

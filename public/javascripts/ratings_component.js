@@ -39,7 +39,7 @@ StarRank.prototype = {
                 this.links[i].className = this.imgEmpty_class;
             }
         }
-        this.title.update(this.titles[this.rankValue-1]);
+        this.title.update(this.titles[this.rankValue-1] || '&nbsp;' );
     },
 
     create:function(divParent, id) {
@@ -49,6 +49,8 @@ StarRank.prototype = {
    
         this.links = new Array(5);
         this.title = document.createElement("span");
+        this.title.setAttribute('style', "DISPLAY: inline-block;");
+
         for(var i = 5; i >= 1; i--) {
             var lnk1
             
@@ -76,8 +78,8 @@ StarRank.prototype = {
             lnk1.onmouseout = function(){
                 _self.rankPreMouseOut(_self, id, this.getAttribute('rank'));
             };
-           $(divParent).insertBefore(lnk1,$(divParent).childNodes[0]);
-           this.links[i-1] = lnk1;
+            $(divParent).insertBefore(lnk1,$(divParent).childNodes[0]);
+            this.links[i-1] = lnk1;
         }
         $(divParent).insert(this.title);
         this.refresh();

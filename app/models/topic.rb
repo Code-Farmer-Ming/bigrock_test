@@ -46,7 +46,7 @@ class Topic < ActiveRecord::Base
  
   #相关的话题
   def related_topics(limit=10)
-    owner.topics.all(:conditions=>["id<>?",self], :limit=>limit).new_topics
+    owner.topics.new_topics(:conditions=>["id<>?",self], :limit=>limit)
   end
   
   def last_comment
