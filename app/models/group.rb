@@ -20,6 +20,7 @@ class Group < ActiveRecord::Base
   validates_length_of :name, :within => 3..35
   #加入小组的类型 开放型 申请型 保密型
   JOIN_TYPES=[["开放式小组","open"],["需申请小组","application"]]
+  
   belongs_to :create_user,:class_name=>"User",:foreign_key=>"create_user_id"
   #图标
   has_one :icon,:class_name=>"GroupIcon",:foreign_key=>"master_id",:dependent=>:destroy
@@ -70,7 +71,7 @@ class Group < ActiveRecord::Base
   #普通成员
   has_many :normal_members ,:through => :members,:source=>:user,:conditions=>["members.member_type=?",Member::MEMBER_TYPES[2]] do
     def <<(user)
-      Member.send(:with_scope,:create => {:member_type =>Member::MEMBER_TYPES[0]}) { self.concat user }
+      Member.send(:with_scope,:create => {:member_type =>Member::MEMBER_TYPES[2]}) { self.concat user }
     end
   end
   #所有管理員 (包括 组长)
@@ -104,6 +105,10 @@ class Group < ActiveRecord::Base
   #推荐最多的小组
   named_scope :most_recommend_groups,:order=>"recommends_count desc"
   validates_uniqueness_of  :name
+
+  def before_save
+    self.roots << create_user
+  end
   #是否小组的成员
   def is_member?(user)
     user && all_members.exists?(["users.id in (?)",user.ids])
@@ -114,7 +119,7 @@ class Group < ActiveRecord::Base
   end
   #是否管理员
   def is_manager?(user)
-   user &&  managers.exists?(["users.id in (?)",user.ids])
+    user &&  managers.exists?(["users.id in (?)",user.ids])
   end
   #是否小组的组长
   def is_root?(user)

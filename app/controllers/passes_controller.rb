@@ -1,5 +1,6 @@
 class PassesController < ApplicationController
   before_filter :check_login?
+  before_filter :find_pass,:only=>[:edit,:update,:destroy,:available_yokemates]
   auto_complete_for :company, :name
 
 
@@ -21,7 +22,6 @@ class PassesController < ApplicationController
 
   # GET /passes/1/edit
   def edit
-    @pass = Pass.find(params[:id])
     respond_to do |format|
       format.js {}
       format.html # new.html.erb
@@ -69,7 +69,6 @@ class PassesController < ApplicationController
   # PUT /passes/1.xml
 
   def update
-    @pass = Pass.find(params[:id])
     #TODO 这里需要优化 去掉查询公司名称
     #    if @pass.company.name != params[:company][:name]
     #      @company= Company.find_by_name(params[:company][:name])
@@ -102,18 +101,15 @@ class PassesController < ApplicationController
   # DELETE /passes/1
   # DELETE /passes/1.xml
   def destroy
-    @pass = Pass.find(params[:id])
     @pass.destroy
-
     respond_to do |format|
       format.js {}
       format.html { redirect_to( user_resume_passes_path(params[:user_id],params[:resume_id])) }
       format.xml  { head :ok }
     end
   end
-
+  #同事
   def  available_yokemates
-    @pass=Pass.find(params[:id])
   end
   #发送评价邀请信息
   def send_invite
@@ -160,6 +156,12 @@ class PassesController < ApplicationController
     #    else
     #      render :text=>""
     #    end
+  end
+
+  protected
+
+  def find_pass
+    @pass=Pass.find(params[:id])
   end
  
 

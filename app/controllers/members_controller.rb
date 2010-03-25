@@ -1,17 +1,16 @@
 class MembersController < ApplicationController
   before_filter :check_login?
+  before_filter :find_group,:only=>[:index,:destroy,:to_root,:to_manager,:to_normal]
+  
   def index
-    @group = Group.find_by_id(params[:group_id])
     @page_title = "#{@group.name}小组 成员管理"
-    if @group
-      @normal_members = @group.normal_members.paginate :joins=>"join resumes on users.id = resumes.user_id ",
-        :conditions=>[" resumes.user_name like ?",'%'+(params[:search] || '')+'%'],
-        :page => params[:page] 
-    end
+    @normal_members = @group.normal_members.paginate :joins=>"join resumes on users.id = resumes.user_id ",
+      :conditions=>[" resumes.user_name like ?",'%'+(params[:search] || '')+'%'],
+      :page => params[:page]
+
   end
 
   def destroy
-    @group = Group.find(params[:group_id])
     if (@group.roots.size==1 && @group.roots.exists?(["users.id=?",params[:id]]))
       flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
       render :update do |page|
@@ -37,7 +36,6 @@ class MembersController < ApplicationController
   end
   #升为 组长
   def to_root
-    @group = Group.find(params[:group_id])
     if (@group.roots.size<2)
       if @group.is_root?(current_user) &&
           (memb = @group.members.find_by_user_id(params[:id])) &&
@@ -64,7 +62,6 @@ class MembersController < ApplicationController
   #设为 管理员
   #params[:id] 为 user
   def to_manager
-    @group = Group.find(params[:group_id])
     if (@group.roots.size==1 && @group.roots.exists?(["users.id=?",params[:id]]))
       flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
     else
@@ -94,7 +91,6 @@ class MembersController < ApplicationController
   
   #设为普通 成员
   def to_normal
-    @group = Group.find(params[:group_id])
     if (@group.roots.size==1 && @group.roots.exists?(["users.id=?",params[:id]]))
       flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
     else
@@ -116,5 +112,11 @@ class MembersController < ApplicationController
     render :update do |page|
       page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
     end
+  end
+
+  protected
+
+  def find_group
+    @group = Group.find(params[:group_id])
   end
 end

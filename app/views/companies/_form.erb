@@ -24,16 +24,15 @@
 </p>
 <p>
   <%= f.label :industry ,"所属行业",:class=>"filed_lab" %>
-  <%= f.select :industry_id,Industry.all.collect {|p| [ p.name, p.id ] },
-    {}  %>
+  <%= f.select :industry_id,Industry.select_options,{}  %>
 </p>
 <p>
   <%= f.label :company_type, "公司类型",:class=>"filed_lab" %>
-  <%= f.select :company_type_id,CompanyType.all.collect {|p| [ p.name, p.id ] }  %>
+  <%= f.select :company_type_id,CompanyType.select_options  %>
 </p>
 <p>
   <%= f.label :size,"公司规模",:class=>"filed_lab" %>
-  <%= f.select :company_size_id,CompanySize.all.collect {|p| [ p.name, p.id ] } %>
+  <%= f.select :company_size_id,CompanySize.select_options %>
 </p>
 <p>
   <%= f.label :fax,"传真",:class=>"filed_lab"  %>

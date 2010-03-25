@@ -13,5 +13,12 @@
 #
 
 class AddFriendApplication < Requisition
- 
+  
+  #接收 添加好友的申请
+  #自己变为user的好友
+  def accept(user)
+    self.applicant.add_friend(user)
+    self.destroy
+  end
+  
 end

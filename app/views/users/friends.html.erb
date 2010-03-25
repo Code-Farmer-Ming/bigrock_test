@@ -1,11 +1,11 @@
 
 <div id="left_content">
   <h1><%= "#{current_user?(@user) ? "我" : @user.name}"  %>的好友列表</h1>
-  <%= render :partial=>"users/friend_type",:object=>@user %>
+  <%= highlight(render(:partial=>"users/friend_type",:object=>@user) ,params[:search])%>
   <% if params[:type]=='follow_company' %>
-    <%= render :partial=>"companies/company_info_and_operation",:collection=>@friends_user %>
+    <%= highlight(render(:partial=>"companies/company_info_and_operation",:collection=>@friends_user),params[:search]) %>
   <%else%>
-    <%= render :partial=>"users/user_info_and_operation" ,:collection=>@friends_user  %>
+    <%=  highlight(render(:partial=>"users/user_info_and_operation" ,:collection=>@friends_user),params[:search])  %>
   <%end%>
 
   <%= will_paginate @friends_user %>

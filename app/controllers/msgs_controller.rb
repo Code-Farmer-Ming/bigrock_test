@@ -77,15 +77,13 @@ class MsgsController < ApplicationController
   def msg_response
     @msg = current_user.all_msgs.find(params[:id])
     @msg_response = MsgResponse.new(params[:response])
-    if @msg_response.content.nil? || @msg_response.content.blank? || !@msg.can_response?
-      flash.now[:notice] = "发送失败！"
-      return
-    end
     @msg_response.sender_id = current_user.ids.include?(@msg.sender_id) ? @msg.sender_id : @msg.sendee_id
     @msg_response.msg = @msg
     respond_to do |format|
-      if @msg_response.save
+      if @msg.can_response? && @msg_response.save
         format.js { }
+      else
+        flash.now[:notice] =   "发送失败！" +@msg_response.errors.full_messages 
       end
     end
   end

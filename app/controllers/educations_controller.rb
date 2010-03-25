@@ -1,10 +1,10 @@
 class EducationsController < ApplicationController
   before_filter :check_login?
+  before_filter :find_edu,:only=>[:edit,:update,:destroy]
   # GET /educations/new
   # GET /educations/new.xml
   def new
     @education = Education.new
-
     respond_to do |format|
       format.js {}
       format.html # new.html.erb
@@ -14,7 +14,6 @@ class EducationsController < ApplicationController
 
   # GET /educations/1/edit
   def edit
-    @education = Education.find(params[:id])
     respond_to do |format|
       format.js {}
       format.html # new.html.erb
@@ -25,10 +24,10 @@ class EducationsController < ApplicationController
   # POST /educations
   # POST /educations.xml
   def create
-    @education = Education.new(params[:education])
-    @education.resume_id=params[:resume_id]
+    resume = Resume.find(params[:resume_id])
+    @education= resume.educations.build(params[:education])
     respond_to do |format|
-      if @education.save
+      if resume.save
         format.js {}
         format.html {
           flash[:success] = '教育创建成功.'
@@ -48,8 +47,6 @@ class EducationsController < ApplicationController
   # PUT /educations/1
   # PUT /educations/1.xml
   def update
-    @education = Education.find(params[:id])
-
     respond_to do |format|
       if @education.update_attributes(params[:education])
         format.js {}
@@ -69,9 +66,7 @@ class EducationsController < ApplicationController
   # DELETE /educations/1
   # DELETE /educations/1.xml
   def destroy
-    @education = Education.find(params[:id])
     @education.destroy
-
     respond_to do |format|
       format.js {}
       format.html { redirect_to(user_resume_educations_path(params[:user_id],params[:resume_id])) }
@@ -84,5 +79,11 @@ class EducationsController < ApplicationController
     @items =  School.find(:all,
       :conditions =>["lower(name) like ?    ","%#{params[:education][:school_name].downcase}%"])
     render :inline => "<%= auto_complete_result @items, 'school_name', '#{params[:education][:school_name]}' %>"
+  end
+
+  protected
+
+  def find_edu
+    @education = Education.find(params[:id])
   end
 end

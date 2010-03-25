@@ -1,5 +1,6 @@
 class SpecialitiesController < ApplicationController
-
+  before_filter :check_login?
+  before_filter :find_speciality,:only=>[:edit,:update,:destroy]
   # GET /specialities/new
   # GET /specialities/new.xml
   def new
@@ -13,7 +14,6 @@ class SpecialitiesController < ApplicationController
 
   # GET /specialities/1/edit
   def edit
-    @speciality = Speciality.find(params[:id])
     respond_to do |format|
       format.js {}
       format.html{}
@@ -42,8 +42,6 @@ class SpecialitiesController < ApplicationController
   # PUT /specialities/1
   # PUT /specialities/1.xml
   def update
-    @speciality = Speciality.find(params[:id])
-
     respond_to do |format|
       if @speciality.update_attributes(params[:speciality])
         format.js {}
@@ -61,7 +59,6 @@ class SpecialitiesController < ApplicationController
   # DELETE /specialities/1
   # DELETE /specialities/1.xml
   def destroy
-    @speciality = Speciality.find(params[:id])
     @speciality.destroy
     respond_to do |format|
       format.html { redirect_to(user_resume_specialities_url(params[:user_id],params[:resume_id])) }
@@ -69,10 +66,16 @@ class SpecialitiesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-    #查询 专长名称
+  #查询 专长名称
   def auto_complete_for_speciality_name
     @items =  Skill.find(:all,
       :conditions =>["lower(name) like ?    ","%#{params[:speciality][:name].downcase}%"])
     render :inline => "<%= auto_complete_result @items, 'name', '#{params[:speciality][:name]}' %>"
+  end
+
+  protected
+
+  def find_speciality
+    @speciality = Speciality.find(params[:id])
   end
 end

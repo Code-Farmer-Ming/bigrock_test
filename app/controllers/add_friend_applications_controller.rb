@@ -1,5 +1,7 @@
 class AddFriendApplicationsController < ApplicationController
   before_filter :check_login?
+  before_filter :find_apply, :only => [:accept, :destroy]
+
   def index
     @page_title ="好友申请"
     @add_friend_applications = current_user.add_friend_applications.paginate :page => params[:page]
@@ -9,23 +11,13 @@ class AddFriendApplicationsController < ApplicationController
   end
 
   def accept
-    @apply = current_user.add_friend_applications.find(params[:id])
-    if params[:commit] =="接受并加其为好友"
-      if !current_user.friends_user.exists?(@apply.applicant)
-        current_user.friends_user << @apply.applicant
-      end
-    end
-    if !@apply.applicant.friends_user.exists?(current_user)
-      @apply.applicant.friends_user << current_user
-    end
-    @apply.destroy
+    current_user.add_friend(@apply.applicant)  unless params[:commit]!="接受并加其为好友"
+    @apply.accept(current_user)
     flash[:success] = "添加成功！"
-    
     redirect_to :action=>"index"  , :page => params[:page]
   end
 
   def destroy
-    @apply = current_user.add_friend_applications.find(params[:id])
     @apply.destroy
     flash[:success] = "已经忽略！"
     redirect_to :action=>"index"  , :page => params[:page]
@@ -49,4 +41,9 @@ class AddFriendApplicationsController < ApplicationController
     end
   end
 
+  protected
+  
+  def find_apply
+    @apply = current_user.add_friend_applications.find(params[:id])
+  end
 end

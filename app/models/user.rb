@@ -19,7 +19,7 @@ class User< ActiveRecord::Base
   #状态
   STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还在学校"}
   
- acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"is_alias?"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
   #字段验证
   validates_presence_of       :email,:password
 
@@ -28,7 +28,7 @@ class User< ActiveRecord::Base
  
   validates_uniqueness_of     :email, :message=>"邮件地址不能重复"
   attr_accessor                 :text_password
-  validates_confirmation_of   :text_password,  :message=>"两次密码不同"
+  validates_confirmation_of   :text_password,  :message=>"两次不同"
   attr_accessor                 :text_password_confirmation
   
   #我的简历
@@ -297,35 +297,39 @@ class User< ActiveRecord::Base
   #最新加入
   named_scope :newly_order,:order=>"users.created_at desc"
 
+  #回调函数
+  def before_create
+    if !parent
+      self.aliases.build(:email=>"alias_email"+ self.email,
+        :nick_name=>"马甲",:text_password=>self.text_password,
+        :text_password_confirmation=>self.text_password_confirmation)
+      self.resumes.build(:user_name=>self.nick_name,:is_current=>true)
+      self.setting= UserSetting.new
+      self.is_active = true
+    end
+  end
+
   #== 类方法开始
   
   #返回匿名用户
   def self.anonymity
     User.new()
   end
-  #是否匿名函数
+  #是否匿名用户
   def anonymity?
     new_record?
   end
-
   
   #END:加密密码
-  #判断用户名、密码是否正确.返回一个数组，正确时第一个元素返回值"成功"和用户对象，否则 “邮件不存在” “密码错误”和空
+  #判断用户名、密码是否正确.两个参数，正确时第一个参数返回0,"成功"和用户对象，-1 “邮件不存在” -2 “密码错误”
   def  self.login(email,password)
-    user= User.real_users.find_by_email(email)
-    if user==nil
-      ["#{email}用户不存在" ,user=nil]
-    else if (user.password!=encrypted_password(password,user.salt))
-        ["密码错误" ,user=nil]
-      else
-        [authenticate(user) ,user]
-      end
-    end
+    user = User.real_users.find_by_email(email)
+    return (user ? (user.password==encrypted_password(password,user.salt) ? 0 :-2) :-1),user
   end
   #检查用户的授权 是否成功
-  def  self.authenticate(user)
-    "成功"
-  end
+  #  def  self.authenticate(user)
+  #    "成功"
+  #  end
   ####类方法结束
 
   #返回用户姓名
@@ -362,6 +366,18 @@ class User< ActiveRecord::Base
     else
       icon ? (icon.public_filename) : "default_user.png"
     end
+  end
+  #添加为好友
+  def add_friend(user)
+    friends_user << user unless friends_user.exists(user)
+  end
+
+  #用户 用过的标签
+  def used_tags(judge_object=nil)
+    self.taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
+      :conditions=>judge_object ? {:taggable_id=>judge_object.id,
+        :taggable_type=>judge_object.class.to_s} : "")
+
   end
  
   #平均 评价的评分

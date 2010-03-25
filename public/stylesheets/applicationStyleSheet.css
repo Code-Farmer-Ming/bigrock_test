@@ -88,6 +88,9 @@ label{
 #header{
     height:80px;
     background-color:#c9ff5e;
+    background-image:  url(/images/logo.png);
+    background-repeat: no-repeat;
+    background-position: 25px;
     /*background-color: #99d589;*/
 }
 
@@ -271,12 +274,6 @@ div.auto_complete ul li {
     cursor:pointer;
 }
 
-.drop_button{
-    border: 1px solid gray;
-    margin-left:2px;
-    cursor:pointer;
-    padding:0px 1px;
-}
 
 .operation_lab{
     display:none;
@@ -1064,7 +1061,7 @@ div.auto_complete ul strong.highlight {
 }
 
 .register_button:hover {
-   border: 1px silver solid;
+    border: 1px silver solid;
 }
 
 #welcome_div{

@@ -131,13 +131,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, user.receive_msgs.size
   end
 
-  test "add_friend" do
-    user= users(:one)
-    user.friends_user << users(:two)
-    assert_equal 1, user.friends_user.size
-    assert_not_nil user.friends_user.find(users(:two))
-  end
-  
+
   test "destroy_friend" do
     user =  users(:two)
     friend = user.friends.find_by_friend_id(users(:one))
@@ -262,5 +256,29 @@ class UserTest < ActiveSupport::TestCase
     user_one = users(:one)
     assert_equal 3, user_one.my_topics.count
     assert_equal 4, user_one.my_created_topics.count
+  end
+
+  test "user login" do
+    user_one = users(:one)
+    user =nil
+    #正常登陆
+    code,user= User.login(user_one.email,"MyString")
+
+    assert_equal 0, code
+    assert_equal user_one,user
+    #email 错误
+    code,user=User.login("prefix"+user_one.email,"MyString")
+    assert_equal -1, code
+    #密码错误
+    code,user=User.login(user_one.email,"prefix MyString")
+    assert_equal -2, code
+  end
+
+  test "add friend" do
+    user_one= users(:one)
+    user_one.add_friend(users(:two))
+    assert_equal 1, user_one.friends_user.size
+    assert_not_nil user_one.friends_user.find(users(:two))
+    assert user_one.friends_user.exists?(users(:two))
   end
 end

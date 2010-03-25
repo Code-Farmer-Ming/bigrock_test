@@ -31,17 +31,17 @@
       <p>
         <%= label_tag :industry ,"所属行业",:class=>"filed_lab" %><br/>
         <%= select_tag  :industry_id,
-          options_for_select([['所有行业',0]]+Industry.all.collect {|p| [ p.name, p.id ] },:selected=>params[:industry_id].to_i),
+            options_for_select([['所有行业',0]]+Industry.select_options(),:selected=>params[:industry_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
       <p>
         <%= label_tag :company_type, "公司类型",:class=>"filed_lab" %><br/>
-        <%= select_tag :company_type_id, options_for_select([['所有类型',0]]+CompanyType.all.collect{|p| [ p.name, p.id ] },params[:company_type_id].to_i),
+        <%= select_tag :company_type_id, options_for_select([['所有类型',0]]+CompanyType.select_options,params[:company_type_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit(); '} %>
       </p>
       <p>
         <%= label_tag  :size,"公司规模",:class=>"filed_lab" %><br/>
-        <%= select_tag :company_size_id,options_for_select([['所有规模',0]]+CompanySize.all.collect {|p| [ p.name, p.id ] },params[:company_size_id].to_i),
+        <%= select_tag :company_size_id,options_for_select([['所有规模',0]]+CompanySize.select_options,params[:company_size_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
 

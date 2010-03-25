@@ -10,6 +10,7 @@ temp =""
 log_owner = nil
 log_date = Date.new.tomorrow
 show_date = log_date
+ 
 for log in show_log
 
   if log.owner != log_owner || log_date.to_date !=log.created_at.to_date

@@ -134,7 +134,7 @@ class AccountControllerTest < ActionController::TestCase
     get :reset_password,:token=>token_two.value
     assert_response :success
     post :reset_password,:text_password=>"ok1",:text_password_confirmation=>"ok2",:token=>token_two.value
-    assert_equal(flash[:notice],"两次输入密码不同！")
+    assert_equal(flash[:notice],"密码 两次不同")
     assert_equal User.login(token_one.user.email,"ok1")[0],"密码错误"
 
   end

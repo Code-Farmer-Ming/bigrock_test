@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :check_login?,:except=>[:index,:show]
+  before_filter :find_group,:only=>[:show,:edit,:update,:destroy,:quit,:invite_join]
   # GET /groups
   # GET /groups.xml
   def index
@@ -15,7 +16,6 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.xml
   def show
-    @group = Group.find(params[:id])
     @page_title =  @group.name + " 小组"
     @page_keywords=@group.tag_list
     respond_to do |format|
@@ -37,7 +37,6 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.find(params[:id])
     @page_title = @group.name + " 编辑"
     if !@group.is_manager_member?(current_user)
       flash[:notice] = "操作错误！"
@@ -57,7 +56,6 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        @group.roots << @group.create_user 
         format.html { redirect_to(@group) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
@@ -70,7 +68,6 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
-    @group = Group.find(params[:id])
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
       @group.icon = GroupIcon.find(params[:uploaded_file_id])
     end
@@ -92,9 +89,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
-    @group = Group.find(params[:id])
     @group.destroy
-
     respond_to do |format|
       format.html { redirect_to(groups_url) }
       format.xml  { head :ok }
@@ -124,20 +119,18 @@ class GroupsController < ApplicationController
   end
   #退出小组
   def quit
-    group = Group.find_by_id(params[:id])
-    
-    if (group.roots.size==1 && group.is_root?(current_user))
+    if (@group.roots.size==1 && @group.is_root?(current_user))
       flash.now[:notice] = "小组必须有一个组长，在指定其他人为组长后才能退出。"
       render :update do |page|
         page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end
     else
-      if Member.destroy_all(["user_id in (?) and group_id=?",current_user.ids,group])
+      if Member.destroy_all(["user_id in (?) and group_id=?",current_user.ids,@group])
         render :update do |page|
-          page[dom_id(group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> group)
-          page[dom_id(group,"operation")].visual_effect :highlight
+          page[dom_id(@group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> @group)
+          page[dom_id(@group,"operation")].visual_effect :highlight
           page.select(".member_count").each do |item|
-            page.replace_html item,group.members.count
+            page.replace_html item,@group.members.count
           end
         end
       else
@@ -151,7 +144,6 @@ class GroupsController < ApplicationController
   
   #邀请好友加入
   def invite_join
-    @group = Group.find_by_id(params[:id])
     @page_title = " 邀请好友加入 " + @group.name
     @invite =  JoinGroupInvite.new(params[:join_group_invite])
     @friends = current_user.friends_user.paginate :joins=>" join resumes on resumes.user_id=users.id", :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
@@ -182,5 +174,11 @@ class GroupsController < ApplicationController
     search_str = "%#{params[:search]}%"
     @page_title = " 小组信息搜索 "
     @groups = Group.paginate(:conditions=>["name like ? or description like ?",search_str,search_str] ,:page => params[:page])
+  end
+
+  protected
+
+  def find_group
+    @group = Group.find_by_id(params[:id])
   end
 end

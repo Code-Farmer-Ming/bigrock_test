@@ -17,19 +17,19 @@
     <%=simple_format(auto_link(h(@company.description))) %>
     </p>
 
-    <%if @company.phone && @company.phone.any?%>
+    <%if !@company.phone.blank?%>
       <p>
         <b>电话:</b>
         <%= auto_link(h(@company.phone))  %>
       </p>
     <%end%>
-    <%if @company.fax && @company.fax.any? %>
+    <%if !@company.fax.blank?%>
       <p>
         <b>传真:</b>
         <%= auto_link(h(@company.fax)) %>
       </p>
     <%end%>
-    <% if @company.website && @company.website.any?  %>
+    <% if !@company.website.blank? %>
       <p>
         <b>网站:</b>
         <%= auto_link(h(@company.website), :all, :target => "_blank")%>
@@ -39,7 +39,7 @@
       <b>地址:</b>
       <%= link_to @company.state.name,{:action=>'search',:state_id=>@company.state_id} %>&nbsp;
       <%= link_to @company.city.name,{:action=>'search',:city_id=>@company.city_id,:state_id=>@company.state_id} %>
-      <%= h(@company.address) if  @company.address && @company.address.any?%>
+      <%= h(@company.address) if  @company.address%>
     </p>
     <p>
       <b>标签:</b>

@@ -1,5 +1,6 @@
 class WorkItemsController < ApplicationController
-   before_filter :check_login?
+  before_filter :check_login?
+  before_filter :find_work_item,:only=>[:edit,:update,:destroy]
   # GET /work_lists/new
   # GET /work_lists/new.xml
   def new
@@ -13,7 +14,6 @@ class WorkItemsController < ApplicationController
 
   # GET /work_lists/1/edit
   def edit
-    @work_item = WorkItem.find(params[:id])
     respond_to do |format|
       format.html # new.html.erb
       format.js {}
@@ -44,7 +44,6 @@ class WorkItemsController < ApplicationController
   # PUT /work_items/1
   # PUT /work_items/1.xml
   def update
-    @work_item = WorkItem.find(params[:id])
     respond_to do |format|
       if @work_item.update_attributes(params[:work_item])
         format.js  {}
@@ -63,12 +62,17 @@ class WorkItemsController < ApplicationController
   # DELETE /work_lists/1
   # DELETE /work_lists/1.xml
   def destroy
-    @work_item = WorkItem.find(params[:id])
     @work_item.destroy
     respond_to do |format|
       format.html { redirect_to(user_resume_pass_work_items_path(params[:user_id],params[:resume_id],params[:pass_id])) }
       format.xml  { head :ok }
       format.js {}
     end
+  end
+
+  protected
+
+  def find_work_item
+    @work_item = WorkItem.find(params[:id])
   end
 end

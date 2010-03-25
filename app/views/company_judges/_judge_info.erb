@@ -14,12 +14,10 @@
   <p>
     <%= judge.description %>
   </p>
-  <%if judge.user.taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",:conditions=>{:taggable_id=>judge.company.id,
-        :taggable_type=>Company.to_s}).size>0%>
+  <%if judge.user.used_tags(judge.company).size>0%>
     <p>
       标签&nbsp;<%= render :partial=>"tags/tag_info" ,
-        :collection=>judge.user.taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",:conditions=>{:taggable_id=>judge.company.id,
-          :taggable_type=>Company.to_s}),:locals=>{:type=>:Company}  %>
+        :collection=>judge.user.used_tags(judge.company),:locals=>{:type=>:Company}  %>
     </p>
   <%end%>
 </div>

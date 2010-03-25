@@ -1,7 +1,7 @@
 #company judge 环境和 薪水 是否综合到一个参数！！！！
 class CompaniesController < ApplicationController
   before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags,:search]
-
+  before_filter :find_company,:only=>[:show,:edit,:update,:destroy,:logs,:employee_list]
   # GET /companies
   # GET /companies.xml    
   def index
@@ -19,7 +19,6 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.xml
   def show
-    @company = Company.find(params[:id])
     @page_title=" #{@company.name}"
     @page_description = ",#{@company.name}员工的信息,公司企业博客"
     @page_keywords = @company.tag_list
@@ -44,7 +43,6 @@ class CompaniesController < ApplicationController
   end
   # GET /companies/1/edit
   def edit
-    @company = Company.find(params[:id])
     @page_title=" 编辑 #{@company.name} 信息"
     @company_icon= CompanyIcon.new
     if !@company.all_employees.exists?(current_user)
@@ -64,13 +62,11 @@ class CompaniesController < ApplicationController
       if  @company.save
         format.html {flash[:notice] = '公司创建成功！'
           redirect_to(@company) }
-        format.xml  { render :xml => @company, :status => :created, :location => @company }
         format.js  {}
       else
         format.html {
           flash[:notice] = @company.errors.full_messages.to_s
           render :action => "new" }
-        format.xml  { render :xml => @company.errors, :status => :unprocessable_entity }
         format.js  {}
       end
     end
@@ -78,7 +74,6 @@ class CompaniesController < ApplicationController
   # PUT /companies/1
   # PUT /companies/1.xml
   def update
-    @company = Company.find(params[:id])
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
       @company.icon = CompanyIcon.find(params[:uploaded_file_id])
     end
@@ -96,7 +91,6 @@ class CompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.xml
   def destroy
-    @company = Company.find(params[:id])
     @company.destroy
     respond_to do |format|
       format.html { redirect_to(companies_url) }
@@ -106,7 +100,6 @@ class CompaniesController < ApplicationController
 
 
   def logs
-    @company = Company.find(params[:id])
     @page_title=" #{@company.name} 动态记录信息"
     if params[:type]=="" || params[:type]==nil || params[:type]=="all"
       @log_items = @company.log_items.paginate :page => params[:page]
@@ -116,7 +109,6 @@ class CompaniesController < ApplicationController
   end
   
   def employee_list
-    @company = Company.find(params[:id])
     @page_title=" #{@company.name} 员工记录"
     if params[:type].blank? || params[:type]=='current' then
       @employees = @company.current_employees.paginate(:joins=>" join resumes on resumes.user_id=users.id",
@@ -144,5 +136,11 @@ class CompaniesController < ApplicationController
       params[:state_id] ,params[:state_id] || 0,
       params[:city_id],params[:city_id] || 0
     ], :order=> order_str,:page => params[:page]
+  end
+
+  protected
+  
+  def find_company
+    @company = Company.find(params[:id])
   end
 end

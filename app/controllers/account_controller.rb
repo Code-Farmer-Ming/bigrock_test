@@ -16,16 +16,6 @@ class AccountController < ApplicationController
   #保存
   def create
     @user = User.new(params[:user])
-    alias_user = User.new(params[:user])
-    alias_user.email = "alias_email"+ alias_user.email
-    alias_user.nick_name ="马甲"
-    @user.aliases << alias_user
-    resume = Resume.new()
-    resume.user_name = @user.nick_name
-    resume.is_current = true
-    @user.setting = UserSetting.new
-    @user.is_active = true
-    @user.resumes << resume
     respond_to do |format|
       if @user.save
         session[:user]=@user
@@ -165,13 +155,11 @@ class AccountController < ApplicationController
         user= @token.user
         user.text_password=params[:text_password]
         user.text_password_confirmation=params[:text_password_confirmation]
-        if  user.text_password!= user.text_password_confirmation
-          flash[:notice] = "两次输入密码不同！"
+        if user.save && @token.destroy
+          flash[:success] = "密码设置成功请登录！"
+          redirect_to login_account_path()
         else
-          if user.save && @token.destroy
-            flash[:success] = "密码设置成功请登录！"
-            redirect_to login_account_path()
-          end
+          flash[:notice] = user.errors.full_messages.to_s
         end
       end
     else
@@ -199,7 +187,6 @@ class AccountController < ApplicationController
   end
   #设置 档案 可视的权限
   def set_resume_visibility
- 
     @user =  current_user
     if  !request.post?
       return
@@ -237,7 +224,7 @@ class AccountController < ApplicationController
   end
 
   def search
-    @page_title ="基本设置"
+    @page_title ="基本设置1"
   end
 
   def set_base_info
@@ -272,7 +259,7 @@ class AccountController < ApplicationController
   
   def add_friend
     friend= User.find(params[:friend_id])
-    current_user.friends_user << friend
+    current_user.add_friend(friend)
     current_user.my_follow_users << friend
  
     respond_to do |format|
@@ -370,21 +357,22 @@ class AccountController < ApplicationController
   #  end
   #执行登录操作
   def user_login(email,password,auto_login=false)
-    state = User.login(email, password)
+    code,user = User.login(email, password)
     session[:user] = nil
-    if state[0]=="成功"
-      session[:user] = state[1]
+    if code==0
+      session[:user] = user
       if auto_login
-        cookies[:auto_login_user_id]= {:value=>state[1].id, :expires => 1.month.from_now}
+        cookies[:auto_login_user_id]= {:value=>user.id, :expires => 1.month.from_now}
       end
+      "成功"
     else
       #返回失败的原因
-      if (state[0].index("不存在"))
-        state[0] += ",<a href=#{new_account_path(:email=>email)}>那现在注册吧！</a>"
+      if (code==-1)
+        "邮件不存在,<a href=#{new_account_path(:email=>email)}>那现在注册吧！</a>"
       else
-        state[0] += ",<a href=#{forget_password_account_path(:email=>email)}>取回密码！</a>"
+        "密码错误,<a href=#{forget_password_account_path(:email=>email)}>取回密码！</a>"
       end
     end
-    state[0]
+
   end
 end

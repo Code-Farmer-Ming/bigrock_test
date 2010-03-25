@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
   before_filter :check_login?,:except=>[:show,:index,:search]
+  before_filter :find_topic,:only=>[:show,:edit,:update,:destroy,:up,:down,:set_top_level,:cancel_top_level]
   # GET /topics
   # GET /topics.xml
   def index
@@ -20,7 +21,6 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.xml
   def show
-    @topic = Topic.find(params[:id])
     @topic.update_attribute(:view_count, @topic.view_count+1)
     @can_reply = true
     if @topic.owner_type=="Group"#group topics
@@ -56,7 +56,6 @@ class TopicsController < ApplicationController
   # GET /topics/1/edit
   def edit
     @page_title= "编辑话题"
-    @topic = Topic.find(params[:id])
     if !is_manager?(@topic) && !is_owner?(@topic)
       flash[:error] = "操作错误"
       redirect_to :action=>:show,:id=>@topic
@@ -98,7 +97,6 @@ class TopicsController < ApplicationController
   # PUT /topics/1
   # PUT /topics/1.xml
   def update
-    @topic = Topic.find(params[:id])
     if !is_manager?(@topic) && !is_owner?(@topic)
       flash[:error] = "操作错误"
       redirect_to :action=>:show,:id=>@topic
@@ -119,7 +117,6 @@ class TopicsController < ApplicationController
   # DELETE /topics/1
   # DELETE /topics/1.xml
   def destroy
-    @topic = Topic.find(params[:id])
     owner = @topic.owner
     @is_manager =is_manager?(@topic)
     respond_to do |format|
@@ -145,7 +142,6 @@ class TopicsController < ApplicationController
   end
   #顶 新闻
   def up
-    @topic = Topic.find(params[:id])
     @topic.votes << Vote.new(:value=>1,:user=>current_user)
     @topic.up += 1
     @topic.save
@@ -153,7 +149,6 @@ class TopicsController < ApplicationController
   end
   #踩 新闻
   def down
-    @topic = Topic.find(params[:id])
     @topic.down += 1
     @topic.votes << Vote.new(:value=>-1,:user=>current_user)
     @topic.save
@@ -161,7 +156,6 @@ class TopicsController < ApplicationController
   end
   #置顶 话题
   def set_top_level
-    @topic = Topic.find(params[:id])
     @is_manager =is_manager?(@topic)
     if @is_manager
       @topic.update_attribute("top_level", true) unless @topic.top_level
@@ -177,7 +171,6 @@ class TopicsController < ApplicationController
   end
   #取消置顶
   def cancel_top_level
-    @topic = Topic.find(params[:id])
     @is_manager =is_manager?(@topic)
     if @is_manager
       @topic.update_attribute("top_level", false) unless !@topic.top_level
@@ -219,5 +212,9 @@ class TopicsController < ApplicationController
   #当前用户是否 拥有者
   def is_owner?(topic)
     current_user?(topic.author)
+  end
+
+  def find_topic
+    @topic = Topic.find(params[:id])
   end
 end
