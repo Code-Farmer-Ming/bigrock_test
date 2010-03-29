@@ -6,15 +6,12 @@ class JoinGroupInvitesController < ApplicationController
 
   def accept
     @apply = current_user.join_group_invites.find(params[:id])
-    if @apply.applicant.is_member?(current_user) && @apply.destroy
+    if @apply.accept(current_user)
       flash[:success] = "加入成功！"
     else
-      if  @apply.applicant.all_members << current_user && @apply.destroy
-        flash[:success] = "加入成功！"
-      else
-        flash[:success] = "加人失败！"
-      end
+      flash[:success] = "加人失败！"
     end
+
     redirect_to :action=>"index"  , :page => params[:page]
   end
 

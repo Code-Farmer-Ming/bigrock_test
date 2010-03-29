@@ -21,7 +21,7 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.xml
   def show
-    @topic.update_attribute(:view_count, @topic.view_count+1)
+    @topic.increase_view_count
     @can_reply = true
     if @topic.owner_type=="Group"#group topics
       @can_reply =  @topic.owner.is_member?(current_user)
@@ -69,21 +69,19 @@ class TopicsController < ApplicationController
     @topic.last_comment_datetime = Time.now
     if params[:company_id] #company
       @owner = Company.find(params[:company_id])
-      @topic.owner = @owner
       @topic.author = current_user.get_account(params[:alias])
     else #group
       @owner = Group.find(params[:group_id])
-      @topic.owner = @owner
-      @topic.author = @owner.all_members.first(:conditions=>["users.id in (?)", current_user.ids])
-      if !@owner.is_member?(current_user)
-        flash[:notice] = "你无权限发表内容！"
-        redirect_to @owner
-        return
-      end
+      @topic.author = @owner.is_member?(current_user)
+    end
+    if !(@topic.author)
+      flash[:notice] = "你无权限发表内容！"
+      redirect_to @owner
+      return
     end
     respond_to do |format|
-      if @topic.save
-        format.html { redirect_to([@topic.owner,@topic]) }
+      if @owner.topics << @topic
+        format.html { redirect_to([@owner,@topic]) }
         format.xml  { render :xml => @topic, :status => :created, :location => @topic }
       else
         flash.now[:error] = '发生错误'+$!
@@ -142,22 +140,17 @@ class TopicsController < ApplicationController
   end
   #顶 新闻
   def up
-    @topic.votes << Vote.new(:value=>1,:user=>current_user)
-    @topic.up += 1
-    @topic.save
+    @topic.add_vote(Vote.new(:value=>1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=>@topic
   end
   #踩 新闻
   def down
-    @topic.down += 1
-    @topic.votes << Vote.new(:value=>-1,:user=>current_user)
-    @topic.save
+    @topic.add_vote(Vote.new(:value=>-1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=>@topic
   end
   #置顶 话题
   def set_top_level
-    @is_manager =is_manager?(@topic)
-    if @is_manager
+    if is_manager?(@topic)
       @topic.update_attribute("top_level", true) unless @topic.top_level
       flash.now[:success] = "置顶成功！"
     else
@@ -171,8 +164,8 @@ class TopicsController < ApplicationController
   end
   #取消置顶
   def cancel_top_level
-    @is_manager =is_manager?(@topic)
-    if @is_manager
+ 
+    if  is_manager?(@topic)
       @topic.update_attribute("top_level", false) unless !@topic.top_level
       flash.now[:success] = "取消成功！"
     else

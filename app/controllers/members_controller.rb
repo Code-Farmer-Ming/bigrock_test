@@ -1,6 +1,7 @@
 class MembersController < ApplicationController
   before_filter :check_login?
   before_filter :find_group,:only=>[:index,:destroy,:to_root,:to_manager,:to_normal]
+  before_filter :find_user,:only=>[:destroy,:to_root,:to_manager,:to_normal]
   
   def index
     @page_title = "#{@group.name}小组 成员管理"
@@ -11,106 +12,72 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    if (@group.roots.size==1 && @group.roots.exists?(["users.id=?",params[:id]]))
-      flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
+  
+    if @group.is_manager_member?(current_user) && @group.remove_member(@user)
+      render :update do |page|
+        page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
+        page.delay(0.5) do
+          page["group_member_user_#{params[:id]}"].remove
+        end
+      end
+    else
+      flash.now[:error] =  @group.errors.full_messages.to_s
       render :update do |page|
         page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end
-    else
-      if @group.is_manager_member?(current_user) &&
-          Member.destroy_all(["user_id=? and group_id=?",params[:id],@group])
-        render :update do |page|
-          page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
-          page.delay(0.5) do
-            page["group_member_user_#{params[:id]}"].remove
-          end
-        end
-      else
-        flash.now[:error] = "删除出错!"
-        render :update do |page|
-          page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
-        end
-      end
     end
-
   end
   #升为 组长
   def to_root
-    if (@group.roots.size<2)
-      if @group.is_root?(current_user) &&
-          (memb = @group.members.find_by_user_id(params[:id])) &&
-          (memb.update_attribute("member_type", Member::MEMBER_TYPES[0]))
-        render :update do |page|
-          page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
-          page.delay(0.5) do
-            page["group_member_user_#{params[:id]}"].remove
-            page.insert_html :bottom ,"group_root_list",render(:partial=>"members/member",:object=>memb.user,:locals=>{:group=>@group})
-          end
+    if @group.is_root?(current_user) && @group.to_root(@user)
+      render :update do |page|
+        page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
+        page.delay(0.5) do
+          page["group_member_user_#{params[:id]}"].remove
+          page.insert_html :bottom ,"group_root_list",render(:partial=>"members/root_member",:object=>@user,:locals=>{:group=>@group})
         end
-        return
-      else
-        flash.now[:error] = "操作错误!#{$!}"
       end
     else
-      flash.now[:notice] = "小组最多只能有2个组长。"
-    end
-    render :update do |page|
-      page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+      flash.now[:error] = @group.errors.full_messages.to_s
+      render :update do |page|
+        page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+      end
     end
   end
-  
   #设为 管理员
   #params[:id] 为 user
   def to_manager
-    if (@group.roots.size==1 && @group.roots.exists?(["users.id=?",params[:id]]))
-      flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
-    else
-      if (@group.managers.size<10)
-        if @group.is_root?(current_user) &&
-            (memb = @group.members.find_by_user_id(params[:id])) &&
-            (memb.update_attribute("member_type", Member::MEMBER_TYPES[1]))
-          render :update do |page|
-            page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
-            page.delay(0.5) do
-              page["group_member_user_#{params[:id]}"].remove
-              page.insert_html :bottom ,"group_manager_list",render(:partial=>"members/member",:object=>memb.user,:locals=>{:group=>@group})
-            end
-          end
-          return
-        else
-          flash.now[:error] = "操作错误!#{$!}"
+    if @group.is_root?(current_user) && @group.to_manager(@user)
+      render :update do |page|
+        page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
+        page.delay(0.5) do
+          page["group_member_user_#{params[:id]}"].remove
+          page.insert_html :bottom ,"group_manager_list",render(:partial=>"members/manager_member",:object=>@user,:locals=>{:group=>@group})
         end
-      else
-        flash.now[:notice] = "小组最多只能有10个管理员。"
       end
-    end
-    render :update do |page|
-      page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+    else
+      flash.now[:error] = @group.errors.full_messages.to_s
+      render :update do |page|
+        page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+      end
     end
   end
   
   #设为普通 成员
   def to_normal
-    if (@group.roots.size==1 && @group.roots.exists?(["users.id=?",params[:id]]))
-      flash.now[:notice] = "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。"
-    else
-      if @group.is_root?(current_user) &&
-          (memb = @group.members.find_by_user_id(params[:id])) &&
-          (memb.update_attribute("member_type", Member::MEMBER_TYPES[2]))
-        render :update do |page|
-          page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
-          page.delay(0.5) do
-            page["group_member_user_#{params[:id]}"].remove
-            page.insert_html :bottom ,"group_member_list",render(:partial=>"members/member",:object=>memb.user,:locals=>{:group=>@group})
-          end
+    if @group.is_root?(current_user) &&   @group.to_normal(@user)
+      render :update do |page|
+        page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5
+        page.delay(0.5) do
+          page["group_member_user_#{params[:id]}"].remove
+          page.insert_html :bottom ,"group_member_list",render(:partial=>"members/normal_member",:object=>@user,:locals=>{:group=>@group})
         end
-        return
-      else
-        flash.now[:error] = "操作错误!#{$!}"
       end
-    end
-    render :update do |page|
-      page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+    else
+      flash.now[:error] =  @group.errors.full_messages.to_s
+      render :update do |page|
+        page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+      end
     end
   end
 
@@ -118,5 +85,8 @@ class MembersController < ApplicationController
 
   def find_group
     @group = Group.find(params[:group_id])
+  end
+  def find_user
+    @user = User.find(params[:id])
   end
 end

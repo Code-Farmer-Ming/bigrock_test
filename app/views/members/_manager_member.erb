@@ -1,0 +1,19 @@
+<%member = object
+if group.is_root?(current_user) %>
+  <div class="l user_extension" id="<%= dom_id(member,"group_member") %>">
+    <%= render :partial=>"users/user_icon_name",:object=> member %>
+    <p>
+      <%= link_to_remote "▁",{:url=>to_normal_group_member_path(group,member)},
+        :title=>"设为普通成员"  %>
+
+      <%= link_to_remote "▆",{:url=>{:action=>:to_root,:id=>member}},
+        :title=>"设为组长" %>
+
+      <%= link_to_remote "×",{:url=>group_member_path(group,member),
+        :confirm => '你确定吗?', :method => :delete},
+        :title=>"从小组里删除" %>
+    </p>
+  </div>
+<%else%>
+  <%= render :partial=>"users/user_icon_name_extension",:object=> member %>
+<%end%>

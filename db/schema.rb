@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100317092118) do
+ActiveRecord::Schema.define(:version => 20100325082210) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -240,9 +240,9 @@ ActiveRecord::Schema.define(:version => 20100317092118) do
   end
 
   create_table "members", :force => true do |t|
-    t.integer  "group_id",                                        :null => false
-    t.integer  "user_id",                                         :null => false
-    t.string   "member_type", :limit => 18, :default => "normal"
+    t.integer  "group_id",                                       :null => false
+    t.integer  "user_id",                                        :null => false
+    t.string   "type",       :limit => 18, :default => "Normal"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

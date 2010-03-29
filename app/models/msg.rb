@@ -82,4 +82,8 @@ class Msg < ActiveRecord::Base
       end
     end
   end
+  #回复 消息
+  def response(response)
+     can_response? &&  msg_responses << response
+  end
 end

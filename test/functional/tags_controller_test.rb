@@ -2,6 +2,10 @@ require 'test_helper'
 
 class TagsControllerTest < ActionController::TestCase
   # Replace this with your real tests.
+    def setup
+    @user_one = users(:one)
+    login_as(@user_one)
+  end
   test "index" do
     #默认 查询 Company所有的Tag
     get :index

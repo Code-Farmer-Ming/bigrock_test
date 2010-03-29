@@ -25,7 +25,7 @@ class TopicsControllerTest < ActionController::TestCase
   end
   
   test "should get group new with not enough authorization" do
-    login_as(users(:user_017))
+    login_as(users(:user_016))
     get :new,{:group_id=>1}
     assert_response 302
     assert_equal "你无权限发表内容！", flash[:notice]

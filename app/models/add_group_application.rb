@@ -16,5 +16,9 @@
 # and open the template in the editor.
 
 class AddGroupApplication < Requisition
-
+  #接受申请 变为普通成员
+  def accept(user)
+    self.applicant.add_to_member(user)
+    self.destroy
+  end
 end

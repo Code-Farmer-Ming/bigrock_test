@@ -112,6 +112,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "quit" do
     login_as(users(:three))
+    Member.delete_all
     assert_equal 0,groups(:one).members_count
     assert_difference('Member.count') do
       xhr :post, :join, :id => groups(:one).to_param

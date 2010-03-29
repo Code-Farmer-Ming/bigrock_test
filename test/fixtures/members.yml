@@ -5,7 +5,7 @@
 #  id          :integer       not null, primary key
 #  group_id    :integer       not null
 #  user_id     :integer       not null
-#  member_type :string(18)    default("normal")
+#  type :string(18)    default("normal")
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #
@@ -16,77 +16,77 @@ one:
   id: 1
   group_id: 1
   user_id: 1
-  member_type: normal
+  type: Normal
 
 two:
   id: 2
   group_id: 1
   user_id: 2
-  member_type: root
+  type: Root
 
 member_003:
   id: 3
   group_id: 1
   user_id: 5
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 
 member_004:
   id: 4
   group_id: 1
   user_id: 6
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
   
 member_005:
   id: 5
   group_id: 1
   user_id: 7
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 member_006:
   id: 6
   group_id: 1
   user_id: 8
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 member_007:
   id: 7
   group_id: 1
   user_id: 9
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 member_008:
   id: 8
   group_id: 1
   user_id: 10
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 member_009:
   id: 9
   group_id: 1
   user_id: 11
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 member_010:
   id: 10
   group_id: 1
   user_id: 12
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
 member_011:
   id: 11
   group_id: 1
   user_id: 13
-  member_type: <%= Member::MEMBER_TYPES[1]%>
+  type: <%= Member::MEMBER_TYPES[1]%>
   
 member_012:
   id: 12
   group_id: 1
   user_id: 14
-  member_type: <%= Member::MEMBER_TYPES[2]%>
+  type: <%= Member::MEMBER_TYPES[2]%>
 
 member_013:
   id: 13
   group_id: 1
   user_id: 15
-  member_type: <%= Member::MEMBER_TYPES[2]%>
+  type: <%= Member::MEMBER_TYPES[2]%>
 
 
 member_017:
   id: 17
   group_id: 3
   user_id: 17
-  member_type: <%= Member::MEMBER_TYPES[2]%>
+  type: <%= Member::MEMBER_TYPES[2]%>

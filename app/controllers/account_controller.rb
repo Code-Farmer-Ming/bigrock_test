@@ -172,7 +172,7 @@ class AccountController < ApplicationController
     @page_title ="设置密码"
     @user = current_user
     if request.put?
-      if params[:old_password] && User.login(@user.email, params[:old_password])[0]!="成功"
+      if params[:old_password] && User.login(@user.email, params[:old_password])[0]!=0
         flash.now[:error] = "原密码错误!"
       else
         if @user.update_attributes(params[:user])

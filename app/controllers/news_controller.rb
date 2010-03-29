@@ -44,7 +44,6 @@ class NewsController < ApplicationController
     @comments = @piece_of_news.comments.paginate :page => params[:page]
     @page_title= "新闻 " + @piece_of_news.title
     @piece_of_news.update_attribute(:view_count, @piece_of_news.view_count+1)
-  
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @piece_of_news }

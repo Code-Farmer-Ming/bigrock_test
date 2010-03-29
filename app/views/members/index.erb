@@ -3,7 +3,7 @@
 
   <% sub_block_div("组长") do %>
     <div id="group_root_list">
-      <%= render :partial=>"members/member",:collection=>@group.roots,:locals=>{:group=>@group} %>
+      <%= render :partial=>"members/root_member",:collection=>@group.root_members,:locals=>{:group=>@group} %>
     </div>
     <p class ="clear"/>
 
@@ -11,14 +11,14 @@
 
   <% sub_block_div("管理员") do %>
     <div id="group_manager_list">
-      <%= render :partial=>"members/member",:collection=>@group.managers,:locals=>{:group=>@group} %>
+      <%= render :partial=>"members/manager_member",:collection=>@group.manager_members,:locals=>{:group=>@group} %>
     </div>
     <p class ="clear"/>
   <%end%>
 
   <% sub_block_div("成员") do %>
     <div id="group_member_list">
-      <%= render :partial=>"members/member",:collection=> @normal_members ,:locals=>{:group=>@group}%>
+      <%= render :partial=>"members/normal_member",:collection=> @normal_members ,:locals=>{:group=>@group}%>
     </div>
     <p class ="clear"/>
     <%= will_paginate @normal_members%>

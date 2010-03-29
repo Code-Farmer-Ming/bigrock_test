@@ -53,4 +53,19 @@ class Topic < ActiveRecord::Base
     comments.last
   end
 
+  #浏览次数增加
+  def increase_view_count
+    update_attribute(:view_count, view_count+1)
+  end
+
+  def add_vote(vote)
+    if vote.value>0
+      self.up +=1
+    else
+      self.down += 1
+    end
+    self.votes << vote
+    self.save!
+  end
+
 end

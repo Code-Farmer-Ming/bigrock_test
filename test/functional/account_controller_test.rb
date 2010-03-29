@@ -91,7 +91,7 @@ class AccountControllerTest < ActionController::TestCase
     post :login,:email=>one.email,:password=>"MyString1"
     assert flash[:error].index("密码错误")
     post :login,:email=>one.email+"ee",:password=>"MyString1"
-    assert flash[:error].index("用户不存在")
+    assert flash[:error].index("不存在")
  
   end
 
@@ -125,7 +125,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal(flash[:success],"密码设置成功请登录！")
 
     assert_nil(Token.find_by_id(token_one.id))
-    assert_equal User.login(token_one.user.email,"ok")[0],"成功"
+    assert_equal User.login(token_one.user.email,"ok")[0],0
 
     get :reset_password,:token=>token_one.value+'i'
 
@@ -135,7 +135,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_response :success
     post :reset_password,:text_password=>"ok1",:text_password_confirmation=>"ok2",:token=>token_two.value
     assert_equal(flash[:notice],"密码 两次不同")
-    assert_equal User.login(token_one.user.email,"ok1")[0],"密码错误"
+    assert_equal User.login(token_one.user.email,"ok1")[0],-2
 
   end
   #TODO 应该写每一项值更改的测试

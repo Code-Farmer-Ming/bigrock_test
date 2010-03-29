@@ -48,12 +48,10 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     @group = Group.new(params[:group])
-    @group.group_type_id = 0
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
       @group.icon = GroupIcon.find(params[:uploaded_file_id])
     end
     @group.create_user =  current_user.get_account(params[:alias])
-
     respond_to do |format|
       if @group.save
         format.html { redirect_to(@group) }
@@ -97,16 +95,14 @@ class GroupsController < ApplicationController
   end
   #加入小组
   def join
-    group = Group.find_by_id(params[:id])
+    group = Group.find(params[:id])
     #加入方式为开放
-    if group && group.join_type==Group::JOIN_TYPES[0][1] 
-      if  !group.is_member?(current_user)
-        group.all_members << current_user.get_account(params[:alias])
-      end
+    if group.is_open_join?
+      group.add_to_member(current_user.get_account(params[:alias]))
       render :update do |page|
         page[dom_id(group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> group)
         page.select(".member_count").each do |item|
-          page.replace_html item,group.members.count
+          page.replace_html item,group.members.size
         end
         page[dom_id(group,"operation")].visual_effect :highlight
       end
@@ -119,27 +115,21 @@ class GroupsController < ApplicationController
   end
   #退出小组
   def quit
-    if (@group.roots.size==1 && @group.is_root?(current_user))
-      flash.now[:notice] = "小组必须有一个组长，在指定其他人为组长后才能退出。"
+    if @group.remove_member(current_user)
+      render :update do |page|
+        page[dom_id(@group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> @group)
+        page[dom_id(@group,"operation")].visual_effect :highlight
+        page.select(".member_count").each do |item|
+          page.replace_html item,@group.members.count
+        end
+      end
+    else
+      flash.now[:error] = @group.errors.full_messages.to_s
       render :update do |page|
         page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end
-    else
-      if Member.destroy_all(["user_id in (?) and group_id=?",current_user.ids,@group])
-        render :update do |page|
-          page[dom_id(@group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> @group)
-          page[dom_id(@group,"operation")].visual_effect :highlight
-          page.select(".member_count").each do |item|
-            page.replace_html item,@group.members.count
-          end
-        end
-      else
-        flash.now[:error] = "退出小组出错!"
-        render :update do |page|
-          page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
-        end
-      end
     end
+ 
   end
   
   #邀请好友加入

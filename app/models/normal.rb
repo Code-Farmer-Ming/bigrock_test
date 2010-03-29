@@ -1,0 +1,3 @@
+class Normal < Member
+ 
+end

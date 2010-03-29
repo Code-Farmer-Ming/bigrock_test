@@ -19,6 +19,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
+  id: 1
   logable_type: Friend
   logable_id: 1
   changes: MyString1
@@ -26,6 +27,7 @@ one:
   owner_type: User
 
 two:
+  id: 2
   logable_type: Education
   logable_id: 1
   changes: MyString

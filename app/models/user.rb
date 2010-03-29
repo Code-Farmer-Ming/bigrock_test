@@ -171,7 +171,7 @@ class User< ActiveRecord::Base
   has_many :manage_groups,:class_name=>"Group",
     :finder_sql => 'select groups.* from groups INNER JOIN  members on groups.id=members.group_id 
                   where user_id in (#{ids.join(\',\')})'+
-    " and (members.member_type='#{Member::MEMBER_TYPES[0]}' or members.member_type='#{Member::MEMBER_TYPES[1]}')",
+    " and (members.type='#{Member::MEMBER_TYPES[0]}' or members.type='#{Member::MEMBER_TYPES[1]}')",
     :order=>"members.created_at desc" do
     def find(*args)
       options = args.extract_options!
@@ -334,12 +334,16 @@ class User< ActiveRecord::Base
 
   #返回用户姓名
   def name
-    parent ? nick_name  : (current_resume ? current_resume.user_name : "" )
+    anonymity? ? "匿名" : parent ? nick_name  : (current_resume ? current_resume.user_name : "" )
     #    current_user?(self) ? "我" : current_resume.user_name
+  end
+  #用户的状态 名称
+  def state_string
+    User::STATE_TYPES[state.to_sym || :working]
   end
   #用户的 所有关联账号的 id 数组 [1,2,……]
   def ids
-    [id]+alias_ids
+    is_alias? ? [parent_id,id] : [id]+alias_ids
   end
   #当前user 的所有账号 包括自己 数组
   def accounts
@@ -369,7 +373,7 @@ class User< ActiveRecord::Base
   end
   #添加为好友
   def add_friend(user)
-    friends_user << user unless friends_user.exists(user)
+    friends_user << user unless friends_user.exists?(user)
   end
 
   #用户 用过的标签

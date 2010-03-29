@@ -20,7 +20,22 @@ class GroupTest < ActiveSupport::TestCase
     group.join_type =  Group::JOIN_TYPES[0][1]
     assert group.save,"save error"
     group.reload
-    assert group.roots.exists?(users(:one)) 
+    assert group.root_members.exists?(users(:one))
   end
 
+  test "add to member" do
+    group =  groups(:three)
+    group.add_to_member(users(:one))
+    assert group.is_member?(users(:one))
+  end
+
+  test "destroy member" do
+    group =  groups(:one)
+    assert_difference('Member.count',-1) do
+      group.remove_member(users(:one))
+    end
+    assert !group.is_member?(users(:one))
+    users(:one).reload
+ 
+  end
 end

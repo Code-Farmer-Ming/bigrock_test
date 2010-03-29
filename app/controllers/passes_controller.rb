@@ -34,6 +34,8 @@ class PassesController < ApplicationController
     @pass = Pass.new(params[:pass])
     #TODO 这里需要优化 去掉查询公司名称
     @company= Company.find_by_name(params[:company][:name])
+    @pass.resume_id = params[:resume_id]
+    @pass.user = current_user
     if !@company
       if (request.xhr?)
         render :update do |page|
@@ -44,12 +46,9 @@ class PassesController < ApplicationController
       end
       return
     end
-    @pass.company = @company
-    @pass.resume_id = params[:resume_id]
-    @pass.user_id = params[:user_id]
 
     respond_to do |format|
-      if @pass.save
+      if @company.passes << @pass
         format.html {
           flash[:notice] = '保存成功.'
           redirect_to  user_path(params[:request_user_id] || params[:user_id])

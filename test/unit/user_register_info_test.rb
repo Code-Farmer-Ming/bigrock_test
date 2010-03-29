@@ -181,7 +181,8 @@ class UserTest < ActiveSupport::TestCase
  
     user_one = users(:one)
     user_two = users(:two)
-    user_two.log_items.clear
+    LogItem.destroy_all
+    user_two.log_items.delete_all
     user_one.follow_me_users.clear
     user_one.targets.clear
     user_one.follow_me_users << user_two
@@ -192,18 +193,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 0,user_one.follow_me_users.count
     assert_equal 0, user_two.targets.count
 
+    user_one.reload
     user_one.targets  << user_two
     assert_equal 1, user_one.targets.count
     assert_equal 1, user_one.my_follow_users.count
-    assert_equal 1,user_one.my_follow_log_items.count
+    assert_equal 2,user_one.my_follow_log_items.count
     assert_equal user_two,user_one.my_follow_log_items[0].owner
-    assert_equal 1,user_one.my_follow_log_items.find_all_by_owner_type("User").size
+    assert_equal 2,user_one.my_follow_log_items.find_all_by_owner_type("User").size
 
     user_one.targets.delete(user_two)
     assert_equal 0, user_one.targets.count
     user_one.targets  << companies(:one)
     assert_equal 1, user_one.my_follow_companies.count
-
+   
   end
   test "say_my_language" do
     user_one = users(:one)

@@ -29,6 +29,12 @@ class Group < ActiveRecord::Base
   has_many :comments ,:through => :topics
   #所有成员
   has_many :members,:dependent=>:destroy
+  #root 组长
+  has_many :roots ,:dependent=>:destroy
+  #manager 管理员
+  has_many :managers ,:dependent=>:destroy
+  #normal 普通组员
+  has_many :normals ,:dependent=>:destroy
   has_many :all_members,:through => :members,:source=>:user,:order=>"members.created_at desc"
   #该小组成员同时喜欢去的小组
   has_many :related_popular_groups,:class_name=>"Group",
@@ -69,27 +75,15 @@ class Group < ActiveRecord::Base
   end
 
   #普通成员
-  has_many :normal_members ,:through => :members,:source=>:user,:conditions=>["members.member_type=?",Member::MEMBER_TYPES[2]] do
-    def <<(user)
-      Member.send(:with_scope,:create => {:member_type =>Member::MEMBER_TYPES[2]}) { self.concat user }
-    end
-  end
+  has_many :normal_members ,:through => :normals ,:source=>:user
   #所有管理員 (包括 组长)
-  has_many :manager_members ,:through => :members,:source=>:user,
-    :conditions=>["members.member_type=? or members.member_type=?",Member::MEMBER_TYPES[1],Member::MEMBER_TYPES[0]]
+  has_many :all_manager_members ,:through => :members,:source=>:user,
+    :conditions=>["members.type=? or members.type=?",Member::MEMBER_TYPES[1],Member::MEMBER_TYPES[0]]
  
   #一般管理员
-  has_many :managers,:through => :members,:source=>:user,:conditions=>["members.member_type=?",Member::MEMBER_TYPES[1]] do
-    def <<(user)
-      Member.send(:with_scope,:create => {:member_type =>Member::MEMBER_TYPES[1]}) { self.concat user }
-    end
-  end
+  has_many :manager_members,:through => :managers,:source=>:user
   #小组组长
-  has_many :roots ,:through => :members,:source=>:user,:conditions=>["members.member_type=?",Member::MEMBER_TYPES[0]] do
-    def <<(user)
-      Member.send(:with_scope,:create => {:member_type =>Member::MEMBER_TYPES[0]}) { self.concat user }
-    end
-  end
+  has_many :root_members ,:through => :roots,:source=>:user
 
   #加入小组  申请
   has_many :add_applications ,:foreign_key=>"respondent_id",
@@ -106,24 +100,75 @@ class Group < ActiveRecord::Base
   named_scope :most_recommend_groups,:order=>"recommends_count desc"
   validates_uniqueness_of  :name
 
-  def before_save
-    self.roots << create_user
+  def before_create
+    self.group_type_id = 0
+    self.root_members << create_user
   end
   #是否小组的成员
   def is_member?(user)
-    user && all_members.exists?(["users.id in (?)",user.ids])
+    all_members.first(:conditions=>["users.id in (?)",user.ids])
+  end
+  #加入为成员（普通成员）
+  def add_to_member(user)
+    all_members << user unless is_member?(user)
+  end
+  #移除成员
+  def remove_member(user)
+    if  can_operation_root?(user)
+      return all_members.delete(user)
+    end
   end
   #是否小组的管理人员 （包括组长）
   def is_manager_member?(user)
-    user && manager_members.exists?(["users.id in (?)",user.ids])
+    if !all_manager_members.exists?(["users.id in (?)",user.ids])
+      return  !errors.add(:member, "不是管理员的权限。")
+    else
+      true
+    end
+
   end
-  #是否管理员
+  #是否管理员(不包括 组长 root)
   def is_manager?(user)
-    user &&  managers.exists?(["users.id in (?)",user.ids])
+    return !errors.add(:member, "不是管理员的权限。") unless manager_members.exists?(["users.id in (?)",user.ids])
+    
+ 
   end
   #是否小组的组长
   def is_root?(user)
-    user && roots.exists?(["users.id in (?)",user.ids])
+    user && root_members.exists?(["users.id in (?)",user.ids])
+  end
+  #是否 开放式加入
+  def is_open_join?
+    join_type==Group::JOIN_TYPES[0][1]
+  end
+  #把一个成员提升为组长
+  def to_root(user)
+    if (self.roots.size<2)
+      member = self.members.find_by_user_id(user.to_param)
+      member.update_attribute("type",Member::MEMBER_TYPES[0] ) if member
+      return true
+    else
+      !errors.add(:member, "小组最多只能有2个组长。")
+    end
+  end
+  #把一个成员 变为 管理员
+  def to_manager(user)
+    if can_operation_root?(user)
+      if  self.managers.size<10
+        member = self.members.find_by_user_id(user.to_param)
+        member.update_attribute("type",Member::MEMBER_TYPES[1] ) if member
+        return true
+      else
+        !errors.add(:member, "小组最多只能有10个管理员。")
+      end
+    end
+  end
+
+  def to_normal(user)
+    if can_operation_root?(user)
+      member = self.members.find_by_user_id(user.to_param)
+      member.update_attribute("type",Member::MEMBER_TYPES[2] ) if member
+    end
   end
   #图标 文件路径
   def icon_file_path(thumbnail=nil)
@@ -132,5 +177,12 @@ class Group < ActiveRecord::Base
     else
       icon ? (icon.public_filename(thumbnail)) : "default_group_thumb.png"
     end
+  end
+
+  private
+  
+  def can_operation_root?(user)
+    return true  unless is_root?(user) && roots.size==1
+    !errors.add(:member, "小组必须有一个组长，在指定其他人为组长后才能退出。")
   end
 end

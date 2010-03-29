@@ -37,7 +37,7 @@ class MembersControllerTest < ActionController::TestCase
     assert_difference("groups(:one).managers.count",0) do
       xhr :post,:to_manager ,:group_id=>groups(:one).id,:id=>users(:user_016).id
     end
-    assert_not_nil flash[:error]
+   
   end
 
   test "to manager current user not root error" do
@@ -49,7 +49,7 @@ class MembersControllerTest < ActionController::TestCase
   end
 
   test "to manager user already in group error" do
-    groups(:one).managers.clear
+    groups(:one).manager_members.clear
     assert_difference("groups(:one).managers.count",1) do
       xhr :post,:to_manager ,:group_id=>groups(:one).id,:id=>users(:user_014).id
     end
@@ -65,20 +65,20 @@ class MembersControllerTest < ActionController::TestCase
     assert_difference("groups(:one).managers.count",0) do
       xhr :post,:to_manager ,:group_id=>groups(:one).id,:id=>users(:one).id
     end
-    assert_equal "小组最多只能有10个管理员。",flash[:notice]
+    assert_not_nil flash[:error]
   end
   test "just one root to manager" do
     assert_difference("groups(:one).managers.count",0) do
       xhr :post,:to_manager ,:group_id=>groups(:one).id,:id=>users(:two).id
     end
-    assert_equal "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。",flash[:notice]
+    assert_not_nil flash[:error]
   end
 
   test "just one root to normal" do
     assert_difference("groups(:one).normal_members.count",0) do
       xhr :post,:to_normal ,:group_id=>groups(:one).id,:id=>users(:two).id
     end
-    assert_equal "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。",flash[:notice]
+    assert_not_nil flash[:error]
   end
   
   test "to root" do
@@ -98,7 +98,7 @@ class MembersControllerTest < ActionController::TestCase
       xhr :post,:to_root ,:group_id=>groups(:one).id,:id=>users(:user_014).id
       xhr :post,:to_root ,:group_id=>groups(:one).id,:id=>users(:user_015).id
     end
-    assert_equal "小组最多只能有2个组长。",flash[:notice]
+    assert_not_nil flash[:error]
   end
   test "root to manager" do
     assert_difference("groups(:one).roots.count") do
@@ -147,7 +147,7 @@ class MembersControllerTest < ActionController::TestCase
     assert_difference("groups(:one).all_members.count",0) do
       xhr :delete,:destroy ,:group_id=>groups(:one).id,:id=>users(:two).id
     end
-    assert_equal "现在不能退出小组,小组必须有一个组长，在指定其他人为组长后才能退出。",flash[:notice]
+    assert_not_nil flash[:error]
   end
   
   test "destroy root" do
