@@ -54,11 +54,11 @@ class AccountController < ApplicationController
     else
       @page_title ="首页"
       @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境"
-      @news = Piecenews.find(:all,:limit=>4,:order=>"news.created_at desc")
-      @hot_topics = Topic.hot(:limit=>20,:order=>"topics.last_comment_datetime desc")
+      @news = Piecenews.newly.all(:limit=>4)
+      @hot_topics = Topic.hot(:limit=>20)
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-      @salary_best_companies =  Company.all(:limit=>4,:order=>"salary_value/company_judges_count desc")
-      @condition_best_companies =  Company.all(:limit=>4,:order=>"condition_value/company_judges_count desc")
+      @salary_best_companies =  Company.order_by_salary.limit(4)
+      @condition_best_companies =  Company.order_by_condition.limit(4)
     end
   end
   

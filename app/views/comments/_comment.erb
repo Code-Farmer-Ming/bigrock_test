@@ -14,10 +14,10 @@
     </p>
     <div id="<%= dom_id(comment,"content") %>" ><%=  simple_format(h(comment.content)) %></div>
     <p>
-      <%= link_to("编辑","",:id=>dom_id(comment,"edit")) if current_user?(comment.user)%>
+      <%= link_to("编辑","",:id=>dom_id(comment,"edit")) if comment.is_author?(current_user) %>
       <%= link_to_remote('删除',
         :url=> [comment.commentable.owner,comment.commentable,comment] ,
-        :confirm => '你确定吗?', :method => :delete) if (current_user?(comment.user) || is_owner || is_manager ) %>
+        :confirm => '你确定吗?', :method => :delete) if comment.is_author?(current_user) || is_owner || is_manager  %>
     </p>
   </div>
 
@@ -29,7 +29,7 @@
     :save_text=>"保存",
     :cancel_text=>"取消",
     :external_control=>dom_id(comment,"edit"),
-    :external_control_only=>"true") if current_user?(comment.user)
+    :external_control_only=>"true") if comment.is_author?(current_user)
 %>
   <div class="clear"></div>
 </div>

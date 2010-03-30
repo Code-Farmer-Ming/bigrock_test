@@ -17,32 +17,31 @@ class CommentsController < ApplicationController
     @comment = Comment.new(params[:comment])
     if params[:topic_id]
       owner = Topic.find(params[:topic_id])
-      owner.last_comment_datetime = Time.now
+      
       if owner.owner_type!="Group"
         @comment.user = current_user.get_account(params[:alias])
       else #owner.owner 是 group
-        @comment.user = owner.owner.all_members.first(:conditions=>["users.id in (?)", current_user.ids])
+        @comment.user = owner.owner.is_member?(current_user)
       end
     else #新闻 news
       owner = Piecenews.find(params[:piecenews_id])
       @comment.user = current_user.get_account(params[:alias])
+    end  
+    if !owner.add_comment(@comment)
+      flash.now[:error] =  @comment.errors.full_messages.to_s
     end
-    owner.comments << @comment
+
   end
   #顶
   def up
     @comment = Comment.find(params[:id])
-    @comment.votes << Vote.new(:value=>1,:user=>current_user)
-    @comment.up += 1
-    @comment.save
+    @comment.add_vote(Vote.new(:value=>1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=>@comment
   end
   #踩
   def down
     @comment = Comment.find(params[:id])
-    @comment.down += 1
-    @comment.votes << Vote.new(:value=>-1,:user=>current_user)
-    @comment.save
+    @comment.add_vote(Vote.new(:value=>-1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=>@comment
   end
   #  def set_comment_content

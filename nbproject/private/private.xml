@@ -7,16 +7,16 @@
             <line>463</line>
         </file>
         <file>
+            <url>app/views/users/_info_head.erb</url>
+            <line>10</line>
+        </file>
+        <file>
             <url>app/views/company_judges/_judge_info.erb</url>
             <line>16</line>
         </file>
         <file>
             <url>app/models/recommend.rb</url>
             <line>2</line>
-        </file>
-        <file>
-            <url>app/views/users/_info_head.erb</url>
-            <line>10</line>
         </file>
     </editor-bookmarks>
 </project-private>

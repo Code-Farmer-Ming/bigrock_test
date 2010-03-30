@@ -1,9 +1,9 @@
 <%show_group = show_group || false%>
 <div class="<%= cycle("topic_item gray_background", "topic_item") %>">
   <div class="r">
-    <%if topic_item.last_comment %>
-      <span >&nbsp;<%=   link_to_user_name(topic_item.last_comment.user)%>
-        <%=time_ago_in_words(topic_item.last_comment.created_at)  %>最后回</span>
+    <%if topic_item.last_comment_user %>
+      <span >&nbsp;<%=   link_to_user_name(topic_item.last_comment_user)%>
+        <%=time_ago_in_words(topic_item.last_comment_datetime)  %>最后回</span>
     <%end%>
     <span >&nbsp;<%=  link_to_user_name(topic_item.author)%>
       <%=  time_ago_in_words(topic_item.created_at)%>写

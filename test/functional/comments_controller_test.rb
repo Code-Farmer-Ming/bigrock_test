@@ -15,7 +15,7 @@ class CommentsControllerTest < ActionController::TestCase
     end
     topics(:one).reload
     assert_equal 1,topics(:one).comments_count
-    assert_equal users(:one), topics(:one).last_comment.user
+    assert_equal users(:one), topics(:one).last_comment_user
   end
   
   test "should create  company topic comment with alias" do
@@ -27,7 +27,7 @@ class CommentsControllerTest < ActionController::TestCase
     end
     topics(:one).reload
     assert_equal 1,topics(:one).comments_count
-    assert_equal users(:one).aliases.first, topics(:one).last_comment.user
+    assert_equal users(:one).aliases.first, topics(:one).last_comment_user
   end
   test "should create  company news comment" do
     news = news(:one)

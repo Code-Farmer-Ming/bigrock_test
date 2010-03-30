@@ -27,11 +27,27 @@ class Piecenews < ActiveRecord::Base
   named_scope :highter_scope,:conditions=>["(up-down)>10"],:order=>"up-down desc"
   named_scope :hot,:conditions=>["(view_count)>10"],:order=>"view_count desc"
   named_scope :most_recommand,:order=>"recommends_count desc"
+  #按日期降序排列
+  named_scope :newly ,:order=>"created_at desc"
   has_many :comments ,:as=>:commentable,:dependent=>:destroy
 
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy
   #动态信息
   has_many :log_items,:as=>:owner,:dependent => :destroy
   has_many :votes,:as=>:owner
+
+  def add_comment(comment)
+    comments << comment
+  end
+  #添加投票
+  def add_vote(vote)
+    if vote.value>0
+      self.up +=1
+    else
+      self.down += 1
+    end
+    self.votes << vote
+    self.save!
+  end
 
 end

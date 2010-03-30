@@ -16,5 +16,9 @@ class MsgResponse < ActiveRecord::Base
   
   belongs_to :msg
   belongs_to :sender,:class_name=>"User",:foreign_key=>"sender_id"
+  #已经标记回复阅读
+  def make_read
+    update_attribute("is_check", true) unless is_check
+  end
 
 end

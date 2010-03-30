@@ -27,7 +27,7 @@ class Topic < ActiveRecord::Base
   
   belongs_to :owner,:polymorphic => true,:counter_cache => true
   belongs_to :author,:class_name=>"User",:foreign_key=>"author_id"
-  #  belongs_to :last_comment_user ,:class_name=>"User",:foreign_key=>"last_comment_user_id"
+    belongs_to :last_comment_user ,:class_name=>"User",:foreign_key=>"last_comment_user_id"
   belongs_to :group_type 
   
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy
@@ -42,16 +42,29 @@ class Topic < ActiveRecord::Base
   named_scope :highter_scope,:conditions=>["(up-down)>10"],:order=>"up-down desc"
 
   named_scope :new_topics,:order=>"topics.created_at desc"
+  named_scope :order_by_last_comment,:order=>"last_comment_datetime desc"
+  #置顶
+  named_scope :order_by_top_level,:order => 'top_level desc'
   named_scope :group_topics,:conditions=>["owner_type='Group'"]
- 
+
+  def create_before
+    self.last_comment_datetime = Time.now
+  end
   #相关的话题
   def related_topics(limit=10)
-    owner.topics.new_topics(:conditions=>["id<>?",self], :limit=>limit)
+    owner.topics.new_topics.all(:conditions=>["id<>?",self.id], :limit=>limit)
+  end
+
+  def add_comment(comment)
+    comments << comment
+    self.last_comment_user = comment.user
+    self.last_comment_datetime = Time.now
+    save
   end
   
-  def last_comment
-    comments.last
-  end
+#  def last_comment
+#    last_comment_user.last
+#  end
 
   #浏览次数增加
   def increase_view_count
@@ -66,6 +79,28 @@ class Topic < ActiveRecord::Base
     end
     self.votes << vote
     self.save!
+  end
+  #设置置顶
+  def set_top
+    update_attribute("top_level", true) unless top_level
+  end
+  #取消置顶
+  def cancel_top
+    update_attribute("top_level", false) unless !top_level
+  end
+
+  #检查当前用户的权限
+  def is_manager?(user)
+    if owner_type=="Group"#group topics
+      owner.is_manager_member?(user)
+    else #company topics
+      owner.current_employee?(user)  #TODO:current_employee 需要做信用检查
+      #       topic.owner.higher_creditability_employees.exists?(current_user)
+    end
+  end
+  #是否作者
+  def is_author?(user)
+   user && user.accounts.index(author)
   end
 
 end

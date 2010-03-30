@@ -134,8 +134,9 @@ class Company < ActiveRecord::Base
   belongs_to :company_type
   belongs_to :company_size
   named_scope :limit, lambda { |size| { :limit => size } }
-
-
+  named_scope :order_by_salary,:order=>"salary_value/company_judges_count desc"
+  named_scope :order_by_condition,:order=>"condition_value/company_judges_count desc"
+  named_scope :newly,:order=>"created_at desc"
   #named_scope
   #  named_scope :same_industry_companies ,:conditions => {:industry_id => '#{industry_id}'}
   #
@@ -169,12 +170,12 @@ class Company < ActiveRecord::Base
   end
   #公司 待遇 评论的人数
   def salary_judge_count(star=0)
-    self.judges.find(:all,:conditions=>"salary_value=#{star} or (salary_value>#{star} and #{star}=0)").size
+    self.judges.by_salary_value(star).size
   end
 
   #公司 环境 评论的人数
   def condition_judge_count(star=0)
-    self.judges.find(:all,:conditions=>"condition_value=#{star} or (condition_value>#{star} and #{star}=0)").size
+    self.judges.by_condition_value(star).size
   end
   #是不是本公司的员工
   def current_employee?(user)

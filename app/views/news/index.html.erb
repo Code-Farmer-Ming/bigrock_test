@@ -6,9 +6,9 @@
   <div class="bottom_gray_line">
     <p class='r'>
       <%= label_tag :search ,"排序",:class=>"filed_lab" %>
-      <%= select_tag :up_order_select,options_for_select([["不排序",''],["按浏览量降序",'desc'],["按浏览量升序",'asc']],params[:view_count]),
+      <%= select_tag :view_count_order_select,options_for_view_count(params[:view_count]),
         {:onchange=>"$('view_count').value = this.value;$('search_submit').click();"} %>
-      <%= select_tag :created_order_select,options_for_select([["按发布日期降序",'desc'],["按发布日期升序",'asc']],params[:created_order]),
+      <%= select_tag :created_order_select,options_for_created_order(params[:created_order]),
         {:onchange=>"$('created_order').value = this.value;$('search_submit').click();"} %>
 
       记录共<%= @news.size %>条

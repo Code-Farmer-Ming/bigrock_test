@@ -28,7 +28,6 @@ class TopicsControllerTest < ActionController::TestCase
     login_as(users(:user_016))
     get :new,{:group_id=>1}
     assert_response 302
-    assert_equal "你无权限发表内容！", flash[:notice]
   end
 
   test "should create company topic" do

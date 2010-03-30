@@ -10,7 +10,7 @@ class TopicsController < ApplicationController
     else
       @owner = Group.find(params[:group_id])
     end
-    @topics = @owner.topics.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
+    @topics = @owner.topics.order_by_last_comment.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
     @page_title = "#{@owner.name} 话题"
     respond_to do |format|
       format.html # index.html.erb
@@ -27,8 +27,8 @@ class TopicsController < ApplicationController
       @can_reply =  @topic.owner.is_member?(current_user)
     end
     @comments = @topic.comments.paginate :page => params[:page]
-    @is_owner = is_owner?(@topic)
-    @is_manager  = is_manager?(@topic)
+    @is_owner = @topic.is_author?(current_user)
+    @is_manager  =  @topic.is_manager?(current_user)
     @page_title= " 话题 " + @topic.title
     respond_to do |format|
       format.html # show.html.erb
@@ -47,7 +47,7 @@ class TopicsController < ApplicationController
     else
       @owner = Group.find(params[:group_id])
       if !@owner.is_member?(current_user)
-        flash[:notice] = "你无权限发表内容！"
+        flash[:notice] = "小组成员，才能发表内容！"
         redirect_to @owner
       end
     end
@@ -56,7 +56,7 @@ class TopicsController < ApplicationController
   # GET /topics/1/edit
   def edit
     @page_title= "编辑话题"
-    if !is_manager?(@topic) && !is_owner?(@topic)
+    if !@topic.is_manager?(current_user) && !(@topic.is_author?(current_user))
       flash[:error] = "操作错误"
       redirect_to :action=>:show,:id=>@topic
     end
@@ -66,7 +66,7 @@ class TopicsController < ApplicationController
   # POST /topics.xml
   def create
     @topic = Topic.new(params[:topic])
-    @topic.last_comment_datetime = Time.now
+    
     if params[:company_id] #company
       @owner = Company.find(params[:company_id])
       @topic.author = current_user.get_account(params[:alias])
@@ -75,7 +75,7 @@ class TopicsController < ApplicationController
       @topic.author = @owner.is_member?(current_user)
     end
     if !(@topic.author)
-      flash[:notice] = "你无权限发表内容！"
+      flash[:notice] = "小组成员，才能发表内容！"
       redirect_to @owner
       return
     end
@@ -95,7 +95,7 @@ class TopicsController < ApplicationController
   # PUT /topics/1
   # PUT /topics/1.xml
   def update
-    if !is_manager?(@topic) && !is_owner?(@topic)
+    if !@topic.is_manager?(current_user) && !@topic.is_author?(current_user)
       flash[:error] = "操作错误"
       redirect_to :action=>:show,:id=>@topic
       return
@@ -115,26 +115,16 @@ class TopicsController < ApplicationController
   # DELETE /topics/1
   # DELETE /topics/1.xml
   def destroy
-    owner = @topic.owner
-    @is_manager =is_manager?(@topic)
     respond_to do |format|
-      if @is_manager || is_owner?(@topic)
-        if @topic.destroy
-          format.html { flash[:success]="删除成功"
-            redirect_to(owner) }
-          format.xml  { head :ok }
-        else
-          format.html {
-            flash[:error]="删除错误 "+$!
-            redirect_to([owner,@topic]) }
-          format.xml  { head :ok }
-        end
+      if (@topic.is_manager?(current_user) || @topic.is_author?(current_user)) && @topic.destroy
+        format.html { flash[:success]="删除成功"
+          redirect_to(@topic.owner) }
+        format.xml  { head :ok }
       else
         format.html {
           flash[:error]="删除错误"
-          redirect_to([owner,@topic])
-        }
-        format.xml  { head :fails }
+          redirect_to([@topic.owner  ,@topic]) }
+        format.xml  { head :ok }
       end
     end
   end
@@ -150,8 +140,7 @@ class TopicsController < ApplicationController
   end
   #置顶 话题
   def set_top_level
-    if is_manager?(@topic)
-      @topic.update_attribute("top_level", true) unless @topic.top_level
+    if @topic.is_manager?(current_user) &&  @topic.set_top
       flash.now[:success] = "置顶成功！"
     else
       flash.now[:error] = "设置错误"
@@ -164,9 +153,7 @@ class TopicsController < ApplicationController
   end
   #取消置顶
   def cancel_top_level
- 
-    if  is_manager?(@topic)
-      @topic.update_attribute("top_level", false) unless !@topic.top_level
+    if   @topic.is_manager?(current_user)  &&  @topic.cancel_top
       flash.now[:success] = "取消成功！"
     else
       flash.now[:error] = "设置错误"
@@ -184,28 +171,16 @@ class TopicsController < ApplicationController
     @topics = nil
     if params[:group_id]
       @owner = Group.find(params[:group_id])
-      @topics = @owner.topics.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
+      @topics = @owner.topics.order_by_last_comment.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
     elsif  params[:company_id]
       @owner = Company.find(params[:company_id])
-      @topics = @owner.topics.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
+      @topics = @owner.topics.order_by_last_comment.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
     end
   end
   
   private
-  #检查当前用户的权限
-  def is_manager?(topic)
-    if topic.owner_type=="Group"#group topics
-      topic.owner.is_manager_member?(current_user)
-    else #company topics
-      topic.owner.current_employee?(current_user)  #TODO:current_employee 需要做信用检查
-      #       topic.owner.higher_creditability_employees.exists?(current_user)
-    end
+
  
-  end
-  #当前用户是否 拥有者
-  def is_owner?(topic)
-    current_user?(topic.author)
-  end
 
   def find_topic
     @topic = Topic.find(params[:id])

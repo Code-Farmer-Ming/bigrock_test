@@ -58,12 +58,14 @@ class Msg < ActiveRecord::Base
   end
   #读消息
   def read_msg(user)
-    if (!is_check) &&  user.ids.include?(sendee_id)
-      update_attribute("is_check", true)
-    end
+    make_read unless !user.ids.include?(sendee_id)
     msg_responses.find(:all,
-      :conditions=>["sender_id not in (?) and is_check=?",user.ids,false]).each { |res| res.update_attribute("is_check", true) }
-
+      :conditions=>["sender_id not in (?) and is_check=?",user.ids,false]).each { |res| res.make_read }
+  end
+  
+  #标记为已读
+  def make_read
+    update_attribute("is_check", true) unless is_check
   end
   #停止当前消息 如果对方已经停止可以删除
   #否则 停止 ，停止意味着 不能回复
@@ -84,6 +86,6 @@ class Msg < ActiveRecord::Base
   end
   #回复 消息
   def response(response)
-     can_response? &&  msg_responses << response
+    can_response? &&  msg_responses << response
   end
 end

@@ -20,6 +20,17 @@ class CompanyJudge < ActiveRecord::Base
   after_create :create_judge
   before_destroy :destroy_judge
   before_update :update_judge
+
+  named_scope :by_salary_value ,lambda { |value|
+    { :conditions => { :salary_value => value } }
+  }
+  named_scope :by_condition_value ,lambda { |value|
+    { :conditions => { :condition_value => value } }
+  }
+  #做评价的用户
+  def judge_user
+    anonymous ? User.anonymity : user 
+  end
   
   def create_judge
     company.salary_value += salary_value

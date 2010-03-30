@@ -25,7 +25,8 @@ class Group < ActiveRecord::Base
   #图标
   has_one :icon,:class_name=>"GroupIcon",:foreign_key=>"master_id",:dependent=>:destroy
 
-  has_many :topics,:as=>:owner,:dependent=>:destroy,:order => 'top_level desc ,last_comment_datetime DESC'
+  has_many :topics,:as=>:owner,:dependent=>:destroy ,:order => 'top_level desc ,last_comment_datetime DESC'
+  
   has_many :comments ,:through => :topics
   #所有成员
   has_many :members,:dependent=>:destroy
@@ -106,7 +107,7 @@ class Group < ActiveRecord::Base
   end
   #是否小组的成员
   def is_member?(user)
-    all_members.first(:conditions=>["users.id in (?)",user.ids])
+    user && all_members.first(:conditions=>["users.id in (?)",user.ids])
   end
   #加入为成员（普通成员）
   def add_to_member(user)
@@ -121,7 +122,7 @@ class Group < ActiveRecord::Base
   #是否小组的管理人员 （包括组长）
   def is_manager_member?(user)
     if !all_manager_members.exists?(["users.id in (?)",user.ids])
-      return  !errors.add(:member, "不是管理员的权限。")
+      return  !errors.add("不是管理员的权限。")
     else
       true
     end
@@ -129,7 +130,7 @@ class Group < ActiveRecord::Base
   end
   #是否管理员(不包括 组长 root)
   def is_manager?(user)
-    return !errors.add(:member, "不是管理员的权限。") unless manager_members.exists?(["users.id in (?)",user.ids])
+    return !errors.add("不是管理员的权限。") unless manager_members.exists?(["users.id in (?)",user.ids])
     
  
   end
@@ -148,7 +149,7 @@ class Group < ActiveRecord::Base
       member.update_attribute("type",Member::MEMBER_TYPES[0] ) if member
       return true
     else
-      !errors.add(:member, "小组最多只能有2个组长。")
+      !errors.add("小组最多只能有2个组长。")
     end
   end
   #把一个成员 变为 管理员
@@ -159,7 +160,7 @@ class Group < ActiveRecord::Base
         member.update_attribute("type",Member::MEMBER_TYPES[1] ) if member
         return true
       else
-        !errors.add(:member, "小组最多只能有10个管理员。")
+        !errors.add("小组最多只能有10个管理员。")
       end
     end
   end
@@ -183,6 +184,6 @@ class Group < ActiveRecord::Base
   
   def can_operation_root?(user)
     return true  unless is_root?(user) && roots.size==1
-    !errors.add(:member, "小组必须有一个组长，在指定其他人为组长后才能退出。")
+    !errors.add("小组必须有一个组长，在指定其他人为组长后才能退出。")
   end
 end

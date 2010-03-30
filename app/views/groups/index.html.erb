@@ -16,7 +16,7 @@
     </div>
   <%end%>
   <% sub_block_div("最新话题") do %>
-    <%= render :partial=>"topics/topic_item",:collection=>Topic.group_topics.all(:limit=>40,:order=>"created_at desc"),:locals=>{:show_group=>true}%>
+    <%= render :partial=>"topics/topic_item",:collection=>Topic.group_topics.order_by_last_comment.all(:limit=>40),:locals=>{:show_group=>true}%>
   <%end%>
 
 </div>

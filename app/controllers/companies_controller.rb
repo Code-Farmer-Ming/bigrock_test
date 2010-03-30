@@ -6,9 +6,9 @@ class CompaniesController < ApplicationController
   # GET /companies.xml    
   def index
     @page_title="公司 首页"
-    @newly_companies = Company.all(:limit=>3,:order=>"created_at desc")
-    @salary_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc")
-    @condition_best_companies =  Company.all(:limit=>3,:order=>"condition_value/company_judges_count desc")
+    @newly_companies = Company.newly.all(:limit=>3)
+    @salary_best_companies =  Company.order_by_salary.all(:limit=>3)
+    @condition_best_companies =  Company.order_by_condition.all(:limit=>3)
     @integration_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc ,condition_value/company_judges_count desc ")
     @hot_tags = Company.all_tags(:limit=>20)
     respond_to do |format|

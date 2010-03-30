@@ -1,8 +1,6 @@
 
-<%= topic = operation %>
-<span id="recommend_operation">
-  <%= render :partial=>"comm_partial/recommend_operation",:object=>topic %>
-</span>
+<% topic = operation %>
+
 
 <%if is_manager %>
   <span id="top_level_operation">
@@ -12,10 +10,8 @@
 
 
 <%= link_to "发言", {:action=>:new,:controller=>:topics} ,:class=>"button",:title=>"我来发布新话题"  if can_reply%>
-<%= link_to '编辑',  {:action=>:edit,:id=>topic},
-  :method => :get ,:class=>"button" \
-  if  is_owner    %>
-<%= link_to '删除',  [topic.owner,topic],
-  :confirm => '确定删除吗?', :method => :delete ,:class=>"button negative" \
-  if is_owner  || is_manager    %>
+
+<span id="recommend_operation">
+  <%= render :partial=>"comm_partial/recommend_operation",:object=>topic %>
+</span>
 <div class="clear"/>

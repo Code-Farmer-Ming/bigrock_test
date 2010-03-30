@@ -219,7 +219,7 @@ class User< ActiveRecord::Base
   #我的回复
   #
   has_many :my_comments,:class_name=>"Comment",:foreign_key=>"user_id"
-  has_many :join_topics,:through=>:my_comments,:source=>:commentable,:source_type=>"Topic",:uniq => :true,:order=>"topics.created_at desc"
+  has_many :join_topics,:through=>:my_comments,:source=>:commentable,:source_type=>"Topic",:uniq => :true
   #我发言的话题  
   has_many :my_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:dependent => :destroy
   #我发言的话题 包括 马甲创建的

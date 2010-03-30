@@ -147,17 +147,13 @@ class NewsController < ApplicationController
   #顶 新闻
   def up
     @piece_news = Piecenews.find(params[:id])
-    @piece_news.votes << Vote.new(:value=>1,:user=>current_user)
-    @piece_news.up += 1
-    @piece_news.save
+    @piece_news.add_vote(Vote.new(:value=>1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=> @piece_news
   end
   #踩 新闻
   def down
     @piece_news = Piecenews.find(params[:id])
-    @piece_news.down += 1
-    @piece_news.votes << Vote.new(:value=>-1,:user=>current_user)
-    @piece_news.save
+    @piece_news.add_vote(Vote.new(:value=>-1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=> @piece_news
   end
   #搜索新闻

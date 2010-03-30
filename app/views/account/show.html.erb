@@ -29,7 +29,7 @@
         <%end%>
       </div>
     <%end%>
-    <% sub_block_div("公司博客",link_to("更多…",news_path())) do%>
+    <% sub_block_div("新闻",link_to("更多…",news_path())) do%>
       <div id="my_news">
       </div>
       <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
@@ -40,7 +40,7 @@
       <%= javascript_include_merged :dragdrop %>
     <%end %>
     <h1>欢迎，<%= current_user.name %></h1>
-    <% sub_block_div("公司博客",link_to("更多",news_path())) do%>
+    <% sub_block_div("新闻",link_to("更多",news_path())) do%>
       <div id="my_news">
       </div>
       <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
