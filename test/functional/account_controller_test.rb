@@ -38,6 +38,39 @@ class AccountControllerTest < ActionController::TestCase
         :text_password_confirmation=>"ming12"
       }
     end
+    assert_redirected_to account_path()
+    assert User.find_all_by_email(email).size>0
+    assert_equal  1, assigns(:user).aliases.count
+    assert_equal assigns(:user).aliases[0].parent, assigns(:user)
+  end
+
+  test "create with reurl" do
+    email ="zhang@ming1.com"
+    assert_difference("User.count",2) do
+      post  :create ,:user=>{
+        :email=>email,
+        :nick_name=>"nick_name",
+        :text_password=>"ming12",
+        :text_password_confirmation=>"ming12"
+      },
+        :reurl=>'/groups'
+    end
+    assert_redirected_to '/groups'
+  end
+
+  test "create with invite" do
+    email ="zhang@ming1.com"
+    assert_difference("User.count",2) do
+      post  :create ,:user=>{
+        :email=>email,
+        :nick_name=>"nick_name",
+        :text_password=>"ming12",
+        :text_password_confirmation=>"ming12"
+      } ,
+        :request_user_id=>1,
+        :request_company_id=>1
+    end
+    assert_redirected_to  new_user_resume_pass_path(assigns(:user),assigns(:user).current_resume,:request_user_id=>1,:request_company_id=>1)
     assert User.find_all_by_email(email).size>0
     assert_equal  1, assigns(:user).aliases.count
     assert_equal assigns(:user).aliases[0].parent, assigns(:user)

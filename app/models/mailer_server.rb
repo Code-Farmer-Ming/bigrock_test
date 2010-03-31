@@ -1,11 +1,11 @@
 class MailerServer < ActionMailer::Base
-  
+  FROM_MAIL= '谁靠谱网<no-reply@shuicaopu.com>'
   #找回密码
   def forget_password(token)
     sent_at = Time.now
     subject '重设密码'
     recipients token.user.email
-    from       'tomorrownull@163.com'
+    from       FROM_MAIL
     sent_on    sent_at
     content_type "text/html"
     body       :greeting => token
@@ -16,10 +16,20 @@ class MailerServer < ActionMailer::Base
   def send_invite(sendee,pass,msg)
     subject   msg.title
     recipients sendee
-    from       'tomorrownull@163.com'
+    from       FROM_MAIL
     sent_on    Time.now
     content_type "text/html"
     body       :pass => pass,:msg=>msg,:sendee=>sendee
+  end
+
+  #收到新的消息时 发送邮件通知
+  def get_new_msg(msg)
+    subject   "您有新的消息 - "+msg.title
+    recipients msg.sendee.email
+    from       FROM_MAIL
+    sent_on    Time.now
+    content_type "text/html"
+    body       :msg =>msg
   end
 
 end

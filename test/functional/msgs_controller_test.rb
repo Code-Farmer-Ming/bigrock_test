@@ -42,4 +42,9 @@ class MsgsControllerTest < ActionController::TestCase
       post :create, :msg=>{:title => "xcxxx",:content=>"xcccxx",:sendees=>"2 3"},:alias=>16
     end
   end
+  test  "create" do
+    assert_difference("Msg.count",1) do
+      post :create, :msg=>{:title => "xcfffff",:content=>"xcccxxxxxxx",:sendees=>"2"},:alias=>1
+    end
+  end
 end

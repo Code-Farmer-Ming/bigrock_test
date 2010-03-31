@@ -84,7 +84,7 @@ class TopicsController < ApplicationController
         format.html { redirect_to([@owner,@topic]) }
         format.xml  { render :xml => @topic, :status => :created, :location => @topic }
       else
-        flash.now[:error] = '发生错误'+$!
+        flash.now[:error] = '发生错误'+@topic.errors.full_messages.to_s
         format.html {
           render :action => "new" }
         format.xml  { render :xml => @topic.errors, :status => :unprocessable_entity }
@@ -140,28 +140,27 @@ class TopicsController < ApplicationController
   end
   #置顶 话题
   def set_top_level
-    if @topic.is_manager?(current_user) &&  @topic.set_top
-      flash.now[:success] = "置顶成功！"
-    else
-      flash.now[:error] = "设置错误"
-    end
+
     render :update do |page|
-      page["top_level_operation"].replace_html render(:partial=>"topics/top_level_operation",:object=>@topic)
-      page["topic_operation"].visual_effect :highlight
-      page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+      if (@topic.is_manager?(current_user) &&  @topic.set_top)
+        page["top_level_operation"].replace_html render(:partial=>"topics/top_level_operation",:object=>@topic)
+        page["topic_operation"].visual_effect :highlight
+      else
+        flash.now[:error] = @topic.errors.full_messages.to_s
+        page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+      end
     end    
   end
   #取消置顶
   def cancel_top_level
-    if   @topic.is_manager?(current_user)  &&  @topic.cancel_top
-      flash.now[:success] = "取消成功！"
-    else
-      flash.now[:error] = "设置错误"
-    end
     render :update do |page|
-      page["top_level_operation"].replace_html render(:partial=>"topics/top_level_operation",:object=>@topic)
-      page["topic_operation"].visual_effect :highlight
-      page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+      if   @topic.is_manager?(current_user)  &&  @topic.cancel_top
+        page["top_level_operation"].replace_html render(:partial=>"topics/top_level_operation",:object=>@topic)
+        page["topic_operation"].visual_effect :highlight
+      else
+        flash.now[:error] = @topic.errors.full_messages.to_s
+        page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+      end
     end    
   end
   

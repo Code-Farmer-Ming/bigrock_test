@@ -10,7 +10,6 @@ javascripts:
   - lightbox
   - validation_cn
   - text_field_default_value
-  - swfupload
   - ratings_component
   - niftycube
   - fabtabulous
@@ -20,6 +19,8 @@ javascripts:
   - prototype-ui
 - dragdrop:
   - dragdrop
+- swfupload:
+  - swfupload
 stylesheets: 
 - base:
   - blueprint/screen

@@ -47,7 +47,7 @@ class Topic < ActiveRecord::Base
   named_scope :order_by_top_level,:order => 'top_level desc'
   named_scope :group_topics,:conditions=>["owner_type='Group'"]
 
-  def create_before
+  def before_create
     self.last_comment_datetime = Time.now
   end
   #相关的话题

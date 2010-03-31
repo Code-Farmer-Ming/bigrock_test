@@ -18,4 +18,13 @@ class MailerServerTest < ActionMailer::TestCase
     assert_equal @expected.subject, MailerServer.create_send_invite("test@email.com",pass,Msg.find(:first)).subject
   end
 
+    test "get new msg" do
+    @expected.subject = "您有新的消息 - " + Msg.find(:first).title
+
+    @expected.body    = ""
+    @expected.date    = Time.now
+    pass = passes(:one)
+    assert_equal @expected.subject, MailerServer.create_get_new_msg(Msg.find(:first)).subject
+  end
+
 end

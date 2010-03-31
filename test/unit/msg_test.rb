@@ -37,10 +37,11 @@ class MsgTest < ActiveSupport::TestCase
   test "send_to_multi_msg_ok" do
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
     msg.sender_id = 2
-    msg.sendees="1 2"
+    msg.sendees="1 3"
     assert Msg.save_all(msg),"同时发送多个信息失败"
-
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
+  
   test "send_to_multi_msg_faild" do
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
     msg.sender_id = 2
@@ -52,7 +53,7 @@ class MsgTest < ActiveSupport::TestCase
   test "msg_response" do
     msg = msgs(:one)
     assert_equal 2, msg.msg_responses.size
-    msg.msg_responses << MsgResponse.new(:content=>"test content")
+    msg.response(MsgResponse.new(:content=>"test content"))
     assert_not_nil  msg.msg_responses.find_by_content("test content")
     assert_equal 3, msg.msg_responses.size
     MsgResponse.destroy(2)

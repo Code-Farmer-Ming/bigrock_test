@@ -59,6 +59,12 @@ class TopicsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "show topic without login" do
+    logout()
+    get :show, :id => topics(:one).to_param
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, :id => topics(:one).to_param
     assert_response :success
@@ -89,6 +95,7 @@ class TopicsControllerTest < ActionController::TestCase
     topics(:one).reload
     assert_equal 1,topics(:one).up
   end
+  
   test "down" do
     xhr :post ,:down,:company_id=>topics(:one).owner.id,:id=>topics(:one)
     topics(:one).reload
@@ -100,7 +107,6 @@ class TopicsControllerTest < ActionController::TestCase
     xhr :post ,:set_top_level,:company_id=>topics(:one).owner.id,:id=>topics(:one)
     topics(:one).reload
     assert_equal true,topics(:one).top_level
-    assert_equal "置顶成功！" ,flash[:success]
   end
   #不正确权限
   test "set top level with not enough authorization" do
@@ -108,7 +114,7 @@ class TopicsControllerTest < ActionController::TestCase
     xhr :post ,:set_top_level,:company_id=>topics(:one).owner.id,:id=>topics(:one)
     topics(:one).reload
     assert_equal false,topics(:one).top_level
-    assert_equal "设置错误" ,flash[:error]
+    assert_not_nil flash[:error]
   end
 
 
@@ -119,7 +125,6 @@ class TopicsControllerTest < ActionController::TestCase
     xhr :post ,:cancel_top_level,:company_id=>topics(:one).owner.id,:id=>topics(:one)
     topics(:one).reload
     assert_equal false,topics(:one).top_level
-    assert_equal "取消成功！" ,flash[:success]
   end
   test "cancel top level with not enough authorization" do
     topics(:one).top_level = true
@@ -128,7 +133,7 @@ class TopicsControllerTest < ActionController::TestCase
     xhr :post ,:cancel_top_level,:company_id=>topics(:one).owner.id,:id=>topics(:one)
     topics(:one).reload
     assert_equal true,topics(:one).top_level
-    assert_equal "设置错误" ,flash[:error]
+    assert_not_nil flash[:error]
   end
   
   test "search" do

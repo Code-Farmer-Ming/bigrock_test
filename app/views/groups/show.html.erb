@@ -29,9 +29,13 @@
     </p>
   </div>
 
-  <% sub_block_div("话题(#{@group.topics_count})", (link_to("+我发言",new_group_topic_path(@group) ,:title=>"我来发布新话题")+
-        '&nbsp;&nbsp;' +link_to("全部", group_topics_path(@group)))) do %>
+  <% sub_block_div("话题(#{@group.topics_count})",'&nbsp;&nbsp;' +link_to("全部", group_topics_path(@group))) do %>
     <%= render :partial=>"topics/topic_item",:collection=>@group.topics.all(:limit=>20) %>
+  <div class="half_width">
+    <%= render(:partial=>"comm_partial/search",:locals=>{:url=>group_topics_path(@group),:default_text=>"搜索话题"})%>
+   
+  </div>
+ 
   <%end%>
 </div>
 <div id ="right_content">

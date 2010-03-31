@@ -121,7 +121,7 @@ class Group < ActiveRecord::Base
   end
   #是否小组的管理人员 （包括组长）
   def is_manager_member?(user)
-    if !all_manager_members.exists?(["users.id in (?)",user.ids])
+    if  !(user && all_manager_members.exists?(["users.id in (?)",user.ids]))
       return  !errors.add("不是管理员的权限。")
     else
       true

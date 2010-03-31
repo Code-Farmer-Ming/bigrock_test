@@ -39,7 +39,9 @@ class ActiveSupport::TestCase
   def login_as(user)
     session[:user] = user
   end
-
+  def logout()
+    session[:user] = nil
+  end
 
   def test_uploaded_file(name, mime)
     ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime)

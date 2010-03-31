@@ -21,13 +21,13 @@ recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic
         回复 <%= link_to "#{@topic.comments.size}次","#comments" %>
         &nbsp;
         浏览 <%= "#{@topic.view_count}次" %>
-        [
+
         <%= link_to '编辑',  {:action=>:edit,:id=>@topic},
           :method => :get   if  @is_owner    %>
         <%= link_to '删除',  [@topic.owner,@topic],
           :confirm => '确定删除吗?', :method => :delete  \
           if @is_owner  || @is_manager    %>
-        ]
+
       </p>
       <div>
         <%= simple_format(auto_link(h(@topic.content))) %>

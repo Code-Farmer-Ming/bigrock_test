@@ -3,12 +3,12 @@
 development:
   delivery_method: :smtp
   smtp_settings:
-    address: smtp.163.com
+    address: www.shuikaopu.com
     port: 25
-    domain: 163.com
+    domain: shuikaopu.com
     authentication: :login
-    user_name: tomorrownull@163.com
-    password: mingtian
+    user_name: no-reply
+    password: wangchen
   
 production:
   delivery_method: :smtp
@@ -17,5 +17,5 @@ production:
     port: 25
     domain: shuikaopu.com
     authentication: :login
-    user_name: no-reply@shuikaopu.com
+    user_name: no-reply
     password: wangchen

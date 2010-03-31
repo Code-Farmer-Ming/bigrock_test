@@ -16,11 +16,19 @@ class AccountController < ApplicationController
   #保存
   def create
     @user = User.new(params[:user])
+   
     respond_to do |format|
       if @user.save
+        invite_user = User.find_by_id(params[:request_user_id]) unless !params[:request_user_id]
+        if invite_user#相互加为好友
+          invite_user.add_friend(@user)
+          @user.add_friend(invite_user)
+        end
         session[:user]=@user
         format.html {  flash[:success] = '恭喜你注册你成功'
-          redirect_to( params[:request_company_id] ?  new_user_resume_pass_path(@user,resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id])  : params[:reurl] || account_path()) }
+          redirect_to( 
+            params[:request_company_id] ?
+              new_user_resume_pass_path(@user,@user.current_resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id])  : (params[:reurl] || account_path())) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }

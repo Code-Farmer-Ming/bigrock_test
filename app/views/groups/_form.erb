@@ -1,3 +1,6 @@
+<% content_for :script do %>
+  <%= javascript_include_merged :swfupload %>
+<% end %>
 <% f = form %>
 <div class="thumb_img">
   <%= img_upload_field(attachments_path(),
@@ -24,7 +27,7 @@
 <%#*</p>%>
 <p>
   <%= label_tag "group_tags","标签" ,:class=>"filed_lab" %>
-  <%= f.text_field "tag_list",:class=>"text required"   %>
+  <%= f.text_field "tag_list",:class=>"text required" ,:title=>"请输入标签"  %>
 <div id ="tags_list" class="auto_complete"></div>
 <%=  auto_complete_field("group_tag_list", {:update=>"tags_list", :url => {:action => "auto_complete_for_tag" },:tokens=>" " })%>
 </p>

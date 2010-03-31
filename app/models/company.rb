@@ -179,7 +179,7 @@ class Company < ActiveRecord::Base
   end
   #是不是本公司的员工
   def current_employee?(user)
-    current_employees.exists?(user)
+   user && current_employees.exists?(user)
   end
   
 

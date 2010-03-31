@@ -26,6 +26,10 @@ class Msg < ActiveRecord::Base
   #接收人 用；分隔
   attr_accessor       :sendees
   validates_presence_of  :sendee,:sender
+
+  def after_create
+    MailerServer.deliver_get_new_msg(self)
+  end
   #接收人 用 分隔
   def self.save_all(msg)
     if not msg.sendees.blank?
@@ -47,6 +51,8 @@ class Msg < ActiveRecord::Base
       return false
     end
   end
+
+  
 
   def self.per_page
     20

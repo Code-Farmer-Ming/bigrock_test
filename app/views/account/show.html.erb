@@ -7,15 +7,13 @@
     <div id="welcome_div" style="display:<%=  cookies[:welcome_div_display]%>">
       <%= link_to '',{:action=>'new'},:class=>'register_button' %>
       <h3>
-        这里有<span id="company_count"> <%= Company.all.size %></span>个公司
+        <span id="company_count"> <%= Company.all.size %></span>个公司
       </h3>
       <h3>
         <span id="group_count"> <%= Group.all.size %></span>个小组
       </h3>
       <h3>
-        <span id="user_count"><%= User.real_users.size %></span>人   &nbsp;  也许能发现你的同事 
-       &nbsp;
-         感兴趣的公司
+        <span id="user_count"><%= User.real_users.size %></span>人   &nbsp;  也许能发现一些朋友、同事或感兴趣的公司
       </h3>
     </div>
     <% sub_block_div() do%>

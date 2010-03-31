@@ -1,3 +1,6 @@
+<% content_for :script do %>
+  <%= javascript_include_merged :swfupload %>
+<% end %>
 <div id="left_content">
   <div id="resume_info" >
     <%= render :partial=>"users/info_head",:object=>@user %>

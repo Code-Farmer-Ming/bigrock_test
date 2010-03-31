@@ -1,3 +1,4 @@
+
 <div id="left_content">
   <% form_for(@group,{},:html=>{:class=>"form_info required-validate",:multipart => true}) do |f| %>
     <h1>创建小组</h1>
@@ -21,7 +22,7 @@
       <dt>开放式小组</dt>
       <dd>任何人可以随便加入</dd>
       <dt>需要申请小组</dt>
-      <dd>任何人可以随便加入，但需要管理员批准才能通过</dd>
+      <dd>需要申请，管理员批准才能通过</dd>
     </dl>
   <%end%>
 </div>
