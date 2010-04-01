@@ -22,8 +22,8 @@
 #
 
 class Topic < ActiveRecord::Base
-  validates_length_of :title, :within => 3..128
-  validates_length_of :content, :minimum => 4
+  validates_length_of :title, :within => 1..128
+  validates_length_of :content, :minimum => 2
   
   belongs_to :owner,:polymorphic => true,:counter_cache => true
   belongs_to :author,:class_name=>"User",:foreign_key=>"author_id"

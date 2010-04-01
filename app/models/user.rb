@@ -349,6 +349,14 @@ class User< ActiveRecord::Base
   def accounts
     [self]+aliases
   end
+
+  def name_with_email
+    if parent
+      "#{parent.name} <#{parent.email}>"
+    else
+      "#{name} <#{email}> "
+    end
+  end
   
   #根据 id 获取当前 马甲账号 或 自己本身
   def get_account(id)

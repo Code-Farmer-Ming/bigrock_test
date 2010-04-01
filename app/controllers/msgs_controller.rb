@@ -38,6 +38,7 @@ class MsgsController < ApplicationController
   end
 
   def create
+    @page_title = "发送消息"
     @msg= Msg.new(params[:msg])
     @msg.sender =  current_user.get_account(params[:alias])
     respond_to do |format|

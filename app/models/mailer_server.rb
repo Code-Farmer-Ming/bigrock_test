@@ -1,10 +1,10 @@
 class MailerServer < ActionMailer::Base
-  FROM_MAIL= '谁靠谱网<no-reply@shuicaopu.com>'
+  FROM_MAIL= "no-reply@shuikaopu.com"
   #找回密码
   def forget_password(token)
     sent_at = Time.now
     subject '重设密码'
-    recipients token.user.email
+    recipients token.user.name_with_email
     from       FROM_MAIL
     sent_on    sent_at
     content_type "text/html"
@@ -25,7 +25,7 @@ class MailerServer < ActionMailer::Base
   #收到新的消息时 发送邮件通知
   def get_new_msg(msg)
     subject   "您有新的消息 - "+msg.title
-    recipients msg.sendee.email
+    recipients msg.sendee.name_with_email
     from       FROM_MAIL
     sent_on    Time.now
     content_type "text/html"

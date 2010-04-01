@@ -16,7 +16,7 @@
 
 class Msg < ActiveRecord::Base
   
-  validates_length_of :title, :within => 3..128
+  validates_length_of :title, :within => 1..48
   #消息 的回复
   has_many :msg_responses ,:class_name=>"MsgResponse",:dependent=>:destroy
   #发送者
@@ -39,9 +39,12 @@ class Msg < ActiveRecord::Base
           sendee_id = sendee ? sendee : 0
           sendee_user = User.find(:first,:conditions=>["id=? or salt=?",sendee_id,sendee_id])
           new_msg.sendee = sendee_user
-          if !sendee_user || !new_msg.save
+          if !sendee_user 
             msg.errors.add('收件人',(sendee_user ? sendee_user.name : '') +' 不存在！')
             raise ActiveRecord::Rollback
+            return false
+          elsif  !new_msg.save
+            msg.errors= new_msg.errors
             return false
           end
         end
@@ -50,6 +53,7 @@ class Msg < ActiveRecord::Base
       msg.errors.add('收件人  不能为空！')
       return false
     end
+    true
   end
 
   
