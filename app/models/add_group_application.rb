@@ -16,6 +16,10 @@
 # and open the template in the editor.
 
 class AddGroupApplication < Requisition
+  
+  def after_create
+    MailerServer.deliver_join_group_invite(self)
+  end
   #接受申请 变为普通成员
   def accept(user)
     self.applicant.add_to_member(user)

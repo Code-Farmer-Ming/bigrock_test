@@ -16,13 +16,21 @@
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 <% SALT = "NaCl" unless defined?(SALT) %>
+admin:
+  id: -1
+  email: admin@system.com
+  salt: <%= SALT %>
+  password: <%=User.encrypted_password('MyString',SALT)%>
+  is_active: true
+  nick_name: 系统
+  parent_id: -1
 one:
   id: 1
   email: MyStringone
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
-
+  parent_id: 0
 two:
   id: 2
   email: zhangming12@hotmail.com

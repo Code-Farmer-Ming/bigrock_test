@@ -84,7 +84,6 @@ class TopicsController < ApplicationController
         format.html { redirect_to([@owner,@topic]) }
         format.xml  { render :xml => @topic, :status => :created, :location => @topic }
       else
-        flash.now[:error] = '发生错误'+@topic.errors.full_messages.to_s
         format.html {
           render :action => "new" }
         format.xml  { render :xml => @topic.errors, :status => :unprocessable_entity }

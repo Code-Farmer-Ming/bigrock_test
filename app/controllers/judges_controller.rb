@@ -12,7 +12,7 @@ class JudgesController < ApplicationController
   end
   #TODO:   @pass=Pass.find(params[:pass_id])有一定的危险 修改成 @user.passes.find(X)和 current_user 同事的判断
   def create
-    @user = User.find(params[:user_id])
+    @user = User.real_users.find(params[:user_id])
     @pass= @user.passes.find(params[:pass_id])
 
     @judge= Judge.new(params[:judge])
@@ -62,7 +62,7 @@ class JudgesController < ApplicationController
   end
 
   def index
-    @user = User.find(params[:user_id])
+    @user = User.real_users.find(params[:user_id])
     @page_title ="#{@user.name} 的评价信息"
     if !params[:pass_id]
       @judges= @user.judges.paginate :page => params[:page]

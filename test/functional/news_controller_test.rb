@@ -20,7 +20,7 @@ class NewsControllerTest < ActionController::TestCase
   end
   
   test "get new without authorization" do
-    login_as(users(:user_017))
+    login_as(users(:user_016))
     get :new,:company_id=>1
     assert_redirected_to company_path(assigns(:company))
   end

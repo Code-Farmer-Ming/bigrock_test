@@ -6,7 +6,7 @@ class MsgsController < ApplicationController
     @page_title = @msg.title if @msg
     if @msg
       @msg.read_msg(current_user)
-      @msg_response = MsgResponse.new()
+ 
     else
       redirect_to account_msgs_path()
     end
@@ -19,7 +19,7 @@ class MsgsController < ApplicationController
     when "recieve" then
       @msgs =  current_user.receive_msgs.paginate :page => params[:page]
     else
-      @msgs =  current_user.new_msgs.paginate :page => params[:page]
+      @msgs =  current_user.unread_msgs.paginate :page => params[:page]
     end
     @page_title =  "#{current_user.name} 消息"
   end
@@ -36,7 +36,7 @@ class MsgsController < ApplicationController
       #      end
     end
   end
-
+   #TODO Msg的创建和发送需要 更进一步的优化
   def create
     @page_title = "发送消息"
     @msg= Msg.new(params[:msg])
@@ -67,7 +67,7 @@ class MsgsController < ApplicationController
     #    if (params[:company][:name]!="")
     ActiveRecord::Base.include_root_in_json = false
 
-    @items =  current_user.friends_user.find(:all,
+    @items =  current_user.friend_users.find(:all,
       :conditions =>"(lower(resumes.user_name) like lower('%#{params[:search]}%') )and resumes.is_current=#{true}",
       :joins =>"join resumes on resumes.user_id=users.id ",:limit=>params[:max],:select=>"users.id   value,resumes.user_name  text" )
     render :json => @items.to_json()
@@ -75,14 +75,14 @@ class MsgsController < ApplicationController
   
   #回复
   def msg_response
-    @msg_response = msg_response.new(params[:response])
+    @msg_response = @msg.msg_responses.new(params[:response])
     @msg_response.sender_id = current_user.ids.include?(@msg.sender_id) ? @msg.sender_id : @msg.sendee_id
+    @msg_response.sendee_id = current_user.ids.include?(@msg.sender_id) ?  @msg.sendee_id : @msg.sender_id
     respond_to do |format|
-      if @msg.response(@msg_response)
-        format.js { }
-      else
-        flash.now[:notice] =   "发送失败！" +@msg_response.errors.full_messages 
+      if !@msg.response(@msg_response)
+        flash.now[:error] = "#{@msg_response.errors.full_messages.to_s} #{@msg_response.errors.full_messages ||  @msg.errors.full_messages.to_s}"
       end
+      format.js { }
     end
   end
 

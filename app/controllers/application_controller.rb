@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
         redirect_to login_account_path(:reurl=>url_for())
       end
     else
-      user=User.find(cookies[:auto_login_user_id])
+      user=User.real_users.find(cookies[:auto_login_user_id])
       if (user && (auth_text=User.authenticate(user))=="成功")
         return session[:user]=user
       else
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 
   #获取当前用户
   def current_user
-    User.find(session[:user]) if session[:user]
+    User.real_users.find(session[:user]) if session[:user]
   end
   #判断是否 当前 用户
   def current_user?(user)

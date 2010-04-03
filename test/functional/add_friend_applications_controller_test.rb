@@ -11,10 +11,12 @@ class AddFriendApplicationsControllerTest < ActionController::TestCase
   end
 
   test "apply" do
+    ActionMailer::Base.deliveries.clear
     assert_difference("AddFriendApplication.count") do
       xhr :get ,:apply,:respondent_id=>12
       xhr :post ,:apply,:add_friend_application=>{:respondent_id=>12,:memo=>"apply"}
     end
+    assert_equal 1, ActionMailer::Base.deliveries.size
  
   end
   test "destroy" do
@@ -35,8 +37,8 @@ class AddFriendApplicationsControllerTest < ActionController::TestCase
     end
 
     users(:one).reload
-    assert users(:one).friends_user.exists?(users(:user_012))
-    assert !users(:user_012).friends_user.exists?(users(:one))
+    assert users(:one).friend_users.exists?(users(:user_012))
+    assert !users(:user_012).friend_users.exists?(users(:one))
     assert_equal "添加成功！",flash[:success]
   end
 
@@ -51,8 +53,8 @@ class AddFriendApplicationsControllerTest < ActionController::TestCase
     end
     users(:one).reload
     users(:user_012).reload
-    assert users(:one).friends_user.exists?(users(:user_012))
-    assert users(:user_012).friends_user.exists?(users(:one))
+    assert users(:one).friend_users.exists?(users(:user_012))
+    assert users(:user_012).friend_users.exists?(users(:one))
     assert_equal "添加成功！",flash[:success]
 
   end

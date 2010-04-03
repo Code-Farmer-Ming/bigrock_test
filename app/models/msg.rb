@@ -17,20 +17,34 @@
 class Msg < ActiveRecord::Base
   
   validates_length_of :title, :within => 1..48
-  #消息 的回复
-  has_many :msg_responses ,:class_name=>"MsgResponse",:dependent=>:destroy
+
+
   #发送者
   belongs_to :sender,:class_name=>"User",:foreign_key=>"sender_id"
   #接收者
   belongs_to :sendee,:class_name=>"User",:foreign_key=>"sendee_id"
+
+  belongs_to :parent,:foreign_key=>"parent_id",:class_name=>"Msg"
+
+  #消息 的回复
+  has_many :msg_responses ,:class_name=>"Msg",:foreign_key=>"parent_id",   :dependent => :destroy
+ 
+  #未读的信息
+  named_scope :unread,:conditions=>[:is_check=>false]
+
   #接收人 用；分隔
   attr_accessor       :sendees
   validates_presence_of  :sendee,:sender
-
+  
+  def before_validation_on_create 
+    self.title = "回复 :" +parent.title if parent
+  end
+  
   def after_create
     MailerServer.deliver_get_new_msg(self)
   end
   #接收人 用 分隔
+  #TODO 这里有问题 需要好好考虑
   def self.save_all(msg)
     if not msg.sendees.blank?
       self.transaction do
@@ -38,12 +52,12 @@ class Msg < ActiveRecord::Base
           new_msg = msg.clone
           sendee_id = sendee ? sendee : 0
           sendee_user = User.find(:first,:conditions=>["id=? or salt=?",sendee_id,sendee_id])
-          new_msg.sendee = sendee_user
-          if !sendee_user 
+  
+          if !sendee_user
             msg.errors.add('收件人',(sendee_user ? sendee_user.name : '') +' 不存在！')
-            raise ActiveRecord::Rollback
+            ActiveRecord::Rollback
             return false
-          elsif  !new_msg.save
+          elsif  !new_msg.send_to(sendee_user)
             msg.errors= new_msg.errors
             return false
           end
@@ -95,7 +109,23 @@ class Msg < ActiveRecord::Base
     end
   end
   #回复 消息
-  def response(response)
-    can_response? &&  msg_responses << response
+  def response(msg)
+    if can_response?
+      msg_responses << msg
+    else
+      !errors.add('回复信息',"不能回复，对方已经删除")
+    end
+  end
+  #发送到用户
+  def send_to(user)
+    self.sendee = user
+    save!
+  end
+  #创建一个系统发送消息
+  def self.new_system_msg(attributes={})
+    attributes.delete(:sender_id)
+    attributes.delete(:sender_stop)
+    attributes = {:sender_id=>-1,:sender_stop=>true}.merge!(attributes)
+    Msg.new(attributes)
   end
 end

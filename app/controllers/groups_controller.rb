@@ -107,7 +107,7 @@ class GroupsController < ApplicationController
         page[dom_id(group,"operation")].visual_effect :highlight
       end
     else
-      flash.now[:error] = "加入小组出错!#{$!}"
+      flash.now[:error] = "加入小组出错!"
       render :update do |page|
         page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end
@@ -120,7 +120,7 @@ class GroupsController < ApplicationController
         page[dom_id(@group,"operation")].replace_html render(:partial=>"groups/operation_content",:object=> @group)
         page[dom_id(@group,"operation")].visual_effect :highlight
         page.select(".member_count").each do |item|
-          page.replace_html item,@group.members.count
+          page.replace_html item,@group.members.size
         end
       end
     else
@@ -136,7 +136,7 @@ class GroupsController < ApplicationController
   def invite_join
     @page_title = " 邀请好友加入 " + @group.name
     @invite =  JoinGroupInvite.new(params[:join_group_invite])
-    @friends = current_user.friends_user.paginate :joins=>" join resumes on resumes.user_id=users.id", :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+    @friends = current_user.friend_users.paginate :joins=>" join resumes on resumes.user_id=users.id", :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     if request.post?
       if (params[:invite_user])
         params[:invite_user].each do |friend|

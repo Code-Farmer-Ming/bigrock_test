@@ -40,7 +40,7 @@ class UserSetting < ActiveRecord::Base
     if self.user !=user
       case (self[name])
       when UserSetting::VISIBILITY_TYPES[0] then return true
-      when  UserSetting::VISIBILITY_TYPES[1] then return self.user.friends_user.exists?(user)
+      when  UserSetting::VISIBILITY_TYPES[1] then return self.user.is_friend?(user)
       else
         return false
       end

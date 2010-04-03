@@ -13,6 +13,10 @@
 #
 
 class AddFriendApplication < Requisition
+
+   def after_create
+    MailerServer.deliver_apply_friend_msg(self)
+  end
   
   #接收 添加好友的申请
   #自己变为user的好友

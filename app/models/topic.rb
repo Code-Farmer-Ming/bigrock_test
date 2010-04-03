@@ -22,7 +22,7 @@
 #
 
 class Topic < ActiveRecord::Base
-  validates_length_of :title, :within => 1..128
+  validates_length_of :title, :maximum => 64
   validates_length_of :content, :minimum => 2
   
   belongs_to :owner,:polymorphic => true,:counter_cache => true

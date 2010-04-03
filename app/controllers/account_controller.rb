@@ -16,10 +16,9 @@ class AccountController < ApplicationController
   #保存
   def create
     @user = User.new(params[:user])
-   
     respond_to do |format|
       if @user.save
-        invite_user = User.find_by_id(params[:request_user_id]) unless !params[:request_user_id]
+        invite_user = User.real_users.find_by_id(params[:request_user_id]) unless !params[:request_user_id]
         if invite_user#相互加为好友
           invite_user.add_friend(@user)
           @user.add_friend(invite_user)
@@ -140,7 +139,7 @@ class AccountController < ApplicationController
   def forget_password
     @page_title ="取回密码"
     if request.post?
-      user= User.find_by_email(params[:email])
+      user= User.real_users.find_by_email(params[:email])
       if user
         Token.destroy_all(:user_id=>user,:action=>Token::ACTION_RECOVERY)
         token=Token.new(:user=>user,:action=>Token::ACTION_RECOVERY)
@@ -266,30 +265,49 @@ class AccountController < ApplicationController
   end
   
   def add_friend
-    friend= User.find(params[:friend_id])
-    current_user.add_friend(friend)
-    current_user.my_follow_users << friend
- 
+    friend= User.real_users.find(params[:friend_id])
     respond_to do |format|
-      format.js{
-        render :update do |page|
-          page[dom_id(friend,"operation")].replace_html render(:partial=>"users/operation",:object=>friend)
-          page[dom_id(friend,"operation")].visual_effect(:highlight)
-        end
-      }
+      if current_user.add_friend(friend)
+        format.js{
+          render :update do |page|
+            page[dom_id(friend,"operation")].replace_html render(:partial=>"users/operation",:object=>friend)
+            page[dom_id(friend,"operation")].visual_effect(:highlight)
+          end
+        }
+      else
+        format.js {
+          render :update do |page|
+            flash.now[:error] = current_user.errors.full_messages.to_s
+            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+          end
+        }
+      end
     end
   end
   
   def destroy_friend
-    @user = User.find(params[:friend_id])
-    #    @friend =current_user.friends.find_by_friend_id(params[:friend_id])
+    @user =current_user.friend_users.find_by_id(params[:friend_id])
     respond_to do |format|
-      if current_user.friends_user.delete(@user) && current_user.my_follow_users.delete(@user)
+      if current_user.remove_friend(@user)
         format.html {redirect_to friends_user_path(current_user,:page=>params[:page]) }
-        format.js # js
+        format.js {
+          render :update do |page|
+            page[dom_id(@user,"operation")].replace_html render(:partial=>"users/operation",:object=>@user)
+            page[dom_id(@user,"operation")].visual_effect(:highlight)
+          end
+        }
+      else
+        format.html {redirect_to friends_user_path(current_user,:page=>params[:page]) }
+        format.js {
+          render :update do |page|
+            flash.now[:error] = current_user.errors.full_messages.to_s
+            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+          end
+        }
       end
     end
   end
+
 
   #检查email是否存在
   def check_email

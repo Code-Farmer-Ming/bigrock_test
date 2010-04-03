@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     when "follow_company"
       @friends_user =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     else
-      @friends_user = @user.friends_user.paginate  :joins=>" join resumes on resumes.user_id=users.id",
+      @friends_user = @user.friend_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
         :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     end
 
@@ -73,6 +73,6 @@ class UsersController < ApplicationController
   protected
 
   def find_user
-    @user = User.find(params[:id])
+    @user = User.real_users.find(params[:id])
   end
 end

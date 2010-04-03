@@ -155,7 +155,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_response :success
     assert_nil(flash[:notice])
     post :reset_password,:text_password=>"ok",:text_password_confirmation=>"ok",:token=>token_one.value
-    assert_equal(flash[:success],"密码设置成功请登录！")
+    assert_not_nil flash[:success]
 
     assert_nil(Token.find_by_id(token_one.id))
     assert_equal User.login(token_one.user.email,"ok")[0],0
@@ -228,13 +228,13 @@ class AccountControllerTest < ActionController::TestCase
     one= users(:one)
 
     login_as(users(:one))
-    post :add_friend ,:friend_id=>2
-    
-    assert one.friends_user.exists?(2),"添加好友失败"
+    xhr :post, :add_friend ,:friend_id=>2
+    one.reload
+    assert one.friend_users.exists?(2),"添加好友失败"
     assert one.my_follow_users.exists?(users(:two)),"关注失败"
     
-    post :destroy_friend ,:friend_id=>2
-    assert !one.friends_user.exists?(2),"删除好友失败"
+    xhr :delete, :destroy_friend ,:friend_id=>2
+    assert !one.friend_users.exists?(2),"删除好友失败"
     assert_not_nil User.find_by_id(users(:two))
     assert !one.my_follow_users.exists?(users(:two)),"取消关注失败"
   end

@@ -107,7 +107,7 @@ class GroupsControllerTest < ActionController::TestCase
   #开放式权限 加入小组
   test "join group error" do
     xhr :post, :join, :id => groups(:two).to_param
-    assert_equal "加入小组出错!",flash[:error]
+    assert_equal "加入小组出错!",flash.now[:error]
   end
 
   test "quit" do

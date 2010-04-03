@@ -46,15 +46,15 @@
   <%end if !current_user?(@user)%>
 
   <%tabs() do%>
-    <%= tab_button("好友"+(@user.friends_user.size>0 ? "(#{@user.friends_user.size})"  : ""),"my_friends_tab" ) %>
+    <%= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
     <%= tab_button("在关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
     <%= tab_button("同事"+(@user.current_resume.has_yokemates? ? "(#{@user.current_resume.yokemates.size})" : ""),"my_yokemates_tab") %>
   <%end%>
   <div>
     <div id="my_friends_tab"  class="panel" >
-      <%= render :partial=>"users/user_short_info",:collection=> @user.friends_user.newly_order.find(:all,:limit=>6) %>
+      <%= render :partial=>"users/user_short_info",:collection=> @user.friend_users.newly_order.find(:all,:limit=>6) %>
       <p class="text_center c">
-        <%=   link_to("查看全部…",friends_user_path(@user)) if @user.friends_user.size>0%>
+        <%=   link_to("查看全部…",friends_user_path(@user)) if @user.friend_users.size>0%>
       </p>
     </div>
     <div id="my_follow_tab"  class="panel" >

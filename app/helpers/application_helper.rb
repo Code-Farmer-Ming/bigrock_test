@@ -16,7 +16,7 @@ module ApplicationHelper
         else if date_time.to_date == (Time.now.to_date-2)
             return "前天"
           else
-            l(date_time.to_date)
+            localize(date_time.to_date)
           end
         end
       end

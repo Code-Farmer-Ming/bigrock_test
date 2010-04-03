@@ -111,6 +111,7 @@ class PassesController < ApplicationController
   def  available_yokemates
   end
   #发送评价邀请信息
+  #TODO 发送错误时候需要检查
   def send_invite
     @msg = Msg.new(params[:msg])
     pass = Pass.find(params[:id])
@@ -129,7 +130,7 @@ class PassesController < ApplicationController
           new_msg = @msg.clone
           new_msg.sendee_id = id
           if  !new_msg.save
-            raise ActiveRecord::Rollback
+            ActiveRecord::Rollback
             return false
           end
         end

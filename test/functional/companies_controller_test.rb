@@ -36,7 +36,7 @@ class CompaniesControllerTest < ActionController::TestCase
   end
  
   test "edit with not enough authorization" do
-    login_as(users(:user_017))
+    login_as(users(:user_016))
     get :edit, :id => companies(:one).to_param
     assert_redirected_to :action => "show"
   end

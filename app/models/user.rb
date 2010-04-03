@@ -46,7 +46,7 @@ class User< ActiveRecord::Base
 
   #好友
   has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
-  has_many :friends_user,:through=>:friends,:source=>:friend
+  has_many :friend_users,:through=>:friends,:source=>:friend
   has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
   
   #  #添加好友 申请
@@ -57,7 +57,8 @@ class User< ActiveRecord::Base
     :dependent=>:destroy,:class_name=>"JoinGroupInvite",:source=>:applicant
   #发起的消息
   has_many :send_msgs,:class_name=>"Msg",
-    :finder_sql=>'SELECT * FROM `msgs` WHERE sender_stop=#{false} and sender_id in (#{ids.join(\',\')})' do
+    :finder_sql=>'SELECT * FROM `msgs` WHERE ' +
+    'parent_id=0 and sender_stop=#{false} and sender_id in (#{ids.join(\',\')})  order by created_at desc' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -68,7 +69,7 @@ class User< ActiveRecord::Base
   end
   #接收的消息
   has_many :receive_msgs,:class_name=>"Msg",
-    :finder_sql=>'SELECT * FROM `msgs` WHERE sendee_stop=#{false} and sendee_id in (#{ids.join(\',\')})' do
+    :finder_sql=>'SELECT * FROM `msgs` WHERE parent_id=0 and sendee_stop=#{false} and sendee_id in (#{ids.join(\',\')})  order by created_at desc' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -78,23 +79,21 @@ class User< ActiveRecord::Base
     end
   end
   #所有的消息 接收和发送
-  has_many  :all_msgs,:class_name=>"Msg",:finder_sql => 
+  has_many  :all_msgs,:class_name=>"Msg",:finder_sql =>
     'SELECT DISTINCT msgs.* ' +
     'FROM msgs ' +
     'WHERE msgs.sender_id in (#{ids.join(\',\')}) or msgs.sendee_id in (#{ids.join(\',\')})',
     :dependent => :destroy
 
   #  未读的消息
-  has_many  :new_msgs,:class_name=>"Msg",:finder_sql =>
+  has_many  :unread_msgs,:class_name=>"Msg",:finder_sql =>
     'SELECT DISTINCT a.* ' +
-    'FROM msgs a left join msg_responses b on a.id=b.msg_id ' +
-    'WHERE (a.sender_id in (#{ids.join(\',\')}) and a.sender_stop=false and ( (b.sender_id not in (#{ids.join(\',\')}) and b.is_check=#{false}))  ) '+
-    'or (a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or (b.sender_id not in (#{ids.join(\',\')}) and b.is_check=#{false}) )) '+
-    "  order by a.created_at",
+    'FROM msgs a left join msgs b on a.id=b.parent_id ' +
+    'WHERE a.parent_id=0 and a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})'+
+    "  order by a.created_at desc",
     :counter_sql=> 'select count(*) from (SELECT DISTINCT a.* ' +
-    'FROM msgs a left join msg_responses b on a.id=b.msg_id ' +
-    'WHERE (a.sender_id = #{id} and a.sender_stop=false and ((b.sender_id<>#{id} and b.is_check=#{false}))  ) '+
-    'or (a.sendee_id = #{id} and a.sendee_stop=false and (a.is_check=#{false} or (b.sender_id<>#{id} and b.is_check=#{false}) )) ) new_msgs' do
+    'FROM msgs a left join msgs b on a.id=b.parent_id ' +
+    'WHERE  a.parent_id=0 and a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})) new_msgs' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -218,9 +217,21 @@ class User< ActiveRecord::Base
   end
   #我的回复
   #
-  has_many :my_comments,:class_name=>"Comment",:foreign_key=>"user_id"
+  has_many :my_comments,:class_name=>"Comment" ,  :finder_sql => 'select *  from comments
+ where user_id in (#{ids.join(\',\')})' do
+    def find(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+      sql += sanitize_sql " and #{options[:conditions]}" if options[:conditions]
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+  end
   has_many :join_topics,:through=>:my_comments,:source=>:commentable,:source_type=>"Topic",:uniq => :true
-  #我发言的话题  
+  
+  #我发言的话题
   has_many :my_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:dependent => :destroy
   #我发言的话题 包括 马甲创建的
   has_many :my_created_topics,:class_name=>"Topic" ,
@@ -352,9 +363,9 @@ class User< ActiveRecord::Base
 
   def name_with_email
     if parent
-      "#{parent.name} <#{parent.email}>"
+      "'#{parent.name}' <#{parent.email}>"
     else
-      "#{name} <#{email}> "
+      "'#{name}' <#{email}>"
     end
   end
   
@@ -366,7 +377,10 @@ class User< ActiveRecord::Base
   def is_alias?
     parent_id!=0
   end
-  
+  #是否好友
+  def is_friend?(user)
+    friend_users.exists?(user)
+  end
   def my_language
     top_language = my_languages.current_language
     top_language ? top_language.content : ""
@@ -381,7 +395,11 @@ class User< ActiveRecord::Base
   end
   #添加为好友
   def add_friend(user)
-    friends_user << user unless friends_user.exists?(user)
+    friend_users << user unless is_friend?(user)
+    my_follow_users << user unless  my_follow_users.exists?(user)
+  end
+  #解除好友
+  def remove_friend(friend)    friend_users.delete(friend) &&   my_follow_users.delete(friend)
   end
 
   #用户 用过的标签

@@ -1,3 +1,8 @@
-# TODO Operate on the page object
-page.insert_html :bottom, "response_infos", render(:partial=>"msgs/msg_response",:object=>@msg_response)
-page[@msg_response].visual_effect(:highlight)
+if flash.now[:error]
+  page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+else
+  page.insert_html :bottom, "response_infos", render(:partial=>"msgs/msg_response",:object=>@msg_response)
+  page[@msg_response].visual_effect(:highlight)
+  page["response_comment"].value = ""
+ 
+end

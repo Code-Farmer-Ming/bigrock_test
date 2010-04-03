@@ -32,4 +32,24 @@ class MailerServer < ActionMailer::Base
     body       :msg =>msg
   end
 
+  #添加好友申请 发邮件通知
+  def apply_friend_msg(reuisition_invite)
+    subject   "[#{reuisition_invite.applicant.name}] 请求加你为好友"
+    recipients reuisition_invite.respondent.name_with_email
+    from       FROM_MAIL
+    sent_on    Time.now
+    content_type "text/html"
+    body       :reuisition =>reuisition_invite
+  end
+  #加入小组邀请  applicant_id   :integer
+#  respondent_id
+  def join_group_invite(reuisition_invite)
+    subject   "好友[#{reuisition_invite.applicant.name}] 邀请你加入小组"
+    recipients reuisition_invite.respondent.name_with_email
+    from       FROM_MAIL
+    sent_on    Time.now
+    content_type "text/html"
+    body       :reuisition =>reuisition_invite
+  end
+
 end

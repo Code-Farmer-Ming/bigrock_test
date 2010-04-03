@@ -15,5 +15,8 @@
 class Requisition < ActiveRecord::Base
   #申请用户
   belongs_to :applicant ,:foreign_key=>"applicant_id",:polymorphic =>true
+  #被申请的用户
   belongs_to :respondent ,:class_name=>"User" ,:foreign_key=>"respondent_id"
+
+
 end

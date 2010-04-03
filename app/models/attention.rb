@@ -17,4 +17,5 @@ class Attention < ActiveRecord::Base
   belongs_to :target,:polymorphic=>true
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:logable=>"target"
 
+
 end

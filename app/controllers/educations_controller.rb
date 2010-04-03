@@ -27,7 +27,7 @@ class EducationsController < ApplicationController
     resume = Resume.find(params[:resume_id])
     @education= resume.educations.build(params[:education])
     respond_to do |format|
-      if resume.save
+      if @education.save
         format.js {}
         format.html {
           flash[:success] = '教育创建成功.'

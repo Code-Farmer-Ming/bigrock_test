@@ -3,15 +3,12 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   # Replace this with your real tests.
 
-
   test "create_all_is_null" do
     user=User.new
     assert !user.valid?,"valid date fail"
     assert user.errors.invalid?("email"),"email is not nil"
     assert user.errors.invalid?(:password),"password is not nil"
-    
   end
-
 
   test "create" do
     user=User.new
@@ -29,7 +26,8 @@ class UserTest < ActiveSupport::TestCase
     users= User.find_all_by_email("email@gmail.com")
     assert users.length>0 ,"users is nil"
     assert users[0].password ==User.encrypted_password("password",users[0].salt),"password is not match"
-
+    assert users[0].aliases.size>0,"别名创建失败"
+    assert_not_nil users[0].current_resume 
   end
 
   test "create_exist_email" do
@@ -79,7 +77,7 @@ class UserTest < ActiveSupport::TestCase
     resume.user_id = user_one.id
     resume.save!
     resume.reload
-    user_first=User.find(:first)
+    user_first=User.find(1)
     sub_resume= user_first.resumes.find(resume.id)
     assert_not_nil(sub_resume)
     assert_equal sub_resume.id,resume.id
@@ -88,20 +86,20 @@ class UserTest < ActiveSupport::TestCase
 
   test "new_msg" do
     user= users(:one)
-    assert_equal 1, user.new_msgs.size
+    assert_equal 1, user.unread_msgs.size
 
-    new_msg = user.new_msgs[0]
+    new_msg = user.unread_msgs[0]
     new_msg.read_msg(user)
     user.reload
-    assert_equal 0, user.new_msgs.size
+    assert_equal 0, user.unread_msgs.size
 
-    new_msg.msg_responses << MsgResponse.new(:sender_id=>2,:content=>"2 send")
+    new_msg.response(new_msg.msg_responses.build(:sender_id=>2,:sendee_id=>1,:content=>"2 send"))
     user.reload
-    assert_equal 1, user.new_msgs.size
+    assert_equal 1, user.unread_msgs.size
     new_msg.read_msg(user)
-    assert_equal 0, user.new_msgs.size
-    new_msg.msg_responses << MsgResponse.new(:sender_id=>1,:content=>"1 send")
-    assert_equal 0, user.new_msgs.size
+    assert_equal 0, user.unread_msgs.size
+    new_msg.msg_responses << new_msg.msg_responses.build(:sender_id=>1,:content=>"1 send")
+    assert_equal 0, user.unread_msgs.size
   end
 
   test "send_msg" do
@@ -119,9 +117,9 @@ class UserTest < ActiveSupport::TestCase
     msg.save
     user= users(:one)
     assert_equal 2, user.receive_msgs.size
-    assert_equal 2, user.new_msgs.size
+    assert_equal 2, user.unread_msgs.size
     msg.read_msg(user)
-    assert_equal 1, user.new_msgs.size
+    assert_equal 1, user.unread_msgs.size
     assert msg.can_response?
     msg.stop_or_destroy(user)
     assert !msg.can_response?
@@ -258,6 +256,9 @@ class UserTest < ActiveSupport::TestCase
     user_one = users(:one)
     assert_equal 3, user_one.my_topics.count
     assert_equal 4, user_one.my_created_topics.count
+    
+     assert_equal 4, user_one.join_topics.size
+
   end
 
   test "user login" do
@@ -277,10 +278,16 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "add friend" do
+    ActionMailer::Base.deliveries.clear
     user_one= users(:one)
+    b_x = users(:two).unread_msgs.size
+
     user_one.add_friend(users(:two))
-    assert_equal 1, user_one.friends_user.size
-    assert_not_nil user_one.friends_user.find(users(:two))
-    assert user_one.friends_user.exists?(users(:two))
+    b_y = users(:two).unread_msgs.size
+    assert_equal 1, user_one.friend_users.size
+    assert_not_nil user_one.friend_users.find(users(:two))
+    assert user_one.friend_users.exists?(users(:two))
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 1,b_y-b_x
   end
 end

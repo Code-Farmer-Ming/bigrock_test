@@ -88,7 +88,7 @@ Validator.messageSource['en'] = Validator.messageSource['en-us']
 
 Validator.messageSource['zh-cn'] = [
     ['validation-failed' , '验证失败.'],
-    ['required' , '请输入值.'],
+    ['required' , '不能为空.'],
     ['validate-number' , '请输入有效的数字.'],
     ['validate-digits' , '请输入数字.'],
     ['validate-alpha' , '请输入英文字母.'],

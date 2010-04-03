@@ -35,6 +35,7 @@ class MsgTest < ActiveSupport::TestCase
   end
 
   test "send_to_multi_msg_ok" do
+    ActionMailer::Base.deliveries.clear
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
     msg.sender_id = 2
     msg.sendees="1 3"
@@ -46,17 +47,26 @@ class MsgTest < ActiveSupport::TestCase
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
     msg.sender_id = 2
     msg.sendees="zhang(1);san(9999)"
-    assert !Msg.save_all(msg),"包含错误地址但发生成功"
+    assert !Msg.save_all(msg),msg.errors.full_messages.to_s
 
   end
 
   test "msg_response" do
     msg = msgs(:one)
-    assert_equal 2, msg.msg_responses.size
-    msg.response(MsgResponse.new(:content=>"test content"))
+    assert_equal 0, msg.msg_responses.size
+    msg.response(msg.msg_responses.new(:sender_id=>1,:sendee_id=>2, :content=>"test content"))
     assert_not_nil  msg.msg_responses.find_by_content("test content")
-    assert_equal 3, msg.msg_responses.size
-    MsgResponse.destroy(2)
-    assert_equal 2, msg.msg_responses.size
+    assert_equal 1, msg.msg_responses.size
+    msg.msg_responses.find_by_content("test content").destroy
+    msg.reload
+    assert_equal 0, msg.msg_responses.size
+  end
+
+  test "new system msg" do
+    msg =  Msg.new_system_msg(:title=>"sys title",:content=>"sys content")
+    assert_difference("Msg.count",1) do
+      msg.send_to(users(:two))
+    end
+    
   end
 end

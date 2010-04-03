@@ -1,6 +1,6 @@
 <%user =   operation %>
 <% if !current_user?(user) %>
-  <% if !current_user.friends_user.exists?(user) %>
+  <% if !current_user.is_friend?(user) %>
     <% if !user.add_friend_applications.exists?(["applicant_id=#{current_user.to_param}"]) %>
       <%= case (user.setting.apply_friend_auth)
       when UserSetting::APPLY_FRIEND_TYPES[0] then
@@ -25,7 +25,7 @@
   <%end%>
   <%= link_to "发消息" ,new_account_msg_path(:write_to=>user) ,:class=>"button"%>
 <%else%>
-   
+
   <%#= link_to "资料权限设置",set_resume_visibility_account_path(),:class=>"button" %>
 <%end%>
 <p class="clear"/>

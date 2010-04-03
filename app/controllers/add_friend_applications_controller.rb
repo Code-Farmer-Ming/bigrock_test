@@ -27,7 +27,7 @@ class AddFriendApplicationsController < ApplicationController
   def apply
     @add_friend = AddFriendApplication.new(params[:add_friend_application])
     if !request.post?
-      @respondent = User.find(params[:respondent_id])
+      @respondent = User.real_users.find(params[:respondent_id])
       #      @add_friend.respondent = @respondent
       @add_friend.respondent_id = params[:respondent_id]
     else
