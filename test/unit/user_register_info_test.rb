@@ -12,12 +12,12 @@ class UserTest < ActiveSupport::TestCase
 
   test "create" do
     user=User.new
-  
+    user.nick_name = "名字"
     user.email="email@gmail.com"
     user.text_password="password"
     user.text_password_confirmation = "password"
     assert user.text_password=="password","text_password is not match"
-    assert user.valid?,"user.errors"
+    assert user.valid?,user.errors.full_messages.to_s
     assert user.save,"save fail"
     assert !user.errors.invalid?("email"),"email is nil"
     assert !user.errors.invalid?(:password),"password is nil"
@@ -31,7 +31,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "create_exist_email" do
+
     user=User.new
+    user.nick_name = "名字"
     user.email="email@email.com"
     user.text_password="password"
     user.text_password_confirmation = "password"

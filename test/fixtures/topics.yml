@@ -33,17 +33,15 @@ one:
   up: 0
   down: 0
   comments_count: 1
- 
   view_count: 0
 
 two:
   id: 2
   owner_id: 2
   owner_type: Company
-  author_id: 0
+  author_id: 2
   title: MyString
   content: MyText
- 
   up: 0
   down: 0
   comments_count: 0

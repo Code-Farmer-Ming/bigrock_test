@@ -29,11 +29,11 @@
         <%end%>
       </div>
     <%end%>
-    <% sub_block_div("公司博客",link_to("更多…",news_path())) do%>
-      <div id="my_news">
-      </div>
-      <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
-    <%end%>
+    <%# sub_block_div("公司博客",link_to("更多…",news_path())) do%>
+      <%#*<div id="my_news">%>
+      <%#*</div>%>
+      <%#= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
+    <%#end%>
     <%  sub_block_div("热门话题") do %>
       <%= render :partial=>"topics/topic_item",:collection=>@hot_topics,:locals=>{:show_group=>true} %>
     <%end%>
@@ -42,11 +42,11 @@
       <%= javascript_include_merged :dragdrop %>
     <%end %>
     <h1>欢迎，<%= current_user.name %></h1>
-    <% sub_block_div("公司博客",link_to("更多",news_path())) do%>
-      <div id="my_news">
-      </div>
-      <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
-    <%end%>
+    <%# sub_block_div("公司博客",link_to("更多",news_path())) do%>
+      <%#*<div id="my_news">%>
+      <%#*</div>%>
+      <%#= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
+    <%#end%>
     <% sub_block_div(" ") do%>
       <%tabs do%>
         <%= tab_button("最新的话题","new_topics") %>

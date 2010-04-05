@@ -29,6 +29,7 @@ one:
   email: MyStringone
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
+  nick_name: 用户
   is_active: true
   parent_id: 0
 two:
@@ -36,11 +37,13 @@ two:
   email: zhangming12@hotmail.com
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
+  nick_name: 用户
   is_active: true
 
 three:
   id: 3
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
@@ -48,6 +51,7 @@ three:
 foru:
   id: 4
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
@@ -55,6 +59,7 @@ foru:
 user_005:
   id: 5
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
@@ -62,6 +67,7 @@ user_005:
 user_006:
   id: 6
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: false
@@ -69,6 +75,7 @@ user_006:
 user_007:
   id: 7
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
@@ -76,54 +83,63 @@ user_007:
 user_008:
   id: 8
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_009:
   id: 9
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_010:
   id: 10
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_011:
   id: 11
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_012:
   id: 12
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_013:
   id: 13
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_014:
   id: 14
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_015:
   id: 15
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true
 user_016:
   id: 16
   email: MyStringthree
+  nick_name: 用户
   salt: <%= SALT %>
   password: <%=User.encrypted_password('MyString',SALT)%>
   is_active: true

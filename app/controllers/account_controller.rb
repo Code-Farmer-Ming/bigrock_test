@@ -51,7 +51,7 @@ class AccountController < ApplicationController
     @user= current_user
     if @user
       @page_title =" #{@user.name} 的首页"
-      @news = @user.my_follow_company_news.find(:all,:limit=>6)
+      #      @news = @user.my_follow_company_news.find(:all,:limit=>6)
       @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
       @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
       @my_topics = @user.my_created_topics.all(:limit=>20)
@@ -61,7 +61,7 @@ class AccountController < ApplicationController
     else
       @page_title ="首页"
       @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境 小组"
-      @news = Piecenews.newly.all(:limit=>4)
+      #      @news = Piecenews.newly.all(:limit=>4)
       @hot_topics = Topic.hot.since(7.days.ago).limit(10)
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
       @salary_best_companies =  Company.order_by_salary.limit(6)
@@ -161,7 +161,7 @@ class AccountController < ApplicationController
       if request.post?
         user= @token.user
         user.text_password=params[:text_password]
-        user.text_password_confirmation=params[:text_password_confirmation]
+        user.text_password_confirmation = params[:text_password_confirmation]
         if user.save && @token.destroy
           flash[:success] = "密码设置成功请登录！"
           redirect_to login_account_path()
@@ -216,9 +216,7 @@ class AccountController < ApplicationController
   end
   #设置用户的状态
   def set_user_state
-
     current_user.update_attribute("state", params[:state] || User::STATE_TYPES.keys[0].to_s())
-
     new_state = params[:state] || User::STATE_TYPES.keys[0].to_s
     new_state_content =User::STATE_TYPES[new_state.to_sym]
     LogItem.create(:owner=>current_user,:log_type=>"state_change",:changes=>new_state,:operation=>"create")

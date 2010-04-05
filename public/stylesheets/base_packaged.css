@@ -153,7 +153,7 @@ b.ts1{border-width: 0 2px}
 .output_full_star {background-image: url(../images/output_full_star.gif)}
 .validation-advice {display:inline}
 input.required, textarea.required {}
-select.validation-failed,input.validation-failed, textarea.validation-failed { }
+select.validation-failed,input.validation-failed, textarea.validation-failed {border: 1px solid #FF3300; color : #FF3300}
 * html select.validation-failed {background-color: #E8CDB9}
 select.validation-passed, input.validation-passed, textarea.validation-passed { }
  .validation-advice {margin: 0px 0; padding: 0px; margin-left: 10px; color : #FF3300; font-weight: bold}
