@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   def destroy
     if params[:topic_id] #topic
       owner = Topic.find(params[:topic_id])
-    else#新闻 news
+    else#公司博客 news
       owner = Piecenews.find(params[:piecenews_id])
       
     end
@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
       else #owner.owner 是 group
         @comment.user = owner.owner.is_member?(current_user)
       end
-    else #新闻 news
+    else #公司博客 news
       owner = Piecenews.find(params[:piecenews_id])
       @comment.user = current_user.get_account(params[:alias])
     end  

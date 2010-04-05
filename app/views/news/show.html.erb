@@ -48,7 +48,7 @@
     <br class="clear"/>
   <%end%>
   <% sub_block_div() do %>
-  <%#= link_to "#{@company.name}所有有新闻", company_news_path(params[:company_id]) %>
+  <%#= link_to "#{@company.name}所有有公司博客", company_news_path(params[:company_id]) %>
     <%= link_to "#{@company.name}首页", company_path(@company) %>
   <%end%>
   <% sub_block_div("评价最高的回复") do %>
@@ -56,7 +56,7 @@
       :collection=>@piece_of_news.comments.higher_scope.all(:limit=>20) %>
   <%end%>
 
-  <% sub_block_div("相关新闻") do %>
+  <% sub_block_div("相关公司博客") do %>
     <%= render :partial=>"comm_partial/topic_or_news_title_item",
       :collection=>@company.news.all(:conditions=>"id<>#{@piece_of_news.to_param}",:limit=>10) %>
   <%end%>

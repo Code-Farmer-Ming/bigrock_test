@@ -30,7 +30,7 @@ class User< ActiveRecord::Base
   attr_accessor                 :text_password
   validates_confirmation_of   :text_password,  :message=>"两次不同"
   attr_accessor                 :text_password_confirmation
-  
+  validates_length_of :nick_name, :within => 2..10
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
   #经历
@@ -229,10 +229,23 @@ class User< ActiveRecord::Base
       find_by_sql(sql)
     end
   end
-  has_many :join_topics,:through=>:my_comments,:source=>:commentable,:source_type=>"Topic",:uniq => :true
+  has_many :reply_topics,:class_name=>"Topic",
+    :finder_sql=>'
+    selECT DISTINCT `topics`.*
+    FROM `topics` INNER JOIN `comments` ON `topics`.id = `comments`.commentable_id AND `comments`.commentable_type = \'Topic\'
+    WHERE `comments`.user_id in  (#{ids.join(\',\')}) order by topics.last_comment_datetime desc' do
+    def find(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+      sql += sanitize_sql " and #{options[:conditions]}" if options[:conditions]
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+
+  end
   
-  #我发言的话题
-  has_many :my_topics,:class_name=>"Topic" ,:foreign_key=>"author_id",:dependent => :destroy
   #我发言的话题 包括 马甲创建的
   has_many :my_created_topics,:class_name=>"Topic" ,
     :finder_sql =>'select * from topics where author_id=#{id} or author_id= #{aliases.first.id}' do
@@ -271,7 +284,7 @@ class User< ActiveRecord::Base
       find_by_sql(sql)
     end
   end
-  #关注公司的新闻
+  #关注公司的博客
   has_many :my_follow_company_news,:class_name=>"Piecenews",
     :finder_sql => 'select news.* from news INNER JOIN  attentions
       on attentions.target_id=news.company_id and attentions.target_type=\'Company\'

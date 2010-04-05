@@ -6,9 +6,7 @@
     <meta name="description" content="<%= (@page_title || "")+" "+(@page_description || "") %>" />
     <meta name="keywords" content="<%=  (@page_title || "")+" "+(@page_keywords || "") %>" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-
-
-    <title> <%=  @page_title ||= "" + "-谁靠谱网"%></title>
+    <title> <%=   "#{@page_title } -谁靠谱网"%></title>
     <%=  stylesheet_link_merged :base %>
     <%= stylesheet_link_tag 'blueprint/print',:media => "print"  %>
     <!--[if lt IE 8]>
@@ -19,7 +17,7 @@
     <style type="text/css">
       * html body{ width: expression( document.documentElement.clientWidth < 1024 ? '1024px' : '100%' ); }
     </style>
-<![endif]-->
+    <![endif]-->
     <%= javascript_include_merged :base %>
 <%#*#调用各个页面不同的脚本%>
     <%= yield :script %>
@@ -30,13 +28,15 @@
         <div  id="current_user">
           <%= render(:partial => "/users/current_user_sign") %>
         </div>
-        
+
         <div id="menu">
           <ul id="nav">
             <li id="home" class="<%= "activelink" if controller.controller_name=="account" && controller.action_name=="show" %>" ><%= link_to "首页", account_path() %></li>
             <li id="who" class="<%= "activelink" if controller.controller_name=="users"  %>" ><%= link_to "个人", user_path(current_user) if current_user %></li>
             <li id="company" class="<%= "activelink" if controller.controller_name=="companies"  && controller.action_name!="news"%>" > <%= link_to "公司",companies_path() %></li>
-            <li id="news"  class="<%= "activelink" if controller.controller_name=="news"  && controller.action_name=="index"  %>"><%= link_to "新闻",news_path() %></li>
+            <li id="news" class="<%= "activelink" if controller.controller_name=="news"  && controller.action_name=="index" %> "> 
+              <%= link_to "公司博客",news_path() %>
+            </li>
             <li id="group"  class="<%= "activelink" if controller.controller_name=="groups"  %>"><%= link_to "小组",groups_path() %></li>
 <%#*<li id="work"><a href="#">职位</a></li>%>
           </ul>

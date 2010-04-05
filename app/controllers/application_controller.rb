@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     else
       user=User.real_users.find(cookies[:auto_login_user_id])
       if (user && (auth_text=User.authenticate(user))=="成功")
-        return session[:user]=user
+        return session[:user]=user.id
       else
         flash.now[:notice] = auth_text
         redirect_to login_account_path()

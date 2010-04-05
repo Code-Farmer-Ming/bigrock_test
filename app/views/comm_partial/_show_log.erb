@@ -106,17 +106,17 @@ for log in show_log
     when "create"
       temp = "#{link_to log.logable.name,user_path(log.logable)}加入了"
     end  if log.logable
-  when "company_news" #新闻
+  when "company_news" #公司博客
     case log.operation
     when "create"
-      temp = "新闻: #{link_to log.logable.title,company_piecenews_path(log.owner,log.logable),:target=>"_blank"}"
+      temp = "公司博客: #{link_to log.logable.title,company_piecenews_path(log.owner,log.logable),:target=>"_blank"}"
     end  if log.logable
   when "Recommend" #推荐
     case log.operation
     when "create"
       case log.logable.recommendable_type
       when "Piecenews"
-        temp = "推荐新闻: #{link_to log.logable.recommendable.title,
+        temp = "推荐公司博客: #{link_to log.logable.recommendable.title,
         company_piecenews_path(log.logable.recommendable.owner,log.logable.recommendable),:target=>"_blank"}"+
           (log.logable.memo=="" ? "" : "<blockquote>#{log.logable.memo}</blockquote>")
       when "Topic"

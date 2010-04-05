@@ -54,10 +54,10 @@
       <%end%>
     </p>
   </div>
-  <%  sub_block_div("新闻",(link_to("全部", company_news_path(@company) ) if @company.news.size>0)) do  %>
-    <%= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>5) %>
+  <%  sub_block_div("公司博客",(link_to("全部", company_news_path(@company) ) if @company.news.size>0)) do  %>
+    <%= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>3) %>
   <%end%>
-  <%  sub_block_div("话题", link_to("+发言",new_company_topic_path(@company),:title=>"我来发布新话题")+
+  <%  sub_block_div("话题(#{@company.topics.size})", link_to("+我发言",new_company_topic_path(@company),:title=>"我来发布新话题")+
       "&nbsp;"+(link_to("全部", company_topics_path(@company)))) do  %>
     <%= render :partial=>"topics/topic_item",:collection=>@company.topics.all(:limit=>10) %>
     <%=  %>

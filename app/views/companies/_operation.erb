@@ -2,7 +2,7 @@
 <%# if company.all_employees.exists?(current_user) %>
 
 <%= link_to  '编辑公司', edit_company_path(company),:class=>"button" -%>
-<%= link_to  '发布新闻', new_company_piecenews_path(company),:class=>"button"-%>
+<%= link_to  '+公司博客', new_company_piecenews_path(company),:class=>"button",:title=>"发布公司博客"-%>
 <%#end%>
 
 <%if !company.follow_me_users.exists?(current_user) -%>

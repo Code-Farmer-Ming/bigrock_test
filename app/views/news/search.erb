@@ -1,5 +1,5 @@
 <div id="left_content">
-  <h2><%= @company ? @company.name : '' %>&nbsp;新闻搜索</h2>
+  <h2><%= @company ? @company.name : '' %>&nbsp;公司博客搜索</h2>
   <div class="bottom_gray_line">
     <p class='r'>
       <%= label_tag :search ,"排序",:class=>"filed_lab" %>
@@ -20,9 +20,9 @@
 <div id="right_content">
   <% sub_block_div("") do%>
     <%if @company -%>
-      <%= link_to "返回[#{@company.name}]新闻首页",[@company,:news]  %>
+      <%= link_to "返回[#{@company.name}]公司博客首页",[@company,:news]  %>
     <%else%>
-      <%= link_to "返回新闻首页",[:news]  %>
+      <%= link_to "返回公司博客首页",[:news]  %>
     <%end%>
   <%end%>
 

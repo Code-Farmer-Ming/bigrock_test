@@ -8,9 +8,9 @@ input.required, textarea.required {
 }
 
 select.validation-failed,input.validation-failed, textarea.validation-failed {
- /*    border: 1px solid #FF3300;
+     border: 1px solid #FF3300;
     color : #FF3300;
- */
+ 
 }
 
 * html select.validation-failed {

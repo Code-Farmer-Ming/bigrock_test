@@ -93,7 +93,7 @@ Validator.messageSource['zh-cn'] = [
     ['validate-digits' , '请输入数字.'],
     ['validate-alpha' , '请输入英文字母.'],
     ['validate-alphanum' , '请输入英文字母或是数字,其它字符是不允许的.'],
-    ['validate-email' , '请输入有效的邮件地址,如 username@example.com.'],
+    ['validate-email' , '请输入有效的邮件地址.'],
     ['validate-url' , '请输入有效的URL地址.'],
     ['validate-currency-dollar' , 'Please enter a valid $ amount. For example $100.00 .'],
     ['validate-one-required' , '在前面选项至少选择一个.'],

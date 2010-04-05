@@ -98,7 +98,7 @@ class Company < ActiveRecord::Base
         join passes b on a.user_id=b.user_id and b.company_id<>#{id}
         join companies c on b.company_id= c.id
         group by b.company_id
-        order by count(*)' do
+        order by count(*) desc' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -111,7 +111,7 @@ class Company < ActiveRecord::Base
   end
   #动态信息
   has_many :log_items,:as=>:owner,:dependent => :destroy,:order=>"created_at desc"
-  #新闻
+  #公司博客
   has_many :news ,:dependent => :destroy,:order=>"created_at desc"
   has_many :topics,:as=>:owner,:dependent=>:destroy,:order => 'top_level desc ,last_comment_datetime DESC'
   has_many :comments ,:through => :topics

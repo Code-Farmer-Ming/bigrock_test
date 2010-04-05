@@ -11,7 +11,7 @@
     <%end%>
     <%= popmenu("manaage_menu_button","manage_menu") -%>
   <%end%>
-  <%= link_to "发言",new_group_topic_path(group),:class=>"button" ,:title=>"我来发布新话题" %>
+  <%#= link_to "发言",new_group_topic_path(group),:class=>"button" ,:title=>"我来发布新话题" %>
   <%= link_to "邀请", invite_join_group_path(group),:class=>"button",:title=>"邀请好友加入进来"  %>
   <%= link_to_remote  "退出小组",{:url=>{:action=>:quit,:id=>group},:confirm=>"你确定吗?"},:class=>"button negative"  %>
 <%else%>

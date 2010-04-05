@@ -38,9 +38,9 @@ class AccountController < ApplicationController
   #ajax 获取信息
   def get_news
     if @user=current_user
-      @news = @user.my_follow_company_news.paginate :page => params[:page]#,:per_page=>2
+      @news = @user.my_follow_company_news.paginate :page => params[:page],:per_page=>4
     else
-      @news = Piecenews.paginate :page => params[:page],:order=>"news.created_at desc"#,:per_page=>2
+      @news = Piecenews.paginate :page => params[:page],:order=>"news.created_at desc",:per_page=>4
     end
     render :partial=>"news/news_short_info",:collection=>@news,:locals=>{:show_icon=>true}
   end
@@ -55,17 +55,17 @@ class AccountController < ApplicationController
       @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
       @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
       @my_topics = @user.my_created_topics.all(:limit=>20)
-      @join_topics =  @user.join_topics.find(:all,:limit=>20)
+      @join_topics =  @user.reply_topics.find(:all,:limit=>20)
       @add_friend_request_size = @user.add_friend_applications.size
       @join_group_invites_size = @user.join_group_invites.size
     else
       @page_title ="首页"
-      @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境"
+      @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境 小组"
       @news = Piecenews.newly.all(:limit=>4)
-      @hot_topics = Topic.hot(:limit=>20)
+      @hot_topics = Topic.hot.since(7.days.ago).limit(10)
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-      @salary_best_companies =  Company.order_by_salary.limit(4)
-      @condition_best_companies =  Company.order_by_condition.limit(4)
+      @salary_best_companies =  Company.order_by_salary.limit(6)
+      @condition_best_companies =  Company.order_by_condition.limit(6)
     end
   end
   
@@ -78,7 +78,7 @@ class AccountController < ApplicationController
       @topics = @user.my_follow_group_topics.paginate :all, :page => params[:page]
     when "join"
       @page_title = "我参与的话题"
-      @topics =  @user.join_topics.paginate :all, :page => params[:page]
+      @topics =  @user.reply_topics.paginate :all, :page => params[:page]
     else
       @page_title = "我创建的话题"
       @topics = @user.my_created_topics.paginate :all , :page => params[:page]
@@ -386,7 +386,7 @@ class AccountController < ApplicationController
     code,user = User.login(email, password)
     session[:user] = nil
     if code==0
-      session[:user] = user
+      session[:user] = user.id
       if auto_login
         cookies[:auto_login_user_id]= {:value=>user.id, :expires => 1.month.from_now}
       end

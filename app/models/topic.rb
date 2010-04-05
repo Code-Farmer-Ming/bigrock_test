@@ -27,7 +27,7 @@ class Topic < ActiveRecord::Base
   
   belongs_to :owner,:polymorphic => true,:counter_cache => true
   belongs_to :author,:class_name=>"User",:foreign_key=>"author_id"
-    belongs_to :last_comment_user ,:class_name=>"User",:foreign_key=>"last_comment_user_id"
+  belongs_to :last_comment_user ,:class_name=>"User",:foreign_key=>"last_comment_user_id"
   belongs_to :group_type 
   
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy
@@ -36,13 +36,13 @@ class Topic < ActiveRecord::Base
 
 
   #热门话题
-  #TODO 加上 日期限制 近期最热门的话题
-  named_scope :hot,:conditions=>["view_count>10"],:order=>"view_count desc"
+  named_scope :hot,:order=>"view_count desc"
   #评分最高的话题
-  named_scope :highter_scope,:conditions=>["(up-down)>10"],:order=>"up-down desc"
-
+  named_scope :highter_scope,:order=>"up-down desc"
+  named_scope :limit,lambda { |size| { :limit => size } }
   named_scope :new_topics,:order=>"topics.created_at desc"
   named_scope :order_by_last_comment,:order=>"last_comment_datetime desc"
+  named_scope :since,lambda { |since| { :conditions =>["created_at>?",since] } }
   #置顶
   named_scope :order_by_top_level,:order => 'top_level desc'
   named_scope :group_topics,:conditions=>["owner_type='Group'"]
@@ -62,9 +62,9 @@ class Topic < ActiveRecord::Base
     save
   end
   
-#  def last_comment
-#    last_comment_user.last
-#  end
+  #  def last_comment
+  #    last_comment_user.last
+  #  end
 
   #浏览次数增加
   def increase_view_count
@@ -100,7 +100,7 @@ class Topic < ActiveRecord::Base
   end
   #是否作者
   def is_author?(user)
-   user && user.accounts.index(author)
+    user && user.accounts.index(author)
   end
 
 end

@@ -17,7 +17,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_equal 1,topics(:one).comments_count
     assert_equal users(:one), topics(:one).last_comment_user
    
-    assert_equal 1, users(:one).join_topics.size
+    assert_equal 1, users(:one).reply_topics.size
   end
   
   test "should create  company topic comment with alias" do
@@ -40,7 +40,7 @@ class CommentsControllerTest < ActionController::TestCase
         :piecenews_id=>news.id,:comment=>{:content=>"test comment"},
         :alias=>users(:one)
     end
-    assert_equal 1, users(:one).join_topics.size
+    assert_equal 1, users(:one).reply_topics.size
   end
 
   test "should create  company news comment with alias" do
@@ -51,7 +51,7 @@ class CommentsControllerTest < ActionController::TestCase
         :piecenews_id=>news.id,:comment=>{:content=>"test comment"},
         :alias=>users(:one).aliases.first
     end
-    assert_equal 1, users(:one).join_topics.size
+    assert_equal 1, users(:one).reply_topics.size
   end
   
   test "should destroy" do

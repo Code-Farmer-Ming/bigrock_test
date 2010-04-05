@@ -1,7 +1,7 @@
 <div class="tab">
   <ul class="item">
     <li><%= link_to "全部", "?type=all",:class=>(params[:type]=="all" || !params[:type]) ?  "active-tab" :""  %> </li>
-    <li><%= link_to "新闻", "?type=company_news",:class=>(params[:type]=="company_news" ?  "active-tab" :"") %></li>
+    <li><%= link_to "公司博客", "?type=company_news",:class=>(params[:type]=="company_news" ?  "active-tab" :"") %></li>
     <li><%= link_to "加入信息", "?type=join_company",:class=>(params[:type]=="join_company" ?  "active-tab" :"")   %> </li>
     <li><%= link_to "关注", "?type=Attention",:class=>(params[:type]=="Attention" ?  "active-tab" :"")  %> </li>
   </ul>

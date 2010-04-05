@@ -71,8 +71,8 @@ class LogItemTest < ActiveSupport::TestCase
   test "create_news" do
     one_company = companies(:one)
     piece_news = Piecenews.new
-    piece_news.title ="一则新闻"
-    piece_news.content = "新闻的内容"
+    piece_news.title ="一则公司博客"
+    piece_news.content = "公司博客的内容"
     piece_news.create_user = users(:one)
     one_company.news << piece_news
     assert_equal 1,LogItem.find_all_by_log_type_and_operation("company_news","create").size

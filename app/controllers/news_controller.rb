@@ -19,14 +19,14 @@ class NewsController < ApplicationController
       @hot_news=@company.news.hot(:limit=>10)
       @higher_scope_news=  @company.news.highter_scope(:limit=>10)
       @higher_scope_comments =  Comment.news_comments.higher_scope(:conditions=>["commentable_id=?",@company],:limit=>10)
-      @page_title =   "#{@company.name} 新闻"
+      @page_title =   "#{@company.name} 公司博客"
     else
       @news = Piecenews.paginate :conditions=>["title like ? or content like ? ",
         search_str, search_str],:order=>order_str,:page => params[:page]
       @hot_news=Piecenews.hot(:limit=>10)
       @higher_scope_news=  Piecenews.highter_scope(:limit=>10)
       @higher_scope_comments = Comment.news_comments.higher_scope(:limit=>10)
-      @page_title =   "新闻"
+      @page_title =   "公司博客"
     end
       
     respond_to do |format|
@@ -42,7 +42,7 @@ class NewsController < ApplicationController
     @company = @piece_of_news.owner
     @is_manager  =@company.current_employee?(current_user)
     @comments = @piece_of_news.comments.paginate :page => params[:page]
-    @page_title= "新闻 " + @piece_of_news.title
+    @page_title= "公司博客 " + @piece_of_news.title
     @piece_of_news.update_attribute(:view_count, @piece_of_news.view_count+1)
     respond_to do |format|
       format.html # show.html.erb
@@ -53,17 +53,17 @@ class NewsController < ApplicationController
   # GET /news/new
   # GET /news/new.xml
   def new
-    @page_title = "发布新闻"
+    @page_title = "发布公司博客"
     @company = Company.find(params[:company_id])
     if @company.all_employees.exists?(current_user)
       if !@company.higher_creditability_employees.exists?(current_user)
-        flash[:notice]="资料真实度需要4星，才可以发布新闻！"
+        flash[:notice]="资料真实度需要4星，才可以发布公司博客！"
         redirect_to @company
       else
         @piece_of_news = Piecenews.new
       end
     else
-      flash[:notice] = "必须是公司的员工，才能发布新闻"
+      flash[:notice] = "必须是公司的员工，才能发布公司博客"
       redirect_to @company
     end
   end
@@ -74,12 +74,12 @@ class NewsController < ApplicationController
     
     if @company.all_employees.exists?(current_user)
       if !@company.higher_creditability_employees.exists?(current_user)
-        flash[:notice]="资料真实度需要4星，才可以编辑新闻！"
+        flash[:notice]="资料真实度需要4星，才可以编辑公司博客！"
         redirect_to @company
         return
       end
     else
-      flash[:notice] = "必须是公司的员工，才可以编辑新闻！"
+      flash[:notice] = "必须是公司的员工，才可以编辑公司博客！"
       redirect_to @company
       return
     end
@@ -95,7 +95,7 @@ class NewsController < ApplicationController
     @piece_of_news.create_user = current_user
     respond_to do |format|
       if @company.news << @piece_of_news
-        flash[:success] = '新闻创建成功'
+        flash[:success] = '公司博客创建成功'
         format.html { redirect_to( company_piecenews_path(@company,@piece_of_news)) }
         format.xml  { render :xml => @piece_of_news, :status => :created, :location => @piece_of_news }
       else
@@ -112,7 +112,7 @@ class NewsController < ApplicationController
     @piece_of_news.last_edit_user = current_user
     respond_to do |format|
       if @piece_of_news.update_attributes(params[:piecenews])
-        flash[:success] = '新闻修改成功'
+        flash[:success] = '公司博客修改成功'
         format.html { redirect_to(company_piecenews_path(params[:company_id],@piece_of_news)) }
         format.xml  { head :ok }
       else
@@ -128,12 +128,12 @@ class NewsController < ApplicationController
     @company = Company.find(params[:company_id])
     if @company.all_employees.exists?(current_user)
       if !@company.higher_creditability_employees.exists?(current_user)
-        flash[:notice]="资料真实度需要4星，才可以编辑新闻！"
+        flash[:notice]="资料真实度需要4星，才可以编辑公司博客！"
         redirect_to @company
         return
       end
     else
-      flash[:notice] = "必须是公司的员工，才可以编辑新闻！"
+      flash[:notice] = "必须是公司的员工，才可以编辑公司博客！"
       redirect_to @company
       return
     end
@@ -144,21 +144,21 @@ class NewsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  #顶 新闻
+  #顶 公司博客
   def up
     @piece_news = Piecenews.find(params[:id])
     @piece_news.add_vote(Vote.new(:value=>1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=> @piece_news
   end
-  #踩 新闻
+  #踩 公司博客
   def down
     @piece_news = Piecenews.find(params[:id])
     @piece_news.add_vote(Vote.new(:value=>-1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=> @piece_news
   end
-  #搜索新闻
+  #搜索公司博客
   def search
-    @page_title= "新闻搜索"
+    @page_title= "公司博客搜索"
     order_str =  (params[:view_count] && !params[:view_count].blank?  ?  "view_count " + (params[:view_count].to_s=="asc" ? 'asc' : 'desc') : nil)
 
     if !order_str

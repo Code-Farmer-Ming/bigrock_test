@@ -127,12 +127,12 @@ class TopicsController < ApplicationController
       end
     end
   end
-  #顶 新闻
+  #顶 公司博客
   def up
     @topic.add_vote(Vote.new(:value=>1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=>@topic
   end
-  #踩 新闻
+  #踩 公司博客
   def down
     @topic.add_vote(Vote.new(:value=>-1,:user=>current_user))
     render :partial => "comm_partial/update_up_down_panel",:object=>@topic

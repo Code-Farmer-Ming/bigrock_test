@@ -791,7 +791,7 @@ div.auto_complete ul strong.highlight {
     margin-bottom:0.8em;
 }
 
-/*新闻*/
+/*公司博客*/
 .news_title{
     font-weight:bold;
     background-color:#E1E9F8;
@@ -823,7 +823,7 @@ div.auto_complete ul strong.highlight {
 .news_company_icon{
     margin-right:12px;
 }
-/*新闻结束------------------------------------*/
+/*公司博客结束------------------------------------*/
 /*回复*/
 .operation{
     text-align:center;

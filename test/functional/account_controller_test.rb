@@ -92,7 +92,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_response :success
     one=users(:one)
     post :login,:email=>one.email,:password=>"MyString"
-    assert_equal(one.id, session[:user].id)
+    assert_equal(one.id, session[:user])
   end
 
   test "login_auto" do
@@ -102,7 +102,7 @@ class AccountControllerTest < ActionController::TestCase
     one=users(:one)
 
     post :login,:email=>one.email,:password=>"MyString",:auto_login=>true
-    assert_equal(one.id, session[:user].id)
+    assert_equal(one.id, session[:user])
     assert_equal one.id.to_s,cookies["auto_login_user_id"]
   end
 
@@ -111,7 +111,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_response :success
     one=users(:one)
     post :login,:email=>one.email,:password=>"MyString"
-    assert_equal(one.id, session[:user].id)
+    assert_equal(one.id, session[:user])
     get :logout
     assert_nil(session[:user])
     assert_nil(cookies[:user])
@@ -211,7 +211,7 @@ class AccountControllerTest < ActionController::TestCase
     get :login
     one=users(:one)
     post :login,:email=>one.email,:password=>"new_password"
-    assert_equal(one.id, session[:user].id)
+    assert_equal(one.id, session[:user])
     #get :set_base_info
     # xhr :post,attachments_url(),:Filedata=>test_uploaded_file("sorry.jpg","img/jpg"),:type=>"UserIcon"
     #post :set_base_info, :uploaded_file_id=>assert_

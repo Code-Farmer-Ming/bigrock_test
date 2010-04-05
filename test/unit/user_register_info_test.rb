@@ -249,18 +249,28 @@ class UserTest < ActiveSupport::TestCase
   test "all group" do
     user_one = users(:one)
     assert_equal 2, user_one.all_groups.count
-
   end
 
   test "my_topic" do
     user_one = users(:one)
-    assert_equal 3, user_one.my_topics.count
     assert_equal 4, user_one.my_created_topics.count
-    
-     assert_equal 4, user_one.join_topics.size
-
   end
 
+  test "my reply topics with main account" do
+    user_one = users(:one)
+    topic_one = topics(:three)
+    assert_difference("user_one.reply_topics.size",1) do
+      topic_one.add_comment(topic_one.comments.new(:content=>"test reply",:user_id=>user_one.id))
+    end
+  end
+  
+  test "my reply topics with aliase account" do
+    user_one = users(:one)
+    topic_three = topics(:three)
+    assert_difference("user_one.reply_topics.size",1) do
+      topic_three.add_comment(topic_three.comments.new(:content=>"test reply",:user_id=>user_one.aliases.first.id))
+    end
+  end
   test "user login" do
     user_one = users(:one)
     user =nil
@@ -280,14 +290,12 @@ class UserTest < ActiveSupport::TestCase
   test "add friend" do
     ActionMailer::Base.deliveries.clear
     user_one= users(:one)
-    b_x = users(:two).unread_msgs.size
-
-    user_one.add_friend(users(:two))
-    b_y = users(:two).unread_msgs.size
+    assert_difference("users(:two).unread_msgs.size",1) do
+      user_one.add_friend(users(:two))
+    end
     assert_equal 1, user_one.friend_users.size
     assert_not_nil user_one.friend_users.find(users(:two))
     assert user_one.friend_users.exists?(users(:two))
     assert_equal 1, ActionMailer::Base.deliveries.size
-    assert_equal 1,b_y-b_x
   end
 end

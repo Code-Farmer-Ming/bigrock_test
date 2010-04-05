@@ -29,18 +29,20 @@
         <%end%>
       </div>
     <%end%>
-    <% sub_block_div("新闻",link_to("更多…",news_path())) do%>
+    <% sub_block_div("公司博客",link_to("更多…",news_path())) do%>
       <div id="my_news">
       </div>
       <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
     <%end%>
-
+    <%  sub_block_div("热门话题") do %>
+      <%= render :partial=>"topics/topic_item",:collection=>@hot_topics,:locals=>{:show_group=>true} %>
+    <%end%>
   <%else%>
     <%content_for :script  do%>
       <%= javascript_include_merged :dragdrop %>
     <%end %>
     <h1>欢迎，<%= current_user.name %></h1>
-    <% sub_block_div("新闻",link_to("更多",news_path())) do%>
+    <% sub_block_div("公司博客",link_to("更多",news_path())) do%>
       <div id="my_news">
       </div>
       <%= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
@@ -69,7 +71,7 @@
 </div>
 <div id ="right_content">
 <%# sub_block_div() do%>
-<%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、新闻、话题、小组"} %>
+<%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、公司博客、话题、小组"} %>
 <%#end%>
   <% sub_block_div("申请") do%>
     <p> 你有 <%= @add_friend_request_size %> 个好友申请
@@ -88,9 +90,7 @@
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
   <%if !@user%>
-    <%  sub_block_div("热门话题") do %>
-      <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@hot_topics %>
-    <%end%>
+
     <%sub_block_div("最活跃小组",link_to("更多",groups_path())) do%>
       <ul class="float_ul">
         <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
