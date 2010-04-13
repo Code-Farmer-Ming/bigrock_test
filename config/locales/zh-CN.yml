@@ -83,11 +83,11 @@
           one: "一天"
           other: "{{count}} 天"
         about_x_months:
-          one: "大约一个月前"
-          other: "大约 {{count}} 个月前"
+          one: "大约一个月"
+          other: "大约 {{count}} 个月"
         x_months:
           one: "一个月"
-          other: "{{count}} 个月前"
+          other: "{{count}} 个月"
         about_x_years:
           one: "大约一年"
           other: "大约 {{count}} 年"

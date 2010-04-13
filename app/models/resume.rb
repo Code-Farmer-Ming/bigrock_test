@@ -41,7 +41,10 @@ class Resume < ActiveRecord::Base
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
   
   has_many :passes,:dependent=>:destroy ,:order=>"begin_date desc,is_current desc"
-  has_many :current_companies ,:through=>:passes,:source=>:company
+  has_many :current_passes,:class_name=>"Pass",:conditions=>{:is_current=>true}
+  has_many :pass_companies ,:through=>:passes,:source=>:company
+  has_many :current_companies ,:through=>:current_passes,:source=>:company
+  
   has_many :educations,:dependent=>:destroy,:order=>"begin_date desc"
   has_many :specialities,:dependent=>:destroy
 
@@ -82,7 +85,7 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
     end
   end
  
-  has_many :current_pass,:class_name=>"Pass",:conditions=>{:is_current=>true}
+
   #简历是否有同事
   def has_yokemates?
     self.yokemates.size >0

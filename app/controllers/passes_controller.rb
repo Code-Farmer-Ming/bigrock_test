@@ -122,7 +122,7 @@ class PassesController < ApplicationController
     if (params[:yokemates])
       @msg.sender = current_user
       @msg.sender_stop = true
-      @msg.title = "你在 #{pass.company} 的同事 #{current_user.name} 邀请你对其工作进行评价"
+      @msg.title = "你在 #{pass.company.name} 的同事 #{current_user.name} 邀请你对其工作进行评价"
       @msg.content += "你好<br />我是你在<a href=' #{company_url(pass.company)}' >#{ pass.company.name}</a>的同事"+
         "<a href=' #{user_url(current_user)}' > #{current_user.name}</a>，<br/>赶快来<a href=' #{user_url(current_user)}' >评价我</a>吧!"
       Msg.transaction do
@@ -157,6 +157,7 @@ class PassesController < ApplicationController
     #      render :text=>""
     #    end
   end
+
 
   protected
 

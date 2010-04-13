@@ -3,10 +3,10 @@
   <div class="r">
     <%if topic_item.last_comment_user %>
       <span >&nbsp;<%=   link_to_user_name(topic_item.last_comment_user)%>
-        <%=time_ago_in_words(topic_item.last_comment_datetime)  %>最后回</span>
+        <%=time_ago_in_words(topic_item.last_comment_datetime)+'前'  %>最后回</span>
     <%end%>
     <span >&nbsp;<%=  link_to_user_name(topic_item.author)%>
-      <%=  time_ago_in_words(topic_item.created_at)%>写
+      <%=  time_ago_in_words(topic_item.created_at)+'前'%>写
     </span>
     <%=  link_to "[#{topic_item.owner.name}]",[topic_item.owner],:title=>"#{topic_item.owner.name}"  if show_group%>
   </div>

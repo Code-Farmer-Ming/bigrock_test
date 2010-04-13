@@ -4,6 +4,7 @@ class JudgesController < ApplicationController
   def new
     @judge= Judge.new
     @judge.anonymous=false
+    @judge.user = User.real_users.find(params[:user_id])
     respond_to do |format|
       format.html # new.html.erb
       format.js
@@ -13,14 +14,13 @@ class JudgesController < ApplicationController
   #TODO:   @pass=Pass.find(params[:pass_id])有一定的危险 修改成 @user.passes.find(X)和 current_user 同事的判断
   def create
     @user = User.real_users.find(params[:user_id])
-    @pass= @user.passes.find(params[:pass_id])
-
     @judge= Judge.new(params[:judge])
     @judge.user =  @user
     @judge.judger = current_user
-    if  !@pass.yokemate?(current_user) || @pass.judges.exists?(["judger_id=?",current_user.id]) || !(@pass.judges << @judge)
-      #提示错误
-      flash.now[:error] = "添加失败,关闭后再重试！"
+    @pass= @user.passes.find(params[:pass_id])
+    current_user.tag_something(@user, params[:my_tags])
+    if  !@pass.add_judge(@judge)#提示错误
+      flash.now[:error] = @judge.errors.full_messages.to_s()
       render :update do |page|
         page["lightbox_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
       end
@@ -36,6 +36,7 @@ class JudgesController < ApplicationController
   end
   def update
     @judge = Judge.find(params[:id])
+    current_user.tag_something(@judge.user, params[:my_tags])
     respond_to do |format|
       if @judge.update_attributes(params[:judge])
         format.xml  { head :ok }

@@ -33,8 +33,8 @@ class CompanyJudgesController < ApplicationController
   def create
     @company = Company.find(params[:company_id])
     @judge = CompanyJudge.new(params[:company_judge])
-    current_user.tag_something(@company, params[:user_tags])
-    @judge.user = current_user
+    current_user.tag_something(@company, params[:my_tags])
+    @judge.judger = current_user
 
     respond_to do |format|
       if  (@company.judges << @judge)
@@ -63,7 +63,7 @@ class CompanyJudgesController < ApplicationController
 
   def update
     @company_judge = CompanyJudge.find(params[:id])
-    current_user.tag_something(@company_judge.company, params[:user_tags])
+    current_user.tag_something(@company_judge.company, params[:my_tags])
 
     respond_to do |format|
       if @company_judge.update_attributes(params[:company_judge])
@@ -90,9 +90,9 @@ class CompanyJudgesController < ApplicationController
 
   def auto_complete_for_tag
     @items =  Tag.find(:all,
-      :conditions =>" lower(name) like '%#{params[:user_tags].downcase}%' ",
+      :conditions =>" lower(name) like '%#{params[:my_tags].downcase}%' ",
       :select=>"distinct name" )
-    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:user_tags]}' %>"
+    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:my_tags]}' %>"
   end
 
 end

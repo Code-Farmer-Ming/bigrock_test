@@ -16,7 +16,7 @@ class TagsControllerTest < ActionController::TestCase
     
   end
   test "index group" do
-    #默认 查询 Company所有的Tag
+    #默认 查询 group所有的Tag
     get :index,:type=>"Group"
     assert_equal 2,assigns(:tags).size
     assert_equal "小组",assigns(:label).to_s

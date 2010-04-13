@@ -2,12 +2,14 @@
   <h1><%= @label %>  所有标签 </h1>
 
   <%= render :partial=>"tags/search" %>
- 
+
   <div>
     <%if  params[:company_id]%>
-      <%= render :partial=>"tags/show_tag" ,:collection=>@tags,:locals=>{:type=>@tag_type}  %>
+      <%= highlight(render(:partial=>"tags/show_tag" ,:collection=>@tags,:locals=>{:type=>@tag_type}),params[:search])  %>
+    <%elsif params[:user_id]%>
+      <%= highlight(render(:partial=>"resumes/show_tag" ,:collection=>@tags),params[:search])  %>
     <%else%>
-      <%= render :partial=>"tags/tag_info" ,:collection=>@tags ,:locals=>{:type=>@tag_type}  %>
+      <%= highlight(render(:partial=>"tags/tag_info" ,:collection=>@tags ,:locals=>{:type=>@tag_type}),params[:search])  %>
     <%end%>
     <%= will_paginate  @tags %>
   </div>

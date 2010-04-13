@@ -15,7 +15,7 @@ class CompanyJudgesControllerTest < ActionController::TestCase
     xhr :post,:create,:company_id=>1,:company_judge=>{:salary_value=>1,
       :condition_value=>1,:anonymous=>0,
       :description=>"okk"
-    },:user_tags=>"好公司"
+    },:my_tags=>"好公司"
     assert(companies(:one).judges.exists?(assigns(:judge)),"judge failed")
     assert(!companies(:one).all_tags(:conditions=>"name='好公司'").size.zero?,"tag failed")
   end
@@ -24,7 +24,7 @@ class CompanyJudgesControllerTest < ActionController::TestCase
     xhr :post,:create,:company_id=>1,:company_judge=>{:salary_value=>1,
       :condition_value=>1,:anonymous=>0,
       :description=>"okk"
-    },:user_tags=>"好公司"
+    },:my_tags=>"好公司"
     xhr :get,:edit,:company_id=>1,:id=>assigns(:judge)
     assert_response :success
   end
@@ -33,12 +33,12 @@ class CompanyJudgesControllerTest < ActionController::TestCase
     xhr :post,:create,:company_id=>1,:company_judge=>{:salary_value=>1,
       :condition_value=>1,:anonymous=>0,
       :description=>"okk"
-    },:user_tags=>"好公司"
+    },:my_tags=>"好公司"
  
     xhr :post,:update,:company_id=>1,:id=>assigns(:judge),:company_judge=>{:salary_value=>1,
       :condition_value=>1,:anonymous=>0,
       :description=>"okk"
-    },:user_tags=>"新公司"
+    },:my_tags=>"新公司"
     assert(companies(:one).all_tags(:conditions=>"name='好公司'").size.zero?,"tag failed")
     assert(!companies(:one).all_tags(:conditions=>"name='新公司'").size.zero?,"tag failed")
   end
@@ -47,7 +47,7 @@ class CompanyJudgesControllerTest < ActionController::TestCase
     xhr :post,:create,:company_id=>1,:company_judge=>{:salary_value=>1,
       :condition_value=>1,:anonymous=>0,
       :description=>"okk"
-    },:user_tags=>"好公司"
+    },:my_tags=>"好公司"
     
     xhr :delete,:destroy,:company_id=>1,:id=>assigns(:judge)
     assert(!companies(:one).judges.exists?(assigns(:judge)),"judge failed")

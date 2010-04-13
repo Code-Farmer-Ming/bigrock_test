@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
     groups.resources :topics, :collection=>{:search=>:get}  do |topics|
       topics.resources :comments
     end
-    groups.resources :tags
+    groups.resources :tags,:only=>[:index]
     #    groups.resources :recommends
     groups.resources :members,:member=>{:to_root=>:post,:to_manager=>:post,:to_normal=>:post}
     groups.resources :add_group_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
@@ -14,12 +14,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :recommends
   map.resources :news,:only=>[:index]
   map.resources :attachments
-  map.resources :tags
+
   
   map.resources :companies,
-    :member=>{:employee_list=>:get,
-    #    :destroy_version=>:delete,
-     
+    :member=>{:employee_list=>:get,     
     :logs=>:get },
     :collection=>{:search=>:get} do |companies|
     companies.resources :company_judges
@@ -37,7 +35,6 @@ ActionController::Routing::Routes.draw do |map|
     :collection =>{ :forget_password=>:get,
     :set_resume_visibility=>[:get,:put],
     :reset_password=>:get,
-    :home=>:get,
     :set_user_auth=>[:get,:put],
     :set_base_info=>[:get,:put],
     :logout=>:get,
@@ -51,12 +48,12 @@ ActionController::Routing::Routes.draw do |map|
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
     account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
     account.resources :join_group_invites ,:member=>{:accept=>:post}
-
   end
 
   map.resources :users,:collection =>{},
     :member=>{:yokemate_list=>:get, :logs=>:get,:friends=>:get,:groups=>:get} do |users|
     users.resources :judges,:only=>[:index]
+    users.resources :tags,:only=>[:index]
     users.resources :topics
     users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}
       resumes.resources :passes,:member=>{:available_yokemates=>:get,:send_invite=>:post} do |passes|
@@ -67,7 +64,7 @@ ActionController::Routing::Routes.draw do |map|
       resumes.resources :educations
     end
   end
-
+  map.resources :tags
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

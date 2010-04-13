@@ -63,11 +63,17 @@ class UserTest < ActiveSupport::TestCase
 
   test "destroy" do
     user = User.find(1)
+
     assert_not_nil user
+    assert_equal user, Comment.find_by_id(2).user
     user.destroy
  
     assert_nil User.find_by_id(1)
     assert_nil User.find_by_id(17)
+
+    assert_nil Comment.find_by_id(1)
+    assert_nil Comment.find_by_id(2)
+    assert_nil Topic.find_by_id(1)
   end
 
   test "sub_resumes" do
@@ -143,7 +149,7 @@ class UserTest < ActiveSupport::TestCase
   test "user_tags" do
     user_one = users(:one)
     assert_equal 2, user_one.user_tags.size
-    assert_equal 2, user_one.taggings.size
+    assert_equal 2, user_one.user_taggings.size
     
   end
   test "tag_something" do

@@ -10,14 +10,17 @@ class TagsController < ApplicationController
     elsif params[:company_id]
       @owner = Company.find(params[:company_id])
       @tag_type ="Company"
+    elsif params[:user_id]
+      @tag_type ="User"
+      @owner = User.find(params[:user_id])
     else
       @tag_type ||= params[:type] || "Company"
     end
  
-    if  @owner && params[:company_id]
+    if  @owner && (params[:company_id] || params[:user_id])
       @tags = @owner.taggings.paginate :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%'],
         :joins=>:tag,:order=>"user_tags_count desc", :page => params[:page]
-    elsif @owner
+    elsif @owner && params[:group_id]
       @tags = @owner.all_tags( :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%']).paginate :page => params[:page]
     else
       @tags =@tag_type.camelize.constantize.all_tags( :conditions=>["tags.name like ? ", '%'+params[:search].to_s+'%']).paginate :page => params[:page]

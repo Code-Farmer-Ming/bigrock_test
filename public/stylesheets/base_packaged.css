@@ -182,7 +182,7 @@ label{ cursor: pointer}
 #main{ min-width:1024px}
  #header{ height:80px; background-color:#c9ff5e; background-image: url(/images/logo.png); background-repeat: no-repeat; background-position: 25px;  }
 .content{ margin:16px auto;  }
-#footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px}
+#footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px; padding: 8px}
 .container{ padding:0px 35px; height:100%; min-height: 440px; height:auto !important; height: 440px}
 #resume_content .inplaceeditor-form,.partial_container{ border:1px solid silver; background-color: #FFF4C2;  margin-bottom:2px; padding:5px 12px}
 #lightbox_content textarea,#resume_content textarea{ height:8em}

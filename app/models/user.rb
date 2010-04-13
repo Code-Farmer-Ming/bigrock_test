@@ -33,10 +33,17 @@ class User< ActiveRecord::Base
   validates_length_of :nick_name, :within => 2..10
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
-  #经历
-  has_many :passes,:foreign_key=>"user_id" ,:order=>"begin_date desc,is_current desc"
-  #当前所在的公司 可能当前就职于多家公司 不考虑多个简历的问题
-  has_many :current_companies ,:through=>:passes,:source=>:company
+  #  #经历
+  #  has_many :passes,:foreign_key=>"user_id" ,:order=>"begin_date desc,is_current desc"
+  #
+  #  has_many :pass_companies,:through=>:passes,:source=>:company
+  #  #当前的经历   未考虑多个简历的问题
+  #  has_many :current_passes,:class_name=>"Pass",:foreign_key=>"user_id" ,:conditions=>{:is_current=>true},:order=>"begin_date desc,is_current desc"
+  #  #当前所在的公司   未考虑多个简历的问题
+  #  has_many :current_companies ,:through=>:current_passes,:source=>:company
+  #  has_many :comments,:foreign_key=>"user_id",:dependent=>:destroy
+  #  has_many :topics,:foreign_key=>"author_id",:dependent=>:destroy
+
   #别人对自己的评价
   has_many :judges,:foreign_key=>"user_id",:dependent=>:destroy
   #自己对别人的评价
@@ -104,7 +111,7 @@ class User< ActiveRecord::Base
   end
   #标签
   has_many :user_tags,:foreign_key=>"user_id",:dependent => :destroy
-  has_many :taggings,:through => :user_tags
+  has_many :user_taggings,:through => :user_tags,:source=>:tagging
 
   #动态信息
   has_many :log_items,:as=>:owner,:dependent => :destroy,:order=>"created_at desc"
@@ -161,9 +168,9 @@ class User< ActiveRecord::Base
   #用户右上角 所说话
   has_many :my_languages,:foreign_key=>"user_id",:dependent=>:delete_all,:order=>"id desc"
   #用户的推荐
-  has_many :recommends,:foreign_key=>"user_id";
+  has_many :recommends,:foreign_key=>"user_id",:dependent => :destroy
 
-  has_many :members ,:foreign_key=>"user_id"
+  has_many :members ,:foreign_key=>"user_id",:dependent => :destroy
   #参加的小组
   has_many :groups,:through => :members,:source=>:group,:order=>"members.created_at desc"
   #管理的小组
@@ -184,7 +191,6 @@ class User< ActiveRecord::Base
   end
   #创建的小组
   has_many :create_groups,:class_name=>"Group",:foreign_key => "create_user_id"
-
   #其他马甲身份参加的小组
   has_many :hidden_groups,:class_name=>"Group",
     :finder_sql => 'select groups.* from groups INNER JOIN  members on groups.id=members.group_id where user_id in (#{alias_ids.join(\',\')})',
@@ -200,7 +206,6 @@ class User< ActiveRecord::Base
       find_by_sql(sql)
     end
   end
-
   #所有身份参与的小组 
   has_many :all_groups,:class_name=>"Group",
     :finder_sql => 'select groups.* from groups INNER JOIN  members on groups.id=members.group_id where user_id in (#{ids.join(\',\')})',
@@ -216,8 +221,7 @@ class User< ActiveRecord::Base
     end
   end
   #我的回复
-  #
-  has_many :my_comments,:class_name=>"Comment" ,  :finder_sql => 'select *  from comments
+  has_many :my_comments,:class_name=>"Comment" ,:dependent=>:destroy , :finder_sql => 'select *  from comments
  where user_id in (#{ids.join(\',\')})' do
     def find(*args)
       options = args.extract_options!
@@ -229,6 +233,7 @@ class User< ActiveRecord::Base
       find_by_sql(sql)
     end
   end
+  
   has_many :reply_topics,:class_name=>"Topic",
     :finder_sql=>'
     selECT DISTINCT `topics`.*
@@ -243,12 +248,11 @@ class User< ActiveRecord::Base
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
       find_by_sql(sql)
     end
-
   end
   
   #我发言的话题 包括 马甲创建的
-  has_many :my_created_topics,:class_name=>"Topic" ,
-    :finder_sql =>'select * from topics where author_id=#{id} or author_id= #{aliases.first.id}' do
+  has_many :my_created_topics,:class_name=>"Topic" ,:dependent=>:destroy ,
+    :finder_sql =>'select * from topics where author_id in  (#{ids.join(\',\')}) order by topics.created_at desc ' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -309,11 +313,15 @@ class User< ActiveRecord::Base
   belongs_to :parent,
     :class_name => 'User',
     :foreign_key => 'parent_id'
-  
-  has_one:current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>"is_current=#{true}"
+  #当前简历信息
+  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>"is_current=#{true}",:dependent => :destroy
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
- 
+  
+  delegate :passes,:to=>:current_resume
+  delegate :pass_companies,:to=>:current_resume
+  delegate :current_passes,:to=>:current_resume
+  delegate :current_companies,:to=>:current_resume
 
   #实际用户
   named_scope :real_users,:conditions=>["parent_id=0"]
@@ -417,7 +425,7 @@ class User< ActiveRecord::Base
 
   #用户 用过的标签
   def used_tags(judge_object=nil)
-    self.taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
+    self.user_taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
       :conditions=>judge_object ? {:taggable_id=>judge_object.id,
         :taggable_type=>judge_object.class.to_s} : "")
 
@@ -449,13 +457,12 @@ class User< ActiveRecord::Base
     @text_password
   end
 
-  #获取用户的做的标签
-  def get_tags(taggable_object)
+  #获取用户 对 某个对象 做的标签的文本
+  def used_tags_text(taggable_object)
     return  if  !taggable_object.taggable?
-    taggble_list = self.taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
-        :taggable_type=>taggable_object.class.to_s.camelize})
+    taggble_list = self.used_tags(taggable_object)
     #获取 当前评价
-    taggble_list ? taggble_list.collect.map { |item| item.tag.name }.join(Tag::DELIMITER) : []
+    !taggble_list.empty?  ? taggble_list.collect.map { |item| item.name }.join(Tag::DELIMITER) : []
   end
   
   #对某个可以做 做标签 的对象做标签 如公司
@@ -464,7 +471,7 @@ class User< ActiveRecord::Base
     list = tag_cast_to_string(tags)
  
     current = []
-    tagging_list = taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
+    tagging_list = user_taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
         :taggable_type=>taggable_object.class.to_s.camelize})
     #获取 当前的标签
     current = tagging_list.collect.map { |item| item.tag.name } if tagging_list

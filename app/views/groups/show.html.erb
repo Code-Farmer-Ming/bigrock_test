@@ -29,13 +29,11 @@
     </p>
   </div>
 
-  <% sub_block_div("话题(#{@group.topics_count})",link_to("+我发言",new_group_topic_path(@group),:class=>"button" ,:title=>"我来发布新话题") +'&nbsp;&nbsp;' +link_to("全部", group_topics_path(@group))) do %>
+  <% sub_block_div("话题(#{@group.topics_count})",link_to("+我发言",new_group_topic_path(@group) ,:title=>"我来发布新话题") +'&nbsp;&nbsp;' +link_to("全部", group_topics_path(@group))) do %>
     <%= render :partial=>"topics/topic_item",:collection=>@group.topics.all(:limit=>20) %>
     <div class="half_width">
       <%= render(:partial=>"comm_partial/search",:locals=>{:url=>group_topics_path(@group),:default_text=>"搜索话题"})%>
-
     </div>
-
   <%end%>
 </div>
 <div id ="right_content">
@@ -54,7 +52,7 @@
     <p class ="clear"/>
   <%end%>
 
-  <% sub_block_div("相关小组") do %>
+  <% sub_block_div("小组成员也喜欢的小组") do %>
     <ul class="float_ul">
       <%= render :partial=>"groups/float_icon_name",:collection=> @group.related_popular_groups.all(:limit=>6)%>
     </ul>

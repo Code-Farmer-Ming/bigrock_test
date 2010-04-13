@@ -15,8 +15,11 @@
 #
 
 class CompanyJudge < ActiveRecord::Base
+  #被评价的公司
   belongs_to :company ,:counter_cache=>true
-  belongs_to :user ,:class_name=>"User"
+  #做出评价用户
+  belongs_to :judger ,:foreign_key =>"user_id",:class_name=>"User"
+  
   after_create :create_judge
   before_destroy :destroy_judge
   before_update :update_judge
@@ -28,8 +31,8 @@ class CompanyJudge < ActiveRecord::Base
     { :conditions => { :condition_value => value } }
   }
   #做评价的用户
-  def judge_user
-    anonymous ? User.anonymity : user 
+  def judger_user
+    anonymous ? User.anonymity : judger
   end
   
   def create_judge

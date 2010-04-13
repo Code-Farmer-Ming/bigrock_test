@@ -1,20 +1,43 @@
 <%judge= judge_info %>
 
 <div class="l">
-  <%= render :partial=>"users/user_icon_name",:object=> ( judge.anonymous ? User.anonymity : judge.judger  )%>
+  <%= render :partial=>"users/user_icon_name",:object=> judge.judger_user %>
 </div>
 <div class="icon_right_content">
-  <p class="date_field"><%= localize(judge.created_at) %></p>
+  <% judge.judger_user.current_passes.each() do |pass| %>
+    <p title="当前的工作">
+      <b>
+        <%= link_to(pass.company.name,company_path(pass.company),:target=>"_blank")%>
+      </b>
+      <%= h pass.title%>
+    </p>
+  <%end if judge.judger_user.current_resume%>
+  <% if !judge.judger_user.current_companies.exists?(judge.pass.company) %>
+    <p class="gray_background" title="过去的工作">
+      <b>
+        <%= link_to(judge.pass.company.name,company_path(judge.pass.company),:target=>"_blank")%>
+      </b>
+      <%= h judge.judger_user.passes.find_by_company_id(judge.pass.company.id).title%>
+    </p>
+  <%end if judge.judger_user.current_resume%>
+  <p  class="date_field">
+    <%= localize(judge.created_at) %> 评价
+  </p>
   <p>
-    工作能力 <%= small_star(judge.ability_value || 0) %> 
+    工作能力 <%= small_star(judge.ability_value || 0) %> &nbsp;&nbsp;
     交往能力
-    <%= small_star(judge.eq_value || 0) %>
+    <%= small_star(judge.eq_value || 0) %>&nbsp;&nbsp;
     资料真实
     <%= small_star(judge.creditability_value || 0) %>
   </p>
-
   <p>
     <%= judge.description %>
   </p>
+  <%if judge.judger_user.used_tags(judge.user).size>0%>
+    <p>
+      标签&nbsp;<%= render :partial=>"company_judges/show_tag" ,
+        :collection=>judge.judger_user.used_tags(judge.user),:locals=>{:type=>:Company}  %>
+    </p>
+  <%end%>
 </div>
 <p class="clear" />

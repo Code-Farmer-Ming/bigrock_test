@@ -1,6 +1,6 @@
 <%resume = show_base_info%>
 
-  <% if current_user?(resume.user) %>
+<% if current_user?(resume.user) %>
   <span class="operation_lab"> <%= link_to_remote "",
       {:update=>"edit_container_user_base_info" ,
       :before=>" PerpareEdit('user_base_info');Element.hide('main_thumb_img')",

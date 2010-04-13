@@ -43,7 +43,12 @@ class Group < ActiveRecord::Base
               join members b on a.id=b.group_id ) z
               join (select c.* ,d.user_id from groups c
               join members d on c.id=d.group_id) x  on z.user_id=x.user_id and z.id<>x.id and z.id=#{id}
-              group by x.id order by  count(*) desc ) u join groups v on u.id=v.id ' do
+              group by x.id order by  count(*) desc ) u join groups v on u.id=v.id ',
+    :counter_sql=>'select count(*) from (select x.id,count(*) from (select a.* ,b.user_id from groups a
+              join members b on a.id=b.group_id ) z
+              join (select c.* ,d.user_id from groups c
+              join members d on c.id=d.group_id) x  on z.user_id=x.user_id and z.id<>x.id and z.id=#{id}
+              group by x.id order by  count(*) desc ) u'  do
     def all(*args)
       options = args.extract_options!
       sql = @finder_sql

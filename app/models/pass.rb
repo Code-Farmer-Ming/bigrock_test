@@ -75,12 +75,9 @@ class Pass < ActiveRecord::Base
         or '\#{end_date}' between begin_date and end_date) and company_id=\#{company_id} and a.id<>\#{id} and b.id not in (select judger_id from judges d where d.user_id=\#{user_id} )"
   
   has_many :work_items,:dependent=>:destroy ,:order=>"begin_date desc"
+  #对这段经历的评价
   has_many :judges, :dependent=>:destroy ,:order=>"created_at desc"
 
-  has_many :content_text_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "description<>\"\""
-  has_many :ability_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "ability_value>0"
-  has_many :eq_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "eq_value>0"
-  has_many :creditability_judges,:class_name => "Judge", :dependent=>:destroy,:autosave=>true,:conditions => "creditability_value>0"
   #按日期排序
   named_scope :date_desc_order,:order=>"iscurrent desc,begin_date  desc"
   #Pass删除时的 要清除该pass对应的 其他人和公司的评价
@@ -132,7 +129,7 @@ class Pass < ActiveRecord::Base
       :conditions=>" (begin_date between '#{begin_date}' and '#{end_date}'
       or end_date between '#{begin_date}' and '#{end_date}'
       or '#{begin_date}' between begin_date and end_date
-      or '#{end_date}' between begin_date and end_date) and id<>#{id} and user_id=#{user ? user.id : -1}").size > 0
+      or '#{end_date}' between begin_date and end_date) and id<>#{id} and user_id=#{user ? user.id : -1}",:select=>"id").size > 0
   end
   #用户 是否有可见的权限
   def can_visibility?(user)
@@ -142,5 +139,8 @@ class Pass < ActiveRecord::Base
   def has_work_items?
     self.work_items.size>0
   end
-
+  #添加评论
+  def add_judge(judge)
+   judges << judge if yokemate?(judge.judger) &&  !judges.exists?(judge.judger)
+  end
 end

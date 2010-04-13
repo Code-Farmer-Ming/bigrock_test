@@ -4,7 +4,7 @@
     <%= render :partial=>"users/user_icon_name",:object=> user_short_info  %>
   </div>
   <div class="icon_right_content">
-    <% user_short_info.current_resume.current_pass.each() do |current_pass| %>
+    <% user_short_info.current_passes.each() do |current_pass| %>
       <div title="当前的工作">
         <b>
           <%= link_to(current_pass.company.name,company_path(current_pass.company),:target=>"_blank")%>

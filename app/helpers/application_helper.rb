@@ -26,7 +26,7 @@ module ApplicationHelper
   def time_ago_in_words_plus(date_time)
     date_str = date_ago_in_words(date_time)
     if (Time.now.to_date - date_time.to_date)<1
-      time_ago_in_words(date_time)
+      time_ago_in_words(date_time)+"前"
     elsif date_str !=date_time.to_date
       date_str +" "+ date_time.strftime('%H:%M')
     else

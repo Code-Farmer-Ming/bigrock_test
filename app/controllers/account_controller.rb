@@ -23,11 +23,15 @@ class AccountController < ApplicationController
           invite_user.add_friend(@user)
           @user.add_friend(invite_user)
         end
-        session[:user]=@user
-        format.html {  flash[:success] = '恭喜你注册你成功'
-          redirect_to( 
-            params[:request_company_id] ?
-              new_user_resume_pass_path(@user,@user.current_resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id])  : (params[:reurl] || account_path())) }
+        set_user_session(@user)
+        format.html {
+          flash[:success] = '恭喜你注册你成功'
+          if params[:request_company_id]
+            redirect_to(new_user_resume_pass_path(@user,@user.current_resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
+          else
+            redirect_to((params[:reurl] || account_path()))
+          end
+        }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
@@ -130,7 +134,7 @@ class AccountController < ApplicationController
   #TODO:退出时 返回到推出前所在的页面，不是退到Index页面
   def logout
     cookies.delete(:auto_login_user_id)
-    session[:user] = nil
+    set_user_session()
     redirect_to(:action=>"index")    
   end
   #begin 一些设置功能
@@ -382,9 +386,9 @@ class AccountController < ApplicationController
   #执行登录操作
   def user_login(email,password,auto_login=false)
     code,user = User.login(email, password)
-    session[:user] = nil
+    set_user_session()
     if code==0
-      session[:user] = user.id
+      set_user_session(user)
       if auto_login
         cookies[:auto_login_user_id]= {:value=>user.id, :expires => 1.month.from_now}
       end

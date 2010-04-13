@@ -1,14 +1,14 @@
 <%resume = show_summary_info%>
 <dl style= "display:<%= resume.educations[0] ||  resume.passes[0] || "none"   %>">
   <%if resume.user.setting.can_visibility?(:pass_summary_visibility,current_user)%>
-    <%if resume.current_pass-%>
+    <%if resume.current_passes-%>
       <dt>当前职位</dt>
       <dd>
         <ul>
           <li>
-            <b> <%= resume.current_pass.title %></b>
+            <b> <%= resume.current_passes.title %></b>
             在
-            <b><%=  resume.current_pass.company.name %> </b>
+            <b><%=  resume.current_passes.company.name %> </b>
           </li>
         </ul>
       </dd>

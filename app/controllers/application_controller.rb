@@ -22,19 +22,32 @@ class ApplicationController < ActionController::Base
         redirect_to login_account_path(:reurl=>url_for())
       end
     else
-      user=User.real_users.find(cookies[:auto_login_user_id])
-      if (user && (auth_text=User.authenticate(user))=="成功")
-        return session[:user]=user.id
+      user=User.real_users.find_by_id(cookies[:auto_login_user_id])
+      if (user)
+        return set_user_session(user)
       else
         flash.now[:notice] = auth_text
         redirect_to login_account_path()
       end
-    end if (session[:user].nil?)
+    end if (user_session.nil?)
+  end
+  #将用户 id 保存到 session[:user]
+  def set_user_session(user=nil)
+    if user
+      session[:user]= user.id
+    else
+      session[:user]=nil
+    end
+  end
+  
+  #获取 session[:user]的值
+  def user_session
+    session[:user]
   end
 
   #获取当前用户
   def current_user
-    User.real_users.find(session[:user]) if session[:user]
+    User.real_users.find(user_session) if user_session
   end
   #判断是否 当前 用户
   def current_user?(user)

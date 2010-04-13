@@ -781,7 +781,9 @@ this.tag_input.value+=this.options.splitStr+event_el_value;this.input_tag_test()
 {tag_values=$F(this.tag_input).split(this.options.splitStr);tag_els=$$(this.tags_element);for(var i=0;i<tag_els.length;i++)
 {var el=tag_els[i];for(j in tag_values)
 {value=tag_values[j]
-if(el.innerHTML.strip()==value)
+if(value.length>10)
+{alert('"'+value+'" 作为标签太长了吧，简短一点更好哦！');}
+else if(el.innerHTML.strip()==value)
 {Element.addClassName(el,this.options.disableClass);break;}
 else
 {Element.removeClassName(el,this.options.disableClass);}}}}}

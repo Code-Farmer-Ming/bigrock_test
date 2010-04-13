@@ -14,6 +14,8 @@
 #  down              :integer       default(0)
 #  comments_count    :integer       
 #  recommends_count  :integer       default(0)
+#  view_count        :integer       default(0)
+#  last_edit_at      :datetime      
 #
 
 class Piecenews < ActiveRecord::Base

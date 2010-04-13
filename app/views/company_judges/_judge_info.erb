@@ -1,8 +1,26 @@
 <%  judge  = judge_info %>
 <div class="l">
-  <%= render :partial=>"users/user_icon_name",:object=> judge.judge_user%>
+  <%= render :partial=>"users/user_icon_name",:object=> judge.judger_user%>
 </div>
 <div class="icon_right_content">
+
+  <% judge.judger_user.current_passes.each() do |pass| %>
+    <p title="当前的工作">
+      <b>
+        <%= link_to(pass.company.name,company_path(pass.company),:target=>"_blank")%>
+      </b>
+      <%= h pass.title%>
+    </p>
+  <%end unless judge.judger_user.anonymity?%>
+  <% if !judge.judger_user.current_companies.exists?(judge.company) %>
+    <p class="gray_background" title="过去的工作">
+      <b>
+        <%= link_to(judge.company.name,company_path(judge.company),:target=>"_blank")%>
+      </b>
+      <%= h judge.judger_user.passes.find_by_company_id(judge.company.id).title%>
+    </p>
+  <%end unless judge.judger_user.anonymity?%>
+
   <p class="date_field"><%= localize(judge.created_at) %></p>
   <p>
     待遇
@@ -14,10 +32,10 @@
   <p>
     <%= judge.description %>
   </p>
-  <%if judge.user.used_tags(judge.company).size>0%>
+  <%if judge.judger_user.used_tags(judge.company).size>0%>
     <p>
       标签&nbsp;<%= render :partial=>"tags/tag_info" ,
-        :collection=>judge.user.used_tags(judge.company),:locals=>{:type=>:Company}  %>
+        :collection=>judge.judger_user.used_tags(judge.company),:locals=>{:type=>:Company}  %>
     </p>
   <%end%>
 </div>

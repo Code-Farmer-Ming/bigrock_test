@@ -22,7 +22,7 @@ class Judge < ActiveRecord::Base
   belongs_to :pass,:counter_cache => true
   #被评价用户
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
-  #评价用户
+  #做出评价的用户
   belongs_to :judger,:class_name=> "User",:foreign_key => "judger_id"
   #TODO: 需要添加上可以 column为空的时候 统计所有
   named_scope :judge_star, lambda { |column_name,star| { :conditions => ["#{column_name}=?",star] }
@@ -55,5 +55,8 @@ class Judge < ActiveRecord::Base
     pass.creditability_value = 0 if  pass.creditability_value <0
     pass.save
   end
-
+  #做出评价的用户
+  def judger_user
+    anonymous ? User.anonymity : judger
+  end
 end

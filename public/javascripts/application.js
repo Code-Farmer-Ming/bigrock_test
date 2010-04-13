@@ -69,7 +69,11 @@ TagInput.prototype= {
             for (j in tag_values)
             {
                 value = tag_values[j]
-                if (el.innerHTML.strip()==value)
+                if (value.length>10)
+                 {
+                   alert('"'+value+'" 作为标签太长了吧，简短一点更好哦！');
+                 }
+                else  if (el.innerHTML.strip()==value)
                 {
                     Element.addClassName(el,this.options.disableClass);
                     break;

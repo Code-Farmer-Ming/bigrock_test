@@ -38,4 +38,13 @@ class GroupTest < ActiveSupport::TestCase
     users(:one).reload
  
   end
+
+  test "related popular groups" do
+    group_one =  groups(:one)
+    group_two =  groups(:two)
+    assert_equal 0,group_one.related_popular_groups.size
+    group_two.add_to_member(users(:one))
+    group_one.reload()
+    assert_equal 1,group_one.related_popular_groups.size
+  end
 end

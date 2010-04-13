@@ -8,25 +8,29 @@
     <div id="<%= dom_id(pass,"edit_container") %>"  style="display:none" class="partial_container" >
 
     </div>
-    <%if (pass.has_work_items? || current_user?(pass.user))%>
-      <div id="<%= dom_id(pass,"work_items_container") %>" >
-        <div  class="section <%= current_user?(pass.user) ? "edit_section" : "" %>" >
-          <% content_tag :div,  :class=>"operation_lab" do %>
-            <%=  link_to_function  "",
-              "PerpareNew('#{dom_id(pass,"new_work_item_container")}');" ,:class=>"add_img_button" ,:title=>"添加" %>
-          <%end  if current_user?(pass.user)%>
-          <h3>业绩</h3>
-        </div>
-        <div id="<%= dom_id(pass,"work_items") %>" >
-          <%= render :partial=>"work_items/show_work_items",:collection=>pass.work_items   %>
-        </div>
+  <%#if (pass.has_work_items? || current_user?(pass.user))%>
+  <%#*<div id="<%= dom_id(pass,"work_items_container") %>
+  <%#*" >%>
+  <%#*<div  class="section <%= current_user?(pass.user) ? "edit_section" : "" %>
+  <%#*" >%>
+  <%# content_tag :div,  :class=>"operation_lab" do %>
+  <%#=  link_to_function  "",
+  "PerpareNew('#{dom_id(pass,"new_work_item_container")}');" ,:class=>"add_img_button" ,:title=>"添加" %>
+  <%#end  if current_user?(pass.user)%>
+  <%#*<h3>业绩</h3>%>
+  <%#*</div>%>
+  <%#*<div id="<%= dom_id(pass,"work_items") %>
+  <%#*>%>
+  <%#= render :partial=>"work_items/show_work_items",:collection=>pass.work_items   %>
+  <%#*</div>%>
 
-        <div id="<%= dom_id(pass,"new_work_item_container") %>" class="partial_container" style="display:none;">
-          <%= render_component :controller=>"work_items",:action=>:new,
-            :params=>{:user_id=>pass.user.id,:resume_id=>pass.resume.id,:pass_id=>pass.id} %>
-        </div>
-      </div>
-    <%end%>
+  <%#*<div id="<%= dom_id(pass,"new_work_item_container") %>
+  <%#*" class="partial_container" style="display:none;">%>
+  <%#= render_component :controller=>"work_items",:action=>:new,
+  :params=>{:user_id=>pass.user.id,:resume_id=>pass.resume.id,:pass_id=>pass.id} %>
+  <%#*</div>%>
+  <%#*</div>%>
+  <%#end%>
 
     <div id="<%= dom_id(pass,"judge_container") %>" class="section">
       <h3>评价</h3>

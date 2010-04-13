@@ -14,6 +14,7 @@
       {:value=>(f.object.company.name if f.object.company),:title=>"需要输入公司名称",:class=>"required text"},
       :controller=>"Passes",:min_chars=>2 , :default_text=>content_tag("p","&nbsp;&nbsp;输入公司名称",:style=>"background-color:#ddd")  %>
   <%end%>
+
 </p>
 
 <p>
@@ -45,5 +46,7 @@
 </p>
 <p>
   <%= f.label :work_description,"工作描述"  ,:class=>"filed_lab" %>
-  <%= f.text_area :work_description, :rows=>4 %>
+  <%= f.text_area :work_description,:value=>"写写你的工作内容及哪些成绩吧" %>
+
 </p>
+<%= text_default_value 'pass_work_description',"写写你的工作内容及哪些成绩吧"  %>

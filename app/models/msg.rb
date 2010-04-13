@@ -12,6 +12,7 @@
 #  sendee_stop :boolean       
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  parent_id   :integer       default(0)
 #
 
 class Msg < ActiveRecord::Base
