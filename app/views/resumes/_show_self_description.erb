@@ -9,7 +9,7 @@
     </span>
     <h2>自我描述</h2>
   </div>
-  <p   class="section" id="<%= dom_id(resume,"self_description") %>"><%= resume.self_description -%></p>
+<div   class="section" id="<%= dom_id(resume,"self_description") %>"><%= simple_format(resume.self_description) -%></div>
   <%=  in_place_editor(dom_id(resume,"self_description") ,
     :url=>url_for({:controller=>:resumes,:action => "set_resume_self_description", :id => resume}),:loading_text=>"载入…",
     :external_control=>dom_id(resume,"ext"),

@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
-  before_filter :check_login?,:except=>[:show,:index,:search]
+
   before_filter :find_topic,:only=>[:show,:edit,:update,:destroy,:up,:down,:set_top_level,:cancel_top_level]
+  before_filter :check_login?,:except=>[:show,:index,:search]
   # GET /topics
   # GET /topics.xml
   def index

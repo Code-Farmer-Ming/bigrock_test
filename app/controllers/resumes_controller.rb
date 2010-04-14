@@ -1,10 +1,17 @@
 
 class ResumesController < ApplicationController
-  in_place_edit_for :resume, :name
-  in_place_edit_for :resume,:self_description
+  #  in_place_edit_for :resume, :name
+  
   before_filter :check_login?,:except=>[:index,:render_resume]
  
- 
+  def set_resume_self_description
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @item = Resume.find(params[:id])
+    @item.update_attribute(:self_description, params[:value])
+    render :inline => "<%= simple_format( @item.self_description) %>"
+  end
   def render_resume
     render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
   end

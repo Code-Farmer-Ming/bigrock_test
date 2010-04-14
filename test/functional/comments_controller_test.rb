@@ -36,7 +36,7 @@ class CommentsControllerTest < ActionController::TestCase
     news = news(:one)
     news.comments.clear
     assert_difference("Comment.count", 1) do
-      xhr :post ,:create ,
+      xhr :post ,:create,
         :piecenews_id=>news.id,:comment=>{:content=>"test comment"},
         :alias=>users(:one)
     end

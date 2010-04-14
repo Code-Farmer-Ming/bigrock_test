@@ -2,8 +2,8 @@ ActionController::Routing::Routes.draw do |map|
  
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
-    groups.resources :topics, :collection=>{:search=>:get}  do |topics|
-      topics.resources :comments
+    groups.resources :topics, :collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post}  do |topics|
+      topics.resources :comments,:member=>{:up=>:post,:down=>:post}
     end
     groups.resources :tags,:only=>[:index]
     #    groups.resources :recommends
@@ -23,11 +23,11 @@ ActionController::Routing::Routes.draw do |map|
     companies.resources :company_judges
     companies.resources :tags,:only=>[:index]
  
-    companies.resources :topics ,:collection=>{:search=>:get} do |topics|
-      topics.resources :comments
+    companies.resources :topics ,:collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post} do |topics|
+      topics.resources :comments,:member=>{:up=>:post,:down=>:post}
     end
     companies.resources :news,:collection=>{:search=>:get}   do |news|
-      news.resources :comments
+      news.resources :comments,:member=>{:up=>:post,:down=>:post}
     end
   end
   
@@ -37,6 +37,10 @@ ActionController::Routing::Routes.draw do |map|
     :reset_password=>:get,
     :set_user_auth=>[:get,:put],
     :set_base_info=>[:get,:put],
+    :set_alias=>[:get,:put],
+    :set_password=>[:get,:put],
+    :set_my_language=>[:post, :put],
+    :set_user_state=>:post,
     :logout=>:get,
     :login=>:get,
     :add_friend=>[:post],

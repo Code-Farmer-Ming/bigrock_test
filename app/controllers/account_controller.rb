@@ -135,7 +135,7 @@ class AccountController < ApplicationController
   def logout
     cookies.delete(:auto_login_user_id)
     set_user_session()
-    redirect_to(:action=>"index")    
+    redirect_to( account_path() )
   end
   #begin 一些设置功能
   #
