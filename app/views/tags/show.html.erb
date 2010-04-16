@@ -10,9 +10,9 @@
 <div id="right_content">
   <%sub_block_div("") do%>
     <%if @tag_type=='Company'%>
-      <%= link_to "返回所有公司首页" ,companies_path() %>
+      <%= link_to "<< 返回所有公司首页" ,companies_path() %>
     <%else%>
-      <%= link_to "返回所有小组首页" ,groups_path() %>
+      <%= link_to "<< 返回所有小组首页" ,groups_path() %>
     <%end%>
   <%end%>
   <%sub_block_div("相关的标签",link_to("查看所有标签",tags_path(:type=>@tag_type))) do%>

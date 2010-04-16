@@ -51,7 +51,7 @@ class PassesController < ApplicationController
       if @company.passes << @pass
         format.html {
           flash[:notice] = '保存成功.'
-          redirect_to  user_path(params[:request_user_id] || params[:user_id])
+          redirect_to  user_path(params[:request_user_id] && params[:request_user_id].any? ? params[:request_user_id] : params[:user_id])
         }
         format.xml  { render :xml => @pass, :status => :created, :location => @pass }
         format.js {    }
@@ -140,18 +140,16 @@ class PassesController < ApplicationController
  
   #根据公司 查询 对应的部门
   def auto_complete_for_pass_department
-    #    if params[:company][:name]!=""
-    @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}') and ('#{params[:pass][:department]}'='' or lower(department) like '%#{params[:pass][:department].downcase}%' ) ",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct department" )
+ 
+    @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}')",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct department" )
     render :inline => "<%= auto_complete_result @items, 'department', '#{params[:pass][:department]}' %>"
-    #    else
-    #      render :text=>""
-    #    end
+
   end
 
   #根据公司 查询 对应的部门
   def auto_complete_for_pass_title
     #    if (params[:company][:name]!="")
-    @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}') and ('#{params[:pass][:title]}'='' or lower(title) like '%#{params[:pass][:title].downcase}%' )   ",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct title" )
+    @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}') ",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct title" )
     render :inline => "<%= auto_complete_result @items, 'title', '#{params[:pass][:title]}' %>"
     #    else
     #      render :text=>""

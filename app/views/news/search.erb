@@ -20,9 +20,9 @@
 <div id="right_content">
   <% sub_block_div("") do%>
     <%if @company -%>
-      <%= link_to "返回[#{@company.name}]公司博客首页",[@company,:news]  %>
+      <%= link_to "<< 返回[#{@company.name}]公司博客首页",[@company,:news]  %>
     <%else%>
-      <%= link_to "返回公司博客首页",[:news]  %>
+      <%= link_to "<< 返回公司博客首页",[:news]  %>
     <%end%>
   <%end%>
 

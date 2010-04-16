@@ -57,7 +57,7 @@ class AccountController < ApplicationController
       @page_title =" #{@user.name} 的首页"
       #      @news = @user.my_follow_company_news.find(:all,:limit=>6)
       @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
-      @logs = @user.my_follow_log_items.find(:all,:limit=>10,:order=>"created_at desc");
+      @logs = @user.my_follow_log_items.find(:all,:limit=>4,:order=>"created_at desc");
       @my_topics = @user.my_created_topics.all(:limit=>20)
       @join_topics =  @user.reply_topics.find(:all,:limit=>20)
       @add_friend_request_size = @user.add_friend_applications.size
@@ -67,9 +67,9 @@ class AccountController < ApplicationController
       @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境 小组"
       #      @news = Piecenews.newly.all(:limit=>4)
       @hot_topics = Topic.hot.since(7.days.ago).limit(10)
-      @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-      @salary_best_companies =  Company.order_by_salary.limit(6)
-      @condition_best_companies =  Company.order_by_condition.limit(6)
+      @logs = LogItem.find(:all,:limit=>4,:order=>"created_at desc");
+      @salary_best_companies =  Company.order_by_salary.limit(5)
+      @condition_best_companies =  Company.order_by_condition.limit(5)
     end
   end
   
@@ -138,7 +138,6 @@ class AccountController < ApplicationController
     redirect_to( account_path() )
   end
   #begin 一些设置功能
-  #
   #忘记密码
   def forget_password
     @page_title ="取回密码"
@@ -250,6 +249,7 @@ class AccountController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
+
     end
   end
   

@@ -1,9 +1,9 @@
 <% company = object %>
 <% if my_judge= company.judges.find_by_user_id(current_user) -%>
   <%= link_to_remote_lightbox("修改评价",
-    {:url=>edit_company_company_judge_path(company,my_judge)}) -%>
+    {:url=>edit_company_company_judge_path(company,my_judge)},:class=>"hot_link") -%>
   <%=  link_to_remote "撤消评价",{:url=>company_company_judge_path(company,my_judge), :confirm => '你确定吗?', :method => :delete}-%>
 <%else-%>
   <%= link_to_remote("我来评一下",
-      {:url=> {:controller=>"company_judges",:action=>:new_form,:company_id=>company.to_param}}) -%>
+      {:url=> {:controller=>"company_judges",:action=>:new_form,:company_id=>company.to_param}},:class=>"hot_link") -%>
 <%end-%>

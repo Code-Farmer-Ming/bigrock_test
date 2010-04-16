@@ -10,7 +10,7 @@
 </div>
 <div id="right_content">
   <% sub_block_div() do %>
-    <%= link_to "返回 #{@user.name} 个人页面",user_path(@user) %>
+    <%= link_to "<< 返回 #{@user.name} 个人页面",user_path(@user) %>
   <%end%>
   <% sub_block_div() do %>
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入小组名称"} %>

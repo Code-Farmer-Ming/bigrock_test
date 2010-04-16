@@ -185,7 +185,7 @@ label{ cursor: pointer}
 #footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px; padding: 8px}
 .container{ padding:0px 35px; height:100%; min-height: 440px; height:auto !important; height: 440px}
 #resume_content .inplaceeditor-form,.partial_container{ border:1px solid silver; background-color: #FFF4C2;  margin-bottom:2px; padding:5px 12px}
-#lightbox_content textarea,#resume_content textarea{ height:8em}
+#lightbox_content textarea{ height:8em}
 .section{ padding:0px 20px}
 #base_info p span{ font-weight:bold}
 #user_base_info{ *overflow:hidden; min-height:21px; height:auto !important; height: 21px}
@@ -197,6 +197,8 @@ label{ cursor: pointer}
 .form_info .filed_lab{ width: 6em; text-align: right; margin:0px 3px; display:inline-block; float: left;  }
 .form_info .group_lab{ color:blue}
 .form_info #form_button{ padding:12px}
+.form_row{margin:0 0 0.5em;}
+.drop_button{ cursor: pointer}
 #search{ width:75%}
  #new_user_page .text, #user_login_page .text{ width:300px}
 #top_user_info .text{ width:80%; padding:1px; height: 14px; margin: 0px}
@@ -228,7 +230,7 @@ div.auto_complete ul li {cursor:pointer}
 #current_user_img a:hover .user_icon{ background-color:#fff; background-image: url(/images/small_delta.gif); background-repeat: no-repeat; background-position: bottom}
 #top_user_info{ display:table-cell; height:80px; vertical-align:middle; overflow:auto}
 #top_user_info .login_input{ width:120px; font-size:12px; height:18px}
-.user_language{ font-weight:normal; font-style:italic; color:gray; width:160px; overflow:hidden}
+.user_language{ font-weight:normal; color:gray; width:160px; overflow:hidden}
 .user_short_info{ width:100%; margin-bottom:6px}
 ul#nav,ul#nav li{ list-style-type:none; margin:0;padding:0 }
 ul#nav{ padding-top:46px; margin:0 auto; width:100%; overflow:hidden}
@@ -258,7 +260,6 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .float_ul{ list-style-type:none; margin:0;padding:0; overflow:auto}
 .float_ul li{ display: inline; float: left}
 .group_icon_extend{ margin:4px 6px; height:105px}
-.hidden_group_bk{ background-color:#eee}
   .pagination {padding: 3px; margin: 3px}
 .pagination a {padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #aaaadd; text-decoration: none; color: #000099}
 .pagination a:hover, .pagination a:active {border: 1px solid #000099; color: #000}
@@ -298,14 +299,13 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .company_short_info .icon .icon_inner{ display:table-cell; vertical-align:middle; text-align:center; height:68px; line-height:68px; width:68px; *font-size: 59px; *font-family:Arial}
 .company_short_info .icon .icon_inner img{ vertical-align:middle}
 .rank{ font-size: 280%; font-weight:bolder; color:red}
- #company_tags{ width:440px}
 #industry_link_list {width: 100%; overflow:auto}
 #industry_link_list li{ display: inline; float: left}
 #industry_link_list a{ width: 16em; padding:2px 4px; display:block}
-.tag,.disable_tag{ padding:2px 8px; margin:1px; display:inline-block; cursor:pointer}
+ .tag,.disable_tag{ padding:2px 8px; margin:1px; display:inline-block; cursor:pointer}
 .tag{ background-color:#ccff99}
 .disable_tag{ background-color:silver}
-.tag_input{ width:440px}
+#company_tags,.tag_input{ width:380px}
  div.auto_complete {width: 350px; background: #fff}
 div.auto_complete ul {border:1px solid #888; margin:0; padding:0; width:100%; list-style-type:none}
 div.auto_complete ul li {margin:0; padding:3px}
@@ -341,7 +341,7 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .big_star_3{ background-position: 0px -63px}
 .big_star_4{ background-position: 0px -85px}
 .big_star_5{ background-position: 0px -106px}
-.middle_star_0,.middle_star_1,.middle_star_2,.middle_star_3,.middle_star_4,.middle_star_5， {width:91px; background-image:url(/images/middle_star.png); display:inline-block; background-position: 0px 0px; height:16px; background-repeat:no-repeat}
+.middle_star_0,.middle_star_1,.middle_star_2,.middle_star_3,.middle_star_4,.middle_star_5 {width:91px; background-image:url(/images/middle_star.png); display:inline-block; background-position: 0px 0px; height:16px; background-repeat:no-repeat}
 .middle_star_0{ background-position: 0px 0px}
 .middle_star_1{ background-position: 0px -16px}
 .middle_star_2{ background-position: 0px -32px}
@@ -387,6 +387,8 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 #whole_judge_detail_star{ border:solid 1px #DEDEDE; border-top:none; background:#FFFFFF; position:absolute; margin:0px; padding:8px 10px; clear:both; z-index:299}
 .center_block{ margin: 0 auto; width: 650px}
 .half_width{ width: 49%}
+.hot_link{ background-color: #fff6ee; border: 1px solid #f5e9db; display: inline-block; padding: 2px 6px}
+.hot_link:hover{ background-color: #fff6ee}
  .pui-autocomplete-holder {margin: 0; border: 1px solid #999; overflow: hidden; padding: 0px 5px; font:normal 12px Verdana, Arial, sans-serif; height: auto !important; height: 1%; background:white url(/images/input-text.png) repeat-x scroll left top}
 .pui-autocomplete-holder li {float: left; position: relative; list-style-type: none; margin: 4px 0 }
  .pui-autocomplete-holder li.pui-autocomplete-input {margin: 2px 0; height: 20px}

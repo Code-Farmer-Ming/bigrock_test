@@ -39,7 +39,7 @@
   <%=  link_to_function "详细>>",
     " Element.toggle('#{dom_id(pass,"creditability_detail_judge")}');if (Element.visible('#{dom_id(pass,"creditability_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
 
-  <%= link_to "(共#{pass.judges.count}人评价)",user_resume_pass_judges_path(pass.user,pass.resume,pass.id) if pass.judges.count>0%>
+  <%= link_to "(共#{pass.judges.count}个同事评价)",user_resume_pass_judges_path(pass.user,pass.resume,pass.id) if pass.judges.count>0%>
   <div class="detail_judge" id="<%=dom_id(pass,"creditability_detail_judge")%>"  style="display:none">
     <%5.downto(1) do |i| %>
       <%= small_star_and_process_bar(i,get_percent(yokemate_count,pass.judge_count_by_star("creditability_value",i))) %>

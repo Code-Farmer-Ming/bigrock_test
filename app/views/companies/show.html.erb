@@ -12,10 +12,10 @@
     <div id="company_star_rating" >
       <%= render :partial=>"companies/show_star_rating" ,:object=>@company %>
     </div>
-    <p>
+    <div class="form_row">
     <h3>公司信息</h3>
     <%=simple_format(auto_link(h(@company.description))) %>
-    </p>
+    </div>
 
     <%if !@company.phone.blank?%>
       <p>
@@ -50,13 +50,20 @@
     <p>
       <b> <%= link_to @company.create_user.name,user_path(@company.create_user)%>  </b> 创建于 <%=  localize(@company.created_at,:format=>:long)%>&nbsp;&nbsp;
       <%if @company.last_edit_user%>
-        <b> <%= link_to @company.last_edit_user.name,user_path(@company.last_edit_user)%>  </b> 最后修改于 <%= localize(@company.updated_at,:format=>:long)%>
+        <b> <%= link_to @company.last_edit_user.name,user_path(@company.last_edit_user) %>  </b> 最后修改于 <%= localize(@company.updated_at,:format=>:long)%>
       <%end%>
     </p>
   </div>
-  <%#  sub_block_div("公司博客",(link_to("全部", company_news_path(@company) ) if @company.news.size>0)) do  %>
-    <%#= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>3) %>
-  <%#end%>
+
+  <% sub_block_div("评价信息(#{@company.judges.size})",
+    (link_to("全部",company_company_judges_path(@company)) if@company.judges.size>0)) do %>
+    <div id="company_judge_infos">
+      <%= render :partial=>"company_judges/show_judge_info",:collection=>@company.judges.find(:all,:limit=>4) %>
+    </div>
+  <%end if @company.judges.size>0%>
+<%#  sub_block_div("公司博客",(link_to("全部", company_news_path(@company) ) if @company.news.size>0)) do  %>
+<%#= render :partial=>"news/news_short_info",:collection=>@company.news.all(:limit=>3) %>
+<%#end%>
   <%  sub_block_div("话题(#{@company.topics.size})", link_to("+我发言",new_company_topic_path(@company),:title=>"我来发布新话题")+
       "&nbsp;"+(link_to("全部", company_topics_path(@company)))) do  %>
     <%= render :partial=>"topics/topic_item",:collection=>@company.topics.all(:limit=>10) %>
@@ -77,6 +84,9 @@
   <div>
     <div id="current_employees_tab"  class="panel" >
       <%= render :partial=>"users/user_short_info",:collection=> @company.current_employees.find(:all,:order=>'created_at desc',:limit=>4) %>
+      <%unless    @company.current_employees.size>0%>
+        <p>还没有当前员工的信息</p>
+      <%end%>
       <p class="c">
         <%=   link_to("更多…",employee_list_company_path(@company)) if @company.current_employees.size>0%>
       </p>
@@ -85,6 +95,9 @@
       <% @company.pass_employees.find(:all,:limit=>4).each() do |employee| %>
         <%= render :partial=>"users/user_short_info",:object=>  employee,:locals=>{:old_company=>params[:id]} %>
       <%end%>
+      <%unless    @company.pass_employees.size>0%>
+        <p>还没有过去员工的信息</p>
+      <%end%>
       <p class="c">
         <%=   link_to("更多…",employee_list_company_path(@company,:type=>'pass')) if @company.pass_employees.size>0%>
       </p>
@@ -92,15 +105,9 @@
   </div>
 
   <% sub_block_div("动态",(link_to("全部",logs_company_path(@company)) if @company.log_items.size>0)) do %>
-    <%= render :partial=>"comm_partial/show_log",:object=>@company.log_items.all(:limit=>8),:locals=>{:hide_left=>true} %>
+    <%= render :partial=>"comm_partial/show_log",:object=>@company.log_items.all(:limit=>4),:locals=>{:hide_left=>true} %>
   <%end%>
 
-  <% sub_block_div("评价信息(#{@company.judges.size})",
-    (link_to("全部",company_company_judges_path(@company)) if@company.judges.size>0)) do %>
-    <div id="company_judge_infos">
-      <%= render :partial=>"company_judges/show_judge_info",:collection=>@company.judges.find(:all,:limit=>4) %>
-    </div>
-  <%end if @company.judges.size>0%>
 
   <% sub_block_div("相关公司") do %>
     <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies.limit(4) %>

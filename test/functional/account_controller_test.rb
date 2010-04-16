@@ -13,11 +13,13 @@ class AccountControllerTest < ActionController::TestCase
     get :show
     assert_response :success
   end
+  
   test "set password" do
     login_as(users(:one))
     get :set_password
     assert_response :success
   end
+
   test "show with not login" do
     get :show
     assert_response :success

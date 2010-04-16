@@ -16,6 +16,8 @@
       <%= f.label :email,"电子邮件",:class=>"filed_lab" %>
       <%= f.text_field :email,:class=>"required validate-email text",:maxlength=>64,:title=>"请输入邮箱" %>
     </p>
+    <p>嵌入到博客</p>
+    <%= text_area_tag "small_img_link", link_to('',user_resumes_url(current_user))%>
 
     <p id="form_button">
       <%= submit_tag "保存"  ,:class=>"button"  -%>
@@ -25,7 +27,7 @@
 </div>
 <div id="right_content">
   <p>
-    修改密码及邮箱
+    登录邮箱和个人图片的修改
   </p>
 </div>
 

@@ -3,7 +3,10 @@
 <% end %>
 <div id="left_content">
   <div id="resume_info" >
-    <%= render :partial=>"users/info_head",:object=>@user %>
+    <div id="user_name_and_big_star">
+      <%= render :partial=>"users/info_head",:object=>@user %>
+    </div>
+    
     <div class="tab" >
       <div class="l">
         <span id="<%= dom_id(@user,"my_language") %>" class="user_my_language" >
@@ -47,27 +50,30 @@
 
   <%tabs() do%>
     <%= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
-    <%= tab_button("在关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
+    <%= tab_button("关注"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
     <%= tab_button("同事"+(@user.current_resume.has_yokemates? ? "(#{@user.current_resume.yokemates.size})" : ""),"my_yokemates_tab") %>
   <%end%>
   <div>
     <div id="my_friends_tab"  class="panel" >
       <%= render :partial=>"users/user_short_info",:collection=> @user.friend_users.newly_order.find(:all,:limit=>3) %>
-
+      <%unless   @user.friend_users.size>0%>
+        <p>还没有好友</p>
+      <%end%>
       <%=   link_to("查看全部…",friends_user_path(@user)) if @user.friend_users.size>0%>
-
     </div>
     <div id="my_follow_tab"  class="panel" >
       <%= render(:partial=>"users/user_short_info",:collection=>@user.my_follow_users.newly_order.find(:all,:limit=>3)) %>
-
+      <%unless    @user.my_follow_users.size>0%>
+        <p>还没有关注任何人</p>
+      <%end%>
       <%=   link_to("查看全部…",friends_user_path(@user,:type=>"my_follow")) if @user.my_follow_users.size>0%>
-
     </div>
     <div id="my_yokemates_tab"  class="panel" >
       <%= render :partial=>"users/user_short_info",:collection=> @user.current_resume.yokemates.newly_order.all(:limit=>3) %>
-
+      <%unless    @user.current_resume.has_yokemates?%>
+        <p>还没有同事，赶快邀请同事进来吧。</p>
+      <%end%>
       <%=  link_to("查看全部…",yokemate_list_user_path(@user)) if @user.current_resume.has_yokemates?%>
-
     </div>
   </div>
 

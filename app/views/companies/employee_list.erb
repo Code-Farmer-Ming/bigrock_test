@@ -11,6 +11,6 @@
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入名称",:url=>""} %>
   <%end%>
   <% sub_block_div() do %>
-    <%= link_to "返回[#{@company.name}]首页",company_path(@company) %>
+    <%= link_to "<< 返回[#{@company.name}]首页",company_path(@company) %>
   <%end%>
 </div>

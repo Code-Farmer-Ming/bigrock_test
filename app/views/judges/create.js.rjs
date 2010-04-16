@@ -4,3 +4,4 @@ page.insert_html(:top,"judges_pass_#{params[:pass_id]}",render(:partial=>"judges
 page << "Lightbox.close()"
 page["judge_operation_pass_#{params[:pass_id]}"].replace_html(render(:partial=>"judges/judge_operation",:object=>@judge.pass ))
 page[dom_id(@judge.pass,"judge_container")].visual_effect(:highlight)
+page.replace_html("user_name_and_big_star", render(:partial=>"users/info_head",:object=>@judge.user))

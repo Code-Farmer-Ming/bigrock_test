@@ -39,7 +39,7 @@ StarRank.prototype = {
                 this.links[i].className = this.imgEmpty_class;
             }
         }
-        this.title.update(this.titles[this.rankValue-1] || '&nbsp;' );
+        Element.update(this.title,this.titles[this.rankValue-1] || '&nbsp;');
     },
 
     create:function(divParent, id) {
@@ -118,7 +118,7 @@ StarRank.prototype = {
                 }
             }
         }
-        this.title.update(this.titles[value-1]);
+        Element.update(this.title,this.titles[value-1]);
         this.rankMouseOver(sender, id, value);
     },
 

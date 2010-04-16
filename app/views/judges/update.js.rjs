@@ -6,3 +6,4 @@ page.select("##{dom_id(@judge,"item")}").each do
   page.replace_html(dom_id(@judge,"item"),render(:partial=>"judges/judge_info",:object=>@judge))
 end
 page[dom_id(@judge.pass,"judge_container")].visual_effect(:highlight)
+page.replace_html("user_name_and_big_star", render(:partial=>"users/info_head",:object=>@judge.user))

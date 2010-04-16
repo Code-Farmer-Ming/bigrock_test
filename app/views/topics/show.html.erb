@@ -63,7 +63,7 @@ recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic
     </div>
   <%end%>
   <%  sub_block_div() do %>
-    <%= link_to "返回 #{@topic.owner.name}首页", [@topic.owner] %>
+    <%= link_to "<< 返回 #{@topic.owner.name}首页", [@topic.owner] %>
   <%end%>
   <%  sub_block_div("评价最高的回复") do %>
     <%= render :partial=>"comments/hot_comment",:collection=>@topic.comments.higher_scope %>

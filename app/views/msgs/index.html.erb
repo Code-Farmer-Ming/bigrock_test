@@ -10,7 +10,7 @@
     <tr class="<%= cycle("", "gray_background") %>">
       <td class="msg_title"><%=link_to(msg.title+(msg.can_response? ? "" : "     (对方已关闭)") ,account_msg_path(msg) ,:title=>msg.content)%></td>
       <td> 
-        <%= ((params[:type]=="send") ? link_to(msg.sendee.name,user_path(msg.sendee)) : link_to(msg.sender.name,user_path(msg.sender)) ) %>
+        <%= ((params[:type]=="send") ?  link_to_user_name(msg.sendee) :  link_to_user_name(msg.sender) ) %>
       </td>
       <td><%= localize(msg.created_at) %></td>
       <td><%= link_to '回复', account_msg_path(msg) %>

@@ -124,7 +124,7 @@ label{
     padding:5px 12px;
 }
 
-#lightbox_content textarea,#resume_content  textarea{
+#lightbox_content textarea{
     height:8em;
 }
 .section{
@@ -175,6 +175,12 @@ label{
 
 .form_info #form_button{
     padding:12px;
+}
+
+.form_row{margin:0 0 0.5em;}
+
+.drop_button{
+    cursor: pointer;
 }
 #search{
     width:75%;
@@ -350,8 +356,6 @@ div#menu{
 
 .user_language{
     font-weight:normal;
-
-    font-style:italic;
     color:gray;
     width:160px;
     overflow:hidden;
@@ -508,9 +512,7 @@ ul#nav .activelink a,ul#nav a:hover{
     margin:4px 6px;
     height:105px;
 }
-.hidden_group_bk{
-    background-color:#eee;
-}
+ 
 /*--------------*/
 /*分页 */
 .pagination {
@@ -717,10 +719,8 @@ ul#nav .activelink a,ul#nav a:hover{
     font-weight:bolder;
     color:red;
 }
-/*tag 标签的css*/
-#company_tags{
-    width:440px;
-}
+
+
 #industry_link_list
 {
     width: 100%;
@@ -736,7 +736,7 @@ ul#nav .activelink a,ul#nav a:hover{
     padding:2px 4px;
     display:block;
 }
-
+/*tag 标签的css*/
 .tag,.disable_tag{
     padding:2px 8px;
     margin:1px;
@@ -749,8 +749,8 @@ ul#nav .activelink a,ul#nav a:hover{
 .disable_tag{
     background-color:silver;
 }
-.tag_input{
-    width:440px;
+#company_tags,.tag_input{
+    width:380px;
 }
 
 /*自动完成 提示菜单*/
@@ -910,7 +910,7 @@ div.auto_complete ul strong.highlight {
 .big_star_5{
     background-position: 0px -106px;
 }
-.middle_star_0,.middle_star_1,.middle_star_2,.middle_star_3,.middle_star_4,.middle_star_5，
+.middle_star_0,.middle_star_1,.middle_star_2,.middle_star_3,.middle_star_4,.middle_star_5
 {
     width:91px;
     background-image:url(/images/middle_star.png);
@@ -1116,4 +1116,14 @@ div.auto_complete ul strong.highlight {
 }
 .half_width{
     width: 49%;
+}
+.hot_link{
+    background-color: #fff6ee;
+    border: 1px solid #f5e9db;
+    display: inline-block;
+    padding: 2px 6px;
+
+}
+.hot_link:hover{
+    background-color: #fff6ee;
 }

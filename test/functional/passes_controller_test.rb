@@ -25,6 +25,19 @@ class PassesControllerTest < ActionController::TestCase
     assert_equal(resume[0].resume_id,@resumeone.id)  
   end
 
+  test "should create pass with request user id nil" do
+    Pass.destroy_all()
+    post :create, :pass => {:title=>"普通员工" },
+      :user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"},:request_user_id=>nil
+    assert_redirected_to user_path(1)
+  end
+
+  test "should create pass with request user id blank " do
+    Pass.destroy_all()
+    post :create, :pass => {:title=>"普通员工" },
+      :user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"},:request_user_id=>""
+    assert_redirected_to user_path(1)
+  end
 
   test "should get edit" do
     get :edit, :id => passes(:one).to_param,:user_id=>@userone,:resume_id=>@resumeone
