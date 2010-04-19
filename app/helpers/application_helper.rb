@@ -47,7 +47,7 @@ module ApplicationHelper
   
   #显示用户的链接
   def link_to_user_name(user,html_option={},&block)
-    html_option[:href] = user.id==-1 ? "#" : user.is_alias? ? new_account_msg_path(:write_to=> user.salt) : user_path(user)
+    html_option[:href] = user.id==-1 ? "#" : user.is_alias? ? new_account_msg_path(:write_to=> user.salt) : !current_user ? user_resumes_path(user)  : user_path(user)
     html_option[:title] = (user.id!=-1 && user.is_alias?) ? "我只是个马甲，单击可以给我发消息" :  user.name
     block.blank? ? content_tag(:a,user.name,html_option) : concat(content_tag(:a,capture(&block),html_option))  
   end

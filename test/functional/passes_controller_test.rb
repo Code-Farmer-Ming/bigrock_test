@@ -57,4 +57,15 @@ class PassesControllerTest < ActionController::TestCase
     end
     #assert_redirected_to user_resume_passes_path(@userone,@resumeone)
   end
+
+  test "send invite with validate email" do
+    xhr :post ,:send_invite ,:id=>passes(:two),:msg=>{:sendees=>"xiao@gmail.com;xx",:title=>"",:content=>"test"}
+    assert_equal flash[:error],'xx 无效的邮箱地址！'
+    #      assert_equal 2, ActionMailer::Base.deliveries.size
+  end
+  test "send invite with validate yokemate" do
+    xhr :post ,:send_invite ,:id=>passes(:two),:msg=>{:sendees=>"xiao@gmail.com;xx@gmail.com",:title=>"",:content=>"test"},:yokemates=>[22,33,44]
+    assert_not_nil flash[:error]
+    
+  end
 end

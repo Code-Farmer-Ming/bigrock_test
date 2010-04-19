@@ -14,14 +14,13 @@
       {:value=>(f.object.company.name if f.object.company),:title=>"需要输入公司名称",:class=>"required text"},
       :controller=>"Passes",:min_chars=>2 , :default_text=>content_tag("p","&nbsp;&nbsp;输入公司名称",:style=>"background-color:#ddd")  %>
   <%end%>
-
 </p>
 
 <div class="form_row">
   <%= f.label :department,"部门" ,:class=>"filed_lab"  %>
   <%=  text_field_with_auto_complete :pass,:department,{:class=>"required text",:title=>"需要输入部门",:id=>dom_id(f.object,'department')},
     {:with=>"'company[name]='+$F('company_name')",
-    :active=>{"#{dom_id(f.object,'department')}"=>:focus,:department_drop_list=>:click},
+    :active=>{"#{dom_id(f.object,'department')}"=>:click,:department_drop_list=>:click},
     :controller=>"Passes",
     :extension_html=>"<small id='department_drop_list' class='drop_button'>▼</small>"
   } %>
@@ -31,7 +30,7 @@
   <%= f.label :title,"职位" ,:class=>"filed_lab" %>
 
   <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text",:title=>"需要输入职位",:id=>dom_id(f.object,'title')},{:with=>"'company[name]='+$F('company_name')",
-    :active=>{"#{dom_id(f.object,'title')}"=>:focus,:title_drop_list=>:click},
+    :active=>{"#{dom_id(f.object,'title')}"=>:click,:title_drop_list=>:click},
     :controller=>"Passes",
     :extension_html=>"<span id='title_drop_list' class='drop_button'>▼</span>"
   } %>

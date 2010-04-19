@@ -1,1 +1,10 @@
-page << "Lightbox.close()"
+if flash[:error]
+  page[dom_id(@msg,"error_msg")].show
+  page[dom_id(@msg,"error_msg")].replace_html( render(:partial=>"comm_partial/flash_msg"))
+  page.delay(2) do
+    page[dom_id(@msg, "error_msg")].visual_effect(:fade)
+  end
+else
+  page << "Lightbox.close()"
+end
+

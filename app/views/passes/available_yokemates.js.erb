@@ -1,17 +1,20 @@
 <div  class="form_info">
   <h1>邀请同事对你评价</h1>
-  <%remote_form_for :msg,
+  <%remote_form_for @msg,
     :url=> send_invite_user_resume_pass_path(params[:user_id],params[:resume_id],@pass),
     :method=>:post do |form| %>
+    <p id="<%= dom_id(form.object,"error_msg") %>">
+      <%= form.error_messages %>
+    </p>
     <p>
       <label class="filed_lab">已注册同事</label>
       <span style="display: inline-block;">
         <ul id="invite_yokemate" class="pui-autocomplete-holder" >
-      <%@pass.available_yokemates.each do |yokemate|%>
-        <li class="pui-autocomplete-input">
-          <%=  check_box_tag "yokemates[]", yokemate.id,false,:id=>"yokemates#{yokemate.id}"%><label for="<%= "yokemates#{yokemate.id}" %>"><%= yokemate.name %></label>
-        </li>
-      <%end%>
+          <%@pass.available_yokemates.each do |yokemate|%>
+            <li class="pui-autocomplete-input">
+              <%=  check_box_tag "yokemates[]", yokemate.id,false,:id=>"yokemates#{yokemate.id}"%><label for="<%= "yokemates#{yokemate.id}" %>"><%= yokemate.name %></label>
+            </li>
+          <%end%>
         </ul>
       </span>
     </p>

@@ -22,6 +22,7 @@ class CompaniesControllerTest < ActionController::TestCase
     assert_difference('Company.count') do
       post :create, :company =>new_company.attributes
     end
+    assert_nil assigns(:company).last_edit_user
     assert_redirected_to company_path(assigns(:company))
   end
 

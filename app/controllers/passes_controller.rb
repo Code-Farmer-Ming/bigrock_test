@@ -109,16 +109,28 @@ class PassesController < ApplicationController
   end
   #同事
   def  available_yokemates
+    @msg = Msg.new(params[:msg])
   end
   #发送评价邀请信息
   #TODO 发送错误时候需要检查
   def send_invite
     @msg = Msg.new(params[:msg])
     pass = Pass.find(params[:id])
-    
+    #发送邮件
+    #检查邮件地址是否有效
+    @msg.sendees.split(";").uniq.each do |sendee|
+      if !validate_email?(sendee)
+        flash.now[:error] = (flash.now[:error] || '') + sendee + " "
+      end
+      if  flash.now[:error]
+        flash.now[:error] += "无效的邮箱地址！"
+        return
+      end
+    end
     @msg.sendees.split(";").uniq.each do |sendee|
       MailerServer.deliver_send_invite(sendee,pass,@msg)
     end
+    #发送站内信息
     if (params[:yokemates])
       @msg.sender = current_user
       @msg.sender_stop = true
@@ -131,7 +143,8 @@ class PassesController < ApplicationController
           new_msg.sendee_id = id
           if  !new_msg.save
             ActiveRecord::Rollback
-            return false
+            flash.now[:error] =new_msg.errors.full_messages.to_s
+            return
           end
         end
       end
@@ -158,7 +171,10 @@ class PassesController < ApplicationController
 
 
   protected
-
+  #是否合法的 email 地址
+  def validate_email?(email)
+    email=~/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  end
   def find_pass
     @pass=Pass.find(params[:id])
   end
