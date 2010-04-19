@@ -13,12 +13,12 @@
       <b>创建于 </b><%=  localize(@group.created_at)%>
     </p>
     <%if @group.all_tags.size>0%>
-      <p>
+      <h4>
         <b>标签 </b>
 
         <%= render :partial=>"tags/tag_info",:collection=>@group.all_tags(:limit=>5),:locals=>{:type=>:Group} %>
         <%= link_to "…所有#{@group.all_tags.size}个",[@group,:tags] %>
-      </p>
+      </h4>
     <%end%>
     <p>
       <b>成员</b> <%= link_to("#{@group.members.size}",group_members_path(@group),:class=>"member_count")%>

@@ -13,8 +13,8 @@
       <%= render :partial=>"companies/show_star_rating" ,:object=>@company %>
     </div>
     <div class="form_row">
-    <h3>公司信息</h3>
-    <%=simple_format(auto_link(h(@company.description))) %>
+      <h3>公司信息</h3>
+      <%=simple_format(auto_link(h(@company.description))) %>
     </div>
 
     <%if !@company.phone.blank?%>
@@ -41,12 +41,12 @@
       <%= link_to @company.city.name,{:action=>'search',:city_id=>@company.city_id,:state_id=>@company.state_id} %>
       <%= h(@company.address) if  @company.address%>
     </p>
-    <p>
-      <b>标签:</b>
+    <h4>
+      标签:
       <span id="tag_topN_list">
         <%= render :partial=>"tags/tag_topN_list",:object=>@company %>
       </span>
-    </p>
+    </h4>
     <p>
       <b> <%= link_to @company.create_user.name,user_path(@company.create_user)%>  </b> 创建于 <%=  localize(@company.created_at,:format=>:long)%>&nbsp;&nbsp;
       <%if @company.last_edit_user%>

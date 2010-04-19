@@ -303,7 +303,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 #industry_link_list li{ display: inline; float: left}
 #industry_link_list a{ width: 16em; padding:2px 4px; display:block}
  .tag,.disable_tag{ padding:2px 8px; margin:1px; display:inline-block; cursor:pointer}
-.tag{ background-color:#ccff99}
+.tag{ background-color:#ccff99; font-weight: normal}
 .disable_tag{ background-color:silver}
 #company_tags,.tag_input{ width:380px}
  div.auto_complete {width: 350px; background: #fff}

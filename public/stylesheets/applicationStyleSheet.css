@@ -745,6 +745,7 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 .tag{
     background-color:#ccff99;
+    font-weight: normal;
 }
 .disable_tag{
     background-color:silver;

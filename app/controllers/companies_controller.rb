@@ -20,7 +20,7 @@ class CompaniesController < ApplicationController
   # GET /companies/1.xml
   def show
     @page_title=" #{@company.name}"
-    @page_description = ",#{@company.name}员工的信息,公司企业博客"
+    @page_description = ",#{@company.name},资料,评价,员工"
     @page_keywords = @company.tag_list
     respond_to do |format|
       format.html {} # show.html.erb
