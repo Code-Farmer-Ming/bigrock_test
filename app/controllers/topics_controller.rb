@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-
+  include ActionView::Helpers::TextHelper
   before_filter :find_topic,:only=>[:show,:edit,:update,:destroy,:up,:down,:set_top_level,:cancel_top_level]
   before_filter :check_login?,:except=>[:show,:index,:search]
   # GET /topics
@@ -30,7 +30,8 @@ class TopicsController < ApplicationController
     @comments = @topic.comments.paginate :page => params[:page]
     @is_owner = @topic.is_author?(current_user)
     @is_manager  =  @topic.is_manager?(current_user)
-    @page_title= " 话题 " + @topic.title
+    @page_title=  @topic.title + " 话题"
+    @page_description =  truncate(@topic.content,:length=>100)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @topic }

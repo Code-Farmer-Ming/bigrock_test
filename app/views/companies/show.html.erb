@@ -41,12 +41,12 @@
       <%= link_to @company.city.name,{:action=>'search',:city_id=>@company.city_id,:state_id=>@company.state_id} %>
       <%= h(@company.address) if  @company.address%>
     </p>
-    <h4>
-      标签:
+    <p>
+      <b>标签:</b>
       <span id="tag_topN_list">
         <%= render :partial=>"tags/tag_topN_list",:object=>@company %>
       </span>
-    </h4>
+    </p>
     <p>
       <b> <%= link_to @company.create_user.name,user_path(@company.create_user)%>  </b> 创建于 <%=  localize(@company.created_at,:format=>:long)%>&nbsp;&nbsp;
       <%if @company.last_edit_user%>

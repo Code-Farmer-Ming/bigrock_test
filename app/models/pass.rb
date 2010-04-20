@@ -99,10 +99,10 @@ class Pass < ActiveRecord::Base
   end
   #清除相关 pass产生评价等 数据
   def clear_data
-    #取消对公司同事的评价
+    #取消对同事的评价
     user.judged.all.each{ |object| object.destroy if (object.pass.company==company) }
     #取消对此公司的关注
-    user.targets.delete(company)
+    user.remove_attention(company)
     #取消 对公司的评价
     CompanyJudge.destroy_all(:company_id=>company,:user_id=>user )
   end

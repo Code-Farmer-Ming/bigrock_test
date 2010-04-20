@@ -63,8 +63,9 @@ class AccountController < ApplicationController
       @add_friend_request_size = @user.add_friend_applications.size
       @join_group_invites_size = @user.join_group_invites.size
     else
-      @page_title ="首页"
-      @page_keywords="个人 公司 简历 信息 招聘 职位 评分 公司评分 个人评分 待遇 环境 小组"
+      @page_title ="谁靠谱网"
+      @page_keywords="谁靠谱,公司,简历,评分,待遇,环境,小组"
+      @page_description = "这里有公司的信息,员工对公司环境、待遇的评价与评分,看看谁靠谱.个人的简历,同事对个人能力的评价信息与评分."
       #      @news = Piecenews.newly.all(:limit=>4)
       @hot_topics = Topic.hot.since(7.days.ago).limit(10)
       @logs = LogItem.find(:all,:limit=>4,:order=>"created_at desc");
@@ -324,28 +325,46 @@ class AccountController < ApplicationController
   def attention
     target = params[:target_type].to_s.camelize.constantize
     target_object = target.find(params[:target_id])
-    current_user.targets << target_object
+    
     respond_to do |format|
-      format.js{
-        render :update do |page|
-          page[dom_id(target_object,"operation")].replace_html render(:partial=>"#{target.base_class.to_s.pluralize.downcase}/operation",:object=>target_object)
-          page[dom_id(target_object,"operation")].visual_effect(:highlight)
-        end
-      }
+      if current_user.add_attention(target_object)
+        format.js{
+          render :update do |page|
+            page[dom_id(target_object,"operation")].replace_html render(:partial=>"#{target.base_class.to_s.pluralize.downcase}/operation",:object=>target_object)
+            page[dom_id(target_object,"operation")].visual_effect(:highlight)
+          end
+        }
+      else
+        format.js{
+          render :update do |page|
+            flash.now[:error] = current_user.errors.full_messages.to_s
+            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+          end
+        }
+      end
     end
   end
   #取消关注
   def destroy_attention
     target = params[:target_type].to_s.camelize.constantize
     target_object = target.find(params[:target_id])
-    current_user.targets.delete(target_object)
+    
     respond_to do |format|
-      format.js{
-        render :update do |page|
-          page[dom_id(target_object,"operation")].replace_html render(:partial=>"#{target.base_class.to_s.pluralize.downcase}/operation",:object=>target_object)
-          page[dom_id(target_object,"operation")].visual_effect(:highlight)
-        end
-      }
+      if current_user.remove_attention(target_object)
+        format.js{
+          render :update do |page|
+            page[dom_id(target_object,"operation")].replace_html render(:partial=>"#{target.base_class.to_s.pluralize.downcase}/operation",:object=>target_object)
+            page[dom_id(target_object,"operation")].visual_effect(:highlight)
+          end
+        }
+      else
+        format.js{
+          render :update do |page|
+            flash.now[:error] = current_user.errors.full_messages.to_s
+            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+          end
+        }
+      end
     end
   end
 

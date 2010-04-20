@@ -2,6 +2,7 @@ class PassesController < ApplicationController
   before_filter :check_login?
   before_filter :find_pass,:only=>[:edit,:update,:destroy,:available_yokemates]
   auto_complete_for :company, :name
+ 
 
 
   # GET /passes/new
@@ -150,23 +151,23 @@ class PassesController < ApplicationController
       end
     end
   end
- 
+
+
+#  def auto_complete_for_company_name
+#    @items =  Company.find(:all,:conditions =>["name like ?","%#{params[:company][:name]}%"] )
+##    items_content = @items.map { |entry| content_tag("li",  highlight(entry[field],params[:company][:name])+  content_tag(:p,entry.short_info)) }
+#     render(:inline=>"<ul><%= render(:partial=>'companies/auto_complete_info',:collection=>@items)%></ul>")
+#  end
   #根据公司 查询 对应的部门
   def auto_complete_for_pass_department
- 
     @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}')",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct department" )
     render :inline => "<%= auto_complete_result @items, 'department', '#{params[:pass][:department]}' %>"
-
   end
 
   #根据公司 查询 对应的部门
   def auto_complete_for_pass_title
-    #    if (params[:company][:name]!="")
     @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}') ",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct title" )
     render :inline => "<%= auto_complete_result @items, 'title', '#{params[:pass][:title]}' %>"
-    #    else
-    #      render :text=>""
-    #    end
   end
 
 

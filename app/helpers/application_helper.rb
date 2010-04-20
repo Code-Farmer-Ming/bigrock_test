@@ -1,6 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  STAR_TITLE=['很差', '差', '一般', '好', '非常好 ']
+  STAR_TITLE=['', '', '', '', '']
 
   #获取百分比
   def get_percent(count,sub_count)

@@ -62,11 +62,19 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "destroy" do
+    LogItem.destroy_all()
+    Attention.delete_all()
     user = User.find(1)
-
     assert_not_nil user
+    user.add_attention(users(:two))
+    users(:two).add_attention(user)
+    
     assert_equal user, Comment.find_by_id(2).user
-    user.destroy
+
+    assert_difference("Attention.count",-2) do
+      user.destroy
+ 
+    end
  
     assert_nil User.find_by_id(1)
     assert_nil User.find_by_id(17)
@@ -74,6 +82,26 @@ class UserTest < ActiveSupport::TestCase
     assert_nil Comment.find_by_id(1)
     assert_nil Comment.find_by_id(2)
     assert_nil Topic.find_by_id(1)
+    assert_nil Friend.find_by_id(1)
+    assert_nil LogItem.find_by_log_type_and_owner_id("Attention",1)
+    assert_nil LogItem.find_by_log_type_and_owner_id("Attention",users(:two))
+    
+  end
+  
+  test "user attenion log item" do
+    user = User.find(1)
+    assert_difference("user.log_items.count") do
+      user.add_attention(users(:two))
+    end
+    assert_difference("user.loged_items.count") do
+      users(:two).add_attention(user)
+    end
+    #测试 关注 产生的 log
+    assert user.log_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",user))
+    assert users(:two).loged_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",user))
+    
+    assert users(:two).log_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",users(:two)))
+    assert user.loged_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",users(:two)))
   end
 
   test "sub_resumes" do

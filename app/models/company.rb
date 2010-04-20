@@ -158,7 +158,9 @@ class Company < ActiveRecord::Base
   #    end
   #    arr
   #  end
-
+  def short_info
+    industry.name+"&nbsp;.&nbsp;"+company_type.name + "&nbsp;.&nbsp;"+  company_size.name
+  end
  
   #图标 文件路径
   def icon_file_path(thumbnail=nil)
@@ -179,7 +181,7 @@ class Company < ActiveRecord::Base
   end
   #是不是本公司的员工
   def current_employee?(user)
-   user && current_employees.exists?(user)
+    user && current_employees.exists?(user)
   end
   
 

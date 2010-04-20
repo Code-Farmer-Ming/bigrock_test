@@ -20,4 +20,4 @@ one:
 two:
   user_id: 4
   target_id: 4
-  target_type: MyString
+  target_type: Company

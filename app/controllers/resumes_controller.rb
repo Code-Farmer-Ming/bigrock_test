@@ -1,5 +1,6 @@
 
 class ResumesController < ApplicationController
+    include ActionView::Helpers::TextHelper
   #  in_place_edit_for :resume, :name
   
   before_filter :check_login?,:except=>[:index,:render_resume]
@@ -12,15 +13,16 @@ class ResumesController < ApplicationController
     @item.update_attribute(:self_description, params[:value])
     render :inline => "<%= simple_format( @item.self_description) %>"
   end
+  
   def render_resume
     render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
   end
+  
   def index
-
     @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
-    @page_title= "#{@resume.user.name} 个人简历"
-    @page_description = "#{@resume.user.name} 工作经历、教育经历、技能"
-    @page_keywords = "工作经历、教育经历、技能"
+    @page_title= "#{@resume.user.name}个人简历"
+    @page_description = truncate(@resume.self_description,:length=>100)
+    @page_keywords = "自我介绍,工作经历 教育 技能 评价"
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @resume }

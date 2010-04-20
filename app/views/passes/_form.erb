@@ -32,7 +32,7 @@
   <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text",:title=>"需要输入职位",:id=>dom_id(f.object,'title')},{:with=>"'company[name]='+$F('company_name')",
     :active=>{"#{dom_id(f.object,'title')}"=>:click,:title_drop_list=>:click},
     :controller=>"Passes",
-    :extension_html=>"<span id='title_drop_list' class='drop_button'>▼</span>"
+    :extension_html=>"<small id='title_drop_list' class='drop_button'>▼</small>"
   } %>
   <p id="advice-required-title_pass" class="validation-advice " style="display:none">需要输入部门</p>
 </div>

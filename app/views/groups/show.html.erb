@@ -51,6 +51,13 @@
     <%= render :partial=>"users/user_icon_name_extension",:collection=>@group.all_members(:limit=>4) %>
     <p class ="clear"/>
   <%end%>
+  <%#  sub_block_div("热门话题") do %>
+    <%#= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@group.topics.hot(:limit=>8).since(7.days.ago) %>
+  <%#end%>
+
+  <%#  sub_block_div("评价最高的回复") do %>
+    <%#= render :partial=>"comments/hot_comment",:collection=>@group.comments.higher_scope.all(:limit=>4),:locals=>{:show_news_title=>true} %>
+  <%#end%>
 
   <% sub_block_div("小组成员也喜欢的小组") do %>
     <ul class="float_ul">

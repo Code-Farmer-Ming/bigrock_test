@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:index,:show]
   before_filter :find_group,:only=>[:show,:edit,:update,:destroy,:quit,:invite_join]
   # GET /groups
@@ -6,6 +7,7 @@ class GroupsController < ApplicationController
   def index
     #    @groups = Group.all
     @page_title =  "小组首页"
+    @page_description="小组首页,显示最新创建的小组,小组最新发表的话题"
     @hot_tags= Group.all_tags(:limit=>20)
     respond_to do |format|
       format.html # index.html.erb
@@ -17,6 +19,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @page_title =  @group.name + " 小组"
+    @page_description =  truncate(@group.description,:length=>100)
     @page_keywords=@group.tag_list
     respond_to do |format|
       format.html # show.html.erb

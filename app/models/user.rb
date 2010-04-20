@@ -33,16 +33,7 @@ class User< ActiveRecord::Base
   validates_length_of :nick_name, :within => 2..10
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
-  #  #经历
-  #  has_many :passes,:foreign_key=>"user_id" ,:order=>"begin_date desc,is_current desc"
-  #
-  #  has_many :pass_companies,:through=>:passes,:source=>:company
-  #  #当前的经历   未考虑多个简历的问题
-  #  has_many :current_passes,:class_name=>"Pass",:foreign_key=>"user_id" ,:conditions=>{:is_current=>true},:order=>"begin_date desc,is_current desc"
-  #  #当前所在的公司   未考虑多个简历的问题
-  #  has_many :current_companies ,:through=>:current_passes,:source=>:company
-  #  has_many :comments,:foreign_key=>"user_id",:dependent=>:destroy
-  #  has_many :topics,:foreign_key=>"author_id",:dependent=>:destroy
+
 
   #别人对自己的评价
   has_many :judges,:foreign_key=>"user_id",:dependent=>:destroy
@@ -51,11 +42,13 @@ class User< ActiveRecord::Base
   #对所在公司的评价
   has_many :judged_companies,:class_name=>"CompanyJudge",:foreign_key=>"user_id",:dependent=>:destroy
 
-  #好友
+  #我的好友
   has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
   has_many :friend_users,:through=>:friends,:source=>:friend
   has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
-  
+  #被谁加为好友
+  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
+
   #  #添加好友 申请
   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
     :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
@@ -113,16 +106,18 @@ class User< ActiveRecord::Base
   has_many :user_tags,:foreign_key=>"user_id",:dependent => :destroy
   has_many :user_taggings,:through => :user_tags,:source=>:tagging
 
-  #动态信息
-  has_many :log_items,:as=>:owner,:dependent => :destroy,:order=>"created_at desc"
+  #我的动态信息
+  has_many :log_items,:as=>:owner,:class_name=>"LogItem",:dependent => :delete_all,:order=>"created_at desc"
+  #被记录的 动态信息包含我的信息
+  has_many :loged_items,:as=>:logable,:class_name=>"LogItem",:dependent => :delete_all
 
   #  has_many :my_follow_collection,:class_name=>"Attention",:as=>:target
-  #跟随我的用户
-  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :destroy
+  #跟随关注我的用户
+  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all
   has_many :follow_me_users,:through=>:follow_me_collection,:source=>:user 
   #  has_many :my_follow,:through=>:my_follow_collection,:source=>:target
-  #我跟随的用户或公司或其他
-  has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :destroy
+  #我跟随关注的用户或公司或其他
+  has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all
   has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User"
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company"
   #关注的目标 包括 用户或公司
@@ -420,7 +415,17 @@ class User< ActiveRecord::Base
     my_follow_users << user unless  my_follow_users.exists?(user)
   end
   #解除好友
-  def remove_friend(friend)    friend_users.delete(friend) &&   my_follow_users.delete(friend)
+  def remove_friend(friend)
+    friend_users.delete(friend) &&   my_follow_users.delete(friend)
+  end
+  
+  #用户关注 某个对象 如 company 或 user
+  def add_attention(target_object)
+    targets << target_object
+  end
+  #解除关注
+  def remove_attention(target_object)
+    targets.delete(target_object)
   end
 
   #用户 用过的标签
