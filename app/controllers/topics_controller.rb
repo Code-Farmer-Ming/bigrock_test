@@ -11,7 +11,7 @@ class TopicsController < ApplicationController
     else
       @owner = Group.find(params[:group_id])
     end
-    @topics = @owner.topics.order_by_last_comment.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
+    @topics = @owner.topics.top_level_and_last_comment.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
     @page_title = "#{@owner.name} 话题"
     respond_to do |format|
       format.html # index.html.erb
@@ -30,7 +30,7 @@ class TopicsController < ApplicationController
     @comments = @topic.comments.paginate :page => params[:page]
     @is_owner = @topic.is_author?(current_user)
     @is_manager  =  @topic.is_manager?(current_user)
-    @page_title=  @topic.title + " 话题"
+    @page_title=  @topic.title 
     @page_description =  truncate(@topic.content,:length=>100)
     respond_to do |format|
       format.html # show.html.erb
@@ -167,7 +167,7 @@ class TopicsController < ApplicationController
   
   def search
     search_str = "%#{params[:search]}%"
-    @page_title= "搜索话题"
+    @page_title= "搜索话题 #{params[:search]}"
     @topics = nil
     if params[:group_id]
       @owner = Group.find(params[:group_id])

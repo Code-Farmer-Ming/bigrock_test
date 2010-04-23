@@ -113,7 +113,7 @@ class Company < ActiveRecord::Base
   has_many :log_items,:as=>:owner,:dependent => :destroy,:order=>"created_at desc"
   #公司博客
   has_many :news ,:dependent => :destroy,:order=>"created_at desc"
-  has_many :topics,:as=>:owner,:dependent=>:destroy,:order => 'top_level desc ,last_comment_datetime DESC'
+  has_many :topics,:as=>:owner,:dependent=>:destroy
   has_many :comments ,:through => :topics
   has_many :news_comments ,:through => :news
   #关注我的 用户
@@ -179,11 +179,14 @@ class Company < ActiveRecord::Base
   def condition_judge_count(star=0)
     self.judges.by_condition_value(star).size
   end
-  #是不是本公司的员工
+  #是不是本公司的当前员工
   def current_employee?(user)
     user && current_employees.exists?(user)
   end
-  
+  #是不是员工 包括曾经的 员工
+  def employee?(user)
+    user && all_employees.exists?(user)
+  end
 
   class Version
     belongs_to :edit_user, :class_name => '::User', :foreign_key => 'last_edit_user'

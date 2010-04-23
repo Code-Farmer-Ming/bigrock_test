@@ -25,7 +25,7 @@ class Group < ActiveRecord::Base
   #图标
   has_one :icon,:class_name=>"GroupIcon",:foreign_key=>"master_id",:dependent=>:destroy
 
-  has_many :topics,:as=>:owner,:dependent=>:destroy ,:order => 'top_level desc ,last_comment_datetime DESC'
+  has_many :topics,:as=>:owner,:dependent=>:destroy 
   
   has_many :comments ,:through => :topics
   #所有成员

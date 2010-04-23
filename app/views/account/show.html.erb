@@ -29,24 +29,24 @@
         <%end%>
       </div>
     <%end%>
-    <%# sub_block_div("公司博客",link_to("更多…",news_path())) do%>
-      <%#*<div id="my_news">%>
-      <%#*</div>%>
-      <%#= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
-    <%#end%>
-    <%  sub_block_div("热门话题") do %>
-      <%= render :partial=>"topics/topic_item",:collection=>@hot_topics,:locals=>{:show_group=>true} %>
+  <%# sub_block_div("公司博客",link_to("更多…",news_path())) do%>
+  <%#*<div id="my_news">%>
+  <%#*</div>%>
+  <%#= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
+  <%#end%>
+    <%  sub_block_div("最新的话题") do %>
+      <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
     <%end%>
   <%else%>
     <%content_for :script  do%>
       <%= javascript_include_merged :dragdrop %>
     <%end %>
     <h1>欢迎，<%= current_user.name %></h1>
-    <%# sub_block_div("公司博客",link_to("更多",news_path())) do%>
-      <%#*<div id="my_news">%>
-      <%#*</div>%>
-      <%#= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
-    <%#end%>
+  <%# sub_block_div("公司博客",link_to("更多",news_path())) do%>
+  <%#*<div id="my_news">%>
+  <%#*</div>%>
+  <%#= javascript_tag( "new Ajax.Updater('my_news','#{url_for(:action=>"get_news")}',{method:'get',insertion:'bottom'})") %>
+  <%#end%>
     <% sub_block_div(" ") do%>
       <%tabs do%>
         <%= tab_button("最新的话题","new_topics") %>
@@ -74,15 +74,18 @@
 <%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、公司博客、话题、小组"} %>
 <%#end%>
   <% sub_block_div("申请") do%>
-    <p> 你有 <%= @add_friend_request_size %> 个好友申请
-      <%= link_to "查看" ,account_add_friend_applications_path() %>
+    <p> 你有 <span class='red_text'><%= @add_friend_request_size %></span> 个好友申请
+      &nbsp;
+      <%= link_to "查看…" ,account_add_friend_applications_path() %>
     </p>
   <%end  if  @add_friend_request_size>0 %>
 
   <% sub_block_div("邀请") do %>
     <p>
-      你有   <%= link_to @join_group_invites_size,
-        account_join_group_invites_path() %> 个加入小组邀请
+      你有 <span class='red_text'><%= @join_group_invites_size %></span> 个加入小组邀请
+      &nbsp;
+      <%= link_to "查看…",
+        account_join_group_invites_path() %>
     </p>
   <%end  if @join_group_invites_size>0%>
 

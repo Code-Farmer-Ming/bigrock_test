@@ -66,7 +66,7 @@
 <%#end%>
   <%  sub_block_div("话题(#{@company.topics.size})", link_to("+我发言",new_company_topic_path(@company),:title=>"我来发布新话题")+
       "&nbsp;"+(link_to("全部", company_topics_path(@company)))) do  %>
-    <%= render :partial=>"topics/topic_item",:collection=>@company.topics.all(:limit=>10) %>
+    <%= render :partial=>"topics/topic_item",:collection=>@company.topics.top_level_and_last_comment.all(:limit=>10) %>
     <%=  %>
   <%end%>
 </div>

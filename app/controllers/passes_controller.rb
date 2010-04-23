@@ -128,9 +128,7 @@ class PassesController < ApplicationController
         return
       end
     end
-    @msg.sendees.split(";").uniq.each do |sendee|
-      MailerServer.deliver_send_invite(sendee,pass,@msg)
-    end
+
     #发送站内信息
     if (params[:yokemates])
       @msg.sender = current_user
@@ -150,14 +148,17 @@ class PassesController < ApplicationController
         end
       end
     end
+    @msg.sendees.split(";").uniq.each do |sendee|
+      MailerServer.deliver_send_invite(sendee,pass,@msg)
+    end
   end
 
 
-#  def auto_complete_for_company_name
-#    @items =  Company.find(:all,:conditions =>["name like ?","%#{params[:company][:name]}%"] )
-##    items_content = @items.map { |entry| content_tag("li",  highlight(entry[field],params[:company][:name])+  content_tag(:p,entry.short_info)) }
-#     render(:inline=>"<ul><%= render(:partial=>'companies/auto_complete_info',:collection=>@items)%></ul>")
-#  end
+  #  def auto_complete_for_company_name
+  #    @items =  Company.find(:all,:conditions =>["name like ?","%#{params[:company][:name]}%"] )
+  ##    items_content = @items.map { |entry| content_tag("li",  highlight(entry[field],params[:company][:name])+  content_tag(:p,entry.short_info)) }
+  #     render(:inline=>"<ul><%= render(:partial=>'companies/auto_complete_info',:collection=>@items)%></ul>")
+  #  end
   #根据公司 查询 对应的部门
   def auto_complete_for_pass_department
     @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}')",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct department" )

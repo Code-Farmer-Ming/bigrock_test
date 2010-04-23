@@ -6,7 +6,7 @@ function StarRank() {
 }
 
 StarRank.prototype = {
-    titles:new Array('', '', '', '', ''),
+    titles:new Array('1星', '2星', '3星', '4星', '5星'),
     /* 星星的三种状态图片*/
     //三个 class的名称
     imgEmpty_class:'output_empty_star',

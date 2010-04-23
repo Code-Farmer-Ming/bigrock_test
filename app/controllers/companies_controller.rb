@@ -7,7 +7,7 @@ class CompaniesController < ApplicationController
   # GET /companies.xml    
   def index
     @page_title="公司 首页"
-    @page_description="公司信息的首页,显示环境和待遇评价最好的公司,列出行业分类和公司标签"
+    @page_description="公司信息的首页,提供更真实的公司环境和待遇评价,列出行业分类和公司标签"
     @newly_companies = Company.newly.all(:limit=>3)
     @salary_best_companies =  Company.order_by_salary.all(:limit=>3)
     @condition_best_companies =  Company.order_by_condition.all(:limit=>3)
@@ -111,8 +111,8 @@ class CompaniesController < ApplicationController
   end
   
   def employee_list
-    @page_title=" #{@company.name} 员工记录"
-    @page_description= "当前员工和曾经的员工的记录"
+    @page_title=" #{@company.name} 员工"
+    @page_description= "当前员工和曾经的员工信息"
     if params[:type].blank? || params[:type]=='current' then
       @employees = @company.current_employees.paginate(:joins=>" join resumes on resumes.user_id=users.id",
         :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'],:select=>"users.*",:order=>"users.created_at",:page => params[:page])
@@ -123,7 +123,7 @@ class CompaniesController < ApplicationController
   end
  
   def search()
-    @page_title=" 公司信息搜索"
+    @page_title=" 公司信息搜索 #{params[:search]}"
     @page_description=",搜索符合关键字的的公司"
     order_str =  params[:salary_order] && !params[:salary_order].blank? ? "salary_value/company_judges_count "+ (params[:salary_order].to_s=='asc' ? 'asc' : 'desc') : nil
     if !order_str

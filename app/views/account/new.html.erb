@@ -18,7 +18,7 @@
         <%= f.password_field :text_password ,:class=>"text required",:title=>"请输入密码",:maxlength=>18%>
       </p>
       <p>
-        <%= f.label :text_password_confirmation,"重复密码" ,:class=>"filed_lab"%>
+        <%= f.label :text_password_confirmation,"确认密码" ,:class=>"filed_lab"%>
         <%= f.password_field :text_password_confirmation,
           :class=>"text validate-equals-user_text_password useTitle",:title=>"两次输入的密码不相同",:maxlength=>18 %>
       </p>

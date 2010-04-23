@@ -16,9 +16,15 @@ class Token < ActiveRecord::Base
   ACTION_RECOVERY="recovery"
 
   belongs_to:user,:class_name=> "User"
+  #重设密码的token
+  named_scope :recovery,:conditions=>["action=?",ACTION_RECOVERY]
   
   validates_uniqueness_of :value
-  
+  #创建 一个 重设密码 token
+  def self.new_recovery(user)
+    Token.recovery.destroy_all(:user_id=>user)
+    Token.new(:user=>user,:action=>ACTION_RECOVERY)
+  end
   def before_create
     self.value = Token.generate_token_value
   end

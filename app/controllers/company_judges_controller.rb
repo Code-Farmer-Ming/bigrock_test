@@ -19,7 +19,7 @@ class CompanyJudgesController < ApplicationController
       format.js  {
 
         render :update do |page|
-          if    company.all_employees.exists?(current_user)
+          if  company.employee?(current_user)
             page << "Lightbox.show('/company_judges/new?company_id=#{params[:company_id]}')"
           else
             flash.now[:notice] = "必须是公司的员工才能评价"

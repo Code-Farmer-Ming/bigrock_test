@@ -63,11 +63,11 @@ class AccountController < ApplicationController
       @add_friend_request_size = @user.add_friend_applications.size
       @join_group_invites_size = @user.join_group_invites.size
     else
-      @page_title ="谁靠谱网"
+      @page_title ="首页"
       @page_keywords="谁靠谱,公司,简历,评分,待遇,环境,小组"
-      @page_description = "这里有公司的信息,员工对公司环境、待遇的评价与评分,看看谁靠谱.个人的简历,同事对个人能力的评价信息与评分."
+      @page_description = "提供更真实 客观 公正 有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的个人信息资料"
       #      @news = Piecenews.newly.all(:limit=>4)
-      @hot_topics = Topic.hot.since(7.days.ago).limit(10)
+      @newly_topics = Topic.newly.limit(8)
       @logs = LogItem.find(:all,:limit=>4,:order=>"created_at desc");
       @salary_best_companies =  Company.order_by_salary.limit(5)
       @condition_best_companies =  Company.order_by_condition.limit(5)
@@ -145,8 +145,7 @@ class AccountController < ApplicationController
     if request.post?
       user= User.real_users.find_by_email(params[:email])
       if user
-        Token.destroy_all(:user_id=>user,:action=>Token::ACTION_RECOVERY)
-        token=Token.new(:user=>user,:action=>Token::ACTION_RECOVERY)
+        token=Token.new_recovery(user)
         if token.save
           MailerServer.deliver_forget_password(token)
           params[:email] = nil
@@ -160,7 +159,7 @@ class AccountController < ApplicationController
   #重设密码
   def reset_password
     @page_title ="设置新密码"
-    @token=Token.find_by_action_and_value(Token::ACTION_RECOVERY,params[:token])
+    @token=Token.recovery.find_by_value(params[:token])
     if !@token.nil?
       if request.post?
         user= @token.user

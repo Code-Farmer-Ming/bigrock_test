@@ -40,19 +40,23 @@ class Topic < ActiveRecord::Base
   #评分最高的话题
   named_scope :highter_scope,:order=>"up-down desc"
   named_scope :limit,lambda { |size| { :limit => size } }
-  named_scope :new_topics,:order=>"topics.created_at desc"
+  named_scope :newly,:order=>"topics.created_at desc"
+ 
   named_scope :order_by_last_comment,:order=>"last_comment_datetime desc"
   named_scope :since,lambda { |since| { :conditions =>["created_at>?",since] } }
-  #置顶
-  named_scope :order_by_top_level,:order => 'top_level desc'
+
   named_scope :group_topics,:conditions=>["owner_type='Group'"]
+
+  #置顶的并 最近回复排序
+   named_scope :top_level_and_last_comment,:order=>"top_level desc,last_comment_datetime desc"
+
 
   def before_create
     self.last_comment_datetime = Time.now
   end
   #相关的话题
   def related_topics(limit=10)
-    owner.topics.new_topics.all(:conditions=>["id<>?",self.id], :limit=>limit)
+    owner.topics.newly.all(:conditions=>["id<>?",self.id], :limit=>limit)
   end
 
   def add_comment(comment)

@@ -23,8 +23,8 @@
     <%= link_to "<< 返回 #{@owner.name}首页", [@owner] %>
   <%end%>
 
-  <%  sub_block_div("热门话题") do %>
-    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@owner.topics.hot(:limit=>15).since(7.days.ago) %>
+  <%  sub_block_div("评价最高的话题") do %>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@owner.topics.highter_scope(:limit=>15).since(7.days.ago) %>
   <%end%>
 
   <%  sub_block_div("评价最高的回复") do %>
