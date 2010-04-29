@@ -13,12 +13,7 @@ class AccountControllerTest < ActionController::TestCase
     get :show
     assert_response :success
   end
-  
-  test "set password" do
-    login_as(users(:one))
-    get :set_password
-    assert_response :success
-  end
+ 
 
   test "show with not login" do
     get :show
@@ -190,45 +185,6 @@ class AccountControllerTest < ActionController::TestCase
   #    assert_equal UserSetting::VISIBILITY_TYPES[1], assigns(:user).setting.img_visibility
   #  end
   
-  test "set_user_auth_apply_friend" do
-    login_as(users(:one))
-    get :set_user_auth
-    assert_response :success
-    assert_equal UserSetting::APPLY_FRIEND_TYPES[0], assigns(:user).setting.apply_friend_auth
-    put :set_user_auth,:user_setting=>{:apply_friend_auth=>UserSetting::APPLY_FRIEND_TYPES[1]}
- 
-    assert_equal UserSetting::APPLY_FRIEND_TYPES[1], assigns(:user).setting.apply_friend_auth
-  end
-
-  test "set_base_info_chang_password_bad" do
-    login_as(users(:one))
-
-    put :set_password,:old_password=>"test",:new_password=>"new_password"
-    assert_not_nil  flash[:error]  
-  end
-  
-  test "set_base_info_chang_password_ok" do
-    login_as(users(:one))
-
-    put :set_password,:old_password=>"MyString",:user=>{:text_password=>"new_password",:text_password_confirmation=> "new_password"}
-    assert_not_nil flash[:success]
-    get :logout
-    get :login
-    one=users(:one)
-    post :login,:email=>one.email,:password=>"new_password"
-    assert_equal(one.id, session[:user])
-    #get :set_base_info
-    # xhr :post,attachments_url(),:Filedata=>test_uploaded_file("sorry.jpg","img/jpg"),:type=>"UserIcon"
-    #post :set_base_info, :uploaded_file_id=>assert_
-    #assert_equal "sorry.jpg",session[:user].icon.filename
-  
-  end
-  test "set_base_info_chang_email" do
-    login_as(users(:one))
-    get :set_base_info
-    put :set_base_info,:user=>{:email=>"new_email"}
-    assert_equal "new_email",assigns(:user).email
-  end
   test "add_friend_and_destroy" do
     one= users(:one)
 
@@ -263,17 +219,7 @@ class AccountControllerTest < ActionController::TestCase
     delete :destroy_attention ,:target_id=>2,:target_type=>companies(:two).class
     assert !one.my_follow_companies.exists?(companies(:two)),"取消关注失败"
   end
-  test "set_alias" do
-    login_as(users(:one))
-    get :set_alias
-    assert_response :success
-  end
-  
-  test "set_alias post" do
-    login_as(users(:one))
-    put :set_alias,:user=>{:nick_name=>"new alias"}
-    assert_equal "new alias" ,assigns(:alias).nick_name
-  end
+
   test "set user state" do
     login_as(users(:one))
     for i in 0..2
@@ -282,5 +228,33 @@ class AccountControllerTest < ActionController::TestCase
     end
     xhr :post,:set_user_state
     assert_equal User::STATE_TYPES.keys[0].to_s,users(:one).reload().state
+  end
+  
+  test "judged" do
+    login_as(users(:one))
+    get :judged_yokemate
+    assert_response :success
+    assert_not_nil assigns(:judged)
+  end
+  
+  test "unjudge yokemate" do
+    login_as(users(:one))
+    get :unjudge_yokemate
+    assert_response :success
+    assert_not_nil assigns(:unjudge_yokemates)
+  end
+  
+  test "judged company" do
+    login_as(users(:one))
+    get :judged_company
+    assert_response :success
+    assert_not_nil assigns(:judged_companies)
+  end
+  
+  test "unjudge company" do
+    login_as(users(:one))
+    get :unjudge_company
+    assert_response :success
+    assert_not_nil assigns(:unjudge_companies)
   end
 end

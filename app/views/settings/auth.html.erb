@@ -1,6 +1,6 @@
 <div id="left_content">
-  <%= render :partial=>"account/setting_types" %>
-  <% form_for(@user.setting ,:url=>set_user_auth_account_path(),:html=>{:class=>"form_info"}) do |form| %>
+  <%= render :partial=>"settings/type" %>
+  <% form_for(@user.setting ,:url=>auth_account_setting_path(),:html=>{:class=>"form_info"}) do |form| %>
     <p>
       <%= form.label :apply_friend_auth,"添加好友",:class=>"filed_lab" %>
       <%= form.select :apply_friend_auth,UserSetting::APPLY_FRIEND_TYPES  %>

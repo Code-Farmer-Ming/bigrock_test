@@ -1,10 +1,11 @@
+  <h2><%=  @user.name %></h2>
 <div class="tab">
   <ul class="item">
-    <li><%= link_to "好友", "?type=friend",:class=>(params[:type]=="friend" || params[:type]=='' ||  params[:type].nil? ? "active-tab" : "" )  %> </li>
-    <li><%= link_to "在关注谁", "?type=my_follow",:class=>(params[:type]=="my_follow" ? "active-tab" : "" )  %> </li>
-    <li><%= link_to   "被谁关注", "?type=follow_me",:class=>(params[:type]=="follow_me" ? "active-tab" : "" )  %></li>
-    <li><%= link_to   "关注的公司", "?type=follow_company",:class=>(params[:type]=="follow_company" ? "active-tab" : "" )  %></li>
-
+    <li><%= link_to "好友", friends_user_path(object,:type=>"friend"),:class=>(controller.action_name=="friends" && (params[:type]=="friend" || params[:type].to_s.empty?) ? "active-tab" : "" )  %> </li>
+    <li><%= link_to "在关注谁", friends_user_path(object,:type=>"my_follow"),:class=>(params[:type]=="my_follow" ? "active-tab" : "" )  %> </li>
+    <li><%= link_to   "被谁关注", friends_user_path(object,:type=>"follow_me"),:class=>(params[:type]=="follow_me" ? "active-tab" : "" )  %></li>
+    <li><%= link_to   "关注的公司", friends_user_path(object,:type=>"follow_company"),:class=>(params[:type]=="follow_company" ? "active-tab" : "" )  %></li>
+    <li><%= link_to   "同事",yokemate_list_user_path(object) ,:class=>(controller.action_name=="yokemate_list"   ? "active-tab" : "" )  %></li>
   </ul>
   <p class="clear_float" />
 </div>

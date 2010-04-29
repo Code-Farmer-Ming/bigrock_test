@@ -1,7 +1,7 @@
 
 <div id="left_content">
-  <h1><%= "#{current_user?(@user) ? "我" : @user.name}"  %>的好友列表</h1>
-  <%= highlight(render(:partial=>"users/friend_type",:object=>@user) ,params[:search])%>
+
+  <%= render(:partial=>"users/friend_type",:object=>@user)%>
   <% if params[:type]=='follow_company' %>
     <%= highlight(render(:partial=>"companies/company_info_and_operation",:collection=>@friends_user),params[:search]) %>
   <%else%>
@@ -15,11 +15,6 @@
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入名称",:url=>""} %>
   <%end%>
   <% sub_block_div() do %>
-    <p>
-      <%= link_to "<< 返回 #{@user.name} 个人页面",user_path(@user) %>
-    </p>
-    <p>
-      <%= link_to "查看所有的同事",yokemate_list_user_path(@user) %>
-    </p>
+    <%= link_to "<< 返回 #{@user.name} 个人页面",user_path(@user) %>
   <%end%>
 </div>

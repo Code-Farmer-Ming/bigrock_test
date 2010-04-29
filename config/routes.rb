@@ -35,10 +35,6 @@ ActionController::Routing::Routes.draw do |map|
     :collection =>{ :forget_password=>:get,
     :set_resume_visibility=>[:get,:put],
     :reset_password=>:get,
-    :set_user_auth=>[:get,:put],
-    :set_base_info=>[:get,:put],
-    :set_alias=>[:get,:put],
-    :set_password=>[:get,:put],
     :set_my_language=>[:post, :put],
     :set_user_state=>:post,
     :logout=>:get,
@@ -48,7 +44,16 @@ ActionController::Routing::Routes.draw do |map|
     :attention=>[:post],
     :destroy_attention=>[:delete],
     :check_email=>:get,
+    :judged_yokemate=>:get,
+    :unjudge_yokemate=>:get,
+    :judged_company=>:get,
+    :unjudge_company=>:get,
     :follow_logs=>:get} do |account|
+    account.resource :setting,:collection=>{ :auth=>[:get,:put],
+    :base_info=>[:get,:put],
+    :alias=>[:get,:put],
+    :password=>[:get,:put]}
+
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
     account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
     account.resources :join_group_invites ,:member=>{:accept=>:post}

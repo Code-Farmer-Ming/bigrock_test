@@ -25,7 +25,7 @@ class AccountController < ApplicationController
         end
         set_user_session(@user)
         format.html {
-          flash[:success] = '恭喜你注册你成功'
+          flash[:success] = '恭喜你注册你成功，现在增加你的工作经历吧，能帮助你发现不少同事哦。'
           if params[:request_company_id]
             redirect_to(new_user_resume_pass_path(@user,@user.current_resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
           else
@@ -178,23 +178,6 @@ class AccountController < ApplicationController
     end
   end
   
-  def set_password
-    @page_title ="设置密码"
-    @user = current_user
-    if request.put?
-      if params[:old_password] && User.login(@user.email, params[:old_password])[0]!=0
-        flash.now[:error] = "原密码错误!"
-      else
-        if @user.update_attributes(params[:user])
-          flash.now[:success] = "设置成功!"
-        end
-      end
-    end
-    respond_to do |format|
-      format.html {}# show.html.erb
-      format.xml  { render :xml => @user }
-    end
-  end
   #设置 档案 可视的权限
   def set_resume_visibility
     @user =  current_user
@@ -207,16 +190,7 @@ class AccountController < ApplicationController
     @is_right= (UserSetting::VISIBILITY_TYPES.index(@visible_set)>-1) &&
       @user.setting.update_attributes(params[:user_setting])
   end
-  #用户隐私设置
-  def set_user_auth
-    @page_title ="用户隐私设置"
-    @user = current_user
-    if request.put?
-      if @user.setting.update_attributes(params[:user_setting])
-        flash[:success] = "设置成功!"
-      end
-    end
-  end
+
   #设置用户的状态
   def set_user_state
     current_user.update_attribute("state", params[:state] || User::STATE_TYPES.keys[0].to_s())
@@ -235,55 +209,23 @@ class AccountController < ApplicationController
     @page_title ="基本设置1"
   end
 
-  def set_base_info
-    @page_title ="基本设置"
-    @user = current_user
-    if request.put?
-      if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
-        @user.icon = UserIcon.find(params[:uploaded_file_id])
-      end
-      if @user.update_attributes(params[:user])
-        flash[:success] = "设置成功!"
-      end
-    end
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @user }
-
-    end
-  end
-  
-  def set_alias
-    @page_title ="马甲设置"
-    @alias = current_user.aliases.first
-    if request.put?
-      if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
-        @alias.icon = UserIcon.find(params[:uploaded_file_id])
-      end
-      if @alias.update_attributes(params[:user])
-        flash[:success] = "更新成功"
-      end
-    end
-  end
   
   def add_friend
     friend= User.real_users.find(params[:friend_id])
     respond_to do |format|
-      if current_user.add_friend(friend)
-        format.js{
-          render :update do |page|
+     
+      format.js{
+        render :update do |page|
+          if current_user.add_friend(friend)
             page[dom_id(friend,"operation")].replace_html render(:partial=>"users/operation",:object=>friend)
             page[dom_id(friend,"operation")].visual_effect(:highlight)
-          end
-        }
-      else
-        format.js {
-          render :update do |page|
+          else
             flash.now[:error] = current_user.errors.full_messages.to_s
             page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
           end
-        }
-      end
+        end
+      }
+   
     end
   end
   
@@ -310,7 +252,6 @@ class AccountController < ApplicationController
     end
   end
 
-
   #检查email是否存在
   def check_email
     if (!User.exists?(["email=?",params[:value]]))
@@ -324,46 +265,36 @@ class AccountController < ApplicationController
   def attention
     target = params[:target_type].to_s.camelize.constantize
     target_object = target.find(params[:target_id])
-    
     respond_to do |format|
-      if current_user.add_attention(target_object)
-        format.js{
-          render :update do |page|
+      format.js{
+        render :update do |page|
+          if current_user.add_attention(target_object)
             page[dom_id(target_object,"operation")].replace_html render(:partial=>"#{target.base_class.to_s.pluralize.downcase}/operation",:object=>target_object)
             page[dom_id(target_object,"operation")].visual_effect(:highlight)
-          end
-        }
-      else
-        format.js{
-          render :update do |page|
+          else
             flash.now[:error] = current_user.errors.full_messages.to_s
             page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
           end
-        }
-      end
+        end
+      }
     end
   end
   #取消关注
   def destroy_attention
     target = params[:target_type].to_s.camelize.constantize
     target_object = target.find(params[:target_id])
-    
     respond_to do |format|
-      if current_user.remove_attention(target_object)
-        format.js{
-          render :update do |page|
+      format.js{
+        render :update do |page|
+          if current_user.remove_attention(target_object)
             page[dom_id(target_object,"operation")].replace_html render(:partial=>"#{target.base_class.to_s.pluralize.downcase}/operation",:object=>target_object)
             page[dom_id(target_object,"operation")].visual_effect(:highlight)
-          end
-        }
-      else
-        format.js{
-          render :update do |page|
+          else
             flash.now[:error] = current_user.errors.full_messages.to_s
             page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
           end
-        }
-      end
+        end
+      }
     end
   end
 
@@ -390,6 +321,43 @@ class AccountController < ApplicationController
       end
       render :text => CGI::escapeHTML(current_user.my_language)
     end
+  end
+
+  #给同事的评价
+  def judged_yokemate
+    @page_title ="给同事的评价"
+    @user = current_user
+    if params[:pass_id]
+      @pass = Pass.find(params[:pass_id])
+      @judged= @user.judged.find(:all,:conditions=>["user_id in (?)",@pass.yokemates]).paginate :page => params[:page]
+    else
+      @judged= @user.judged.paginate :page => params[:page]
+    end
+  end
+  
+  #未评价的同事
+  def unjudge_yokemate
+    @page_title ="未评价的同事信息"
+    @user = current_user
+    if params[:pass_id]
+      @pass = Pass.find(params[:pass_id])
+      @unjudge_yokemates =  @pass.yokemates.find(:all,:conditions=>["a.user_id not in (?)",@user.judged_yokemate_ids]).paginate :page => params[:page]
+    else
+      @unjudge_yokemates =  @user.current_resume.yokemates.all(:conditions=>["b.user_id not in (?)",@user.judged_yokemate_ids]).paginate :page => params[:page]
+    end
+  end
+  
+  #给公司的评价
+  def judged_company
+    @page_title ="给公司的评价信息"
+    @user = current_user
+    @judged_companies = @user.judged_companies.paginate :page => params[:page]
+  end
+  
+  def unjudge_company
+    @page_title ="未评价的公司信息"
+    @user = current_user
+    @unjudge_companies = @user.current_resume.pass_companies.all(:conditions=>["company_id not in (?)",@user.judged_company_ids ]).paginate :page => params[:page]
   end
   private
 

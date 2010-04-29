@@ -1,0 +1,13 @@
+<div id="left_content">
+    <%= render :partial=>"judges/type",:object=>@user %>
+
+  <%= render :partial=>"company_judges/judged_info",:collection=>@judged_companies  %>
+
+  <%= will_paginate  @judged_companies %>
+
+</div>
+<div id="right_content">
+  <% sub_block_div() do%>
+    <%= link_to "<< 返回 #{@user.name} 首页",user_path(@user) %>
+  <%end%>
+</div>

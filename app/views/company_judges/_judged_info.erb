@@ -1,0 +1,31 @@
+<%  judge  = object %>
+<div class="item_content" id="<%= dom_id(judge,"judge_item") %>">
+  <div class="r">
+    <%= render :partial=>"companies/company_icon",:object=> judge.company%>
+  </div>
+  <div class="icon_right_content">
+
+    <p>
+      <%= link_to  judge.company.name , judge.company %>
+    </p>
+
+    <p class="date_field"><%= localize(judge.created_at) %></p>
+    <p>
+      待遇
+      <%= small_star(judge.salary_value || 0) %>
+      &nbsp;&nbsp;
+      环境
+      <%= small_star(judge.condition_value || 0) %>
+    </p>
+    <p>
+      <%= judge.description %>
+    </p>
+    <%if judge.judger_user.used_tags(judge.company).size>0%>
+      <p>
+        标签&nbsp;<%= render :partial=>"tags/tag_info" ,
+          :collection=>judge.judger_user.used_tags(judge.company),:locals=>{:type=>:Company}  %>
+      </p>
+    <%end%>
+  </div>
+  <p class="clear_float"></p>
+</div>

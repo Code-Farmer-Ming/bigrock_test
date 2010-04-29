@@ -1,7 +1,6 @@
 --- 
 javascripts: 
 - base: 
-  - prototype
   - builder
   - effects
   - controls

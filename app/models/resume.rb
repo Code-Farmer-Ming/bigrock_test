@@ -60,6 +60,7 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
     def all(*args)
       options = args.extract_options!
       sql = @finder_sql
+      sql += " and #{sanitize_sql options[:conditions]}"  if options[:conditions]
       sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
       find_by_sql(sql)

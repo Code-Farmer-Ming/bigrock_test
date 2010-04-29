@@ -1,0 +1,15 @@
+<h1>设置</h1>
+
+<div class="tab">
+  <ul>
+    <li><%= link_to "基本设置",base_info_account_setting_path(),:class=>controller.action_name !="base_info" || "active-tab"    %> </li>
+    <li><%= link_to   "密码设置",password_account_setting_path() ,:class=>controller.action_name !="password" || "active-tab"   %> </li>
+    <li><%= link_to   "隐私设置",auth_account_setting_path(),:class=>controller.action_name !="auth" || "active-tab" %></li>
+    <li><%= link_to   "马甲设置",alias_account_setting_path(),:class=>controller.action_name !="alias" || "active-tab"%></li>
+  </ul>
+  <p class="clear_float"></p>
+</div>
+
+
+
+

@@ -25,7 +25,7 @@
 
       <%else%>
         对方已经删除，不能回复，<%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
-          new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
+          new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param)) if @msg.sender.id!=-1%>
       <%end%>
     </div>
   </div>
@@ -34,7 +34,7 @@
   <%  sub_block_div() do %>
 
     <%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
-      new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param))%>
+      new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param)) if @msg.sender.id!=-1%>
     <br/>
     <%= link_to '×删除这条消息', account_msg_path(@msg,:type=>params[:type]), :confirm => '你确定吗?', :method => :delete %>
 

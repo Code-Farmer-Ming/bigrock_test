@@ -2,9 +2,9 @@
   <%= javascript_include_merged :swfupload %>
 <% end %>
 <div id="left_content">
-  <%= render :partial=>"account/setting_types" %>
+  <%= render :partial=>"settings/type" %>
 
-  <% form_for(@alias,:url=>{:action=>"set_alias"},:html=>{:id=>"set_base_info_page",:method=>:put,:class=>"required-validate form_info" }) do |f| %>
+  <% form_for(@alias,:url=>alias_account_setting_path(),:html=>{:id=>"set_base_info_page",:method=>:put,:class=>"required-validate form_info" }) do |f| %>
     <%= f.error_messages %>
     <div class="thumb_img">
       <%= img_upload_field( attachments_path(),

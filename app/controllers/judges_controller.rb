@@ -74,4 +74,5 @@ class JudgesController < ApplicationController
       @judges= @pass.judges.paginate :page => params[:page]
     end
   end
+
 end

@@ -517,11 +517,11 @@ UI.PullDown = Class.create(UI.Options, {
      
  
  
-            this.element.clonePosition(this.container, {
-                setHeight: false,
-                setWidth:  this.options.cloneWidth,
-                offsetTop: this.options.position == 'below' ? this.container.offsetHeight : 0
-            });
+        this.element.clonePosition_new(this.container, {
+            setHeight: false,
+            setWidth:  this.options.cloneWidth,
+            offsetTop: this.options.position == 'below' ? this.container.offsetHeight : 0
+        });
 
 
         var w = this.element.getWidth();
@@ -1765,5 +1765,49 @@ Element.addMethods({
     },
     getPaddingDimensions: function(element) {
         return element.getAttributeDimensions("padding")
+    },
+    clonePosition_new: function(element, source) {
+         
+        var options = Object.extend({
+            setLeft:    true,
+            setTop:     true,
+            setWidth:   true,
+            setHeight:  true,
+            offsetTop:  0,
+            offsetLeft: 0
+        }, arguments[2] || { });
+
+        source = $(source);
+        var p = Element.viewportOffset(source);
+
+        element = $(element);
+        var delta = [0, 0];
+        var parent = null;
+        if (Element.getStyle(element, 'position') == 'absolute') {
+            parent = Element.getOffsetParent_new(element);
+            delta = Element.viewportOffset(parent);
+        }
+
+        if (parent == document.body) {
+            delta[0] -= document.body.offsetLeft;
+            delta[1] -= document.body.offsetTop;
+        }
+
+        if (options.setLeft)   element.style.left  = (p[0] - delta[0] + options.offsetLeft) + 'px';
+        if (options.setTop)    element.style.top   = (p[1] - delta[1] + options.offsetTop) + 'px';
+        if (options.setWidth)  element.style.width = source.offsetWidth + 'px';
+        if (options.setHeight) element.style.height = source.offsetHeight + 'px';
+        return element;
+    },
+    getOffsetParent_new: function(element) {
+        if (element.offsetParent) return $(element.offsetParent);
+        if (element == document.body) return $(element);
+
+        while ((element = element.parentNode) && element != document.body && Object.isElement(element))
+            if (Element.getStyle(element, 'position') != 'static')
+                return $(element);
+
+        return $(document.body);
     }
+
 });

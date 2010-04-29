@@ -2,9 +2,9 @@
   <%= javascript_include_merged :swfupload %>
 <% end %>
 <div id="left_content">
-  <%= render :partial=>"account/setting_types" %>
+  <%= render :partial=>"settings/type" %>
 
-  <% form_for(@user,:url=>set_base_info_account_path(),:html=>{:method=>:put,:class=>"required-validate form_info" }) do |f| %>
+  <% form_for(@user,:url=>base_info_account_setting_path(),:html=>{:method=>:put,:class=>"required-validate form_info" }) do |f| %>
     <%= f.error_messages %>
     <div class="thumb_img">
       <%= img_upload_field( attachments_path(),
@@ -43,4 +43,3 @@
     登录邮箱和个人图片的修改
   </p>
 </div>
-

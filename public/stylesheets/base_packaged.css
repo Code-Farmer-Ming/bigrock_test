@@ -279,12 +279,11 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .company_icon{ height:70px; width: 70px; vertical-align:middle; display:table-cell}
 .company_icon a{ line-height:0px}
 .company_icon img{ vertical-align:middle}
- .link_list{ width:100%; overflow:hidden}
-.link_list ul{ margin:0px}
-.link_list li{ list-style-type:none; margin-bottom:2px}
-.link_list li a{ display: block; width:100%; padding:2px 4px; max-height:6em}
-#current_company{ color:black; background-color: #E1E9F8; font-weight: bold}
-.link_list li a:hover {color:black; background-color: #E1E9F8}
+ .list {clear:both; list-style-image:none; list-style-position:outside; list-style-type:none; margin:0; padding:0}
+.list li{ list-style-type:none; margin-bottom:2px}
+.list li a{ display: block; width:100%; padding:2px 4px; max-height:6em; margin-bottom:2px}
+#current_li a{ color:black; background-color: #E1E9F8; font-weight: bold}
+.list li a:hover {color:black; background-color: #E1E9F8}
  #invite_yokemate{ display: inline-block; min-height:1.6em; height:auto !important; height:1.7em; width: 378px}
 #invite_yokemate input{ height:auto; width:auto}
 #invite_email,#invite_msg {width:380px}

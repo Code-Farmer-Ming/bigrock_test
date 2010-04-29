@@ -372,6 +372,16 @@ class User< ActiveRecord::Base
   def ids
     is_alias? ? [parent_id,id] : [id]+alias_ids
   end
+
+  #已经评价的同事的id 数组
+  def judged_yokemate_ids
+    judged.collect{ |obj| obj.user_id }
+  end
+
+  #已经评价的公司的id 数组
+  def judged_company_ids
+    judged_companies.collect{ |obj| obj.company_id }
+  end
   #当前user 的所有账号 包括自己 数组
   def accounts
     [self]+aliases

@@ -11,7 +11,7 @@
       <%= f.label :sendees,"收件人",:class=>"filed_lab" %>
 
       <span style="width: 400px;display: inline-block">
-        <%=  text_field_with_auto_complete_like_facebook :msg, :sendees,{:class=>"text",:title=>"收件人不能为空",:value=>''},
+        <%=  text_field_with_auto_complete_like_facebook :msg, :sendees,{:class=>"",:title=>"收件人不能为空",:value=>''},
           :infoMessage=>"输入好友的名称",:defaultEntries=>(@write_to ? {:Entry1=>{:text=>@write_to.name,:value=>@write_to.salt}} : {}) %>
       </span>
     </p>

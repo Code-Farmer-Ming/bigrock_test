@@ -42,7 +42,7 @@ class Pass < ActiveRecord::Base
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
-      sql += sanitize_sql " and #{options[:conditions]}" if options[:conditions]
+      sql += " and #{sanitize_sql options[:conditions]}" if options[:conditions]
       sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
       sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
@@ -61,7 +61,7 @@ class Pass < ActiveRecord::Base
     end
   end
  
-  #获取所有可以评价的同事的
+  #获取所有可以对我评价的同事
   has_many :available_yokemates, :class_name => "User",
     :finder_sql => "select b.* from passes a join users b on a.user_id=b.id
         where (begin_date between '\#{begin_date}' and '\#{end_date}'
@@ -141,6 +141,6 @@ class Pass < ActiveRecord::Base
   end
   #添加评论
   def add_judge(judge)
-   judges << judge if yokemate?(judge.judger) &&  !judges.exists?(judge.judger)
+    judges << judge if yokemate?(judge.judger) &&  !judges.exists?(judge.judger)
   end
 end

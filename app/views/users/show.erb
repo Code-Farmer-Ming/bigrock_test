@@ -65,18 +65,16 @@
       &nbsp;&nbsp;
       <%=   link_to("全部好友…",friends_user_path(@user)) if @user.friend_users.size>0%>
     </div>
-<%#*<div id="my_follow_tab"  class="panel" >%>
-<%#= render(:partial=>"users/user_short_info",:collection=>@user.my_follow_users.newly_order.find(:all,:limit=>3)) %>
-<%#unless    @user.my_follow_users.size>0%>
-<%#*<p>还没有关注任何人</p>%>
-<%#end%>
-<%#=   link_to("查看全部…",friends_user_path(@user,:type=>"my_follow")) if @user.my_follow_users.size>0%>
-<%#*</div>%>
+
     <div id="my_yokemates_tab"  class="panel" >
       <%= render :partial=>"users/user_short_info",:collection=> @user.current_resume.yokemates.newly_order.all(:limit=>3) %>
       <%unless    @user.current_resume.has_yokemates?%>
         <p>还没有同事，赶快邀请同事进来吧。</p>
       <%end%>
+      <%=   link_to("给同事的评价" ,judged_yokemate_account_path()) if current_user?(@user) %>
+      &nbsp;&nbsp;
+      <%=   link_to("未评价同事" ,unjudge_yokemate_account_path()) if current_user?(@user) %>
+      &nbsp;&nbsp;
       <%=  link_to("全部同事…",yokemate_list_user_path(@user)) if @user.current_resume.has_yokemates?%>
     </div>
   </div>

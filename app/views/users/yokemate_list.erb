@@ -1,7 +1,7 @@
 
 <div id="left_content">
-  <h1><%=  @user.name %>的同事</h1>
-  <h2><%=  params[:pass_id] ? @pass.company.name : "全部" %></h2>
+  <%= render(:partial=>"users/friend_type",:object=>@user)%>
+  <h3><%=  params[:pass_id] ? @pass.company.name : "全部" %></h3>
   <%= render :partial=>"users/user_info_and_operation" ,:collection=> @yokemates %>
 
   <%= will_paginate  @yokemates %>
@@ -12,14 +12,14 @@
     <%= link_to "<< #{@user.name} 首页",user_path(@user) %>
   <%end%>
   <% sub_block_div() do %>
-    <div class="link_list">
-      <ul>
-        <li id="<%=  params[:pass_id] ? "" : "current_company" %>"><%= link_to "全部",yokemate_list_user_path(@user) -%></li>
-        <% @user.current_resume.passes.each do |pass|-%>
-          <li id="<%= pass.to_param==params[:pass_id] ? "current_company" : "" %>" >
+
+    <ul class="list">
+      <li id="<%=  params[:pass_id].to_s.empty? ?  "current_li"  : "" %>"><%= link_to "全部",yokemate_list_user_path(@user) %></li>
+      <% @user.current_resume.passes.each do |pass|-%>
+        <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>" >
           <%= link_to  "#{pass.company.name} (#{pass.yokemates.size})" ,yokemate_list_user_path(@user,:pass_id=>pass) -%></li>
-        <%end-%>
-      </ul>
-    </div>
+      <%end-%>
+    </ul>
+
   <%end%>
 </div>

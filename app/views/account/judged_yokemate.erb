@@ -1,0 +1,23 @@
+<div id="left_content">
+  <%= render :partial=>"judges/type",:object=>@user %>
+
+  <%= render :partial=>"judges/judged_info",:collection=>@judged  %>
+
+  <%= will_paginate  @judged %>
+
+</div>
+<div id="right_content">
+  <% sub_block_div() do%>
+    <%= link_to "<< 返回 #{@user.name} 首页",user_path(@user) %>
+  <%end%>
+  <% sub_block_div() do%>
+    <ul class="list">
+      <li id="<%=  params[:pass_id] ? "" : "current_li" %>"><%= link_to "全部",judged_yokemate_account_path() %></li>
+      <% @user.current_resume.passes.each do |pass|-%>
+        <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>" >
+          <%= link_to  "#{pass.company.name}" ,judged_yokemate_account_path(:pass_id=>pass) %></li>
+      <%end-%>
+    </ul>
+  <%end%>
+
+</div>

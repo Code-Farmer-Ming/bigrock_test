@@ -3,8 +3,6 @@ class PassesController < ApplicationController
   before_filter :find_pass,:only=>[:edit,:update,:destroy,:available_yokemates]
   auto_complete_for :company, :name
  
-
-
   # GET /passes/new
   # GET /passes/new.xml
   def new

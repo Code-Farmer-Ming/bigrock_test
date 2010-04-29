@@ -4,7 +4,7 @@
       <%menu_item() do -%><%
         link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[0].to_s()))) do -%><%= content_tag :span,"",:class=>"user_state_working" %>&nbsp;我工作很好<%end-%><%end -%><%menu_item() do -%><%
         link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[1].to_s()))) do-%><%= content_tag :span,"",:class=>"user_state_freedom" %>&nbsp;我需要工作<%end-%><%end -%><%menu_item() do -%><%
-        link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[2].to_s()))) do-%><%= content_tag :span,"",:class=>"user_state_student " %>&nbsp;我还是学生<%end-%><%end -%><%menu_item() do -%><%= link_to "&nbsp;设置图片…",set_base_info_account_path() %><%end-%>
+        link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[2].to_s()))) do-%><%= content_tag :span,"",:class=>"user_state_student " %>&nbsp;我还是学生<%end-%><%end -%><%menu_item() do -%><%= link_to "&nbsp;设置图片…",base_info_account_setting_path() %><%end-%>
     <%end -%>
     <div id="current_user_img" class="l">
       <% link_to   "#"  do  -%><div class="user_icon" ><div class="icon" ><span
@@ -27,7 +27,7 @@
       </div>
       <div>
   <%#= current_user.name%>
-        <%= link_to "设置",set_base_info_account_path() %>
+        <%= link_to "设置",base_info_account_setting_path() %>
         <%= link_to  current_user.unread_msgs.size>0 ? "消息(<span class='red_text'>#{current_user.unread_msgs.size}</span>)" : "消息",account_msgs_path() %>
         <%= link_to "退出",logout_account_path(),:title=>"退出当登录",:class=>"hot_text" %>
       </div>

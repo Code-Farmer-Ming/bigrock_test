@@ -512,7 +512,7 @@ ul#nav .activelink a,ul#nav a:hover{
     margin:4px 6px;
     height:105px;
 }
- 
+
 /*--------------*/
 /*分页 */
 .pagination {
@@ -611,32 +611,36 @@ ul#nav .activelink a,ul#nav a:hover{
     vertical-align:middle;
 }
 /*同事分栏 右边的公司列表 */
-.link_list{
-    width:100%;
-    overflow:hidden;
+.list {
+    clear:both;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin:0;
+    padding:0;
 }
-.link_list ul{
-    margin:0px;
-}
-.link_list li{
+
+.list li{
     list-style-type:none;
     margin-bottom:2px;
 }
 
-.link_list li a{
+.list li a{
     display: block;
     width:100%;
     padding:2px 4px;
     max-height:6em;
+    margin-bottom:2px;
+
 }
 
-#current_company{
+#current_li a{
     color:black;
     background-color: #E1E9F8;
     font-weight: bold;
 }
 
-.link_list li  a:hover {
+.list li  a:hover {
     color:black;
     background-color: #E1E9F8;
 }
