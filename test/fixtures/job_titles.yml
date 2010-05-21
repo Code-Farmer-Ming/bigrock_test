@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: job_titles
+#
+#  id         :integer       not null, primary key
+#  company_id :integer       
+#  name       :string(255)   not null
+#  created_at :datetime      
+#  updated_at :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  company_id: 1
+  name: MyString
+
+two:
+  id: 2
+  company_id: 2
+  name: MyString

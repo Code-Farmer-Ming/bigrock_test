@@ -6,7 +6,6 @@
 #  company_id          :integer       
 #  resume_id           :integer       
 #  user_id             :integer       
-#  title               :string(255)   
 #  department          :string(255)   
 #  begin_date          :date          
 #  end_date            :date          
@@ -18,6 +17,7 @@
 #  created_at          :datetime      
 #  updated_at          :datetime      
 #  judges_count        :integer       default(0)
+#  job_title_id        :integer       default(0)
 #
 
 class Pass < ActiveRecord::Base
@@ -27,11 +27,14 @@ class Pass < ActiveRecord::Base
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:log_type=>"resume",:logable=>"company"
   #记录公司 加入人
   acts_as_logger :log_action=>["create"],:owner_attribute=>"company",:log_type=>"join_company",:logable=>"user"
+  attr_accessor :title
   
   belongs_to :resume
   belongs_to :company
   belongs_to :user ,:class_name=>"User",:foreign_key => "user_id"
 
+  belongs_to :job_title
+  
   #TODO:是否需要改进？
   #获取 某个 工作经历 中的同事
   has_many :yokemates, :class_name => "User",
@@ -90,11 +93,17 @@ class Pass < ActiveRecord::Base
       user.my_follow_companies << company
     end
   end
+ 
+  def job_title_attributes=(attributes)
+    self.job_title = JobTitle.find_or_create_by_name_and_company_id(attributes[:name],self.company.id)
+  end
   
   def after_save
-    if self.company_id_changed? 
- 
-      after_destroy()
+#    if self.company_id_changed?
+#      before_create()
+#    end
+    if self.job_title_id_changed?
+      JobTitle.destroy_all(:id=>self.job_title_id_was)
     end
   end
   #清除相关 pass产生评价等 数据
@@ -107,6 +116,11 @@ class Pass < ActiveRecord::Base
     CompanyJudge.destroy_all(:company_id=>company,:user_id=>user )
   end
   
+  def title
+    job_title &&  job_title.name
+  end
+
+ 
   #column_name 如下值
   #ability
   #eq_value

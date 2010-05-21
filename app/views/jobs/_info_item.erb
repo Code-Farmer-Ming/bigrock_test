@@ -1,0 +1,25 @@
+<li class="<%= cycle("topic_item gray_background", "topic_item") %>">
+  <div class="r job_date" >
+   <%= link_to_function "详细","Element.toggle('#{dom_id(object,"detail")}')" %>
+  </div> 
+  <div class="r date_field job_date">
+    <%= object.site %>&nbsp;&nbsp;
+   <%= date_ago_in_words(object.created_at) %>&nbsp;&nbsp;  
+  </div>
+ 
+  <div style="overflow:hidden">
+    <div>
+      <%= link_to object.title,[object.company,object],:target=>"_blank" %>
+    </div>
+    <span >
+      <%=link_to  object.company.name,object.company ,:target=>"_blank",:class=>"gray_text" %>
+    </span>
+  </div>
+  <div style="display: none" id="<%= dom_id(object,"detail") %>">
+    <h6>工作描述</h6>
+    <%= h object.job_description %>
+    <h6>工作要求</h6>
+    <%= h object.skill_description %>
+  </div>
+
+</li>

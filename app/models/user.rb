@@ -304,6 +304,9 @@ class User< ActiveRecord::Base
     :foreign_key => 'parent_id',
     :dependent => :destroy
   
+  #发布的招聘信息
+  has_many :create_jobs,:class_name=>"Job",:foreign_key => "create_user_id"
+
   # 别名的父账号
   belongs_to :parent,
     :class_name => 'User',

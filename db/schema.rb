@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100402095140) do
+ActiveRecord::Schema.define(:version => 20100503064115) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20100402095140) do
     t.integer  "state_id"
     t.integer  "city_id"
     t.integer  "topics_count",         :default => 0,  :null => false
+    t.integer  "jobs_count",           :default => 0
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name"
@@ -209,6 +210,30 @@ ActiveRecord::Schema.define(:version => 20100402095140) do
     t.datetime "updated_at"
   end
 
+  create_table "job_titles", :force => true do |t|
+    t.integer  "company_id"
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "jobs", :force => true do |t|
+    t.string   "title",                            :null => false
+    t.string   "type_id",                          :null => false
+    t.text     "job_description",                  :null => false
+    t.text     "skill_description"
+    t.integer  "state_id",                         :null => false
+    t.integer  "city_id",                          :null => false
+    t.integer  "job_title_id"
+    t.datetime "end_at",                           :null => false
+    t.integer  "create_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "company_id"
+    t.integer  "view_count",        :default => 0
+    t.integer  "applicants_count",  :default => 0
+  end
+
   create_table "judges", :force => true do |t|
     t.integer  "pass_id"
     t.integer  "user_id"
@@ -299,7 +324,6 @@ ActiveRecord::Schema.define(:version => 20100402095140) do
     t.integer  "company_id"
     t.integer  "resume_id"
     t.integer  "user_id"
-    t.string   "title"
     t.string   "department"
     t.date     "begin_date"
     t.date     "end_date"
@@ -311,6 +335,7 @@ ActiveRecord::Schema.define(:version => 20100402095140) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "judges_count",        :default => 0
+    t.integer  "job_title_id",        :default => 0
   end
 
   add_index "passes", ["company_id", "resume_id", "user_id"], :name => "index_passes_on_company_id_and_resume_id_and_user_id", :unique => true

@@ -6,7 +6,6 @@
 #  company_id          :integer       
 #  resume_id           :integer       
 #  user_id             :integer       
-#  title               :string(255)   
 #  department          :string(255)   
 #  begin_date          :date          
 #  end_date            :date          
@@ -18,6 +17,7 @@
 #  created_at          :datetime      
 #  updated_at          :datetime      
 #  judges_count        :integer       default(0)
+#  job_title_id        :integer       default(0)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -26,10 +26,11 @@ one:
   id: 1
   company_id: 1
   resume_id: 1
-  title: MyString
+  job_title_id: 1
   department: MyString
   begin_date: 2009-06-01
   end_date: 2009-06-01
+  judges_count: 1
   work_description: MyString
   user_id: 1
   is_current: true
@@ -39,7 +40,7 @@ two:
   user_id: 2
   company_id: 1
   resume_id: 2
-  title: MyString2
+  job_title_id: 2
   department: MyString
   begin_date: 2009-06-01
   end_date: 2009-06-01
@@ -51,7 +52,7 @@ three:
   user_id: 3
   company_id: 3
   resume_id: 3
-  title: MyString3
+  job_title_id: 1
   department: MyString
   begin_date: 2009-06-01
   end_date: 2009-06-01

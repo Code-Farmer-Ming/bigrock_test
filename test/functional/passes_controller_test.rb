@@ -45,7 +45,7 @@ class PassesControllerTest < ActionController::TestCase
   end
 
   test "should update pass" do
-    put :update, :id => passes(:one).to_param ,:user_id=>@userone,:resume_id=>@resumeone,:pass => {:title=>"MyString11" },:company=>{:name=>"MyString"}
+    put :update, :id => passes(:one).to_param ,:user_id=>@userone,:resume_id=>@resumeone,:pass => {:job_title_attributes=>{:name=>"MyString11"} },:company=>{:name=>"MyString"}
     # assert_redirected_to user_resume_pass_path(@userone,@resumeone,assigns(:pass))
     pass= Pass.find(:first)
     assert_equal(pass.title,"MyString11")

@@ -17,7 +17,8 @@ class PassTest < ActiveSupport::TestCase
   end
   test "sub_judge" do
     passes_one = passes(:one)
-    assert_equal 0, passes_one.judges_count
+    passes_one.judges_count = 0
+    passes_one.save
     judge= Judge.new()
     judge.ability_value =4
     judge.eq_value = 3

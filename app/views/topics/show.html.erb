@@ -1,8 +1,9 @@
 <div id ="left_content">
-  <h2>
-    <%=h @topic.title %>
-  </h2>
-  <div class="">
+  <div id="topic_content">
+    <h1>
+      <%=h @topic.title %>
+    </h1>
+
     <div class="r make_up_down" id="<%= dom_id(@topic,'up_down') %>">
       <%= render :partial=>"comm_partial/up_down_operation",:object=>@topic %>
     </div>
@@ -27,12 +28,12 @@ recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic
         <%= link_to '删除',  [@topic.owner,@topic],
           :confirm => '确定删除吗?', :method => :delete  \
           if @is_owner  || @is_manager    %>
-
       </p>
-      <div>
+
         <%= simple_format(auto_link(h(@topic.content))) %>
-      </div>
+    
     </div>
+
     <p class="clear"></p>
   </div>
   <div class="icon_right_content">

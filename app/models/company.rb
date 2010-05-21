@@ -26,6 +26,7 @@
 #  state_id             :integer       
 #  city_id              :integer       
 #  topics_count         :integer       default(0), not null
+#  jobs_count           :integer       default(0)
 #
 
 class Company < ActiveRecord::Base
@@ -50,6 +51,9 @@ class Company < ActiveRecord::Base
   self.non_versioned_columns << 'state_id'
   self.non_versioned_columns << 'city_id'
   self.non_versioned_columns << 'topics_count'
+  self.non_versioned_columns << 'jobs_count'
+  
+  #  validates_format_of :website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
   
   belongs_to :create_user ,:class_name=>"User",:foreign_key=>"create_user_id"
   
@@ -58,6 +62,12 @@ class Company < ActiveRecord::Base
   belongs_to :city
    
   has_many :passes,:dependent=>:destroy
+  #头衔职位名称
+  has_many :job_titles,:dependent=>:destroy
+
+  #招聘职位
+  has_many :jobs,:order=>"created_at desc"
+
   has_many :judges,:class_name=>"CompanyJudge",:dependent=>:destroy,:order=>"created_at desc"
   #当前的员工
   has_many :current_employees ,
@@ -186,6 +196,18 @@ class Company < ActiveRecord::Base
   #是不是员工 包括曾经的 员工
   def employee?(user)
     user && all_employees.exists?(user)
+  end
+  #判断是 当前的员工 并且 资料真实度 大于等于4星
+  def current_employee_and_higher_creditability(employee)
+    return !errors.add("限制","当前的员工，才可以执行哦。") unless current_employee?(employee)
+    return !errors.add("限制","资料真实度需要4星，才可以执行哦。") unless higher_creditability_employees.exists?(employee)
+    return true
+  end
+  def add_job(job,employee)
+    if current_employee_and_higher_creditability(employee)
+      job.create_user = employee
+      jobs << job
+    end
   end
 
   class Version

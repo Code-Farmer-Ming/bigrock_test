@@ -26,7 +26,9 @@ label{
     padding: 2px;
     background-color: red;
 }
-
+.main_info{
+    overflow: auto;
+}
 .main_info h1 {
     font-size:130%;
     font-weight:900;
@@ -185,6 +187,9 @@ label{
 #search{
     width:75%;
 }
+#search_content{
+    margin-top: 120px;
+}
 /*用户注册页面*//*用户登录页面*/
 #new_user_page .text,
 #user_login_page .text{
@@ -217,9 +222,11 @@ label{
 .main_info{
     padding:20px 40px;
     margin-bottom: 8px;
+    width:auto;
 }
 #resume_info_show{
     background-color:#ddf0f8;
+    width: auto;
 }
 #resume_info h1{
     margin: 0px;
@@ -561,7 +568,7 @@ ul#nav .activelink a,ul#nav a:hover{
 
 }
 
-#msg_list_table .msg_title{
+.msg_title{
     width:50%;
 }
 #msg_list_table .msg_title a{
@@ -623,15 +630,19 @@ ul#nav .activelink a,ul#nav a:hover{
 .list li{
     list-style-type:none;
     margin-bottom:2px;
+    overflow: hidden;
 }
 
 .list li a{
     display: block;
     width:100%;
-    padding:2px 4px;
+/*    padding:2px 4px;*/
     max-height:6em;
-    margin-bottom:2px;
+/*    margin-bottom:2px;*/
 
+}
+.gray_text{
+ color:gray;
 }
 
 #current_li a{
@@ -825,6 +836,7 @@ div.auto_complete ul strong.highlight {
     min-height:100px;
     height: auto!important;
     height:100px;
+    padding-bottom:8px
 }
 .news_company_icon{
     margin-right:12px;
@@ -879,6 +891,9 @@ div.auto_complete ul strong.highlight {
 .topic_item span{
     font-size:90%;
     color:gray;
+}
+#topic_content h1{
+    font-size:25px;
 }
 .gray_background{
     background-color: #F5F5F5;
@@ -1104,6 +1119,7 @@ div.auto_complete ul strong.highlight {
 }
 .bottom_gray_line{
     border-bottom: 1px solid  #EdEdEd;
+    margin-bottom: 2px;
 }
 #whole_judge_detail_star{
     border:solid 1px #DEDEDE;
@@ -1132,3 +1148,8 @@ div.auto_complete ul strong.highlight {
 .hot_link:hover{
     background-color: #fff6ee;
 }
+
+.job_date{
+    line-height:2.8;
+}
+ 

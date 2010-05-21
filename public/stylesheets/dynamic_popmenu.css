@@ -11,6 +11,10 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 ul.popmenu  {
+ 
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
     border:solid 1px #DEDEDE;
     border-top:none;
     background:#FFFFFF;
@@ -21,7 +25,8 @@ ul.popmenu  {
     padding:0;
     clear:both;
     z-index:299;
-    display:none;
+
+    overflow:hidden;
 }
 ul.popmenu  li{
     background:none;
@@ -32,6 +37,7 @@ ul.popmenu  li{
     height:auto;
     line-height:normal;
     border-top:solid 1px #DEDEDE;
+    overflow:hidden;
 }
 ul.popmenu  li a{
     background:none;
@@ -43,6 +49,7 @@ ul.popmenu  li a{
     height:auto;
     color:#105cbe;
     line-height:normal;
+    zoom:1;
 }
 ul.popmenu  li a:hover{
     background:#e3edef;

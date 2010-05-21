@@ -24,7 +24,8 @@
       <%  case group.join_type
       when Group::JOIN_TYPES[0][1]  #普通小组%>
         <%= link_to  "加入<small>▼</small>","JavaScript:;",:class=>"button",:id=>"add_button" %>
-        <% menu("add_group") do %>
+
+        <% menu("add_group") do -%>
           <% for al in current_user.accounts -%>
             <%= menu_item(link_to_remote("#{al.name} 加入" ,{:url=>{:action=>:join,:id=>group,:alias=>al}})) -%>
           <%end-%>
@@ -34,7 +35,7 @@
       <%when Group::JOIN_TYPES[1][1] #权限小组 需要申请 -%>
         <%= link_to  "申请<small>▼</small>","JavaScript:;",:class=>"button",:id=>"apply_button" -%>
         <% menu("apply_add_group") do -%>
-          <% for al in current_user.accounts %>
+          <% for al in current_user.accounts -%>
             <%= menu_item( link_to_remote_lightbox( "#{al.name} 申请加入",
                 :url=>{:controller=>:add_group_applications,:action=>:apply,:group_id=>group.id,:alias=>al})) -%>
           <%end-%>
@@ -47,5 +48,5 @@
   <%end%>
 <%end%>
 <%#*<span id="recommend_operation">%>
-  <%#= render :partial=>"comm_partial/recommend_operation",:object=>group %>
+<%#= render :partial=>"comm_partial/recommend_operation",:object=>group %>
 <%#*</span>%>

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+
+
  
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
@@ -21,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     :logs=>:get },
     :collection=>{:search=>:get} do |companies|
     companies.resources :company_judges
+    companies.resources :jobs
     companies.resources :tags,:only=>[:index]
  
     companies.resources :topics ,:collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post} do |topics|
@@ -50,9 +53,9 @@ ActionController::Routing::Routes.draw do |map|
     :unjudge_company=>:get,
     :follow_logs=>:get} do |account|
     account.resource :setting,:collection=>{ :auth=>[:get,:put],
-    :base_info=>[:get,:put],
-    :alias=>[:get,:put],
-    :password=>[:get,:put]}
+      :base_info=>[:get,:put],
+      :alias=>[:get,:put],
+      :password=>[:get,:put]}
 
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
     account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
@@ -74,6 +77,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   map.resources :tags
+  map.resources :jobs ,:only=>[:index]
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

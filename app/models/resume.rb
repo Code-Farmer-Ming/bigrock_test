@@ -36,12 +36,15 @@
 class Resume < ActiveRecord::Base
   #简历类型
   RESUME_TYPES=["中文","英文"]
+  validates_format_of :blog_website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
+
   belongs_to :state
   belongs_to :city
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
   
   has_many :passes,:dependent=>:destroy ,:order=>"begin_date desc,is_current desc"
   has_many :current_passes,:class_name=>"Pass",:conditions=>{:is_current=>true}
+  #经历过的公司  包含当前公司的
   has_many :pass_companies ,:through=>:passes,:source=>:company
   has_many :current_companies ,:through=>:current_passes,:source=>:company
   

@@ -1,0 +1,14 @@
+<div id="left_content">
+
+  <% form_for([@company,@job],:html=>{:class=>"form_info"}) do |f| %>
+    <h1>创建招聘信息</h1>
+    <%= render :partial=>"jobs/form" ,:object=>f %>
+    <p>
+      <%= f.submit '保存' %>
+    </p>
+  <% end %>
+</div>
+
+<div id="right_content">
+  <%= link_to "<< 返回 #{@company.name}" ,@company %>
+</div>

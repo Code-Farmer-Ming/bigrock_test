@@ -38,7 +38,7 @@ class CompanyJudge < ActiveRecord::Base
   def create_judge
     company.salary_value += salary_value
     company.condition_value += condition_value
-    company.save
+    company.save!
   end
   
   def destroy_judge

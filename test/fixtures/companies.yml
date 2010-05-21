@@ -26,6 +26,7 @@
 #  state_id             :integer       
 #  city_id              :integer       
 #  topics_count         :integer       default(0), not null
+#  jobs_count           :integer       default(0)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

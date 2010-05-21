@@ -3,7 +3,7 @@ class AccountController < ApplicationController
   before_filter :check_login?,:except=>[:ajax_login,:get_news,:login,:ajax_login,:new,:create,:forget_password,:reset_password,:show,:check_email]
   
   def new
-    flash[:notice] = "请先快速的注册一下" if params[:request_company_id]
+    flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了" if params[:request_company_id]
     @page_title ="注册"
     @user= User.new
     @user.nick_name = ""

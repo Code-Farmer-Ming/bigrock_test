@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -8,7 +8,7 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 DynamicPopmenu = Class.create();
- 
+
 DynamicPopmenu.prototype= {
     initialize : function(target,popElement,target_event){
         if ( target != null)
@@ -17,7 +17,7 @@ DynamicPopmenu.prototype= {
             this.popElement = $(popElement);
             if ((typeof(target_event)=="undefined") || (target_event=='click'))
             {
-             
+
                 Event.observe(this.target, 'click',this.onclick.bind(this));
                 Event.observe(document, 'click',this.ondocumentClick.bind(this));
             }
@@ -44,9 +44,9 @@ DynamicPopmenu.prototype= {
             this.popElement.style.left = this.target.cumulativeOffset()[0]+"px";
             this.popElement.style.top =this.target.cumulativeOffset()[1]+this.target.offsetHeight+"px";
             this.popElement.style.display = "block";
-         
+
         }
         return false;
-   
+
     }
 }

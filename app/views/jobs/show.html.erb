@@ -1,0 +1,41 @@
+<div id="left_content">
+  <h1><%=h @job.title %></h1>
+  <div id="group_info_show" class="main_info">
+    <p>
+      <b>类型</b>&nbsp;<%=h @job.type%>&nbsp;&nbsp;&nbsp;&nbsp;
+      <b>工作地点</b>&nbsp;
+      <%=h @job.site %>&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <h5>工作描述</h5>
+    <%= simple_format( h @job.job_description) %>
+    <h5>工作要求</h5>
+    <%=simple_format(h @job.skill_description) %>
+    <p>
+      <b>浏览</b>&nbsp;  <%= @job.view_count %>
+      <b>申请</b>&nbsp;<%= @job.applicants_count%>
+      &nbsp;
+      <%= link_to_user_name @job.create_user %>
+      <b>发布于</b>&nbsp;
+      <%= h time_ago_in_words_plus(@job.created_at)  %>
+    </p>
+  </div>
+  <% sub_block_div("评论") do%>
+  <%end%>
+</div>
+<div id="right_content">
+
+  <% sub_block_div() do %>
+    <%= render :partial=>"jobs/operation",:object=>@job %>
+  <%end%>
+
+  <% sub_block_div("公司") do%>
+
+    <%= render :partial=>"companies/company_short_info",:object=>@job.company %>
+  <%#= render :partial=>"users/user_short_info",:object=>@job.create_user %>
+  <%end%>
+  <% sub_block_div("其他职位",link_to("所有",company_jobs_path(@job.company))) do%>
+    <%= render :partial=>"jobs/short_item",:collection=>@job.other_jobs %>
+  <%end%>
+<%#= link_to 'Edit', edit_job_path(@job) %> 
+<%#= link_to 'Back', jobs_path %>
+</div>

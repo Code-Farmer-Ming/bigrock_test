@@ -9,7 +9,7 @@ class PassesController < ApplicationController
     @pass = Pass.new
     @page_title= "添加工作经历"
     if params[:request_company_id]
-      flash[:notice] = "再填写一下你的资料"
+      flash[:notice] = "现在填写一下工作信息，开始对您的同事进行评价吧"
       @pass.company_id = params[:request_company_id]
     end
     respond_to do |format|
@@ -33,8 +33,7 @@ class PassesController < ApplicationController
     @pass = Pass.new(params[:pass])
     #TODO 这里需要优化 去掉查询公司名称
     @company= Company.find_by_name(params[:company][:name])
-    @pass.resume_id = params[:resume_id]
-    @pass.user = current_user
+    #    @pass.resume_id = params[:resume_id]
     if !@company
       if (request.xhr?)
         render :update do |page|
@@ -45,9 +44,11 @@ class PassesController < ApplicationController
       end
       return
     end
-
+    @pass.user = current_user
+    @pass.company = @company
+  
     respond_to do |format|
-      if @company.passes << @pass
+      if current_user.current_resume.passes << @pass
         format.html {
           flash[:notice] = '保存成功.'
           redirect_to  user_path(params[:request_user_id] && params[:request_user_id].any? ? params[:request_user_id] : params[:user_id])
@@ -82,6 +83,7 @@ class PassesController < ApplicationController
     #      end
     #       @pass.company = @company
     #    end
+      
     respond_to do |format|
       if @pass.update_attributes(params[:pass])
         format.html {flash[:notice] = '更新成功！.'; redirect_to( user_resume_path(params[:user_id],params[:resume_id])) }
@@ -163,10 +165,11 @@ class PassesController < ApplicationController
     render :inline => "<%= auto_complete_result @items, 'department', '#{params[:pass][:department]}' %>"
   end
 
-  #根据公司 查询 对应的部门
+  #根据公司 查询 对应的职位
   def auto_complete_for_pass_title
-    @items =  Pass.find(:all,:conditions =>"lower(companies.name)=lower('#{params[:company][:name]}') ",:joins =>"join companies on companies.id=passes.company_id",:select=>"distinct title" )
-    render :inline => "<%= auto_complete_result @items, 'title', '#{params[:pass][:title]}' %>"
+    company = Company.find_by_name(params[:company][:name])
+    @items =company.job_titles
+    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:pass][:job_title_attributes][:name]}' %>"
   end
 
 

@@ -63,6 +63,7 @@ class LogItemTest < ActiveSupport::TestCase
     pass=Pass.new
     pass.user = user_one
     pass.company_id = 3
+    pass.job_title_id = 1
     user_one.current_resume.passes << pass
     assert_equal 1,company_three.log_items.size
     assert_equal 2,user_one.log_items.size

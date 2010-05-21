@@ -32,4 +32,12 @@ module CompaniesHelper
   def options_for_city(state_id,default_city)
     options_for_select([['所有市',0]]+City.find_all_by_state_id(state_id).collect{|q| [q.name,q.id] } ,default_city)
   end
+
+  def options_for_since_day(default_id)
+    options_for_select([['所有',0],["今天",1],["三天内",3],["一周内",7],["一个月内",30]],default_id)
+  end
+
+  def options_for_job_type(default_id)
+     options_for_select([['所有',0]]+Job.types,default_id)
+  end
 end

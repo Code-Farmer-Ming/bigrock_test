@@ -1,0 +1,45 @@
+# == Schema Information
+#
+# Table name: jobs
+#
+#  id                :integer       not null, primary key
+#  title             :string(255)   not null
+#  type_id           :string(255)   not null
+#  job_description   :text          default(""), not null
+#  skill_description :text          
+#  state_id          :integer       not null
+#  city_id           :integer       not null
+#  job_title_id      :integer       
+#  end_at            :datetime      not null
+#  create_user_id    :integer       
+#  created_at        :datetime      
+#  updated_at        :datetime      
+#  company_id        :integer       
+#  view_count        :integer       default(0)
+#  applicants_count  :integer       default(0)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  type_id: 1
+  company_id: 1
+  job_description: MyText
+  skill_description: MyText
+  state_id: 1
+  city_id: 1
+  job_title_id: 1
+  
+  end_at: 2010-04-30 15:11:23
+
+two:
+  title: MyString
+  type_id: 1
+  company_id: 1
+  job_description: MyText
+  skill_description: MyText
+  state_id: 1
+  city_id: 1
+  job_title_id: 2
+  end_at: 2010-04-30 15:11:23
