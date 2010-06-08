@@ -1,37 +1,71 @@
 <%search_form   do |f|%>
   <div id="left_content">
+    <h1>职位搜索</h1>
     <div class="bottom_gray_line ">
-      <p  >
+      <p>
         <%= text_field_tag  "search",params[:search],:class=>"text" %>
         <%= text_default_value 'search',"职位搜索" %>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
         共<%= @jobs.size %>记录
       </p>
     </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="msg_title">职位</th>
+          <th>工作地点</th>
+          <th>发布日期</th>
+          <th>类型</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial=>"jobs/info_item",:collection=>@jobs,:locals=>{:show_company=>true} %>
+      </tbody>
+      <tfoot>
+        <%= will_paginate @jobs %>
+      </tfoot>
+    </table>
 
-    <ul class="list">
-      <%= render :partial=>"jobs/info_item",:collection=>@jobs %>
-    </ul>
   </div>
   <div id="right_content">
     <% sub_block_div("搜索条件") do %>
       <p>
-        <%=label_tag  :address ,"城市",:class=>"" %><br/>
-        <%= select_tag :state_id,options_for_state(params[:state_id].to_i),
+        <%=label_tag  :state_id ,"工作城市",:class=>"" %><br/>
+        <%= select_tag :state_id,options_for_state(params[:state_id]),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
-        <%= select_tag :city_id,options_for_city(params[:state_id],params[:city_id].to_i),
+        <%= select_tag :city_id,options_for_city(params[:state_id],params[:city_id]),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
         <%=  drop_list("state_id","city_id",[[0,[[0,'所有市']]]]+State.all.collect {|p| [ p.id,[[0,'所有市']]+p.cities.all.collect{|q| [q.id,q.name] } ] })%>
       </p>
+
       <p>
-        <%= label_tag :since_day,"发布日期" %><br/>
-        <%= select_tag :since_day,options_for_since_day(params[:since_day].to_i),
+        <%= label_tag :job_type,"职位类型" %><br/>
+        <%= select_tag :job_type,options_for_job_type(params[:job_type]),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
       </p>
       <p>
-        <%= label_tag :job_type,"职位类型" %><br/>
-        <%= select_tag :job_type,options_for_job_type(params[:job_type].to_i),
+        <%= label_tag :since_day,"发布日期" %><br/>
+        <%= select_tag :since_day,options_for_since_day(params[:since_day]),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
+      </p>
+      <br/>
+    <%#*<p>%>
+    <%#= label_tag :industry ,"所属行业"%>
+    <%#*<br/>%>
+    <%#= select_tag  :industry_id,
+    options_for_industry(params[:industry_id]),
+    {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
+    <%#*</p>%>
+      <p>
+        <%= label_tag :company_type_id, "公司类型" %><br/>
+        <%= select_tag :company_type_id,options_for_company_type(params[:company_type_id]) ,
+          {:onchange=>'this.form.onsubmit();this.form.submit(); '} %>
+      </p>
+      <p>
+        <%= label_tag  :company_size_id,"公司规模" %><br/>
+        <%= select_tag :company_size_id,options_for_company_size(params[:company_size_id]),
+          {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
     <%end%>
 

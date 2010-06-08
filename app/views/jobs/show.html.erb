@@ -1,3 +1,6 @@
+<% content_for :script do %>
+  <%= javascript_include_merged :"prototype-ui" %>
+<% end %>
 <div id="left_content">
   <h1><%=h @job.title %></h1>
   <div id="group_info_show" class="main_info">
@@ -6,9 +9,9 @@
       <b>工作地点</b>&nbsp;
       <%=h @job.site %>&nbsp;&nbsp;&nbsp;&nbsp;
     </p>
-    <h5>工作描述</h5>
+    <h6>工作描述</h6>
     <%= simple_format( h @job.job_description) %>
-    <h5>工作要求</h5>
+    <h6>工作要求</h6>
     <%=simple_format(h @job.skill_description) %>
     <p>
       <b>浏览</b>&nbsp;  <%= @job.view_count %>
@@ -19,7 +22,14 @@
       <%= h time_ago_in_words_plus(@job.created_at)  %>
     </p>
   </div>
-  <% sub_block_div("评论") do%>
+  <% sub_block_div("评论",(link_to("#{@job.comments.size}条","#post_comment") if @job.comments.size>0)) do%>
+    <div id="comments">
+      <%= render :partial=>"comments/comment",:collection=>@comments %>
+      <%= will_paginate  @comments %>
+    </div>
+    <div class="item_content" id="post_comment">
+      <%= render :partial=>"comments/new_form",:object=>@job %>
+    </div>
   <%end%>
 </div>
 <div id="right_content">
@@ -30,12 +40,12 @@
 
   <% sub_block_div("公司") do%>
 
-    <%= render :partial=>"companies/company_short_info",:object=>@job.company %>
+    <%= render :partial=>"companies/company_short_info",:object=>@job.owner %>
   <%#= render :partial=>"users/user_short_info",:object=>@job.create_user %>
   <%end%>
-  <% sub_block_div("其他职位",link_to("所有",company_jobs_path(@job.company))) do%>
+  <% sub_block_div("其他职位",link_to("所有",company_jobs_path(@job.owner))) do%>
     <%= render :partial=>"jobs/short_item",:collection=>@job.other_jobs %>
   <%end%>
-<%#= link_to 'Edit', edit_job_path(@job) %> 
-<%#= link_to 'Back', jobs_path %>
+  <% sub_block_div("申请该职位又申请其他的职位") do %>
+  <%end%>
 </div>

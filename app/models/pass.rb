@@ -94,14 +94,21 @@ class Pass < ActiveRecord::Base
     end
   end
  
-  def job_title_attributes=(attributes)
-    self.job_title = JobTitle.find_or_create_by_name_and_company_id(attributes[:name],self.company.id)
+ 
+  #  def job_title_attributes=(attributes)
+  #    self.job_title = JobTitle.find_or_create_by_name_and_company_id(attributes[:name],self.company.id)
+  #  end
+  def before_save
+    if @title
+      self.job_title = JobTitle.find_or_create_by_name_and_company_id(@title,self.company.id)
+    end
   end
   
   def after_save
-#    if self.company_id_changed?
-#      before_create()
-#    end
+    #    if self.company_id_changed?
+    #      before_create()
+    #    end
+
     if self.job_title_id_changed?
       JobTitle.destroy_all(:id=>self.job_title_id_was)
     end

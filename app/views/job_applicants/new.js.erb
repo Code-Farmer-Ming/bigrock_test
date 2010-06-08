@@ -1,0 +1,18 @@
+<% remote_form_for(:job_applicant,:url=> company_job_applicants_path(params[:company_id],@job),
+  :loading=>"$('job_applicant_submit').disabled=true;",
+  :complete=>"$('job_applicant_submit').disabled=false;",
+  :html=>{:class=>"form_info"}) do |f| %>
+  <h1>申请职位</h1>
+  <h3>&nbsp;<%= @job.title %></h3>
+  <%= f.error_messages %>
+  <%= f.hidden_field :applicant_id %>
+  <p>
+    <%= f.label :memo,"说点什么",:class=>"l" %>&nbsp;
+    <%= f.text_area :memo %>
+    <br/>
+    <span class="gray_text">可为空</span>
+  </p>
+  <p>
+    <%= f.submit '申请' %> &nbsp;<%= link_to_close_lightbox"取消" %>
+  </p>
+<% end %>

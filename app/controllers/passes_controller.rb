@@ -34,9 +34,9 @@ class PassesController < ApplicationController
     #TODO 这里需要优化 去掉查询公司名称
     @company= Company.find_by_name(params[:company][:name])
     #    @pass.resume_id = params[:resume_id]
-    if !@company
+    if !@company  
       if (request.xhr?)
-        render :update do |page|
+        render :update do |page|#显示创建公司 窗口
           page << "Lightbox.show('#{new_company_path(:"company[name]"=>params[:company][:name])}');"
         end
       else
@@ -86,7 +86,9 @@ class PassesController < ApplicationController
       
     respond_to do |format|
       if @pass.update_attributes(params[:pass])
-        format.html {flash[:notice] = '更新成功！.'; redirect_to( user_resume_path(params[:user_id],params[:resume_id])) }
+        format.html {flash[:notice] = '更新成功！.'
+          redirect_to( user_resume_path(params[:user_id],params[:resume_id]))
+        }
         format.xml  { head :ok }
         format.js {}
       else

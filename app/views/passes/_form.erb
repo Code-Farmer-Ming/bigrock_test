@@ -30,7 +30,7 @@
 
  
     <%= f.label :title,"职位" ,:class=>"filed_lab" %>
-    <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text",:name=>"pass[job_title_attributes][name]",:id=>dom_id(f.object,'title')},{:with=>"'company[name]='+$F('company_name')",
+    <%=  text_field_with_auto_complete :pass,:title,{:class=>"required text",:id=>dom_id(f.object,'title')},{:with=>"'company[name]='+$F('company_name')",
       :active=>{"#{dom_id(f.object,'title')}"=>:click,:title_drop_list=>:click},
       :controller=>"Passes",
       :extension_html=>"<small id='title_drop_list' class='drop_button'>▼</small>"

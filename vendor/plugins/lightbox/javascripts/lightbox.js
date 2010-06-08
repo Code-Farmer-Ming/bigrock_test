@@ -154,6 +154,7 @@ lightbox.prototype = {
     // Example of creating your own functionality once lightbox is initiated
     close: function(){
         Element.update('lightbox_content','');
+        Element.update('lightbox_msg','');
         if (Prototype.Browser.IE){
             this.setScroll(0,this.yPos);
             this.prepareIE("auto", "auto");

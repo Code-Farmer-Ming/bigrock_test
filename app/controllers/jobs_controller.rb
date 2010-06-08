@@ -1,15 +1,16 @@
 class JobsController < ApplicationController
   #  before_filter :check_login?,:except=>[:show]
   #
-  before_filter :find_company,:only=>[:new,:edit,:update,:destroy]
+  before_filter :find_company,:only=>[:new,:edit,:update,:destroy,:create]
   # GET /jobs
   # GET /jobs.xml
   def index
     search = "%#{params[:search]}%"
     @company = Company.find_by_id(params[:company_id])
     if @company
-      @jobs = @company.jobs.all(:conditions=>["title like ? or job_description like ? or skill_description like ?",
-          search,search,search])
+      @jobs = @company.jobs.paginate(:conditions=>["title like ? or
+                job_description like ? or skill_description like ?",
+          search,search,search],:page=>params[:page])
       #    else
       #      @jobs = Job.all(:conditions=>["title like ? or job_description like ? or skill_description like ?",
       #          search,search,search])
@@ -24,9 +25,10 @@ class JobsController < ApplicationController
   # GET /jobs/1.xml
   def show
     @job = Job.find(params[:id])
-    @page_title = @job.title + " "+  @job.company.name
+    @page_title = @job.title + "职位 "+  @job.owner.name
     @page_keyworks = @job.title + " 职位"
-    @page_description =  @job.company.name + " 招聘职位 " + @job.title+@job.job_description
+    @page_description =  @job.owner.name + " 招聘职位 " + @job.title+@job.job_description
+    @comments = @job.comments.paginate :page=>params[:page]
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @job }
@@ -40,7 +42,6 @@ class JobsController < ApplicationController
     @job = Job.new
     @job.state_id = @company.state_id
     @job.city_id = @company.city_id
-    
     respond_to do |format|
       if @company.current_employee_and_higher_creditability(current_user)
         format.html # new.html.erb
@@ -69,7 +70,7 @@ class JobsController < ApplicationController
         format.html { redirect_to([@company,@job]) }
         format.xml  { render :xml => @job, :status => :created, :location => @job }
       else
-        flash.now[:error] = @company.errors.full_messages.to_s
+        flash.now[:error] = @company.errors.full_messages.to_s+@job.errors.full_messages.to_s
         format.html { render :action => "new" }
         format.xml  { render :xml => @job.errors, :status => :unprocessable_entity }
       end
@@ -79,8 +80,7 @@ class JobsController < ApplicationController
   # PUT /jobs/1
   # PUT /jobs/1.xml
   def update
-    @job = Job.find(params[:id])
-
+    @job = @company.jobs.find(params[:id])
     respond_to do |format|
       if @job.update_attributes(params[:job])
         flash[:notice] = '修改成功!'
@@ -97,10 +97,11 @@ class JobsController < ApplicationController
   # DELETE /jobs/1.xml
   def destroy
     @job = @company.jobs.find(params[:id])
-    @job.destroy
-
+    if @job.create_user==current_user
+      @job.destroy
+    end
     respond_to do |format|
-      format.html { redirect_to(company_jobs(@company)) }
+      format.html { redirect_to(company_jobs_path(@company)) }
       format.xml  { head :ok }
     end
   end
@@ -108,17 +109,24 @@ class JobsController < ApplicationController
   #搜索
   def search
     search_word = "%#{params[:search]}%"
+    state_id = params[:state_id].to_i
+    city_id = params[:city_id].to_i
+    job_type = params[:job_type].to_i
+    since_day = params[:since_day].to_i
+    company_size = params[:company_size_id].to_i
+    company_type = params[:company_type_id].to_i
 
-    @jobs = Job.since(params[:since_day]).all(:conditions=>["(title like ? or job_description like ? or skill_description like ?)
-      and (state_id=? or ?=0) and (city_id=? or ?=0) and (type_id=? or ?=0)",
-        search_word,search_word,search_word,params[:state_id],
-        params[:state_id],params[:city_id],params[:city_id],params[:job_type],params[:job_type]])
-    
+    @jobs = Job.since(since_day).paginate :select=>"jobs.*",:joins=>"join companies on jobs.company_id=companies.id" ,:conditions=>["(title like ? or job_description like ? or skill_description like ?)
+      and (jobs.state_id=? or ?=0) and (jobs.city_id=? or ?=0) and (type_id=? or ?=0)
+      and (company_size_id=? or ?=0) and (company_type_id=? or ?=0)",
+      search_word,search_word,search_word,state_id,state_id,
+      city_id,city_id,job_type,job_type,company_size,company_size,
+      company_type,company_type], :page => params[:page]
   end
 
   protected
 
   def find_company
-    @company = Company.find(params[:company_id])
+    @company =  current_user.current_companies.find(params[:company_id])
   end
 end

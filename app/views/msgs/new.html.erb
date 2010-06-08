@@ -1,33 +1,37 @@
 <% content_for :script do %>
   <%= javascript_include_merged :"prototype-ui" %>
 <% end %>
+<div id="left_content">
+  <%= render :partial=>"msgs/notification_types" %>
+  <div class="form_info">
+    <h1>新消息</h1>
+    <% form_for(:msg,  @msg,:url=>{:action=>"create"},:html=>{:class=>"required-validate"}) do |f| %>
+      <%= f.error_messages %>
+      <p>
+        <%= f.label :sendees,"收件人",:class=>"filed_lab" %>
 
-<%= render :partial=>"msgs/notification_types" %>
-<div class="form_info">
-  <h1>新消息</h1>
-  <% form_for(:msg,  @msg,:url=>{:action=>"create"},:html=>{:class=>"required-validate"}) do |f| %>
-    <%= f.error_messages %>
-    <p>
-      <%= f.label :sendees,"收件人",:class=>"filed_lab" %>
+        <span style="width: 400px;display: inline-block">
+          <%=  text_field_with_auto_complete_like_facebook :msg, :sendees,{:class=>"",:title=>"收件人不能为空",:value=>''},
+            :infoMessage=>"输入好友的名称",:defaultEntries=>(@write_to ? {:Entry1=>{:text=>@write_to.name,:value=>@write_to.salt}} : {}) %>
+        </span>
+      </p>
+      <p>
+        <%= f.label :title,"标题" ,:class=>"filed_lab"%>
+        <%= f.text_field :title,:class=>"required text msg_title_input",:title=>"标题不能为空" %>
+      </p>
+      <p>
+        <%= f.label :content,"内容" ,:class=>"filed_lab"%>
+        <%= f.text_area :content,:rows=>16,:class=>"required text",:title=>"内容不能为空" %>
+      </p>
+      <p>
+        <%= render :partial=>"comm_partial/alias_account_choice" %>
+      </p>
+      <p>
+        <%= f.submit '发送',:disable_with=>"发送…",:disabled => false,:class=>"button" %>
+      </p>
+    <% end %>
+  </div>
+</div>
+<div id="right_content">
 
-      <span style="width: 400px;display: inline-block">
-        <%=  text_field_with_auto_complete_like_facebook :msg, :sendees,{:class=>"",:title=>"收件人不能为空",:value=>''},
-          :infoMessage=>"输入好友的名称",:defaultEntries=>(@write_to ? {:Entry1=>{:text=>@write_to.name,:value=>@write_to.salt}} : {}) %>
-      </span>
-    </p>
-    <p>
-      <%= f.label :title,"标题" ,:class=>"filed_lab"%>
-      <%= f.text_field :title,:class=>"required text msg_title_input",:title=>"标题不能为空" %>
-    </p>
-    <p>
-      <%= f.label :content,"内容" ,:class=>"filed_lab"%>
-      <%= f.text_area :content,:rows=>16,:class=>"required text",:title=>"内容不能为空" %>
-    </p>
-    <p>
-      <%= render :partial=>"comm_partial/alias_account_choice" %>
-    </p>
-    <p>
-      <%= f.submit '发送',:disable_with=>"发送…",:disabled => false,:class=>"button" %>
-    </p>
-  <% end %>
 </div>

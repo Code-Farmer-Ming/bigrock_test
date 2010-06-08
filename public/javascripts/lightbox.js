@@ -23,7 +23,7 @@ lightbox.prototype = {
         $('lightbox').style.height ="";
         $('lightbox').style.width = "";
 //         $('lightbox').style.height = $('lightbox').offsetHeight + 'px';
-//        $('lightbox').style.width = $('lightbox').scrollWidth  + 'px';
+     //   $('lightbox').style.width = $('lightbox').scrollWidth  + 'px';
 
         $('lightbox').style.margin = "-" +  $('lightbox').scrollHeight /2 +"px 0 0 "
         + "-" + $('lightbox').scrollWidth /2 +"px";
@@ -154,6 +154,7 @@ lightbox.prototype = {
     // Example of creating your own functionality once lightbox is initiated
     close: function(){
         Element.update('lightbox_content','');
+        Element.update('lightbox_msg','');
         if (Prototype.Browser.IE){
             this.setScroll(0,this.yPos);
             this.prepareIE("auto", "auto");

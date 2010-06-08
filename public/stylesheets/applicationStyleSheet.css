@@ -553,31 +553,15 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 
 /*msg 列表*/
-#msg_list_table{
-    width:80%;
-    margin:8px auto;
-
-    border-collapse:collapse;
-    height:100%;
-}
-
-#msg_list_table th{
-    text-align:left;
-    background-color:#E1E9F8;
-    padding:4px 8px;
-
-}
+ 
 
 .msg_title{
-    width:50%;
+    width:58%;
 }
-#msg_list_table .msg_title a{
+.msg_title a{
     display:block;
 }
 
-#msg_list_table td{
-    padding:4px 8px;
-}
 /*msg 显示*/
 #msg_show{
     /*  width:650px;*/
@@ -1148,8 +1132,7 @@ div.auto_complete ul strong.highlight {
 .hot_link:hover{
     background-color: #fff6ee;
 }
-
-.job_date{
-    line-height:2.8;
+.silver_border{
+    border: 1px silver solid;
 }
  

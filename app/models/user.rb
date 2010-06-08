@@ -305,7 +305,16 @@ class User< ActiveRecord::Base
     :dependent => :destroy
   
   #发布的招聘信息
-  has_many :create_jobs,:class_name=>"Job",:foreign_key => "create_user_id"
+  has_many :published_jobs,:class_name=>"Job",:foreign_key => "create_user_id"
+  #发布的招聘信息 申请记录
+  has_many :published_job_applicants,:through=>:published_jobs,:source=>:applicants
+
+  #工作申请记录
+  has_many :applicants,:class_name=>'JobApplicant',:foreign_key=>'applicant_id'
+
+  #申请过的工作
+  has_many :applied_jobs,:through=>:applicants,:source=>'job'
+
 
   # 别名的父账号
   belongs_to :parent,

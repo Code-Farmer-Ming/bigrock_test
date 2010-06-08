@@ -1,0 +1,27 @@
+<% remote_form_for(:job_applicant,:url=> company_job_applicants_path(params[:company_id],@job),
+  :loading=>"$('job_applicant_submit').disabled=true;",
+  :complete=>"$('job_applicant_submit').disabled=false;",
+  :html=>{:class=>"form_info"}) do |f| %>
+  <h1>推荐职位</h1>
+  <h3>&nbsp;<%= @job.title %></h3>
+  <%= f.error_messages %>
+  <%= f.hidden_field :recommend_id %>
+  <p>
+    <%= f.label :applicant_user_ids,"推荐好友",:class=>"l" %>
+    &nbsp;
+    <span style="width: 400px;display: inline-block">
+      <%=  text_field_with_auto_complete_like_facebook :job_applicant, :applicant_user_ids,{:class=>"text",:title=>"好友不能为空",:value=>''},
+        :infoMessage=>"输入好友的名称",:controller=>"msgs",:action=>"auto_complete_for_msg_sendees" %>
+    </span>
+  </p>
+  <%= f.hidden_field :applicant_id %>
+  <p>
+    <%= f.label :memo,"说点什么",:class=>"l" %>&nbsp;
+    <%= f.text_area :memo %>
+    <br/>
+    <span class="gray_text">可为空</span>
+  </p>
+  <p>
+    <%= f.submit '申请' %> &nbsp;<%= link_to_close_lightbox"取消" %>
+  </p>
+<% end %>

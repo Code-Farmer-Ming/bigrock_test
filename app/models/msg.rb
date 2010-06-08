@@ -33,7 +33,7 @@ class Msg < ActiveRecord::Base
   #未读的信息
   named_scope :unread,:conditions=>[:is_check=>false]
 
-  #接收人 用；分隔
+  #接收人 用 分隔
   attr_accessor       :sendees
   validates_presence_of  :sendee,:sender
   

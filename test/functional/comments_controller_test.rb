@@ -32,26 +32,29 @@ class CommentsControllerTest < ActionController::TestCase
     assert_equal users(:one).aliases.first, topics(:one).last_comment_user
 #    assert_equal 1, users(:one).join_topics.size
   end
-  test "should create  company news comment" do
-    news = news(:one)
-    news.comments.clear
+
+  test "should create  company job comment" do
+    job = jobs(:one)
+    job.comments.clear
     assert_difference("Comment.count", 1) do
       xhr :post ,:create,
-        :piecenews_id=>news.id,:comment=>{:content=>"test comment"},
+        :job_id=>job.id,:comment=>{:content=>"test comment"},
         :alias=>users(:one)
     end
-    assert_equal 1, users(:one).reply_topics.size
+    job.reload
+    assert_equal 1, job.comments.size
   end
 
-  test "should create  company news comment with alias" do
-    news = news(:one)
-    news.comments.clear
+  test "should create  company job comment with alias" do
+    job = jobs(:one)
+    job.comments.clear
     assert_difference("Comment.count", 1) do
       xhr :post ,:create ,
-        :piecenews_id=>news.id,:comment=>{:content=>"test comment"},
+        :job_id=>job.id,:comment=>{:content=>"test comment"},
         :alias=>users(:one).aliases.first
     end
-    assert_equal 1, users(:one).reply_topics.size
+    job.reload
+    assert_equal 1, job.comments.size
   end
   
   test "should destroy" do

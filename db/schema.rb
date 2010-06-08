@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100503064115) do
+ActiveRecord::Schema.define(:version => 20100531140740) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -210,6 +210,15 @@ ActiveRecord::Schema.define(:version => 20100503064115) do
     t.datetime "updated_at"
   end
 
+  create_table "job_applicants", :force => true do |t|
+    t.integer  "job_id",       :null => false
+    t.integer  "applicant_id", :null => false
+    t.integer  "recommend_id"
+    t.string   "memo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "job_titles", :force => true do |t|
     t.integer  "company_id"
     t.string   "name",       :null => false
@@ -232,6 +241,7 @@ ActiveRecord::Schema.define(:version => 20100503064115) do
     t.integer  "company_id"
     t.integer  "view_count",        :default => 0
     t.integer  "applicants_count",  :default => 0
+    t.integer  "comments_count",    :default => 0
   end
 
   create_table "judges", :force => true do |t|

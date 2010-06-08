@@ -1,0 +1,26 @@
+<h1>Listing job_applicants</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Job</th>
+      <th>Applicant</th>
+      <th>Recommend</th>
+      <th>Memo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @job_applicants.each do |job_applicant| %>
+      <tr>
+        <td><%=h job_applicant.job_id %></td>
+        <td><%=h job_applicant.applicant_id %></td>
+        <td><%=h job_applicant.recommend_id %></td>
+        <td><%=h job_applicant.memo %></td>
+        <td><%= link_to 'Show'   %></td>
+
+        <td><%= link_to 'Destroy',{} , :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+    </tbody>
+  <% end %>
+</table>
+

@@ -18,16 +18,18 @@ module AutoCompleteLikeFacebook
    options = {
        :highlight=>true
      }.merge!(options)
-    function = "pui = new UI.AutoComplete('#{element}',#{params_for_javascript(options)}"
+    function = "var pui = new UI.AutoComplete('#{element}',#{params_for_javascript(options)}"
     
     function << ");"
     if default_values then
       default_values.each { |item|      function << "pui.add('#{item[1][:text]}','#{item[1][:value]}');"  }
-     
+         javascript_tag("Event.observe(window, 'load', function() {#{function}})")
+    else
+      javascript_tag function
     end
 
 
-    javascript_tag("Event.observe(window, 'load', function() {#{function}})")
+
 
   end
 

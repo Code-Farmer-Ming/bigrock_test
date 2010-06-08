@@ -334,4 +334,36 @@ class UserTest < ActiveSupport::TestCase
     assert user_one.friend_users.exists?(users(:two))
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
+
+  test 'applied jobs' do
+    user_one = users(:one)
+    user_one.applicants.clear()
+    assert_difference('user_one.applied_jobs.count') do
+      user_one.applicants << JobApplicant.new(:job_id=>1)
+    end
+  end
+
+  test 'published job' do
+    user_one = users(:one)
+    user_one.published_jobs.clear()
+    assert_difference('user_one.published_jobs.count') do
+      new_job = Job.new(:company_id=>1,:city_id=>1,:title=>'title',
+        :job_description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
+      user_one.published_jobs << new_job
+      
+    end
+  end
+
+  test 'published jobs' do
+    user_one = users(:one)
+    user_one.published_jobs.clear()
+    assert_difference('user_one.published_job_applicants.count') do
+      new_job = Job.new(:company_id=>1,:city_id=>1,:title=>'title',
+        :job_description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
+      user_one.published_jobs << new_job
+      new_job.reload
+      user_one.applicants << JobApplicant.new(:job_id=>new_job.id)
+    end
+  end
+
 end

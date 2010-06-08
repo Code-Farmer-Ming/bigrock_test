@@ -24,18 +24,22 @@ class Job < ActiveRecord::Base
   #字段验证
   validates_presence_of :title,:job_description,:company_id,:create_user_id
   
-  belongs_to :company,:counter_cache => true
+  belongs_to :owner,:foreign_key =>"company_id",:class_name=>"Company",:counter_cache => true
   belongs_to :create_user,:class_name=>"User",:foreign_key =>"create_user_id"
   belongs_to :state
   belongs_to :city
+
+  has_many :comments ,:as=>:commentable,:dependent=>:destroy
+  has_many :applicants,:class_name=>"JobApplicant",:dependent=>:destroy
+    
   delegate :name,:to=>:state, :prefix => true
   delegate :name,:to=>:city, :prefix => true
 
   named_scope :limit,lambda { |size| { :limit => size } }
-  named_scope :since,lambda { |day| { :conditions =>["(created_at>? or ?=0) ",day.to_i.days.ago,day]  } }
+  named_scope :since,lambda { |day| { :conditions =>["(jobs.created_at>? or ?=0) ",day.to_i.days.ago,day.to_i]  } }
 
   def self.types
-    JOB_TYPES.enum_for(:each_with_index).map { |type, index| [type, index] }
+    JOB_TYPES.enum_for(:each_with_index).map { |type, index| [type, index+1] }
   end
   
   def type
@@ -47,6 +51,28 @@ class Job < ActiveRecord::Base
   end
 
   def other_jobs(limit=6)
-    company.jobs.all(:conditions=>"id<>#{id}",:limit=>limit)
+    owner.jobs.all(:conditions=>"id<>#{id}",:limit=>limit)
+  end
+
+  def add_comment(comment)
+    comments << comment
+  end
+  
+  #申请职位
+  def apply_job(job_applicant)
+    if job_applicant.applicant_user_ids
+      unless job_applicant.applicant_user_ids.blank?
+        job_applicant.applicant_user_ids.split(" ").uniq.each do |applicant_id|
+          new_applicant = job_applicant.clone
+          new_applicant.applicant_id = applicant_id
+          applicants << new_applicant
+        end
+      else
+        !errors.add '推荐好友','不能为空'
+      end
+    else
+      applicants << job_applicant
+    end
+    
   end
 end

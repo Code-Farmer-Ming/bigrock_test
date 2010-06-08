@@ -1,34 +1,24 @@
 <% if @company %>
   <div id="left_content">
-
     <h1><%= @company.name %></h1>
     <table>
-      <tr>
-        <th id="msg_title">职位</th>
-        <th>工作地点</th>
-        <th>发布日期</th>
-        <th>类型</th>
-      </tr>
-      <% @jobs.each do |job| %>
-        <tr class="<%= cycle("topic_item gray_background", "topic_item") %>">
-          <td><%= highlight(link_to(h(job.title), [job.company,job]),params[:search]) %></td>
-          <td><%=h job.site %></td>
-          <td><%=date_ago_in_words(job.created_at) %></td>
-          <td><%=h job.type %></td>
-    <%#*<td>%>
-    <%#= link_to '编辑', edit_company_job_path(@company,job)
-    %>
-    <%#*</td>%>
-    <%#*<td>%>
-    <%#= link_to '删除', [@company,job], :confirm => '确认删除吗?', :method => :delete
-    %>
-    <%#*</td>%>
+      <thead>
+        <tr>
+          <th class="msg_title">职位</th>
+          <th>工作地点</th>
+          <th>发布日期</th>
+          <th>类型</th>
+          <th>操作</th>
         </tr>
-      <% end %>
+      </thead>
+      <tbody>
+        <%= render :partial=>"jobs/info_item",:collection=>@jobs %>
+      </tbody>
+      <tfoot>
+        <%= will_paginate @jobs %>
+      </tfoot>
     </table>
-
   </div>
-
   <div id="right_content">
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索职位",:url=>""} %>
     <%sub_block_div() do%>

@@ -23,8 +23,8 @@ class CommentsController < ApplicationController
       else #owner.owner 是 group
         @comment.user = owner.owner.is_member?(current_user)
       end
-    else #公司博客 news
-      owner = Piecenews.find(params[:piecenews_id])
+    elsif params[:job_id] #job
+      owner = Job.find(params[:job_id])
       @comment.user = current_user.get_account(params[:alias])
     end  
     if !owner.add_comment(@comment)

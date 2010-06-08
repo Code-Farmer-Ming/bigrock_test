@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
 
+
  
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
@@ -23,7 +24,11 @@ ActionController::Routing::Routes.draw do |map|
     :logs=>:get },
     :collection=>{:search=>:get} do |companies|
     companies.resources :company_judges
-    companies.resources :jobs
+    companies.resources :jobs do |jobs|
+      jobs.resources :comments,:member=>{:up=>:post,:down=>:post}
+      jobs.resources :applicants,:controller=>"JobApplicants",
+        :member=>{:recommend_talent=>:get}
+    end
     companies.resources :tags,:only=>[:index]
  
     companies.resources :topics ,:collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post} do |topics|

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  job_id: 1
+  applicant_id: 1
+  recommend_id: 1
+  memo: MyString
+
+two:
+  job_id: 1
+  applicant_id: 1
+  recommend_id: 1
+  memo: MyString
