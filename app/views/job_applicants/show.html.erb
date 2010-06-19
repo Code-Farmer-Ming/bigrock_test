@@ -1,19 +1,38 @@
-<p>
-  <b>Job:</b>
-  <%=h @job_applicant.job_id %>
-</p>
+<div id="left_content">
+  <h1>申请 <%= h @job_applicant.job.title %></h1>
+  <p class="date_field"><%= time_ago_in_words_plus(@job_applicant.created_at) %> </p>
 
-<p>
-  <b>Applicant:</b>
-  <%=h @job_applicant.applicant_id %>
-</p>
+  <div>
+    <% if @job_applicant.recommend_user %>
+      <div  class="l half_width">
+        <b>申请人</b>
+        <%= render :partial=>'users/user_short_info' ,:object=> @job_applicant.recommend_user %>
+      </div>
+      <div class="r">
+        <b>举荐</b>
+        <%= render :partial=>'users/user_short_info' ,:object=> @job_applicant.applicant_user %>
+      </div>
+      <div class="c"></div>
+    <%else%>
+      <div>
+        <b>申请人</b>
+        <%= render :partial=>'users/user_short_info' ,:object=> @job_applicant.applicant_user %>
+      </div>
+    <%end%>
 
-<p>
-  <b>Recommend:</b>
-  <%=h @job_applicant.recommend_id %>
-</p>
+  </div>
+  <div class="form_row ">
+    <%=h @job_applicant.memo %>
+  </div>
 
-<p>
-  <b>Memo:</b>
-  <%=h @job_applicant.memo %>
-</p>
+  <p class="c">
+    <%= link_to "来面试吧",new_account_msg_path(:write_to=>@job_applicant.applicant_user,:title=>'面试通知',
+      :content=>"感谢您申请[#{@job_applicant.job.owner.name}]的[#{@job_applicant.job.title}]职位，\n请于xxxx年xx月xx日xxxx时间到\n【#{@job_applicant.job.owner.full_address}】面试。" ),:class=>'button' %>
+  </p>
+</div>
+<div id="right_content">
+  <% sub_block_div('') do %>
+  <%= link_to "<< 返回 申请的记录",published_job_applicants_account_path() %>
+  <%end%>
+
+</div>

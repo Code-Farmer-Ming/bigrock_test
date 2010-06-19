@@ -60,10 +60,10 @@ class JobsControllerTest < ActionController::TestCase
   end
 
   test "should destroy job" do
+    @env['HTTP_REFERER'] = 'xx'
     assert_difference('Job.count', -1) do
-      delete :destroy, :id => jobs(:one).to_param,:company_id=>@company
+      delete :destroy,{ :id => jobs(:one).to_param,:company_id=>@company}
     end
-
     assert_redirected_to company_jobs_path(@company)
   end
 end

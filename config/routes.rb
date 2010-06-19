@@ -1,8 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
 
-
-
- 
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
     groups.resources :topics, :collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post}  do |topics|
@@ -56,6 +53,8 @@ ActionController::Routing::Routes.draw do |map|
     :unjudge_yokemate=>:get,
     :judged_company=>:get,
     :unjudge_company=>:get,
+    :published_jobs=>:get,
+    :published_job_applicants=>:get,
     :follow_logs=>:get} do |account|
     account.resource :setting,:collection=>{ :auth=>[:get,:put],
       :base_info=>[:get,:put],
@@ -82,7 +81,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   map.resources :tags
-  map.resources :jobs ,:only=>[:index]
+  map.resources :jobs ,:collection=>{:batch_destroy=>[:delete]},:only=>[:index,:batch_destroy]
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

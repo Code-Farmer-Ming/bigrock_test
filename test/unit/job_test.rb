@@ -19,4 +19,8 @@ class JobTest < ActiveSupport::TestCase
       @job.apply_job applicant
     end
   end
+
+  test 'brach destroy' do
+    
+  end
 end

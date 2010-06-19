@@ -359,6 +359,21 @@ class AccountController < ApplicationController
     @user = current_user
     @unjudge_companies = @user.current_resume.pass_companies.all(:conditions=>["company_id not in (?)",@user.judged_company_ids ]).paginate :page => params[:page]
   end
+
+  def published_jobs
+    @user = current_user
+    @jobs = @user.published_jobs.paginate :page=>params[:page]
+  end
+  
+  def published_job_applicants
+    @user = current_user
+    @applicants = @user.published_job_applicants.paginate :page=>params[:page]
+  end
+
+  def job_applicants
+    @user = current_user
+    @applicants = @user.job_applicants.paginate :page=>params[:page]
+  end
   private
 
   #  def set_User_my_language
@@ -387,6 +402,5 @@ class AccountController < ApplicationController
         "密码错误,<a href=#{forget_password_account_path(:email=>email)}>取回密码！</a>"
       end
     end
-
   end
 end

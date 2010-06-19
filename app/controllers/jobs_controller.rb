@@ -1,7 +1,7 @@
 class JobsController < ApplicationController
   #  before_filter :check_login?,:except=>[:show]
   #
-  before_filter :find_company,:only=>[:new,:edit,:update,:destroy,:create]
+  before_filter :find_company,:only=>[:new,:edit,:update,:create]
   # GET /jobs
   # GET /jobs.xml
   def index
@@ -57,7 +57,7 @@ class JobsController < ApplicationController
 
   # GET /jobs/1/edit
   def edit
-    @job = Job.find(params[:id])
+    @job =  current_user.published_jobs.find(params[:id])
   end
 
   # POST /jobs
@@ -96,12 +96,23 @@ class JobsController < ApplicationController
   # DELETE /jobs/1
   # DELETE /jobs/1.xml
   def destroy
-    @job = @company.jobs.find(params[:id])
-    if @job.create_user==current_user
-      @job.destroy
-    end
+    current_user.published_jobs.destroy(params[:id])
     respond_to do |format|
-      format.html { redirect_to(company_jobs_path(@company)) }
+      format.html {
+        if request.headers["Referer"] == company_job_url(params[:company_id],params[:id])
+          redirect_to(company_jobs_path(params[:company_id]))
+        else
+          redirect_to(:back)
+        end
+      }
+      format.xml  { head :ok }
+    end
+  end
+
+  def batch_destroy
+    current_user.published_jobs.destroy(params[:select_jobs])
+    respond_to do |format|
+      format.html { redirect_to(:back) }
       format.xml  { head :ok }
     end
   end

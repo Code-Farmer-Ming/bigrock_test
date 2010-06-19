@@ -209,7 +209,10 @@ class Company < ActiveRecord::Base
       jobs << job
     end
   end
-
+  #地址全部形式
+  def full_address
+    "#{state.name}#{city.name}#{address}"
+  end
   class Version
     belongs_to :edit_user, :class_name => '::User', :foreign_key => 'last_edit_user'
     #按 列 查找版本内容

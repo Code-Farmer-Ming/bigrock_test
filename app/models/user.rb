@@ -310,10 +310,10 @@ class User< ActiveRecord::Base
   has_many :published_job_applicants,:through=>:published_jobs,:source=>:applicants
 
   #工作申请记录
-  has_many :applicants,:class_name=>'JobApplicant',:foreign_key=>'applicant_id'
+  has_many :job_applicants,:class_name=>'JobApplicant',:foreign_key=>'applicant_id'
 
   #申请过的工作
-  has_many :applied_jobs,:through=>:applicants,:source=>'job'
+  has_many :applied_jobs,:through=>:job_applicants,:source=>'job'
 
 
   # 别名的父账号

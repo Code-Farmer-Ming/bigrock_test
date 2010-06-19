@@ -1,0 +1,21 @@
+<div id="left_content">
+  <%= render :partial=>"account/job_type" %>
+ 
+  <table>
+    <thead>
+
+    <th>职位</th>
+    <th>日期</th>
+    <th>操作</th>
+    </thead>
+    <tbody>
+      <%= render :partial=>"job_applicants/my_item_info",:collection=>@applicants  %>
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+  </table>
+</div>
+<div id="right_content">
+
+</div>

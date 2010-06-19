@@ -257,4 +257,26 @@ class AccountControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:unjudge_companies)
   end
+
+  test "published jobs" do
+    login_as(users(:one))
+    get :published_jobs
+    assert_response :success
+    assert_not_nil assigns(:jobs)
+  end
+
+  test "published job applicants" do
+    login_as(users(:one))
+    get :published_job_applicants
+    assert_response :success
+    assert_not_nil assigns(:applicants)
+  end
+
+  test "job applicants" do
+    login_as(users(:one))
+    get :job_applicants
+    assert_response :success
+    assert_not_nil assigns(:applicants)
+  end
+
 end

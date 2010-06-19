@@ -1,0 +1,34 @@
+<div id="left_content">
+  <%= render :partial=>"account/job_type" %>
+  <% form_for @jobs,:url=>batch_destroy_jobs_path() do |f|%>
+    <table>
+      <thead>
+        <tr>
+          <th class="msg_title">职位</th>
+          <th>工作地点</th>
+          <th>发布日期</th>
+          <th>类型</th>
+          <th>操作</th>
+          <th><%=  check_box_tag "select", "",false,
+              :onchange=>"$$('input[name=\\'select_jobs[]\\']').each(function(s) \
+  {s.checked = this.checked}.bind(this))"  -%><%= label_tag "select", "选择" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial=>"jobs/item_info",:collection=>@jobs,:locals=>{:show_company=>:true} %>
+      </tbody>
+      <tfoot>
+      <td colspan="5">
+        <%= will_paginate @jobs %>
+      </td>
+      <td>
+
+        <%= f.submit '删除所选' %>
+      </td>
+      </tfoot>
+    </table>
+  <%end%>
+</div>
+<div id="right_content">
+
+</div>

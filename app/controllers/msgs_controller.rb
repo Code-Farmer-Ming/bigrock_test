@@ -28,6 +28,8 @@ class MsgsController < ApplicationController
     @page_title = "写新消息"
     @msg= Msg.new
     @msg.sendees = ''
+    @msg.title = params[:title]
+    @msg.content = params[:content]
     if params[:write_to]  
       @write_to= User.find(:first,:conditions=>["id=? or salt=?",params[:write_to],params[:write_to]])
     
@@ -36,7 +38,7 @@ class MsgsController < ApplicationController
       #      end
     end
   end
-   #TODO Msg的创建和发送需要 更进一步的优化
+  #TODO Msg的创建和发送需要 更进一步的优化
   def create
     @page_title = "发送消息"
     @msg= Msg.new(params[:msg])

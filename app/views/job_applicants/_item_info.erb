@@ -1,0 +1,26 @@
+<tr class="<%= cycle("gray_background", "") %>">
+  <td>
+    <% if object.recommend_user  %>
+      <%= link_to object.recommend_user.name,object.recommend_user %> 举荐
+    <%end%>
+    <%= link_to object.applicant_user.name,object.applicant_user %>
+  </td>
+  <td><%= highlight(link_to(h(object.job.title), [object.job.owner,object.job]),params[:search]) %>
+    <br/>
+    <small>
+      <%= link_to object.job.owner.name,object.job.owner %>
+    </small>
+  </td>
+
+  <td><%=date_ago_in_words(object.created_at) %></td>
+
+  <td>
+    <%= link_to "查看详细", company_job_applicant_path(object.job.owner,object.job,object) %>
+    <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>
+  </td>
+</tr>
+<tr style="display:none" id="<%= dom_id(object,"detail") %>" >
+  <td colspan="5" class="bottom_gray_line" style="width:100%;overflow:auto;" >
+    <%= h object.memo %>
+  </td>
+</tr>

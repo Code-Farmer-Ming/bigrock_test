@@ -75,4 +75,8 @@ class Job < ActiveRecord::Base
     end
     
   end
+
+  def brach_destroy
+    
+  end
 end

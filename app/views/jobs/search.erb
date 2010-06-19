@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        <%= render :partial=>"jobs/info_item",:collection=>@jobs,:locals=>{:show_company=>true} %>
+        <%= render :partial=>"jobs/item_info",:collection=>@jobs,:locals=>{:show_company=>true} %>
       </tbody>
       <tfoot>
         <%= will_paginate @jobs %>
