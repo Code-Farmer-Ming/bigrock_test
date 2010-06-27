@@ -3,24 +3,29 @@
 <% end %>
 <div id="left_content">
   <h1><%=h @job.title %></h1>
-  <div id="group_info_show" class="main_info">
+  <div id="job_info_show" class="main_info">
+    <div class="r " id="job_applicant_count">
+      <%= @job.applicants.size%>
+      <br/>
+      申请
+    </div>
     <p>
-      <b>类型</b>&nbsp;<%=h @job.type%>&nbsp;&nbsp;&nbsp;&nbsp;
+      <b>类型</b>&nbsp;<%=link_to @job.type,{:action=>'search',:job_type=>@job.type_id}%>&nbsp;&nbsp;&nbsp;&nbsp;
       <b>工作地点</b>&nbsp;
-      <%=h @job.site %>&nbsp;&nbsp;&nbsp;&nbsp;
-    </p>
-    <h6>工作描述</h6>
-    <%= simple_format( h @job.job_description) %>
-    <h6>工作要求</h6>
-    <%=simple_format(h @job.skill_description) %>
-    <p>
-      <b>浏览</b>&nbsp;  <%= @job.view_count %>
-      <b>申请</b>&nbsp;<%= @job.applicants_count%>
+      <%= link_to  @job.state_name,{:action=>'search',:state_id=>@job.state_id} %>.
+      <%= link_to  @job.city_name,{:action=>'search',:state_id=>@job.state_id,:city_id=>@job.city_id} %>
+      &nbsp;
+      <b>浏览</b>&nbsp;<%= @job.view_count %>
       &nbsp;
       <%= link_to_user_name @job.create_user %>
       <b>发布于</b>&nbsp;
       <%= h time_ago_in_words_plus(@job.created_at)  %>
     </p>
+    <h6>工作描述</h6>
+    <%= simple_format( h @job.job_description) %>
+    <h6>工作要求</h6>
+    <%=simple_format(h @job.skill_description) %>
+
   </div>
   <% sub_block_div("评论",(link_to("#{@job.comments.size}条","#post_comment") if @job.comments.size>0)) do%>
     <div id="comments">
@@ -38,14 +43,17 @@
     <%= render :partial=>"jobs/operation",:object=>@job %>
   <%end%>
 
-  <% sub_block_div("公司") do%>
+  <% sub_block_div(" ") do%>
 
     <%= render :partial=>"companies/company_short_info",:object=>@job.owner %>
   <%#= render :partial=>"users/user_short_info",:object=>@job.create_user %>
   <%end%>
   <% sub_block_div("其他职位",link_to("所有",company_jobs_path(@job.owner))) do%>
     <%= render :partial=>"jobs/short_item",:collection=>@job.other_jobs %>
-  <%end%>
-  <% sub_block_div("申请该职位又申请其他的职位") do %>
+  <%end if @job.other_jobs.size>0%>
+  <% sub_block_div("同时申请的其他职位") do %>
+    <ul class="list">
+      <%= render :partial=>'jobs/short_item',:collection=>@job.related_jobs %>
+    </ul>
   <%end%>
 </div>

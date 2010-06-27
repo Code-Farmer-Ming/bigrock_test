@@ -5,13 +5,13 @@ class JobApplicantsControllerTest < ActionController::TestCase
     login_as(users(:one))
   end
   test "should get index" do
-    get :index
+    get :index,:job_id=>jobs(:one)
     assert_response :success
     assert_not_nil assigns(:job_applicants)
   end
 
   test "should get new" do
-    xhr :get, :new,:job_id=>jobs(:one),:company_id=>companies(:one)
+    xhr :get, :new,:job_id=>jobs(:two),:company_id=>companies(:one)
     assert_response :success
   end
 
@@ -42,13 +42,19 @@ class JobApplicantsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  
-
   test "should destroy job_applicant" do
+    @request.env['HTTP_REFERER'] =  published_job_applicants_account_path()
     assert_difference('JobApplicant.count', -1) do
       delete :destroy, :id => job_applicants(:one).to_param
     end
+    assert_redirected_to  published_job_applicants_account_path()
+  end
 
-    assert_redirected_to job_applicants_path
+  test "should batch destroy" do
+    @request.env['HTTP_REFERER'] =  published_job_applicants_account_path()
+    assert_difference('users(:one).published_job_applicants.count', -1) do
+      delete :batch_destroy, :select_applicants =>[job_applicants(:one).to_param]
+    end
+    assert_redirected_to published_job_applicants_account_path
   end
 end

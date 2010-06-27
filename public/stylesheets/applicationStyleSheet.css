@@ -243,6 +243,10 @@ label{
     min-height:125px;
     height:auto !important; 
     height:125px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+#job_info_show{
+    background-color:#daebdc;
 }
 
 .pass_item{
@@ -553,10 +557,10 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 
 /*msg 列表*/
- 
+
 
 .msg_title{
-    width:44%;
+    /*    width:44%;*/
 }
 .msg_title a{
     display:block;
@@ -620,13 +624,13 @@ ul#nav .activelink a,ul#nav a:hover{
 .list li a{
     display: block;
     width:100%;
-/*    padding:2px 4px;*/
+    /*    padding:2px 4px;*/
     max-height:6em;
-/*    margin-bottom:2px;*/
+    /*    margin-bottom:2px;*/
 
 }
 .gray_text{
- color:gray;
+    color:gray;
 }
 
 #current_li a{
@@ -806,6 +810,7 @@ div.auto_complete ul strong.highlight {
     padding:3px;
     text-align:center;
     width:26px;
+    border: 1px solid #e6e6e6;
 }
 .make_up{
     background-color:#E1E9F8;
@@ -1127,7 +1132,6 @@ div.auto_complete ul strong.highlight {
     border: 1px solid #f5e9db;
     display: inline-block;
     padding: 2px 6px;
-
 }
 .hot_link:hover{
     background-color: #fff6ee;
@@ -1135,4 +1139,11 @@ div.auto_complete ul strong.highlight {
 .silver_border{
     border: 1px silver solid;
 }
- 
+#job_applicant_count{
+    background-color:#ffffff;
+    font-size: 1.4em;
+    font-weight: bolder;
+    text-align: center;
+    border: 1px solid #e6e6e6;
+    padding: 3px;
+}

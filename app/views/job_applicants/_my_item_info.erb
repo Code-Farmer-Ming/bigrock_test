@@ -14,9 +14,13 @@
   <td>
     <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>
   </td>
+  <td>
+    <%=  check_box_tag  "select_applicants[]",object.id ,false -%>
+  </td>
 </tr>
 <tr style="display:none" id="<%= dom_id(object,"detail") %>" >
-  <td colspan="5" class="bottom_gray_line" style="width:100%;overflow:auto;" >
+  <td colspan="4" class="bottom_gray_line" style="width:100%;overflow:auto;" >
     <%= h object.memo %>
   </td>
 </tr>
+

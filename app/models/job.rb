@@ -62,9 +62,9 @@ class Job < ActiveRecord::Base
   def apply_job(job_applicant)
     if job_applicant.applicant_user_ids
       unless job_applicant.applicant_user_ids.blank?
-        job_applicant.applicant_user_ids.split(" ").uniq.each do |applicant_id|
+        job_applicant.applicant_user_ids.split(" ").uniq.each do |user_id|
           new_applicant = job_applicant.clone
-          new_applicant.applicant_id = applicant_id
+          new_applicant.applicant_id = user_id
           applicants << new_applicant
         end
       else
@@ -73,10 +73,14 @@ class Job < ActiveRecord::Base
     else
       applicants << job_applicant
     end
-    
   end
-
-  def brach_destroy
-    
+  #相关的职位 根据申请了 这个职位又申请别的职位，按共同申请的数量 排序
+  def related_jobs    
+    Job.find_by_sql( " select a.* ,count(*) from job_applicants x
+                      join job_applicants y  on  x.applicant_id=y.applicant_id
+                      join jobs a on a.id=x.job_id
+                      where y.job_id=#{id} and x.job_id<>#{id}
+                      group by x.job_id
+                      order by count(*) desc ")
   end
 end

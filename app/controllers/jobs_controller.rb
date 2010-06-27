@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+  include ActionView::Helpers::TextHelper
   #  before_filter :check_login?,:except=>[:show]
   #
   before_filter :find_company,:only=>[:new,:edit,:update,:create]
@@ -11,9 +12,6 @@ class JobsController < ApplicationController
       @jobs = @company.jobs.paginate(:conditions=>["title like ? or
                 job_description like ? or skill_description like ?",
           search,search,search],:page=>params[:page])
-      #    else
-      #      @jobs = Job.all(:conditions=>["title like ? or job_description like ? or skill_description like ?",
-      #          search,search,search])
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -27,7 +25,7 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     @page_title = @job.title + "职位 "+  @job.owner.name
     @page_keyworks = @job.title + " 职位"
-    @page_description =  @job.owner.name + " 招聘职位 " + @job.title+@job.job_description
+    @page_description = " 招聘职位 " +  truncate(@job.job_description,:length=>100)
     @comments = @job.comments.paginate :page=>params[:page]
     respond_to do |format|
       format.html # show.html.erb
@@ -110,7 +108,9 @@ class JobsController < ApplicationController
   end
 
   def batch_destroy
-    current_user.published_jobs.destroy(params[:select_jobs])
+    params[:select_jobs].each() do |item|
+      current_user.published_jobs.destroy(item)
+    end
     respond_to do |format|
       format.html { redirect_to(:back) }
       format.xml  { head :ok }
@@ -119,6 +119,7 @@ class JobsController < ApplicationController
   
   #搜索
   def search
+    @page_title = "职位搜索"
     search_word = "%#{params[:search]}%"
     state_id = params[:state_id].to_i
     city_id = params[:city_id].to_i

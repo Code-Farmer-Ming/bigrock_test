@@ -68,9 +68,7 @@ class AccountController < ApplicationController
       @page_description = "提供更真实 客观 公正 有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的个人信息资料"
       #      @news = Piecenews.newly.all(:limit=>4)
       @newly_topics = Topic.newly.limit(8)
-      @logs = LogItem.find(:all,:limit=>4,:order=>"created_at desc");
-      @salary_best_companies =  Company.order_by_salary.limit(5)
-      @condition_best_companies =  Company.order_by_condition.limit(5)
+      @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");     
     end
   end
   
@@ -362,16 +360,19 @@ class AccountController < ApplicationController
 
   def published_jobs
     @user = current_user
+    @page_title = '我发布的职位'
     @jobs = @user.published_jobs.paginate :page=>params[:page]
   end
   
   def published_job_applicants
     @user = current_user
+    @page_title = '发布的职位申请记录'
     @applicants = @user.published_job_applicants.paginate :page=>params[:page]
   end
 
   def job_applicants
     @user = current_user
+    @page_title = '我的职位申请记录'
     @applicants = @user.job_applicants.paginate :page=>params[:page]
   end
   private

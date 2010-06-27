@@ -1,5 +1,5 @@
 class JobApplicantsController < ApplicationController
-  before_filter :find_job
+  before_filter :find_job, :except=>[:batch_destroy,:destroy]
   # GET /job_applicants
   # GET /job_applicants.xml
   def index
@@ -58,7 +58,7 @@ class JobApplicantsController < ApplicationController
         format.html { render :action => "new" }
         format.js{
           render :update do |page|
-             page["lightbox_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
+            page["lightbox_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
           end
         }
         format.xml  { render :xml => @job_applicant.errors, :status => :unprocessable_entity }
@@ -71,12 +71,22 @@ class JobApplicantsController < ApplicationController
   # DELETE /job_applicants/1.xml
   def destroy
     @job_applicant = JobApplicant.find(params[:id])
-    @job_applicant.destroy
+    @job_applicant.try_destroy(current_user)
 
     respond_to do |format|
-      format.html { redirect_to(job_applicants_url) }
+      format.html { redirect_to(:back) }
       format.xml  { head :ok }
     end
+  end
+
+ 
+  #成批删除申请记录
+  def batch_destroy
+    params[:select_applicants].each() do |item|
+      @job_applicant = JobApplicant.find(item)
+      @job_applicant.try_destroy(current_user)
+    end
+    redirect_to(:back)
   end
 
   protected

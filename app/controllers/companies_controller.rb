@@ -1,6 +1,6 @@
 #company judge 环境和 薪水 是否综合到一个参数！！！！
 class CompaniesController < ApplicationController
-     include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags,:search]
   before_filter :find_company,:only=>[:show,:edit,:update,:destroy,:logs,:employee_list]
   # GET /companies
@@ -8,10 +8,7 @@ class CompaniesController < ApplicationController
   def index
     @page_title="公司 首页"
     @page_description="公司信息的首页,提供更真实的公司环境和待遇评价,列出行业分类和公司标签"
-    @newly_companies = Company.newly.all(:limit=>3)
-    @salary_best_companies =  Company.order_by_salary.all(:limit=>3)
-    @condition_best_companies =  Company.order_by_condition.all(:limit=>3)
-    @integration_best_companies =  Company.all(:limit=>3,:order=>"salary_value/company_judges_count desc ,condition_value/company_judges_count desc ")
+    @newly_companies = Company.newly.all(:limit=>4)
     @hot_tags = Company.all_tags(:limit=>20)
     respond_to do |format|
       format.html{} # index.html.erb

@@ -8,6 +8,6 @@ one:
 
 two:
   job_id: 1
-  applicant_id: 1
+  applicant_id: 2
   recommend_id: 1
   memo: MyString

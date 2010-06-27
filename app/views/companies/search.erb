@@ -1,5 +1,5 @@
 <div id="left_content">
-  <h2>公司搜索</h2>
+  <h1>公司搜索</h1>
   <div class="bottom_gray_line "  >
     <p class="r">
       <%= label_tag :search ,"排序",:class=>"filed_lab" %>
@@ -51,7 +51,6 @@
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
         <%= select_tag :city_id,options_for_city(params[:state_id],params[:city_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
-        <%=  drop_list("state_id","city_id",[[0,[[0,'所有市']]]]+State.all.collect {|p| [ p.id,[[0,'所有市']]+p.cities.all.collect{|q| [q.id,q.name] } ] })%>
       </p>
     <%end%>
   <%end%>

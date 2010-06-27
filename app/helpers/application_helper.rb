@@ -82,7 +82,6 @@ module ApplicationHelper
   end
 
   def search_form(url=nil,&block)
-
     form_for "search",:url=> url || {:action=>'search'},:html=>{:method=>"get",:class=>"form_info"},&block
   end
 end

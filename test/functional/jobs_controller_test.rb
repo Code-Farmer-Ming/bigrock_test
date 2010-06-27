@@ -60,10 +60,27 @@ class JobsControllerTest < ActionController::TestCase
   end
 
   test "should destroy job" do
-    @env['HTTP_REFERER'] = 'xx'
+    @request.env['HTTP_REFERER'] =  company_job_url(@company,jobs(:one))
     assert_difference('Job.count', -1) do
       delete :destroy,{ :id => jobs(:one).to_param,:company_id=>@company}
     end
     assert_redirected_to company_jobs_path(@company)
+  end
+
+  test "should destroy job from published job page" do
+    @request.env['HTTP_REFERER'] =  published_jobs_account_path()
+    assert_difference('Job.count', -1) do
+      delete :destroy,{ :id => jobs(:one).to_param,:company_id=>@company}
+    end
+    assert_redirected_to published_jobs_account_path()
+  end
+
+  test "should batch destroy" do
+    @request.env['HTTP_REFERER'] =  published_jobs_account_path()
+    assert_difference('Job.count', -2) do
+      delete :batch_destroy,{:select_jobs=>[jobs(:one).to_param,jobs(:three).to_param]}
+    end
+    assert_redirected_to published_jobs_account_path()
+  
   end
 end

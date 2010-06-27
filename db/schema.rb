@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100531140740) do
+ActiveRecord::Schema.define(:version => 20100621132442) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -211,12 +211,15 @@ ActiveRecord::Schema.define(:version => 20100531140740) do
   end
 
   create_table "job_applicants", :force => true do |t|
-    t.integer  "job_id",       :null => false
-    t.integer  "applicant_id", :null => false
+    t.integer  "job_id",                                     :null => false
+    t.integer  "applicant_id",                               :null => false
     t.integer  "recommend_id"
     t.string   "memo"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_deleted_by_published", :default => false
+    t.boolean  "is_deleted_by_applicant", :default => false
+    t.boolean  "is_read",                 :default => false
   end
 
   create_table "job_titles", :force => true do |t|

@@ -46,3 +46,15 @@ two:
   job_title_id: 2
   create_user_id: 2
   end_at: 2010-04-30 15:11:23
+three:
+  id: 3
+  title: MyString
+  type_id: 1
+  company_id: 1
+  job_description: MyText
+  skill_description: MyText
+  state_id: 1
+  city_id: 1
+  job_title_id: 2
+  create_user_id: 1
+  end_at: 2010-04-30 15:11:23

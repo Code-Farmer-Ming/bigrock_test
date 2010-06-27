@@ -337,9 +337,9 @@ class UserTest < ActiveSupport::TestCase
 
   test 'applied jobs' do
     user_one = users(:one)
-    user_one.applicants.clear()
-    assert_difference('user_one.applied_jobs.count') do
-      user_one.applicants << JobApplicant.new(:job_id=>1)
+    user_one.job_applicants.clear()
+    assert_difference('user_one.job_applicants.count') do
+      user_one.job_applicants << JobApplicant.new(:job_id=>1)
     end
   end
 
@@ -362,7 +362,7 @@ class UserTest < ActiveSupport::TestCase
         :job_description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
       user_one.published_jobs << new_job
       new_job.reload
-      user_one.applicants << JobApplicant.new(:job_id=>new_job.id)
+      user_one.job_applicants << JobApplicant.new(:job_id=>new_job.id)
     end
   end
 

@@ -1,19 +1,29 @@
 <div id="left_content">
   <%= render :partial=>"account/job_type" %>
-  <table>
-    <thead>
-    <th>申请人</th>
-    <th>职位</th>
-    <th>日期</th>
-    <th>操作</th>
-    </thead>
-    <tbody>
-      <%= render :partial=>"job_applicants/item_info",:collection=>@applicants  %>
-    </tbody>
-    <tfoot>
-      
-    </tfoot>
-  </table>
+  <% form_for @applicants,:url=>batch_destroy_job_applicants_path() do |f|%>
+    <table>
+      <thead>
+      <th>申请人</th>
+      <th>职位</th>
+      <th>日期</th>
+      <th>操作</th>
+      <th> <%=  check_box_tag "select", "",false,
+          :onchange=>"$$('input[name=\\'select_applicants[]\\']').each(function(s) \
+  {s.checked = this.checked}.bind(this))"  -%><%= label_tag "select", "选择" %></th>
+      </thead>
+      <tbody>
+        <%= render :partial=>"job_applicants/item_info",:collection=>@applicants  %>
+      </tbody>
+      <tfoot>
+      <td colspan="4">
+        <%= will_paginate @applicants %>
+      </td>
+      <td>
+        <%= f.submit '删除所选' %>
+      </td>
+      </tfoot>
+    </table>
+  <%end%>
 </div>
 <div id="right_content">
 

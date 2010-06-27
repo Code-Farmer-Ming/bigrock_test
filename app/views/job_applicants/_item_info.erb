@@ -15,12 +15,17 @@
   <td><%=date_ago_in_words(object.created_at) %></td>
 
   <td>
-    <%= link_to "查看详细", company_job_applicant_path(object.job.owner,object.job,object) %>
+    <%= link_to "详细", company_job_applicant_path(object.job.owner,object.job,object) %>
+    <%= link_to  '删除', company_job_applicant_path(object.job.owner,object.job,object),:class=>"red_text", :confirm => '确定删除吗?',
+      :method => :delete,:class=>"red_text" -%>
     <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>
+  </td>
+  <td>
+    <%=  check_box_tag  "select_applicants[]",object.id ,false -%>
   </td>
 </tr>
 <tr style="display:none" id="<%= dom_id(object,"detail") %>" >
-  <td colspan="5" class="bottom_gray_line" style="width:100%;overflow:auto;" >
+  <td colspan="6" class="bottom_gray_line" style="width:100%;overflow:auto;" >
     <%= h object.memo %>
   </td>
 </tr>

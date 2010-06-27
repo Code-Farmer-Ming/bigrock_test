@@ -9,9 +9,10 @@ show_company ||= nil%>
       </small>
     <%end%>
   </td>
-  <td><%=h job.site %></td>
+  <td> <%= link_to  object.state_name,{:action=>'search',:state_id=>object.state_id} %>.
+    <%= link_to  object.city_name,{:action=>'search',:state_id=>object.state_id,:city_id=>object.city_id} %></td>
   <td><%=date_ago_in_words(job.created_at) %></td>
-  <td><%=h job.type %></td>
+  <td><%=link_to object.type,{:action=>'search',:job_type=>object.type_id}%></td>
   <td>
     <%= link_to "详细",company_job_path(object.owner,object) %>
     <%if current_user?(object.create_user)%>

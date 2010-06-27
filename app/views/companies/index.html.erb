@@ -1,34 +1,11 @@
 <div id="left_content">
   <% sub_block_div("") do%>
-    <%tabs do%>
-      <%= tab_button("综合最满意的公司","top_5_integration_company" ) %>
-      <%= tab_button("待遇最满意的公司","top_5_salary_company") %>
-      <%= tab_button("环境最满意的公司","top_5_condition_company") %>
-    <%end%>
-    <div>
-      <div class="panel" id="top_5_integration_company">
-        <%= render :partial=>"companies/company_rank",:collection=>@integration_best_companies %>
+    <div >
+      <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入公司名称"} %></div>
 
-        <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc',:condition_order=>'desc'} %>
-
-      </div>
-      <div class="panel" id="top_5_salary_company">
-        <%= render :partial=>"companies/company_rank",:collection=> @salary_best_companies  %>
-
-
-        <%=  link_to "更多…",{:action=>'search',:salary_order=>'desc'} %>
-
-      </div>
-      <div  class="panel" id="top_5_condition_company">
-        <%= render :partial=>"companies/company_rank",:collection=> @condition_best_companies  %>
-
-        <%=  link_to "更多…",{:action=>'search',:condition_order=>'desc'} %>
-
-      </div>
-    </div>
   <%end%>
 
-  <% sub_block_div("公司行业") do%>
+  <% sub_block_div("行业") do%>
     <%i= 1%>
     <ul id="industry_link_list" class="set_center">
       <% Industry.all.each do |item| -%>
@@ -44,12 +21,9 @@
   <%end%>
 </div>
 <div id="right_content">
-  <% sub_block_div() do%>
-    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入公司名称"} %>
-  <%end%>
-  <% sub_block_div() do%>
-    <%= link_to "我来创建公司" ,new_company_path(),:class=>"button"%>
-  <%end%>
+
+<%#= link_to "我来创建公司" ,new_company_path(),:class=>"button"%>
+
   <% sub_block_div("最新加入的公司") do%>
     <%= render :partial=>"companies/company_short_info",:collection=>@newly_companies %>
   <%end%>

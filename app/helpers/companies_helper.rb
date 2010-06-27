@@ -6,11 +6,11 @@ module CompaniesHelper
   end
 
   def options_for_salary_order(default_state)
-    options_for_select([['不排序',""],["按待遇升序",'asc'],["按待遇降序",'desc']],default_state.to_i)
+    options_for_select([['不排序',""],["按待遇升序",'asc'],["按待遇降序",'desc']],default_state)
   end
 
   def options_for_condition_order(default_state)
-    options_for_select([['不排序',""],["按环境升序",'asc'],["按环境降序",'desc']],default_state.to_i)
+    options_for_select([['不排序',""],["按环境升序",'asc'],["按环境降序",'desc']],default_state)
   end
 
   def options_for_industry(default_id)

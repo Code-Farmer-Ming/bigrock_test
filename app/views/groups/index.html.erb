@@ -1,34 +1,26 @@
 <div id="left_content">
   <% sub_block_div() do%>
-    <div class="l half_width">
-      <% sub_block_div("最活跃的小组") do%>
-        <ul class="float_ul">
-          <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
-        </ul>
-      <%end%>
-    </div>
-    <div class="r half_width">
-      <% sub_block_div("最新创建的小组") do%>
-        <ul class="float_ul">
-          <%= render :partial=>"groups/float_icon_name",:collection=> Group.new_groups.all(:limit=>6)%>
-        </ul>
-      <%end%>
-    </div>
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入小组名称"} %>
+  <%end%>
+  <% sub_block_div("小组热门标签",link_to("全部",tags_path(:type=>:Group))) do %>
+    <%= render :partial=>"tags/tag_info" ,:collection=>@hot_tags,:locals=>{:type=>:Group}  %><%=  link_to("…",tags_path(:type=>:Group))%>
   <%end%>
   <% sub_block_div("最新话题") do %>
     <%= render :partial=>"topics/topic_item",:collection=>Topic.group_topics.order_by_last_comment.all(:limit=>20),:locals=>{:show_group=>true}%>
   <%end%>
-
 </div>
 <div id="right_content">
   <% sub_block_div() do %>
-    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入小组名称"} %>
-  <%end%>
-
-  <% sub_block_div() do %>
     <%= link_to "我来创建小组" ,new_group_path(),:class=>"button"%>
   <%end%>
-  <% sub_block_div("小组标签",link_to("全部",tags_path(:type=>:Group))) do %>
-    <%= render :partial=>"tags/tag_info" ,:collection=>@hot_tags,:locals=>{:type=>:Group}  %><%=  link_to("…",tags_path(:type=>:Group))%>
+  <% sub_block_div("最活跃的小组") do%>
+    <ul class="float_ul">
+      <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
+    </ul>
+  <%end%>
+  <% sub_block_div("最新创建的小组") do%>
+    <ul class="float_ul">
+      <%= render :partial=>"groups/float_icon_name",:collection=> Group.new_groups.all(:limit=>6)%>
+    </ul>
   <%end%>
 </div>
