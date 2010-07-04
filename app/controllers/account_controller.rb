@@ -52,6 +52,7 @@ class AccountController < ApplicationController
   def show
     @add_friend_request_size = 0
     @join_group_invites_size =0
+    @unread_job_apply_size =0
     @user= current_user
     if @user
       @page_title =" #{@user.name} 的首页"
@@ -62,10 +63,11 @@ class AccountController < ApplicationController
       @join_topics =  @user.reply_topics.find(:all,:limit=>20)
       @add_friend_request_size = @user.add_friend_applications.size
       @join_group_invites_size = @user.join_group_invites.size
+      @unread_job_apply_size = @user.unread_published_job_applicants.size
     else
       @page_title ="首页"
-      @page_keywords="谁靠谱,公司,简历,评分,待遇,环境,小组"
-      @page_description = "提供更真实 客观 公正 有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的个人信息资料"
+      @page_keywords="公司,简历,找工作,评分,待遇,环境,小组"
+      @page_description = "提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的个人信息资料。"
       #      @news = Piecenews.newly.all(:limit=>4)
       @newly_topics = Topic.newly.limit(8)
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");     

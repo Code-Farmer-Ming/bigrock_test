@@ -81,7 +81,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   map.resources :tags
-  map.resources :jobs ,:collection=>{:batch_destroy=>[:delete]},:only=>[:index,:batch_destroy]
+  map.resources :jobs ,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:index,:batch_destroy]
   map.resources :job_applicants ,:collection=>{:batch_destroy=>[:delete]},:only=>[:batch_destroy]
   # The priority is based upon order of creation: first created -> highest priority.
 

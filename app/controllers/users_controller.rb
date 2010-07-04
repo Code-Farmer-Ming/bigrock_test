@@ -33,12 +33,12 @@ class UsersController < ApplicationController
     @page_title ="#{@user.name} 好友列表"
 
     case params[:type]
-    when "my_follow"
-      @friends_user =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
-        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-    when "follow_me"
-      @friends_user =@user.follow_me_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
-        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+#    when "my_follow"
+#      @friends_user =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
+#        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+#    when "follow_me"
+#      @friends_user =@user.follow_me_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
+#        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     when "follow_company"
       @friends_user =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     else

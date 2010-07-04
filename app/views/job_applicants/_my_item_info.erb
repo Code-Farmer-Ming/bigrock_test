@@ -1,4 +1,4 @@
-<tr class="<%= cycle("gray_background", "") %>">
+<tr class="<%= cycle("gray_background", "")  %> <%= " bold_text_row" unless object.is_read   %>">
 
   <td>
     <%= link_to(h(object.job.title), [object.job.owner,object.job]) %>

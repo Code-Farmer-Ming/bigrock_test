@@ -1,5 +1,5 @@
 class JobApplicantsController < ApplicationController
-  before_filter :find_job, :except=>[:batch_destroy,:destroy]
+  before_filter :find_job, :except=>[:show,:batch_destroy,:destroy]
   # GET /job_applicants
   # GET /job_applicants.xml
   def index
@@ -14,8 +14,8 @@ class JobApplicantsController < ApplicationController
   # GET /job_applicants/1
   # GET /job_applicants/1.xml
   def show
-    @job_applicant = @job.applicants.find(params[:id])
-
+    @job_applicant = current_user.published_job_applicants.find(params[:id])
+    @job_applicant.read
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @job_applicant }

@@ -112,10 +112,9 @@ label{
 .container{
     padding:0px 35px;
     height:100%;
-    min-height: 440px;
+    min-height: 300px;
     height:auto !important; 
-    height: 440px;
-
+    height: 300px;
 }
 
 #resume_content .inplaceeditor-form,.partial_container{
@@ -189,6 +188,7 @@ label{
 }
 #search_content{
     margin-top: 120px;
+    height: 300px;
 }
 /*用户注册页面*//*用户登录页面*/
 #new_user_page .text,
@@ -283,9 +283,9 @@ label{
     height:100%;
     width:29%;
     border-left:1px solid #EdEdEd;
-    min-height:500px;
+    min-height:440px;
     height:auto !important;
-    height:500px;
+    height:440px;
 }
 
 div.auto_complete ul li {
@@ -431,11 +431,15 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 .red_text{
     color:#ff3333;
-    font-weight:bold;
-    font-size:14px;
+/*    font-weight:bold;
+    font-size:14px;*/
 }
+
 .big_text{
     font-size:2.5em;
+}
+.strong{
+    font-weight:bolder;
 }
 .pass_judge{
     padding:4px;
@@ -622,7 +626,7 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 
 .list li a{
-    display: block;
+/*    display: block;*/
     width:100%;
     /*    padding:2px 4px;*/
     max-height:6em;
@@ -632,6 +636,7 @@ ul#nav .activelink a,ul#nav a:hover{
 .gray_text{
     color:gray;
 }
+
 
 #current_li a{
     color:black;
@@ -1146,4 +1151,7 @@ div.auto_complete ul strong.highlight {
     text-align: center;
     border: 1px solid #e6e6e6;
     padding: 3px;
+}
+.bold_text_row td {
+    font-weight: bolder;
 }

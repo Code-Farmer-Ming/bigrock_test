@@ -1,12 +1,13 @@
 <% job = object
 show_company ||= nil%>
 <tr class="<%= cycle("gray_background", "") %>">
-  <td><%= highlight(link_to(h(job.title), [job.owner,job]),params[:search]) %>
+  <td><%= highlight(link_to(h(job.title), [job.owner,job]),params[:search]) %> 
+    <%if job.applicants.size>0%> <span class="quiet small"><%= job.applicants.size %>个申请</span><%end%>
     <% if show_company %>
       <br/>
-      <small>
+      <span class="small">
         <%= link_to job.owner.name,job.owner %>
-      </small>
+      </span>
     <%end%>
   </td>
   <td> <%= link_to  object.state_name,{:action=>'search',:state_id=>object.state_id} %>.
@@ -17,7 +18,7 @@ show_company ||= nil%>
     <%= link_to "详细",company_job_path(object.owner,object) %>
     <%if current_user?(object.create_user)%>
       <%= link_to '编辑',edit_company_job_path(object.owner,object) %>
-      <%= link_to  '删除', company_job_path(object.owner,object),:class=>"red_text", :confirm => '确定删除吗?',
+      <%= link_to  '删除', company_job_path(object.owner,object), :confirm => '确定删除吗?',
         :method => :delete,:class=>"red_text" -%>
     <%end%>
     <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>

@@ -308,7 +308,10 @@ class User< ActiveRecord::Base
   has_many :published_jobs,:class_name=>"Job",:foreign_key => "create_user_id"
   #发布的招聘信息 申请记录
   has_many :published_job_applicants,:through=>:published_jobs,:source=>:applicants,
-    :conditions=>"is_deleted_by_published<>true"
+    :conditions=>"is_deleted_by_published<>true",:order=>"is_read ,created_at desc"
+
+  has_many :unread_published_job_applicants,:through=>:published_jobs,:source=>:applicants,
+    :conditions=>"is_deleted_by_published<>true and not is_read"
 
   #工作申请记录
   has_many :job_applicants,:class_name=>'JobApplicant',:foreign_key=>'applicant_id',

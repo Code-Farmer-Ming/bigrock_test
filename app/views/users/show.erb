@@ -59,10 +59,6 @@
       <%unless   @user.friend_users.size>0%>
         <p>还没有好友</p>
       <%end%>
-      <%=   link_to("关注#{@user.my_follow_users.size}人",friends_user_path(@user,:type=>"my_follow")) if @user.my_follow_users.size>0%>
-      &nbsp;&nbsp;
-      <%=   link_to("被#{ @user.follow_me_users.size}人关注",friends_user_path(@user,:type=>"follow_me")) if @user.follow_me_users.size>0%>
-      &nbsp;&nbsp;
       <%=   link_to("全部好友…",friends_user_path(@user)) if @user.friend_users.size>0%>
     </div>
 
@@ -71,10 +67,6 @@
       <%unless    @user.current_resume.has_yokemates?%>
         <p>还没有同事，赶快邀请同事进来吧。</p>
       <%end%>
-      <%=   link_to("给同事的评价" ,judged_yokemate_account_path()) if current_user?(@user) %>
-      &nbsp;&nbsp;
-      <%=   link_to("未评价同事" ,unjudge_yokemate_account_path()) if current_user?(@user) %>
-      &nbsp;&nbsp;
       <%=  link_to("全部同事…",yokemate_list_user_path(@user)) if @user.current_resume.has_yokemates?%>
     </div>
   </div>

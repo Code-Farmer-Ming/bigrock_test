@@ -1,3 +1,10 @@
+<% is_show_company ||= nil %>
 <li class="<%= cycle("topic_item gray_background", "topic_item") %>">
-  <div class="date_field r"> <%= date_ago_in_words(object.created_at)+"发布" %></div>  <%= link_to h(object.title),company_job_path(object.owner,object)  %>
+  <div class="quiet r"> <%= date_ago_in_words(object.created_at)+"发布" %></div>
+  <%= link_to h(object.title),company_job_path(object.owner,object)  %><%if object.applicants.size>0%>
+    <span class="quiet small"><%= object.applicants.size %>个申请</span><%end%>
+  <% if is_show_company %>
+    <br/>
+    <%= link_to object.owner.name, object.owner,:class=>"small"%>
+  <%end%>
 </li>

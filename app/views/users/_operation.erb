@@ -18,11 +18,11 @@
       :confirm => '你确定吗?'},:class=>"button negative" %>
   <%end%>
 
-  <%if !current_user.my_follow_users.exists?(user) %>
-    <%= link_to_remote "关注",{:url=>attention_account_path(:target_id=>user,:target_type=>user.class)} ,:class=>"button"%>
-  <%else%>
-    <%= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>user,:target_type=>user.class)},:class=>"button" %>
-  <%end%>
+  <%#if !current_user.my_follow_users.exists?(user) %>
+    <%#= link_to_remote "关注",{:url=>attention_account_path(:target_id=>user,:target_type=>user.class)} ,:class=>"button"%>
+  <%#else%>
+    <%#= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>user,:target_type=>user.class)},:class=>"button" %>
+  <%#end%>
   <%= link_to "发消息" ,new_account_msg_path(:write_to=>user) ,:class=>"button"%>
 <%else%>
 

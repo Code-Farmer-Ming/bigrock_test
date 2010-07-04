@@ -4,7 +4,7 @@
         :class=>(controller.action_name=="published_jobs") ?  "active-tab" :""   %> </li>
     <li><%= link_to "发布职位申请记录", {:action=>:published_job_applicants},
         :class=>(controller.action_name=="published_job_applicants") ?  "active-tab" :""   %> </li>
-    <li><%= link_to   "我申请的职位记录", {:action=>"job_applicants"},
+    <li><%= link_to   "我申请的职位", {:action=>"job_applicants"},
         :class=>(controller.action_name=="job_applicants") ?  "active-tab" :""  %></li>
   </ul>
   <p class="clear_float"></p>

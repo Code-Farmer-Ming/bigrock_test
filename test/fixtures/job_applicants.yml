@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: job_applicants
+#
+#  id                      :integer       not null, primary key
+#  job_id                  :integer       not null
+#  applicant_id            :integer       not null
+#  recommend_id            :integer       
+#  memo                    :string(255)   
+#  created_at              :datetime      
+#  updated_at              :datetime      
+#  is_deleted_by_published :boolean       
+#  is_deleted_by_applicant :boolean       
+#  is_read                 :boolean       
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

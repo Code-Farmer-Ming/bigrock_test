@@ -1,7 +1,7 @@
 <% company=   show_star_rating %>
 <div >
   待遇
-  <%= middle_star(company.judges.average("salary_value") || 0) %><span class="red_text"><%= company.judges.average("salary_value").to_f.round(1) %></span>
+  <%= middle_star(company.judges.average("salary_value") || 0) %><span class="red_text large strong"><%= company.judges.average("salary_value").to_f.round(1) %></span>
   <%=  link_to_function "详细>>", " Element.toggle('#{dom_id(company,"salary_detail_judge")}');if (Element.visible('#{dom_id(company,"salary_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
   <div id="<%=  dom_id(company,"salary_detail_judge") %>" style="display:none" class="detail_judge" >
     <% for i in 1..5 %>
@@ -12,7 +12,7 @@
 </div>
 <div>
   环境
-  <%= middle_star(company.judges.average("condition_value")|| 0) %><span class="red_text"><%=  company.judges.average("condition_value").to_f.round(1)%></span>
+  <%= middle_star(company.judges.average("condition_value")|| 0) %><span class="red_text large strong"><%=  company.judges.average("condition_value").to_f.round(1)%></span>
   <%=  link_to_function "详细>>", " ;Element.toggle('#{dom_id(company,"condition_detail_judge")}');if (Element.visible('#{dom_id(company,"condition_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
   <%= link_to("共#{company.judges.size}人评价",company_company_judges_path(company)) if company.judges.size>0 %>
   <span id="judge_operation">

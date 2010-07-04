@@ -101,15 +101,13 @@
     </div>
   </div>
   <% sub_block_div("招聘职位(#{@company.jobs.size})",link_to("全部",company_jobs_path(@company))) do %>
-      <ul class="list">
-        <%= render :partial=>"jobs/short_item",:collection=>@company.jobs.limit(5) %>
-      </ul>
-<%end%>
-
+    <ul class="list">
+      <%= render :partial=>"jobs/short_item",:collection=>@company.jobs.limit(5) %>
+    </ul>
+  <%end%>
   <% sub_block_div("动态",(link_to("全部",logs_company_path(@company)) if @company.log_items.size>0)) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@company.log_items.all(:limit=>4),:locals=>{:hide_left=>true} %>
   <%end%>
-
 
   <% sub_block_div("相关公司") do %>
     <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies.limit(4) %>

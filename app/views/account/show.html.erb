@@ -16,6 +16,11 @@
         <span id="user_count"><%= User.real_users.size %></span>人
       </h3>
     </div>
+    <%sub_block_div("热门职位",link_to("更多",search_jobs_path())) do%>
+      <ul class="list">
+        <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>
+      </ul>
+    <%end%>
     <%sub_block_div("最活跃小组",link_to("更多",groups_path())) do%>
       <ul class="float_ul">
         <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
@@ -30,7 +35,19 @@
       <%= javascript_include_merged :dragdrop %>
     <%end %>
     <h1>欢迎，<%= current_user.name %></h1>
-
+    <% sub_block_div() do%>
+      <ul class="list">
+        <li> <%=  link_to "发布的职位 #{@user.published_jobs.size} 个", {:action=>:published_jobs} %></li>
+        <li>  <%=  link_to "申请 #{@user.published_job_applicants.size}" , {:action=>:published_job_applicants}%></li>
+        <li> <%= link_to "我申请的职位 #{@user.job_applicants.size}", {:action=>:job_applicants} %></li>
+        <li>
+          <%=   link_to("给同事的评价" ,judged_yokemate_account_path())  %>
+        </li>
+        <li>
+          <%=   link_to("未评价同事" ,unjudge_yokemate_account_path()) %>
+        </li>
+      </ul>
+    <%end %>
     <% sub_block_div(" ") do%>
       <%tabs do%>
         <%= tab_button("最新的话题","new_topics") %>
@@ -57,21 +74,27 @@
 <%# sub_block_div() do%>
 <%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、公司博客、话题、小组"} %>
 <%#end%>
-  <% sub_block_div() do%>
-    <%=  link_to "发布的职位 #{@user.published_jobs.size} 个", {:action=>:published_jobs} %>
-    <%=  link_to "申请 #{@user.published_job_applicants.size}" , {:action=>:published_job_applicants}%>
-    <%= link_to "我申请的职位 #{@user.job_applicants.size}", {:action=>:job_applicants} %>
-  <%end if @user%>
+
   <% sub_block_div("申请") do%>
-    <p> 你有 <span class='red_text'><%= @add_friend_request_size %></span> 个好友申请
-      &nbsp;
-      <%= link_to "查看…" ,account_add_friend_applications_path() %>
-    </p>
-  <%end  if  @add_friend_request_size>0 %>
+    <%if @add_friend_request_size>0%>
+      <p> 有 <span class='red_text large strong'><%= @add_friend_request_size %></span> 个好友申请
+        &nbsp;
+        <%= link_to "查看…" ,account_add_friend_applications_path() %>
+      </p>
+    <%end%>
+    <%if @unread_job_apply_size>0%>
+      <p>
+        有<span class="red_text large strong">
+          <%= @unread_job_apply_size %>
+        </span>个未读的职位申请&nbsp;
+        <%= link_to "查看…", {:action=>:published_job_applicants} %>
+      </p>
+    <%end%>
+  <%end  if  @add_friend_request_size+@unread_job_apply_size>0 %>
 
   <% sub_block_div("邀请") do %>
     <p>
-      你有 <span class='red_text'><%= @join_group_invites_size %></span> 个加入小组邀请
+      你有 <span class='red_text large strong'><%= @join_group_invites_size %></span> 个加入小组邀请
       &nbsp;
       <%= link_to "查看…",
         account_join_group_invites_path() %>

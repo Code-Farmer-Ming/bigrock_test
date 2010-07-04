@@ -17,6 +17,7 @@
 #  company_id        :integer       
 #  view_count        :integer       default(0)
 #  applicants_count  :integer       default(0)
+#  comments_count    :integer       default(0)
 #
 
 class Job < ActiveRecord::Base

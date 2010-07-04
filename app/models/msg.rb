@@ -70,12 +70,7 @@ class Msg < ActiveRecord::Base
     end
     true
   end
-
-  
-
-  def self.per_page
-    20
-  end
+ 
 
   #是否可以回复
   def can_response?
