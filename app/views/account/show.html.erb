@@ -36,17 +36,15 @@
     <%end %>
     <h1>欢迎，<%= current_user.name %></h1>
     <% sub_block_div() do%>
-      <ul class="list">
-        <li> <%=  link_to "发布的职位 #{@user.published_jobs.size} 个", {:action=>:published_jobs} %></li>
-        <li>  <%=  link_to "申请 #{@user.published_job_applicants.size}" , {:action=>:published_job_applicants}%></li>
-        <li> <%= link_to "我申请的职位 #{@user.job_applicants.size}", {:action=>:job_applicants} %></li>
-        <li>
-          <%=   link_to("给同事的评价" ,judged_yokemate_account_path())  %>
-        </li>
-        <li>
-          <%=   link_to("未评价同事" ,unjudge_yokemate_account_path()) %>
-        </li>
-      </ul>
+
+      <%=  link_to "我发布的职位 #{@user.published_jobs.size}个", {:action=>:published_jobs},:class=>"button" %>
+      <%=  link_to "申请 #{@user.published_job_applicants.size}" , {:action=>:published_job_applicants},:class=>"button" %>
+      <%= link_to "我申请的职位 #{@user.job_applicants.size}", {:action=>:job_applicants} ,:class=>"button" %>
+      <%=   link_to("我给同事的评价" ,judged_yokemate_account_path(),:class=>"button" )  %>
+      <%=   link_to("未评价的同事" ,unjudge_yokemate_account_path(),:class=>"button" ) %>
+
+      <%= link_to "我给公司的评价", judged_company_account_path(),:class=>"button"  %>
+      <%= link_to "未评价的公司",unjudge_company_account_path() ,:class=>"button"  %>
     <%end %>
     <% sub_block_div(" ") do%>
       <%tabs do%>

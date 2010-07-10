@@ -4,32 +4,22 @@ class CompanyJudgesController < ApplicationController
   def new
     @page_title=" 评价公司"
     @company_judge= CompanyJudge.new
-    @company_judge.company = Company.find(params[:company_id])
+    company = Company.find(params[:company_id])
+    @company_judge.company = company
     respond_to do |format|
       format.html {}# new_judge.html.erb
-      format.js { }# new_judge.js.erb
-      format.xml  { render :xml => @company_judge }
-    end
-  end
-  #这个 new_form 显示 form 用 参数传递给 new
-  def new_form
-    company = Company.find(params[:company_id])
-    respond_to do |format|
-      format.html { redirect_to :action=>:new,:company_id=>params[:company_id] }
-      format.js  {
-
-        render :update do |page|
-          if  company.employee?(current_user)
-            page << "Lightbox.show('/company_judges/new?company_id=#{params[:company_id]}')"
-          else
+      format.js {
+        if  !company.employee?(current_user)
+          render :update do |page|
             flash.now[:notice] = "必须是公司的员工才能评价"
             page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
           end
         end
-      }
+      } 
+      format.xml  { render :xml => @company_judge }
     end
   end
-
+ 
   def create
     @company = Company.find(params[:company_id])
     @judge = CompanyJudge.new(params[:company_judge])

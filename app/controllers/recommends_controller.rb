@@ -21,18 +21,7 @@ class RecommendsController < ApplicationController
     @recommends = Recommend.
       paginate_all_by_recommendable_id_and_recommendable_type(params[:recommendable_id],params[:recommendable_type],:page=>params[:page])
   end
-  #显示 推荐窗口
-  def new_form
-    respond_to do |format|
-      format.html { redirect_to :action=>:new,:recommendable_type=>params[:recommendable_type],
-        :recommendable_id =>params[:recommendable_id]}
-      format.js  {
-        render :update do |page|
-          page << "Lightbox.show('/recommends/new?recommendable_id=#{params[:recommendable_id]}&recommendable_type=#{params[:recommendable_type]}')"
-        end
-      }
-    end
-  end
+ 
 
   # POST /recommends
   # POST /recommends.xml

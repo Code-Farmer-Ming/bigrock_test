@@ -19,7 +19,7 @@
   <%end%>
   <%= work_item.name%>
 </div>
-<p  class="date_field">
+<p  class="quiet">
   <%= localize(work_item.begin_date,:format=>:long_month)%> - <%=  localize(work_item.end_date,:format=>:long_month)%>  (<%= distance_of_time_in_words(work_item.begin_date,work_item.end_date)%>)
 </p>
 <p>

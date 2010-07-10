@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   include ActionView::Helpers::TextHelper
-  #  before_filter :check_login?,:except=>[:show]
+  before_filter :check_login?,:except=>[:show,:index,:search]
   #
   before_filter :find_company,:only=>[:new,:edit,:update,:create]
   # GET /jobs

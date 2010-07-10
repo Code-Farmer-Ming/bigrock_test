@@ -21,7 +21,7 @@
   <%=edu.school_name%>
 </h4>
 <div ><%=edu.major%> <%= edu.degree %></div>
-<p class="date_field">
+<p class="quiet">
   <%=  localize(edu.begin_date,:format=>:long_month) %> - <%= localize(edu.end_date,:format=>:long_month)%> (<%= distance_of_time_in_words(edu.begin_date,edu.end_date)%>)
 </p>
 <p>

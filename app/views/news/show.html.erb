@@ -7,7 +7,7 @@
       <%= render :partial=>"comm_partial/up_down_operation",:object=>@piece_of_news %>
     </div>
     <div>
-      <p class="date_field">
+      <p class="quiet">
         <%=link_to @piece_of_news.create_user.name ,user_path(@piece_of_news.create_user) %>
         发布于 <%= " #{time_ago_in_words_plus(@piece_of_news.created_at)}" %>
         <%=link_to(@piece_of_news.last_edit_user.name ,users_path(@piece_of_news.last_edit_user))+ " 修改于  #{time_ago_in_words_plus(@piece_of_news.last_edit_at)}"  \

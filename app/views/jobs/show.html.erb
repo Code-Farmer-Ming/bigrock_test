@@ -19,7 +19,7 @@
       &nbsp;
       <%= link_to_user_name @job.create_user %>
       <b>发布于</b>&nbsp;
-      <%= h time_ago_in_words_plus(@job.created_at)  %>
+      <span class="quiet"><%= h time_ago_in_words_plus(@job.created_at)  %></span>
     </p>
     <h6>工作描述</h6>
     <%= simple_format( h @job.job_description) %>

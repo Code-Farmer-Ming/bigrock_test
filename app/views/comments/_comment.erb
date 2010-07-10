@@ -11,7 +11,7 @@ is_manager ||= nil
     <%= render :partial=>"users/user_icon_name",:object=>comment.user %>
   </div>
   <div class="icon_right_content">
-    <p class="date_field">
+    <p class="quiet">
       <%= time_ago_in_words_plus(comment.created_at) %>
     </p>
     <div id="<%= dom_id(comment,"content") %>" ><%=  simple_format(h(comment.content)) %></div>

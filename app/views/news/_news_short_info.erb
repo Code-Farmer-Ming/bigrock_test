@@ -17,7 +17,7 @@ show_icon ||= false
 
 <%#*</p>%>
 
-    <p class="date_field">
+    <p class="quiet">
       <%=link_to piece_news.create_user.name ,user_path(piece_news.create_user) %> <%= " #{time_ago_in_words_plus(piece_news.created_at)} 发布 " %>
       <%=  link_to(piece_news.last_edit_user.name ,users_path(piece_news.last_edit_user)) + " #{time_ago_in_words_plus(piece_news.created_at)} 修改" if  piece_news.last_edit_user%>
     </p>

@@ -37,15 +37,16 @@ class UserSetting < ActiveRecord::Base
   #判断 用户是否有权限 查看
   #name 哪个权限 user 要判断的用户
   def can_visibility?(name,user)
-    if self.user !=user
-      case (self[name])
-      when UserSetting::VISIBILITY_TYPES[0] then return true
-      when  UserSetting::VISIBILITY_TYPES[1] then return self.user.is_friend?(user)
-      else
-        return false
-      end
-    else
-      true
-    end
+    true
+    #    if self.user !=user
+    #      case (self[name])
+    #      when UserSetting::VISIBILITY_TYPES[0] then return true
+    #      when  UserSetting::VISIBILITY_TYPES[1] then return self.user.is_friend?(user)
+    #      else
+    #        return false
+    #      end
+    #    else
+    #      true
+    #    end
   end
 end

@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   def check_login?
     if (cookies[:auto_login_user_id].nil?)
       if request.xhr?
-        redirect_to login_account_path(:js)
+        redirect_to login_account_path(:format=>:js,:from=>params[:from])
       else
         flash[:notice] = "请先登录后才能进行操作"
         redirect_to login_account_path(:reurl=>url_for())

@@ -20,7 +20,7 @@ class CompaniesController < ApplicationController
   def show
     @page_title=" #{@company.name}"
     @page_description =  truncate(@company.description,:length=>100)
-    @page_keywords = @company.tag_list + " 评价信息,话题,员工 相关公司"
+    @page_keywords = @company.tag_list + " 评价信息,话题,员工 相关公司 招聘"
     respond_to do |format|
       format.html {} # show.html.erb
       format.xml  { render :xml => @company }

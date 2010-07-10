@@ -22,7 +22,7 @@
         <%= h pass.title%>
       </div>
     <%end%>
-    <div class="date_field">评价
+    <div class="quiet">评价
       <%= small_star(user_short_info.avg_judge_value|| 0) %>
       <span class="red_text large strong"><%=  user_short_info.avg_judge_value%></span>
       (<%= link_to  "#{user_short_info.judges.size}人评价",user_judges_path(user_short_info) %>)

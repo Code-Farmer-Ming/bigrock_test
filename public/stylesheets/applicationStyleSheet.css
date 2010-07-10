@@ -254,13 +254,6 @@ label{
     margin-bottom:10px;
     border-bottom:1px dotted silver;
 }
-.date_field{
-    color:#999;
-    font-size:99%;
-    /*    padding:0px;
-      margin:0px;
-     margin-bottom:4px;*/
-}
 /*单列的界面*/
 #single_column{
     width:890px;
@@ -633,11 +626,7 @@ ul#nav .activelink a,ul#nav a:hover{
     /*    margin-bottom:2px;*/
 
 }
-.gray_text{
-    color:gray;
-}
-
-
+ 
 #current_li a{
     color:black;
     background-color: #E1E9F8;
@@ -826,6 +815,7 @@ div.auto_complete ul strong.highlight {
 /*----------------*/
 .main_content{
     border-bottom:1px silver solid;
+    line-height:1.6em;
     margin-bottom:6px;
     min-height:100px;
     height: auto!important;
@@ -882,10 +872,7 @@ div.auto_complete ul strong.highlight {
     text-decoration:underline;
 }
 /*XX 最后回复 于 */
-.topic_item span{
-    font-size:90%;
-    color:gray;
-}
+ 
 #topic_content h1{
     font-size:25px;
 }

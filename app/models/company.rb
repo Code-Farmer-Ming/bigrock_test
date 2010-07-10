@@ -203,9 +203,9 @@ class Company < ActiveRecord::Base
     return !errors.add("限制","资料真实度需要4星，才可以执行哦。") unless higher_creditability_employees.exists?(employee)
     return true
   end
-  def add_job(job,employee)
-    if current_employee_and_higher_creditability(employee)
-      job.create_user = employee
+  def add_job(job,post_employee)
+    if current_employee_and_higher_creditability(post_employee)
+      job.create_user = post_employee
       jobs << job
     end
   end

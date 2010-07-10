@@ -214,7 +214,7 @@ label{ cursor: pointer}
 #group_info_show{ background-color:#F7EAEA}
 #group_content , #resume_content{ min-height:125px; height:auto !important; height:125px}
 .pass_item{ padding-bottom:10px; margin-bottom:10px; border-bottom:1px dotted silver}
-.date_field{ color:#999; font-size:99%;  }
+.quiet{ color:#999; font-size:99%;  }
  #single_column{ width:890px; margin: 0px auto}
 #left_content{ float:left; width:68%; padding:0px; margin:0px; padding-right:12px;  }
 #right_content{ float:left; padding:0px; margin:0px; padding-left:12px; height:100%; width:29%; border-left:1px solid #EdEdEd; min-height:500px; height:auto !important; height:500px}

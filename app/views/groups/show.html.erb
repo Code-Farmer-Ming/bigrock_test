@@ -17,15 +17,16 @@
         <b>标签 </b>
 
         <%= render :partial=>"tags/tag_info",:collection=>@group.all_tags(:limit=>5),:locals=>{:type=>:Group} %>
-        <%= link_to "…所有#{@group.all_tags.size}个",[@group,:tags] %>
+        <%= link_to "…所有#{@group.all_tags.size}个",[@group,:tags] if @group.all_tags.size>5%>
       </h4>
     <%end%>
     <p>
       <b>成员</b> <%= link_to("#{@group.members.size}",group_members_path(@group),:class=>"member_count")%>
       &nbsp;
       <b>话题</b> <%= link_to("#{@group.topics.size}",group_topics_path(@group))%>
-      &nbsp;
-      <b>被推荐</b> <%= link_to("#{@group.recommends.size}",recommends_path(:recommendable_type=>@group.class.to_s,:recommendable_id=>@group.to_param),:class=>"recommend_count")%>
+      <%#*&nbsp;%>
+      <%#*<b>被推荐</b>%> 
+  <%#= link_to("#{@group.recommends.size}",recommends_path(:recommendable_type=>@group.class.to_s,:recommendable_id=>@group.to_param),:class=>"recommend_count")%>
     </p>
   </div>
 

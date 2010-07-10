@@ -1,12 +1,12 @@
 <% job = object
 show_company ||= nil%>
 <tr class="<%= cycle("gray_background", "") %>">
-  <td><%= highlight(link_to(h(job.title), [job.owner,job]),params[:search]) %> 
+  <td><%= highlight(link_to(h(job.title), [job.owner,job],:target=>"_blank"),params[:search]) %>
     <%if job.applicants.size>0%> <span class="quiet small"><%= job.applicants.size %>个申请</span><%end%>
     <% if show_company %>
       <br/>
       <span class="small">
-        <%= link_to job.owner.name,job.owner %>
+        <%= link_to job.owner.name,job.owner ,:target=>"_blank" %>
       </span>
     <%end%>
   </td>

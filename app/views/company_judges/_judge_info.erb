@@ -21,7 +21,7 @@
     </p>
   <%end unless judge.judger_user.anonymity?%>
 
-  <p class="date_field"><%= localize(judge.created_at) %></p>
+  <p class="quiet"><%= localize(judge.created_at) %></p>
   <p>
     待遇
     <%= small_star(judge.salary_value || 0) %>

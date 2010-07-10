@@ -1,6 +1,6 @@
 <div id="left_content">
   <h1>申请 <%= h @job_applicant.job.title %></h1>
-  <p class="date_field"><%= time_ago_in_words_plus(@job_applicant.created_at) %> </p>
+  <p class="quiet"><%= time_ago_in_words_plus(@job_applicant.created_at) %> </p>
 
   <div>
     <% if @job_applicant.recommend_user %>

@@ -14,7 +14,7 @@ show_news_title ||= false%>
       <%= "评 #{link_to comment.commentable.title,
       [comment.commentable.owner,comment.commentable]}" %>
     <%else%>
-      <span class="date_field"> <%= localize(comment.created_at) %></span>
+      <span class="quiet"> <%= localize(comment.created_at) %></span>
     <%end%>
   </div>
 </div>

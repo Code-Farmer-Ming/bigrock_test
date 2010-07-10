@@ -13,14 +13,14 @@
       </p>
     <%end if judge.user.current_resume%>
     <% if !judge.user.current_companies.exists?(judge.pass.company) %>
-      <p class="gray_background date_field" title="过去的工作">
+      <p class="gray_background quiet" title="过去的工作">
         <b>
           <%= link_to(judge.pass.company.name,company_path(judge.pass.company),:target=>"_blank")%>
         </b>
         <%= h judge.user.passes.find_by_company_id(judge.pass.company.id).title%>
       </p>
     <%end if judge.user.current_resume%>
-    <p  class="date_field">
+    <p  class="quiet">
       <%= localize(judge.created_at) %> 评价
     </p>
     <p>

@@ -8,7 +8,7 @@
       <%= link_to  company_short_info.name,
         company_path(company_short_info)  %>
     </div>
-    <div class="date_field" >
+    <div class="quiet" >
       待遇 <%= small_star(company_short_info.judges.average("salary_value") || 0 ) %>
       <span class="red_text strong large"><%=  company_short_info.judges.average("salary_value").to_f.round(1)%></span>
       <br />

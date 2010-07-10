@@ -142,7 +142,7 @@ for log in show_log
      temp = "注册了账号"
   end
 
-  log_content  +=  content_tag(:div, content_tag(:span,log.created_at.strftime('%H:%M'),:class=>"r")+temp ,:class=>'topic_item')
+  log_content  +=  content_tag(:div, content_tag(:span,log.created_at.strftime('%H:%M'),:class=>"r small quiet")+temp ,:class=>'topic_item')
   #if  log_temp  !=  log &&  log_type !=  log.log_type
   #log_content  = content_tag(:p, temp)+log_content
   #end

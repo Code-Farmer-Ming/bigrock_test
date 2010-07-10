@@ -138,7 +138,7 @@ lightbox.prototype = {
             this.content,
             {
                 method: 'get',
-                parameters: "",
+                parameters: "from=Lightbox",
                 onComplete: this.processInfo.bindAsEventListener(this)
             }
             );

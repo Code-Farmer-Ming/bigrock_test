@@ -1,6 +1,6 @@
 
 class AccountController < ApplicationController
-  before_filter :check_login?,:except=>[:ajax_login,:get_news,:login,:ajax_login,:new,:create,:forget_password,:reset_password,:show,:check_email]
+  before_filter :check_login?,:except=>[:get_news,:login,:new,:create,:forget_password,:reset_password,:show,:check_email]
   
   def new
     flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了" if params[:request_company_id]
@@ -66,7 +66,7 @@ class AccountController < ApplicationController
       @unread_job_apply_size = @user.unread_published_job_applicants.size
     else
       @page_title ="首页"
-      @page_keywords="公司,简历,找工作,评分,待遇,环境,小组"
+      @page_keywords="公司,简历,工作,找工作,公司信息,公司工作待遇,个人简历,评分,待遇,环境,小组"
       @page_description = "提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的个人信息资料。"
       #      @news = Piecenews.newly.all(:limit=>4)
       @newly_topics = Topic.newly.limit(8)
@@ -96,41 +96,40 @@ class AccountController < ApplicationController
     if request.post?
       reurl = params[:reurl]
       result_text = user_login(params[:email],params[:password],params[:auto_login])
-      if result_text=="成功"
-        redirect_to reurl.blank? ?  account_path() : reurl
-      else
-        flash.now[:error] = result_text
-        render :action=>"login"
-      end
-    else
-      #调用 js的方式显示登录页面
-      respond_to do |format|
-        format.html {}
-        format.js{ render :update do |page|
-            page << "Lightbox.show('/account/ajax_login')"
-          end }
-      end
-    end
-  end
-  
-  def ajax_login
-    if request.post?
-      result_text = user_login(params[:email],params[:password],params[:auto_login])
       respond_to do |format|
         if result_text=="成功"
-          format.js{ render :update do |page|
+          format.html {redirect_to reurl.blank? ?  account_path() : reurl}
+          format.js{
+            render :update do |page|
               page << "window.location.reload();Lightbox.close()"
-            end }
+            end 
+          }
         else
           flash.now[:error] = result_text
-          format.js{ render :update do |page|
+          format.html{
+            render :action=>"login"
+          }
+          format.js{
+            render :update do |page|
               page["error_msg_login"].replace_html( render(:partial=>"comm_partial/flash_msg"))
             end }
         end
-        format.html{ redirect_to :action=>"login" }
+      end
+    else #get的时候
+      respond_to do |format|     
+        format.js{#调用 js的方式显示登录页面
+          if params[:from]!='Lightbox'
+            render :update do |page|
+              page << "Lightbox.show('/account/login')"
+            end
+          end
+        }
+        format.html
+     
       end
     end
   end
+ 
   #登出
   #TODO:退出时 返回到推出前所在的页面，不是退到Index页面
   def logout

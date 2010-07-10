@@ -1,5 +1,6 @@
 class JobApplicantsController < ApplicationController
   before_filter :find_job, :except=>[:show,:batch_destroy,:destroy]
+  before_filter :check_login?,:except=>[:index]
   # GET /job_applicants
   # GET /job_applicants.xml
   def index

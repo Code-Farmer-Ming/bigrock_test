@@ -24,7 +24,7 @@
     <%#= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>user,:target_type=>user.class)},:class=>"button" %>
   <%#end%>
   <%= link_to "发消息" ,new_account_msg_path(:write_to=>user) ,:class=>"button"%>
-<%else%>
+ 
 
   <%#= link_to "资料权限设置",set_resume_visibility_account_path(),:class=>"button" %>
 <%end%>
