@@ -4,7 +4,7 @@
     <h2>
       欢迎 到这个世界
     </h2>
-    <div id="welcome_div" style="display:<%=  cookies[:welcome_div_display]%>">
+    <div id="welcome_div">
       <%= link_to '',{:action=>'new'},:class=>'register_button' %>
       <h3>
         <span id="company_count"> <%= Company.all.size %></span>个公司， <span id="company_count"><%= Job.all.size %></span>个职位
@@ -16,6 +16,22 @@
         <span id="user_count"><%= User.real_users.size %></span>人
       </h3>
     </div>
+
+    <%sub_block_div("") do%>
+      <%search_form nil,:class=>"text_center" do |f|%>
+  <br/>
+        <%= text_field_tag  "search",params[:search],:class=>"text" %>
+        <%= text_default_value 'search',"工作、公司、 小组信息" %>
+        <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
+        <br/>
+        <div class="text_center">
+          <%= radio_button_tag( "type", "job",true) %><%= label_tag "type_job","工作" %>
+          <%= radio_button_tag( "type", "company") %> <%= label_tag "type_company","公司" %>
+          <%= radio_button_tag( "type", "group") %><%= label_tag "type_group","小组" %>
+
+        </div>
+      <%end%>
+    <%end%>
     <%sub_block_div("热门职位",link_to("更多",search_jobs_path())) do%>
       <ul class="list">
         <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>

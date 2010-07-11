@@ -81,7 +81,11 @@ module ApplicationHelper
     end
   end
 
-  def search_form(url=nil,&block)
-    form_for "search",:url=> url || {:action=>'search'},:html=>{:method=>"get",:class=>"form_info"},&block
+  def search_form(url=nil,html_option={},&block)
+    html_option[:class] ||= ""
+    html_option[:class] += " form_info"
+    html_option = {:method=>"get"}.merge!(html_option)
+
+    form_for "search",:url=> url || {:action=>'search'},:html=>html_option,&block
   end
 end

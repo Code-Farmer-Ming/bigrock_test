@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   include ActionView::Helpers::TextHelper
-  before_filter :check_login?,:except=>[:index,:show]
+  before_filter :check_login?,:except=>[:index,:show,:search]
   before_filter :find_group,:only=>[:show,:edit,:update,:destroy,:quit,:invite_join]
   # GET /groups
   # GET /groups.xml

@@ -279,4 +279,13 @@ class AccountControllerTest < ActionController::TestCase
     assert_not_nil assigns(:applicants)
   end
 
+  test "search" do
+    get :search ,:type=>"group",:search=>"test"
+    assert_redirected_to search_groups_path(:search=>"test")
+    get :search ,:type=>"job",:search=>"test"
+    assert_redirected_to search_jobs_path(:search=>"test")
+    get :search ,:type=>"company",:search=>"test"
+    assert_redirected_to search_companies_path(:search=>"test")
+  end
+
 end

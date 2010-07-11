@@ -46,8 +46,8 @@ th, td, caption {padding:4px 10px 4px 5px;}
 tr.even td {background:#e5ecf9;}
 tfoot {font-style:italic;}
 caption {background:#eee;}
-.small {font-size:.8em;margin-bottom:1.875em;line-height:1.875em;}
-.large {font-size:1.2em;line-height:2.5em;margin-bottom:1.25em;}
+.small {font-size:.8em;  }
+.large {font-size:1.2em;  }
 .hide {display:none;}
 .quiet {color:#666;}
 .loud {color:#000;}
@@ -66,7 +66,7 @@ input[type=text]:focus, input[type=password]:focus, input.text:focus, input.titl
 input[type=text], input[type=password], input.text, input.title, textarea, select {margin:0.0em 0;}
 input.text, input.title {padding:4px;}
 input.title {font-size:1.5em;}
-textarea {width:390px;height:250px;padding:5px;}
+textarea {width:400px;height:250px;padding:5px;}
 input[type=checkbox], input[type=radio], input.checkbox, input.radio {position:relative;top:.25em;}
 form.inline {line-height:3;}
 form.inline p {margin-bottom:0;}
@@ -184,7 +184,7 @@ label{ cursor: pointer}
  #header{ height:80px; background-color:#c9ff5e; background-image: url(/images/logo.png); background-repeat: no-repeat; background-position: 25px;  }
 .content{ margin:16px auto;  }
 #footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px; padding: 8px}
-.container{ padding:0px 35px; height:100%; min-height: 440px; height:auto !important; height: 440px}
+.container{ padding:0px 35px; height:100%; min-height: 300px; height:auto !important; height: 300px}
 #resume_content .inplaceeditor-form,.partial_container{ border:1px solid silver; background-color: #FFF4C2;  margin-bottom:2px; padding:5px 12px}
 #lightbox_content textarea{ height:8em}
 .section{ padding:0px 20px}
@@ -201,6 +201,7 @@ label{ cursor: pointer}
 .form_row{margin:0 0 0.5em;}
 .drop_button{ cursor: pointer}
 #search{ width:75%}
+#search_content{ margin-top: 120px; height: 300px}
  #new_user_page .text, #user_login_page .text{ width:300px}
 #top_user_info .text{ width:80%; padding:1px; height: 14px; margin: 0px}
 #login_and_reg{ *line-height:80px}
@@ -212,12 +213,12 @@ label{ cursor: pointer}
 #resume_info h1{ margin: 0px}
 #company_info_show{ background-color:#E9EFF8}
 #group_info_show{ background-color:#F7EAEA}
-#group_content , #resume_content{ min-height:125px; height:auto !important; height:125px}
+#group_content , #resume_content{ min-height:125px; height:auto !important; height:125px; font-family: Arial,Helvetica,sans-serif}
+#job_info_show{ background-color:#daebdc}
 .pass_item{ padding-bottom:10px; margin-bottom:10px; border-bottom:1px dotted silver}
-.quiet{ color:#999; font-size:99%;  }
  #single_column{ width:890px; margin: 0px auto}
 #left_content{ float:left; width:68%; padding:0px; margin:0px; padding-right:12px;  }
-#right_content{ float:left; padding:0px; margin:0px; padding-left:12px; height:100%; width:29%; border-left:1px solid #EdEdEd; min-height:500px; height:auto !important; height:500px}
+#right_content{ float:left; padding:0px; margin:0px; padding-left:12px; height:100%; width:29%; border-left:1px solid #EdEdEd; min-height:440px; height:auto !important; height:440px}
 div.auto_complete ul li {cursor:pointer}
 .operation_lab{ display:none; margin-top:2px; float: right; margin-left:4px; font-size:10px}
 .hover{ background-color:#FFF9DD; cursor:pointer}
@@ -243,8 +244,9 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .l {float:left}
  .detail_judge{ background-color:#EEEEFF; padding-left:32px}
 .hot_text{ color:orange; font-weight:bold}
-.red_text{ color:#ff3333; font-weight:bold; font-size:14px}
+.red_text{ color:#ff3333;  }
 .big_text{ font-size:2.5em}
+.strong{ font-weight:bolder}
 .pass_judge{ padding:4px}
 .judge_infos{ background-color:#fff; padding:0px 4px}
  .upload_file_button{ text-align:center; background-color: #ccccff}
@@ -266,11 +268,8 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .pagination a:hover, .pagination a:active {border: 1px solid #000099; color: #000}
 .pagination span.current {padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #000099; font-weight: bold; background-color: #000099; color: #FFF}
 .pagination span.disabled {padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #eee; color: #ddd}
- #msg_list_table{ width:80%; margin:8px auto; border-collapse:collapse; height:100%}
-#msg_list_table th{ text-align:left; background-color:#E1E9F8; padding:4px 8px}
-#msg_list_table .msg_title{ width:50%}
-#msg_list_table .msg_title a{ display:block}
-#msg_list_table td{ padding:4px 8px}
+ .msg_title{  }
+.msg_title a{ display:block}
  #msg_show{  margin:8px auto}
 .msg_info{ margin-bottom:8px}
 .msg_text{ margin-left:160px}
@@ -281,8 +280,8 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .company_icon a{ line-height:0px}
 .company_icon img{ vertical-align:middle}
  .list {clear:both; list-style-image:none; list-style-position:outside; list-style-type:none; margin:0; padding:0}
-.list li{ list-style-type:none; margin-bottom:2px}
-.list li a{ display: block; width:100%; padding:2px 4px; max-height:6em; margin-bottom:2px}
+.list li{ list-style-type:none; margin-bottom:2px; overflow: hidden}
+.list li a{  width:100%;  max-height:6em;  }
 #current_li a{ color:black; background-color: #E1E9F8; font-weight: bold}
 .list li a:hover {color:black; background-color: #E1E9F8}
  #invite_yokemate{ display: inline-block; min-height:1.6em; height:auto !important; height:1.7em; width: 378px}
@@ -316,10 +315,10 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .user_log{ margin-bottom:0.8em}
  .news_title{ font-weight:bold; background-color:#E1E9F8; padding:4px 8px}
  .make_up_down{ padding:2px}
-.make_up,.make_down{ padding:3px; text-align:center; width:26px}
+.make_up,.make_down{ padding:3px; text-align:center; width:26px; border: 1px solid #e6e6e6}
 .make_up{ background-color:#E1E9F8}
 .make_down{ background-color:#FBE3E4}
- .main_content{ border-bottom:1px silver solid; margin-bottom:6px; min-height:100px; height: auto!important; height:100px; padding-bottom:8px }
+ .main_content{ border-bottom:1px silver solid; line-height:1.6em; margin-bottom:6px; min-height:100px; height: auto!important; height:100px; padding-bottom:8px }
 .news_company_icon{ margin-right:12px}
   .operation{ text-align:center}
 .item_content{ padding:8px 2px;  border-bottom:1px silver dotted ; overflow:auto}
@@ -331,8 +330,7 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
  .topic_item{ padding:4px 5px 4px 5px; overflow:auto; border-bottom:#F0F0F0 solid 1px }
 .topic_item a{ text-decoration:none}
 .topic_item a:hover{ background-color:transparent; text-decoration:underline}
- .topic_item span{ font-size:90%; color:gray}
-#topic_content h1{ font-size:25px}
+ #topic_content h1{ font-size:25px}
 .gray_background{ background-color: #F5F5F5}
 .big_star_judge{ margin: 2px}
  .big_star_0,.big_star_1,.big_star_2,.big_star_3,.big_star_4,.big_star_5， {width:120px; background-image:url(/images/big_star.png); display:inline-block; background-position: 0px 0px; height:21px; font-size:10px; background-repeat:no-repeat}
@@ -384,12 +382,15 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 #hide_register_button{ width: 30px; height:20px; display:block; margin: 0 auto}
 .msg_title_input{ width: 390px; display: inline-block}
 #search{ font-weight: bolder}
-.bottom_gray_line{ border-bottom: 1px solid #EdEdEd}
+.bottom_gray_line{ border-bottom: 1px solid #EdEdEd; margin-bottom: 2px}
 #whole_judge_detail_star{ border:solid 1px #DEDEDE; border-top:none; background:#FFFFFF; position:absolute; margin:0px; padding:8px 10px; clear:both; z-index:299}
 .center_block{ margin: 0 auto; width: 650px}
 .half_width{ width: 49%}
 .hot_link{ background-color: #fff6ee; border: 1px solid #f5e9db; display: inline-block; padding: 2px 6px}
 .hot_link:hover{ background-color: #fff6ee}
+.silver_border{ border: 1px silver solid}
+#job_applicant_count{ background-color:#ffffff; font-size: 1.4em; font-weight: bolder; text-align: center; border: 1px solid #e6e6e6; padding: 3px}
+.bold_text_row td {font-weight: bolder}
  .pui-autocomplete-holder {margin: 0; border: 1px solid #999; overflow: hidden; padding: 0px 5px; font:normal 12px Verdana, Arial, sans-serif; height: auto !important; height: 1%; background:white url(/images/input-text.png) repeat-x scroll left top}
 .pui-autocomplete-holder li {float: left; position: relative; list-style-type: none; margin: 4px 0 }
  .pui-autocomplete-holder li.pui-autocomplete-input {margin: 2px 0; height: 20px}

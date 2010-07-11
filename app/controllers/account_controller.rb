@@ -1,6 +1,6 @@
 
 class AccountController < ApplicationController
-  before_filter :check_login?,:except=>[:get_news,:login,:new,:create,:forget_password,:reset_password,:show,:check_email]
+  before_filter :check_login?,:except=>[:get_news,:login,:search,:new,:create,:forget_password,:reset_password,:show,:check_email]
   
   def new
     flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了" if params[:request_company_id]
@@ -205,9 +205,15 @@ class AccountController < ApplicationController
   end
 
   def search
-    @page_title ="基本设置1"
+    case params[:type]
+    when "group"
+      redirect_to search_groups_path(:search=>params[:search])
+    when "company"
+      redirect_to search_companies_path(:search=>params[:search])
+    else
+      redirect_to search_jobs_path(:search=>params[:search])
+    end
   end
-
   
   def add_friend
     friend= User.real_users.find(params[:friend_id])
