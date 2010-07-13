@@ -76,7 +76,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal assigns(:user).aliases[0].parent, assigns(:user)
   end
   
-  test "diff_password_create" do
+  test "diff password create" do
     email ="zhang@ming.com1"
     post  :create ,:user=>{
       :email=>email,

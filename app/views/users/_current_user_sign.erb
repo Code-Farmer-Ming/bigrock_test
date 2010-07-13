@@ -14,10 +14,10 @@
     </div>
     <div  id="current_user_operation">
       <div id="my_language_area">
-        <div  id="my_language" title="<%=escape_javascript(current_user.my_language.strip.chomp)%>"><%=h(current_user.my_language.strip.chomp)-%></div>
+        <div  id="my_language" title="<%=escape_javascript(current_user.my_phrase.strip.chomp)%>"><%=h(current_user.my_phrase.strip.chomp)-%></div>
         <%=  in_place_editor("my_language",
           :url=>url_for({:controller=>:account,:action => "set_my_language",:id=>current_user}),:loading_text=>"载入…",
-          :click_to_edit_text=>escape_javascript(current_user.my_language.strip.chomp) ,
+          :click_to_edit_text=>escape_javascript(current_user.my_phrase.strip.chomp) ,
           :rows=>2,
           :submit_on_blur=>:true,:ok_control=>:false,:cancel_control=>:false,
           :save_text=>"好了",:cancel_text=>"算了",

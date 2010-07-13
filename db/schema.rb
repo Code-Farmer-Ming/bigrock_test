@@ -43,11 +43,11 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   add_index "cities", ["name"], :name => "index_cities_on_name"
 
   create_table "comments", :force => true do |t|
-    t.integer  "commentable_id"
+    t.integer  "commentable_id",                  :null => false
     t.integer  "up",               :default => 0
     t.integer  "down",             :default => 0
-    t.string   "content"
-    t.integer  "user_id"
+    t.string   "content",                         :null => false
+    t.integer  "user_id",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "commentable_type"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.string   "name",                 :default => ""
     t.text     "description"
     t.string   "website",              :default => ""
+    t.string   "address",              :default => ""
     t.integer  "create_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -67,7 +68,6 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.string   "fax"
     t.string   "phone"
     t.integer  "last_edit_user_id"
-    t.string   "address",              :default => ""
     t.integer  "industry_root_id"
     t.integer  "industry_second_id"
     t.integer  "industry_third_id"
@@ -85,13 +85,12 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   create_table "company_judges", :force => true do |t|
     t.integer  "company_id"
     t.integer  "user_id"
-    t.integer  "salary_value"
-    t.integer  "condition_value"
+    t.integer  "salary_value",    :default => 0
+    t.integer  "condition_value", :default => 0
     t.text     "description"
-    t.boolean  "visiabled",       :default => true
+    t.boolean  "anonymous",       :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "anonymous",       :default => false
   end
 
   add_index "company_judges", ["company_id", "user_id"], :name => "index_company_judges_on_company_id_and_user_id", :unique => true
@@ -115,29 +114,15 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   create_table "company_versions", :force => true do |t|
     t.integer  "company_id"
     t.integer  "version"
-    t.string   "name",                     :default => ""
+    t.string   "name",        :default => ""
     t.text     "description"
-    t.string   "website",                  :default => ""
+    t.string   "website",     :default => ""
+    t.string   "address",     :default => ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "address",                  :default => ""
-    t.string   "fax",         :limit => 1
-    t.string   "phone",       :limit => 1
   end
 
   add_index "company_versions", ["company_id"], :name => "index_company_versions_on_company_id"
-
-  create_table "dict_city", :primary_key => "N_CITYID", :force => true do |t|
-    t.string  "S_CITYNAME", :limit => 30, :null => false
-    t.integer "N_PROVID",                 :null => false
-    t.string  "S_STATE",    :limit => 1
-  end
-
-  create_table "dict_province", :primary_key => "N_PROVID", :force => true do |t|
-    t.string "S_PROVNAME", :limit => 30, :null => false
-    t.string "S_TYPE",     :limit => 1
-    t.string "S_STATE",    :limit => 1
-  end
 
   create_table "educations", :force => true do |t|
     t.date     "begin_date"
@@ -156,7 +141,7 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   create_table "friends", :force => true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
-    t.integer  "friend_type"
+    t.integer  "friend_type", :default => 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -164,22 +149,22 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   add_index "friends", ["user_id", "friend_id"], :name => "index_friends_on_user_id_and_friend_id", :unique => true
 
   create_table "group_types", :force => true do |t|
-    t.string   "name"
+    t.string   "name",       :limit => 16
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                            :null => false
-    t.text     "description",                     :null => false
-    t.integer  "group_type_id",                   :null => false
-    t.string   "join_type",                       :null => false
-    t.integer  "create_user_id",                  :null => false
-    t.integer  "members_count",    :default => 0
-    t.integer  "topics_count",     :default => 0
+    t.string   "name",                                          :null => false
+    t.text     "description",                                   :null => false
+    t.integer  "group_type_id",                                 :null => false
+    t.string   "join_type",        :limit => 16,                :null => false
+    t.integer  "create_user_id",                                :null => false
+    t.integer  "members_count",                  :default => 0
+    t.integer  "topics_count",                   :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "recommends_count", :default => 0
+    t.integer  "recommends_count",               :default => 0
   end
 
   add_index "groups", ["name"], :name => "index_groups_on_name"
@@ -189,26 +174,6 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   end
 
   add_index "industries", ["name"], :name => "index_industries_on_name"
-
-  create_table "industry_roots", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "industry_seconds", :force => true do |t|
-    t.integer  "industry_root_id"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "industry_thirds", :force => true do |t|
-    t.integer  "industry_second_id"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "job_applicants", :force => true do |t|
     t.integer  "job_id",                                     :null => false
@@ -255,10 +220,9 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.integer  "ability_value",       :default => 0
     t.integer  "eq_value",            :default => 0
     t.text     "description"
-    t.boolean  "visiabled",           :default => true
+    t.boolean  "anonymous",           :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "anonymous",           :default => true
   end
 
   add_index "judges", ["pass_id", "user_id", "judger_id"], :name => "index_judges_on_pass_id_and_user_id_and_judger_id", :unique => true
@@ -267,14 +231,12 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.string   "logable_type"
     t.integer  "logable_id"
     t.string   "log_type"
+    t.string   "operation"
     t.string   "changes"
     t.integer  "owner_id"
     t.string   "owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "operation"
-    t.string   "origin_value_type"
-    t.integer  "origin_value_id"
   end
 
   create_table "members", :force => true do |t|
@@ -286,15 +248,6 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   end
 
   add_index "members", ["group_id", "user_id"], :name => "index_members_on_group_id_and_user_id", :unique => true
-
-  create_table "msg_responses", :force => true do |t|
-    t.integer  "msg_id"
-    t.integer  "sender_id"
-    t.string   "content"
-    t.boolean  "is_check",   :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "msgs", :force => true do |t|
     t.integer  "sender_id",                                     :null => false
@@ -314,22 +267,22 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_current",               :default => true
+    t.boolean  "is_current",               :default => false
   end
 
   create_table "news", :force => true do |t|
-    t.integer  "company_id"
-    t.string   "title"
-    t.text     "content"
-    t.integer  "create_user_id"
+    t.integer  "company_id",                                     :null => false
+    t.string   "title",             :limit => 64,                :null => false
+    t.text     "content",                                        :null => false
+    t.integer  "create_user_id",                                 :null => false
     t.integer  "last_edit_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "up",                :default => 0
-    t.integer  "down",              :default => 0
-    t.integer  "comments_count"
-    t.integer  "recommends_count",  :default => 0
-    t.integer  "view_count",        :default => 0
+    t.integer  "up",                              :default => 0
+    t.integer  "down",                            :default => 0
+    t.integer  "comments_count",                  :default => 0
+    t.integer  "recommends_count",                :default => 0
+    t.integer  "view_count",                      :default => 0
     t.datetime "last_edit_at"
   end
 
@@ -354,10 +307,10 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   add_index "passes", ["company_id", "resume_id", "user_id"], :name => "index_passes_on_company_id_and_resume_id_and_user_id", :unique => true
 
   create_table "recommends", :force => true do |t|
-    t.integer  "user_id",                            :null => false
-    t.string   "memo",               :default => ""
-    t.string   "recommendable_type",                 :null => false
-    t.integer  "recommendable_id",                   :null => false
+    t.integer  "user_id",                                          :null => false
+    t.string   "memo",               :limit => 64, :default => ""
+    t.string   "recommendable_type",                               :null => false
+    t.integer  "recommendable_id",                                 :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -371,7 +324,7 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.string   "memo"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "applicant_type"
+    t.string   "applicant_type", :null => false
   end
 
   add_index "requisitions", ["applicant_id", "respondent_id", "applicant_type", "type"], :name => "index_requisition_applicant", :unique => true
@@ -392,7 +345,6 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.string   "personal_website"
     t.string   "website3"
     t.string   "website4"
-    t.string   "photo",                          :default => "imagesdefault_thumb.png"
     t.text     "self_description"
     t.string   "goal"
     t.string   "interests"
@@ -466,7 +418,7 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.integer  "owner_id",                                                :null => false
     t.string   "owner_type",                                              :null => false
     t.integer  "author_id",                                               :null => false
-    t.string   "title",                 :limit => 128,                    :null => false
+    t.string   "title",                 :limit => 128
     t.text     "content",                                                 :null => false
     t.integer  "up",                                   :default => 0
     t.integer  "down",                                 :default => 0
@@ -507,8 +459,6 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.string   "apply_friend_auth",           :default => "允许"
   end
 
-  add_index "user_settings", ["user_id"], :name => "index_user_settings_on_user_id"
-
   create_table "user_tags", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "tagging_id", :null => false
@@ -517,19 +467,17 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                            :null => false
-    t.string   "password",                                         :null => false
-    t.boolean  "is_active",                 :default => false
+    t.string   "nick_name",                :default => "马甲",  :null => false
+    t.string   "email",                                           :null => false
+    t.string   "password",                                        :null => false
+    t.string   "title",                    :default => ""
+    t.boolean  "is_active",                :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "nick_name",  :limit => 128
-    t.integer  "parent_id",                 :default => 0,         :null => false
-    t.string   "state",      :limit => 12,  :default => "working"
-    t.string   "salt",                                             :null => false
+    t.integer  "parent_id",                :default => 0,         :null => false
+    t.string   "state",      :limit => 12, :default => "working"
+    t.string   "salt",                                            :null => false
   end
-
-  add_index "users", ["email"], :name => "index_users_on_email"
-  add_index "users", ["salt"], :name => "index_users_on_salt"
 
   create_table "votes", :force => true do |t|
     t.integer  "owner_id"

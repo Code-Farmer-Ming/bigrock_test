@@ -246,13 +246,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1,user_one.my_languages.count
 
     MyLanguage.destroy_all()
-    user_one.my_languages << MyLanguage.new(:content=>"say something")
+    user_one.say_something("say something")
     assert_equal 1,user_one.my_languages.count
-    assert_equal "say something",user_one.my_language
-    user_one.my_languages << MyLanguage.new(:content=>"do you need some time ")
+    assert_equal "say something",user_one.my_phrase
+    user_one.say_something("do you need some time ")
    
     assert_equal 2,user_one.my_languages.count
-    assert_equal "do you need some time ",user_one.my_language
+    assert_equal "do you need some time ",user_one.my_phrase
     user_one.destroy
     assert_equal 0, MyLanguage.all.size
   end

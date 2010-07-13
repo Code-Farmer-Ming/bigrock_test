@@ -116,7 +116,8 @@ class AccountController < ApplicationController
         end
       end
     else #get的时候
-      respond_to do |format|     
+      respond_to do |format|
+        format.html{}
         format.js{#调用 js的方式显示登录页面
           if params[:from]!='Lightbox'
             render :update do |page|
@@ -124,7 +125,7 @@ class AccountController < ApplicationController
             end
           end
         }
-        format.html
+    
      
       end
     end
@@ -317,15 +318,8 @@ class AccountController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    if !params[:value] || params[:value].blank?
-      current_user.my_languages.current_language.cancel_current
-      render :text => ""
-    else
-      if  current_user.my_language!=params[:value].strip
-        current_user.my_languages << MyLanguage.new(:content=>params[:value],:is_current=>true)
-      end
-      render :text => CGI::escapeHTML(current_user.my_language)
-    end
+    current_user.say_something(params[:value])
+    render :text => CGI::escapeHTML(current_user.my_phrase)
   end
 
   #给同事的评价

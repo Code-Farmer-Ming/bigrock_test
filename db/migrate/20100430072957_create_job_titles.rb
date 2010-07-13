@@ -8,7 +8,7 @@ class CreateJobTitles < ActiveRecord::Migration
     end
     
     add_column :passes, :job_title_id, :integer,:default=>0
-    change_column :passes,:title,:new_title
+    rename_column :passes,:title,:new_title
     Pass.all.each() do |item|
       item.job_title_id = JobTitle.find_or_create_by_name_and_company_id(item.new_title,item.company_id).id
       item.save

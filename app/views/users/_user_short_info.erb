@@ -27,8 +27,8 @@
       <span class="red_text large strong"><%=  user_short_info.avg_judge_value%></span>
       (<%= link_to  "#{user_short_info.judges.size}人评价",user_judges_path(user_short_info) %>)
     </div>
-    <div class="user_my_language"  title="<%= user_short_info.my_language %>">
-      <%= truncate(auto_link(h(user_short_info.my_language)))  %>
+    <div class="user_my_language"  title="<%= user_short_info.my_phrase %>">
+      <%= truncate(auto_link(h(user_short_info.my_phrase)))  %>
     </div>
   </div>
   <p class="clear" />

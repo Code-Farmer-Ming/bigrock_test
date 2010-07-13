@@ -424,10 +424,11 @@ class User< ActiveRecord::Base
   def is_friend?(user)
     friend_users.exists?(user)
   end
-  def my_language
-    top_language = my_languages.current_language
-    top_language ? top_language.content : ""
+  #当前的短语
+  def my_phrase
+    my_languages.current_phrase ?  my_languages.current_phrase.content : ""
   end
+  
   #图标 文件路径
   def icon_file_path(thumbnail=nil)
     if (thumbnail)
@@ -454,13 +455,23 @@ class User< ActiveRecord::Base
   def remove_attention(target_object)
     targets.delete(target_object)
   end
-
+  #右上角 說點什麽 
+  def say_something(phrase)
+    if (phrase.to_s.blank? && self.my_languages.current_phrase)
+      self.my_languages.current_phrase.cancel_current
+    else
+      if  self.my_phrase!=phrase
+        self.my_languages << MyLanguage.new(:content=>phrase,:is_current=>true)
+      end
+    
+    end
+  end
+  
   #用户 用过的标签
   def used_tags(judge_object=nil)
     self.user_taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
       :conditions=>judge_object ? {:taggable_id=>judge_object.id,
         :taggable_type=>judge_object.class.to_s} : "")
-
   end
  
   #平均 评价的评分
