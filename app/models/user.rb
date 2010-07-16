@@ -17,7 +17,7 @@
 
 class User< ActiveRecord::Base
   #状态
-  STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还在学校"}
+  STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还是学生"}
   
   acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
   #字段验证

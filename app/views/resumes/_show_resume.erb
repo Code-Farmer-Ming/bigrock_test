@@ -33,8 +33,7 @@
       <div id="pass_infos" style="display:<%=  (resume.passes.length>0 || ( current_user?(resume.user))) ? "" : "none" %>">
         <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
           <%content_tag :span,:class=>"operation_lab" do -%>
-            <%= render :partial=>"resumes/visibility_set",
-              :locals=>{:value=>resume.user.setting.pass_visibility,:visibility_value=>"pass",:resume=>resume}  %>
+        
             <%= link_to_function "","PerpareNew('new_pass_container');",
               :class=>"add_img_button",:title=>"添加" %>
           <%end if  current_user?(resume.user)-%>
@@ -55,9 +54,6 @@
         <div  class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
 
           <% content_tag :div , :class=>"operation_lab" do -%>
-            <%= render :partial=>"resumes/visibility_set",
-              :locals=>{:value=>resume.user.setting.edu_visibility,:visibility_value=>"edu",:resume=>resume} %>
-
             <%= link_to_function "","PerpareNew('new_education_container');",
               :class=>"add_img_button",:title=>"添加" %>
           <%end if  current_user?(resume.user) %>
@@ -76,8 +72,7 @@
     <div id="speciality">
       <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
         <% content_tag :div,:class=>"operation_lab" do %>
-          <%= render :partial=>"resumes/visibility_set",
-            :locals=>{:value=>resume.user.setting.speciality_visibility,:visibility_value=>"speciality",:resume=>resume} %>
+         
 
           <%= link_to_function "","PerpareNew('new_speciality_container');",
             :class=>"add_img_button",:title=>"添加" %>

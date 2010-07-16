@@ -1,6 +1,6 @@
 
 class ResumesController < ApplicationController
-    include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::TextHelper
   #  in_place_edit_for :resume, :name
   
   before_filter :check_login?,:except=>[:index,:render_resume]
@@ -15,7 +15,11 @@ class ResumesController < ApplicationController
   end
   
   def render_resume
-    render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
+    if  Resume.find(params[:id]).user.setting.can_see_resume(current_user)
+      render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
+    else
+      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
+    end
   end
   
   def index

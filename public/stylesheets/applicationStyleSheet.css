@@ -1005,10 +1005,10 @@ div.auto_complete ul strong.highlight {
     background-image:url(/images/visible_open.png);
 }
 .visible_1{
-    background-image:url(/images/visible_olny_friend.png);
+    background-image:url(/images/visible_self.png);
 }
 .visible_2{
-    background-image:url(/images/visible_self.png);
+    background-image:url(/images/visible_olny_friend.png);
 }
 .text_center{
     text-align:center;

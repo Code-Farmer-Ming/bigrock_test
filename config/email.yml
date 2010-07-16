@@ -1,7 +1,7 @@
 # Outgoing email settings
 
 development:
-  delivery_method: :smtp
+  delivery_method: :test
   smtp_settings:
     address: www.shuikaopu.com
     port: 25

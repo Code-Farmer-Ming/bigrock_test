@@ -198,6 +198,7 @@ class AccountController < ApplicationController
     new_state_content =User::STATE_TYPES[new_state.to_sym]
     LogItem.create(:owner=>current_user,:log_type=>"state_change",:changes=>new_state,:operation=>"create")
     render :update do |page|
+      page["user_img_button"].title =  "#{current_user.name} 状态 #{new_state_content}"
       page.select(".current_user_state").each do |item|
         page << "value.title = '#{new_state_content}';"
         page << "value.className ='user_state_at_icon user_state_#{new_state} current_user_state';"
@@ -399,7 +400,7 @@ class AccountController < ApplicationController
     else
       #返回失败的原因
       if (code==-1)
-        "邮件不存在,<a href=#{new_account_path(:email=>email)}>那现在注册吧！</a>"
+        email+"邮件不存在,<a href=#{new_account_path(:email=>email)}>那现在注册吧！</a>"
       else
         "密码错误,<a href=#{forget_password_account_path(:email=>email)}>取回密码！</a>"
       end

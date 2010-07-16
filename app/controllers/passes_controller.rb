@@ -170,8 +170,11 @@ class PassesController < ApplicationController
   #根据公司 查询 对应的职位
   def auto_complete_for_pass_title
     company = Company.find_by_name(params[:company][:name])
-    @items =company.job_titles
-    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:pass][:job_title_attributes][:name]}' %>"
+    if company
+      @items =company.job_titles
+    end
+    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:pass][:job_title]}' %>"
+ 
   end
 
 

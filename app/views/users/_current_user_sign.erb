@@ -9,8 +9,8 @@
     <div id="current_user_img" class="l">
       <% link_to   "#"  do  -%><div class="user_icon" ><div class="icon" ><span
               
-              title="<%= User::STATE_TYPES[current_user.state || :working] %>"
-              class="user_state_<%= current_user.state || "working" %> user_state_at_icon current_user_state"></span><%=  image_tag current_user.icon_file_path(:thumb),:id=>"user_img_button",:title=>current_user.name -%></div></div><%end-%>
+              title="<%= User::STATE_TYPES[:"#{current_user.state || "working"}"] %>"
+              class="user_state_<%= current_user.state || "working" %> user_state_at_icon current_user_state"></span><%=  image_tag current_user.icon_file_path(:thumb),:id=>"user_img_button",:title=>current_user.name + " 状态 "+  User::STATE_TYPES[:"#{current_user.state || "working"}"]  -%></div></div><%end-%>
     </div>
     <div  id="current_user_operation">
       <div id="my_language_area">

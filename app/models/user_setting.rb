@@ -30,10 +30,15 @@
 
 class UserSetting < ActiveRecord::Base
   belongs_to :user,:class_name=>"User",:foreign_key => "user_id"
-  VISIBILITY_TYPES=["公开","仅好友","不公开"]
+  VISIBILITY_TYPES=["公开", "不公开"]
   APPLY_FRIEND_TYPES=["允许","需申请","不允许"]
  
 
+  def can_see_resume(user)
+    self.user ==user || self["all_resume_visibility"]==UserSetting::VISIBILITY_TYPES[0]
+ 
+
+  end
   #判断 用户是否有权限 查看
   #name 哪个权限 user 要判断的用户
   def can_visibility?(name,user)

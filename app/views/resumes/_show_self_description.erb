@@ -3,8 +3,7 @@
   <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
 
     <span class="operation_lab">
-      <%= render :partial=>"resumes/visibility_set",
-        :locals=>{:value=>resume.user.setting.self_description_visibility,:visibility_value=>"self_description",:resume=>resume} if  current_user?(resume.user) %>
+     
       <%=   link_to "","",:id=>dom_id(resume,"ext"),:class=>"edit_img_button" if  current_user?(resume.user) %>
     </span>
     <h2>自我描述</h2>

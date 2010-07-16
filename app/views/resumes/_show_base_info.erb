@@ -10,10 +10,7 @@
   </span>
 <%end%>
 <% if resume.user.setting.can_visibility?(:sex_visibility,current_user) && !resume.sex.blank? %>
-  <span  class="operation_lab">
-    <%= render :partial=>"resumes/visibility_set",
-      :locals=>{:value=>resume.user.setting.sex_visibility,:visibility_value=>"sex",:resume=>resume} if  current_user?(resume.user) %>
-  </span>
+ 
   <p>
     <span>性别</span>
     <%=   resume.sex ? "男" : "女"   %>
@@ -21,10 +18,7 @@
 <%end%>
 <% if resume.user.setting.can_visibility?(:birthday_visibility,current_user) &&
     !resume.birthday.blank?   %>
-  <span  class="operation_lab">
-    <%= render :partial=>"resumes/visibility_set",
-      :locals=>{:value=>resume.user.setting.birthday_visibility,:visibility_value=>"birthday",:resume=>resume} if  current_user?(resume.user) %>
-  </span>
+ 
   <p>
     <span>出生日期</span>
     <%= localize(resume.birthday)   %>
@@ -32,10 +26,7 @@
 <%end%>
 <% if resume.user.setting.can_visibility?(:blog_site_visibility,current_user) &&
     !resume.blog_website.blank?   %>
-  <span  class="operation_lab">
-    <%= render :partial=>"resumes/visibility_set",
-      :locals=>{:value=>resume.user.setting.blog_site_visibility,:visibility_value=>"blog_site",:resume=>resume} if  current_user?(resume.user) %>
-  </span>
+ 
   <p>
     <span>博客</span>
     <%=auto_link_urls(h(resume.blog_website))   -%>
@@ -43,10 +34,7 @@
 <%end%>
 <% if resume.user.setting.can_visibility?(:web_site_visibility,current_user) &&
     !resume.personal_website.blank? %>
-  <span  class="operation_lab">
-    <%= render :partial=>"resumes/visibility_set",
-      :locals=>{:value=>resume.user.setting.web_site_visibility,:visibility_value=>"web_site",:resume=>resume} if  current_user?(resume.user) %>
-  </span>
+
   <p>
     <span>网站</span>
     <%=auto_link_urls(h(resume.personal_website))   -%>
