@@ -4,6 +4,6 @@
     {:url=>edit_company_company_judge_path(company,my_judge)},:class=>"hot_link") -%>
   <%=  link_to_remote "撤消评价",{:url=>company_company_judge_path(company,my_judge), :confirm => '你确定吗?', :method => :delete}-%>
 <%else-%>
-  <%= link_to_remote_lightbox("我来评一下",
-      {:url=> {:controller=>"company_judges",:action=>:new,:company_id=>company.to_param}},:class=>"hot_link") -%>
+  <%= link_to_remote("我来评一下",
+      {:url=> {:controller=>"company_judges",:action=>:new,:company_id=>company.to_param},:method=>:get},:class=>"hot_link") -%>
 <%end-%>

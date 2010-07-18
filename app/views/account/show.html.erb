@@ -21,11 +21,11 @@
       <%search_form nil,:class=>"text_center" do |f|%>
   <br/>
         <%= text_field_tag  "search",params[:search],:class=>"text" %>
-        <%= text_default_value 'search',"工作、公司、 小组信息" %>
+        <%= text_default_value 'search',"职位、公司、 小组信息" %>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
         <br/>
         <div class="text_center">
-          <%= radio_button_tag( "type", "job",true) %><%= label_tag "type_job","工作" %>
+          <%= radio_button_tag( "type", "job",true) %><%= label_tag "type_job","职位" %>
           <%= radio_button_tag( "type", "company") %> <%= label_tag "type_company","公司" %>
           <%= radio_button_tag( "type", "group") %><%= label_tag "type_group","小组" %>
 
@@ -62,7 +62,7 @@
       <%= link_to "我给公司的评价", judged_company_account_path(),:class=>"button"  %>
       <%= link_to "未评价的公司",unjudge_company_account_path() ,:class=>"button"  %>
     <%end %>
-    <% sub_block_div(" ") do%>
+    <% sub_block_div("") do%>
       <%tabs do%>
         <%= tab_button("最新的话题","new_topics") %>
         <%= tab_button("我参与的话题","join_topics") if @user%>

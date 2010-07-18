@@ -8,5 +8,7 @@
   <%= will_paginate  @company_jugdes %>
 </div>
 <div id="right_content">
-  <%= link_to "<< 返回 #{@company.name} 公司首页",company_path(@company) %>
+  <% sub_block_div() do %>
+    <%= link_to "<< 返回 #{@company.name} 公司首页",company_path(@company) %>
+  <%end%>
 </div>

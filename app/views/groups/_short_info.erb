@@ -4,18 +4,21 @@
   </div>
   <div class="group_short_content">
     <p class="group_short_description">
-      <%= h(truncate("#{short_info.description}", :length=>120))%>
+      <%= h(truncate("#{short_info.description}", :length=>220))%>
+
 <%#= link_to 'Show', company_piece_news_path(params[:company_id],piece_news) %>
     </p>
     <div>
       <b>创建于 </b><%=  localize(short_info.created_at)%>
       <b>成员 </b> <%= short_info.members_count>0 ? link_to("#{short_info.members_count}",group_members_path(short_info),:class=>'member_count') : 0%>
       <b>话题 </b> <%= short_info.topics_count>0 ? link_to("#{short_info.topics_count}",group_topics_path(short_info)) : 0%>
-      <b>被推荐 </b> <%= short_info.recommends_count>0 ?  link_to("#{short_info.recommends_count}",'',:class=>"recommand_count") : 0%>
+      <%#*<b>被推荐 </b>%>
+      <%#= short_info.recommends_count>0 ?  link_to("#{short_info.recommends_count}",'',:class=>"recommand_count") : 0%>
+      <%= link_to "查看详细",object %>
     </div>
-    <p >
-      <%= render :partial=>"groups/operation" ,:object=>short_info %>
-    </p>
+<%#*<p >%>
+<%#= render :partial=>"groups/operation" ,:object=>short_info %>
+<%#*</p>%>
   </div>
   <p class="clear" />
 </div>

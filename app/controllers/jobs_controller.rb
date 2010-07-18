@@ -51,7 +51,7 @@ class JobsController < ApplicationController
         format.xml  { render :xml => @job }
       else
         format.html{
-          flash[:error] = @company.errors.full_messages.to_s
+          flash[:notice] = @company.errors.full_messages.to_s
           redirect_to @company
         }
       end
@@ -144,6 +144,7 @@ class JobsController < ApplicationController
   protected
 
   def find_company
-    @company =  current_user.current_companies.find(params[:company_id])
+    @company =  Company.find(params[:company_id])
+ 
   end
 end

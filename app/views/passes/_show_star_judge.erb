@@ -6,7 +6,7 @@
   yokemate_count=pass.judges.size%>
 
   <%= middle_star(pass.average_judge("ability_value") ) %>
-  <%=  " <span class=\"red_text large\">#{pass.average_judge("ability_value")  }</span>" %>
+  <%=  " <span class=\"red_text large strong\">#{pass.average_judge("ability_value")  }</span>" %>
 
   <%=  link_to_function "详细>>",
     " Element.toggle('#{dom_id(pass,"ability_detail_judge")}');if (Element.visible('#{dom_id(pass,"ability_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
@@ -21,7 +21,7 @@
   <span>沟通能力</span>
 
   <%= middle_star(pass.average_judge("eq_value")) %>
-  <%=  " <span class=\"red_text large\">#{pass.average_judge("eq_value") }</span>" %>
+  <%=  " <span class=\"red_text large strong\">#{pass.average_judge("eq_value") }</span>" %>
   <%=  link_to_function "详细>>",
     " Element.toggle('#{dom_id(pass,"eq_detail_judge")}');if (Element.visible('#{dom_id(pass,"eq_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
 
@@ -35,7 +35,7 @@
 <div >
   <span>资料真实</span>
   <%= middle_star(pass.average_judge("creditability_value")) %>
-  <%=  " <span class=\"red_text large\">#{pass.average_judge("creditability_value")}</span>"  %>
+  <%=  " <span class=\"red_text large strong\">#{pass.average_judge("creditability_value")}</span>"  %>
   <%=  link_to_function "详细>>",
     " Element.toggle('#{dom_id(pass,"creditability_detail_judge")}');if (Element.visible('#{dom_id(pass,"creditability_detail_judge")}')) this.update('详细<<'); else this.update('详细>>') ;"%>
 

@@ -1,57 +1,55 @@
-<div id="left_content">
-  <h1>公司搜索</h1>
-  <div class="bottom_gray_line "  >
+<%search_form   do |f|%>
+  <div id="left_content">
+    <h1>公司搜索</h1>
+    <div class="bottom_gray_line "  >
+      <p>
+        <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
+        <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
+        <%= text_default_value 'search',"输入公司名称" %>
+      </p>
+    </div>
     <p class="r">
       <%= label_tag :search ,"排序",:class=>"filed_lab" %>
-      <%= select_tag :salary_order_select,options_for_salary_order(params[:salary_order]),
-        {:onchange=>"$('salary_order').value=this.value;$('search_submit').click();"} %> <%= select_tag :condition_order_select,options_for_condition_order(params[:condition_order]),
-        {:onchange=>"$('condition_order').value=this.value;$('search_submit').click();"} %>  记录共<%= @companies.size %>条
+      <%= select_tag :salary_order,options_for_salary_order(params[:salary_order]),
+        {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}%>
+      <%= select_tag :condition_order,options_for_condition_order(params[:condition_order]),
+        {:onchange=>'this.form.onsubmit();this.form.submit();return false;'} %>  记录共<%= @companies.size %>条
     </p>
     <p class="c"/>
+    <div id="search_result">
+      <%= highlight render(:partial=>"companies/company_info_and_operation",:collection=>@companies),params[:search] %>
+      <%= will_paginate  @companies %>
+    </div>
   </div>
-  <div id="search_result">
-    <%= render :partial=>"companies/company_info_and_operation",:collection=>@companies %>
-    <%= will_paginate  @companies %>
-  </div>
-</div>
-<div id="right_content">
-  <% sub_block_div() do%>
-    <%= link_to "<< 返回公司首页",companies_path() %>
-  <%end%>
-  <% sub_block_div("搜索条件") do%>
-    <% form_for "search",:url=>{:action=>'search'},:html=>{:id=>'search_form',:method=>"get",:class=>''} do |f| %>
-      <%= hidden_field_tag :salary_order,params[:salary_order],:id=>:salary_order %>
-      <%= hidden_field_tag :condition_order,params[:condition_order],:id=>:condition_order %>
+  <div id="right_content">
+    <% sub_block_div() do%>
+      <%= link_to "<< 返回所有公司首页",companies_path() %>
+    <%end%>
+    <% sub_block_div("搜索条件") do%>
+
       <p>
-        <%= label_tag :search ,"公司名称",:class=>"filed_lab" %><br/>
-        <%= text_field_tag  "search","",:class=>"text",:value=>params[:search] %>
-        <%= text_default_value 'search',"输入公司名称" %>
-        <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
-      </p>
-      <p>
-        <%= label_tag :industry ,"所属行业",:class=>"filed_lab" %><br/>
+        <%= label_tag :industry ,"所属行业"  %><br/>
         <%= select_tag  :industry_id,
           options_for_industry(params[:industry_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
       <p>
-        <%= label_tag :company_type, "公司类型",:class=>"filed_lab" %><br/>
+        <%= label_tag :company_type, "公司类型"  %><br/>
         <%= select_tag :company_type_id,options_for_company_type(params[:company_type_id].to_i) ,
           {:onchange=>'this.form.onsubmit();this.form.submit(); '} %>
       </p>
       <p>
-        <%= label_tag  :size,"公司规模",:class=>"filed_lab" %><br/>
+        <%= label_tag  :size,"公司规模" %><br/>
         <%= select_tag :company_size_id,options_for_company_size(params[:company_size_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();'}  %>
       </p>
-
       <p>
-        <%=label_tag  :address ,"城市",:class=>"filed_lab" %><br/>
+        <%=label_tag  :address ,"城市" %><br/>
         <%= select_tag :state_id,options_for_state(params[:state_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
         <%= select_tag :city_id,options_for_city(params[:state_id],params[:city_id].to_i),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
       </p>
     <%end%>
-  <%end%>
-</div>
+  </div>
+<%end%>

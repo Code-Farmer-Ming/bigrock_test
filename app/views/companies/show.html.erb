@@ -110,6 +110,6 @@
   <%end if @company.log_items.size>0%>
 
   <% sub_block_div("相关公司") do %>
-    <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies.limit(4) %>
+    <%= render :partial=>"companies/company_short_info",:collection=> @company.related_companies.find(:limit=>4) %>
   <%end%>
 </div>

@@ -84,7 +84,7 @@ label{
     font-size: 12px;
 }
 #main{
-    min-width:1024px;
+    min-width:1000px;
 }
 /* header*/
 #header{
@@ -424,8 +424,8 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 .red_text{
     color:#ff3333;
-/*    font-weight:bold;
-    font-size:14px;*/
+    /*    font-weight:bold;
+        font-size:14px;*/
 }
 
 .big_text{
@@ -619,14 +619,14 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 
 .list li a{
-/*    display: block;*/
+    /*    display: block;*/
     width:100%;
     /*    padding:2px 4px;*/
     max-height:6em;
     /*    margin-bottom:2px;*/
 
 }
- 
+
 #current_li a{
     color:black;
     background-color: #E1E9F8;
@@ -743,6 +743,7 @@ ul#nav .activelink a,ul#nav a:hover{
 .tag{
     background-color:#ccff99;
     font-weight: normal;
+    border: 1px solid #e6e6e6;
 }
 .disable_tag{
     background-color:silver;
@@ -872,7 +873,7 @@ div.auto_complete ul strong.highlight {
     text-decoration:underline;
 }
 /*XX 最后回复 于 */
- 
+
 #topic_content h1{
     font-size:25px;
 }
