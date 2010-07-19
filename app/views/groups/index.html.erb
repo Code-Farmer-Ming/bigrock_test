@@ -5,7 +5,7 @@
   <% sub_block_div("小组热门标签",link_to("全部",tags_path(:type=>:Group))) do %>
     <%= render :partial=>"tags/tag_info" ,:collection=>@hot_tags,:locals=>{:type=>:Group}  %><%=  link_to("…",tags_path(:type=>:Group))%>
   <%end%>
-  <% sub_block_div("最新话题") do %>
+  <% sub_block_div("最新话题",link_to("全部",topics_path())) do %>
     <%= render :partial=>"topics/topic_item",:collection=>Topic.group_topics.order_by_last_comment.all(:limit=>20),:locals=>{:show_group=>true}%>
   <%end%>
 </div>

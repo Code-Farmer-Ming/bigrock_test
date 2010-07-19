@@ -8,11 +8,15 @@ class TopicsController < ApplicationController
     search_str = "%#{params[:search]}%"
     if params[:company_id]
       @owner = Company.find(params[:company_id])
-    else
+    elsif params[:group_id]
       @owner = Group.find(params[:group_id])
+    else
+      @topics = Topic.order_by_last_comment.paginate  :conditions=>["title like ? or content like ?",search_str,search_str], :page => params[:page]
     end
-    @topics = @owner.topics.top_level_and_last_comment.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
-    @page_title = "#{@owner.name} 话题"
+    if @owner
+      @topics = @owner.topics.top_level_and_last_comment.paginate :conditions=>["title like ? or content like ?",search_str,search_str],:page => params[:page]
+    end
+    @page_title = @owner ? "#{@owner.name}" : "话题"
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @topics }

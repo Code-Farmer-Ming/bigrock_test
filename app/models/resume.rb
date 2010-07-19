@@ -36,7 +36,7 @@
 class Resume < ActiveRecord::Base
   #简历类型
   RESUME_TYPES=["中文","英文"]
-  validates_format_of :blog_website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
+#  validates_format_of :blog_website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
 
   belongs_to :state
   belongs_to :city

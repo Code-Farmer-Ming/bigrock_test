@@ -1,33 +1,35 @@
 <div id="left_content">
-  <h1><%= "#{@owner.name}" %></h1>
+  <h1><%= @page_title  %></h1>
   <div class="bottom_gray_line "  >
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索话题",:url=>""} %>
     <p class="r">
       <%= @topics.size %>条
     </p>
     <p class="c"/>
   </div>
   <%  sub_block_div() do %>
-    <%= render :partial=>"topics/topic_item",:collection=>@topics %>
+    <%= render :partial=>"topics/topic_item",:collection=>@topics,:locals=>{:show_group=>!@owner}  %>
     <%= will_paginate @topics %>
   <%end%>
 </div>
 
 <div id="right_content">
-  <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索话题",:url=>""} %>
+
   <%  sub_block_div() do %>
     <%= link_to "+发言", {:action=>:new,:controller=>:topics} ,:class=>"button" %>
-    <p class="clear" />
-  <%end%>
+
+  <%end  if @owner%>
 
   <% sub_block_div() do %>
     <%= link_to "<< 返回 #{@owner.name}首页", [@owner] %>
-  <%end%>
+  <%end if @owner%>
 
   <%  sub_block_div("评价最高的话题") do %>
-    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=>@owner.topics.highter_scope(:limit=>15).since(7.days.ago) %>
-  <%end%>
+    <%= render :partial=>"comm_partial/topic_or_news_title_item",:collection=> (@owner ?
+        @owner.topics.highter_scope(:limit=>15).since(7.days.ago)  : Topic.highter_scope(:limit=>15).since(7.days.ago)) %>
+  <%end  %>
 
   <%  sub_block_div("评价最高的回复") do %>
-    <%= render :partial=>"comments/hot_comment",:collection=>@owner.comments.higher_scope.all(:limit=>20),:locals=>{:show_news_title=>true} %>
-  <%end%>
+    <%= render :partial=>"comments/hot_comment",:collection=> @owner.comments.higher_scope.all(:limit=>20),:locals=>{:show_news_title=>true} %>
+  <%end  if @owner%>
 </div>

@@ -1,6 +1,6 @@
   html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
 body {line-height:1.5;}
-table {border-collapse:separate;border-spacing:0;}
+table {border-collapse:separate;border-spacing:0; border-collapse: collapse;}
 caption, th, td {text-align:left;font-weight:normal;}
 table, td, th {vertical-align:middle;}
 blockquote:before, blockquote:after, q:before, q:after {content:"";}
@@ -180,7 +180,7 @@ label{ cursor: pointer}
 #errorExplanation h2 {text-align: left; font-weight: bold; padding: 5px 5px 5px 15px; font-size: 12px; margin: -7px; background-color: #c00; color: #fff}
 #errorExplanation p {color: #333; margin-bottom: 0; padding: 5px; margin:5px}
 #errorExplanation ul li {font-size: 12px}
-#main{ min-width:1024px}
+#main{ min-width:1000px}
  #header{ height:80px; background-color:#c9ff5e; background-image: url(/images/logo.png); background-repeat: no-repeat; background-position: 25px;  }
 .content{ margin:16px auto;  }
 #footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px; padding: 8px}
@@ -302,7 +302,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 #industry_link_list li{ display: inline; float: left}
 #industry_link_list a{ width: 16em; padding:2px 4px; display:block}
  .tag,.disable_tag{ padding:2px 8px; margin:1px; display:inline-block; cursor:pointer}
-.tag{ background-color:#ccff99; font-weight: normal}
+.tag{ background-color:#ccff99; font-weight: normal; border: 1px solid #e6e6e6}
 .disable_tag{ background-color:silver}
 #company_tags,.tag_input{ width:380px}
  div.auto_complete {width: 350px; background: #fff}
@@ -360,8 +360,8 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .edit_img_button{ background-image:url(/images/edit_img.gif)}
 .del_img_button{ background-image:url(/images/del_img.png)}
 .visible_0{ background-image:url(/images/visible_open.png)}
-.visible_1{ background-image:url(/images/visible_olny_friend.png)}
-.visible_2{ background-image:url(/images/visible_self.png)}
+.visible_1{ background-image:url(/images/visible_self.png)}
+.visible_2{ background-image:url(/images/visible_olny_friend.png)}
 .text_center{ text-align:center}
 .set_center{ margin:0 auto}
  .user_state_working,.user_state_freedom,.user_state_student{ display:inline-block; font-size:12px; height:60px; width:10px; height:10px; line-height:10px; background-repeat:no-repeat; margin:0 2px 0 0}

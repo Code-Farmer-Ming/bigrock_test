@@ -104,6 +104,7 @@ class ResumesController < ApplicationController
         format.xml  { head :ok }
         format.js {}
       else
+        format.js {}
         format.html { render :action => "edit" }
         format.xml  { render :xml => @resume.errors, :status => :unprocessable_entity }
       end

@@ -43,7 +43,7 @@
       </ul>
     <%end%>
 
-    <%  sub_block_div("最新的话题") do %>
+    <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
       <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
     <%end%>
   <%else%><%#登录以后%>
