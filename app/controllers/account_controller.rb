@@ -124,9 +124,7 @@ class AccountController < ApplicationController
               page << "Lightbox.show('/account/login')"
             end
           end
-        }
-    
-     
+        }     
       end
     end
   end
@@ -341,10 +339,8 @@ class AccountController < ApplicationController
     @user = current_user
     if params[:pass_id]
       @pass = Pass.find(params[:pass_id])
-      @unjudge_yokemates =  @pass.yokemates.find(:all,:conditions=>["a.user_id not in (?)",@user.judged_yokemate_ids]).paginate :page => params[:page]
-    else
-      @unjudge_yokemates =  @user.current_resume.yokemates.all(:conditions=>["b.user_id not in (?)",@user.judged_yokemate_ids]).paginate :page => params[:page]
     end
+    @unjudge_yokemates =  @user.unjudge_yokemates(@pass).paginate :page => params[:page]
   end
   
   #给公司的评价
@@ -357,7 +353,7 @@ class AccountController < ApplicationController
   def unjudge_company
     @page_title ="未评价的公司信息"
     @user = current_user
-    @unjudge_companies = @user.current_resume.pass_companies.all(:conditions=>["company_id not in (?)",@user.judged_company_ids ]).paginate :page => params[:page]
+    @unjudge_companies = @user.unjudge_companies.paginate :page => params[:page]
   end
 
   def published_jobs

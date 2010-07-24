@@ -30,11 +30,12 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.xml
   def new
-    @group = Group.new
     @page_title =  "创建小组"
-    if current_user.manage_groups.size>=4
-      flash[:notice] = "你已经管理4个小组了，太多了吧"
+    if Group.can_create?(current_user)
+      flash[:notice] = "你已经管理多个小组了，精力好像不够吧。"
       redirect_to  groups_path()
+    else
+      @group = Group.new
     end
   end
 
@@ -42,7 +43,7 @@ class GroupsController < ApplicationController
   def edit
     @page_title = @group.name + " 编辑"
     if !@group.is_manager_member?(current_user)
-      flash[:notice] = "操作错误！"
+      flash[:notice] = @group.errors.full_messages.to_s
       redirect_to @group
     end
   end

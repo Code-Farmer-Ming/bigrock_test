@@ -47,4 +47,11 @@ class GroupTest < ActiveSupport::TestCase
     group_one.reload()
     assert_equal 1,group_one.related_popular_groups.size
   end
+
+  test "log items" do
+    group =  groups(:three)
+    assert_difference("group.logable_log_items.count") do
+       group.add_to_member(users(:three))
+    end
+  end
 end

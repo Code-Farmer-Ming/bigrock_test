@@ -50,7 +50,7 @@ StarRank.prototype = {
         this.links = new Array(5);
         this.title = document.createElement("span");
         this.title.setAttribute('style', "DISPLAY: inline-block;");
-
+        Element.update(this.title, '&nbsp;&nbsp;');
         for(var i = 5; i >= 1; i--) {
             var lnk1
             

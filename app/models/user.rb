@@ -552,6 +552,19 @@ class User< ActiveRecord::Base
     self.salt = self.object_id.to_s + rand.to_s
   end
   #END:create_new_salt
+  #未评价的同事
+  def unjudge_yokemates(pass=nil)
+    if pass
+      pass.yokemates.find(:all,:conditions=>["a.user_id not in (?)",judged_yokemate_ids])
+    else
+      current_resume.yokemates.all(:conditions=>["b.user_id not in (?)",judged_yokemate_ids])
+    end
+  end
+  #未评价的公司
+  def unjudge_companies
+    current_resume.pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])
+  end
+
   private
   #  #START:encrypted_password
   def self.encrypted_password(password, salt)

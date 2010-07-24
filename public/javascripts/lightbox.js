@@ -22,8 +22,8 @@ lightbox.prototype = {
         $('lightbox').style.margin ="";
         $('lightbox').style.height ="";
         $('lightbox').style.width = "";
-         $('lightbox').style.height = $('lightbox').scrollHeight + 'px';
-     //   $('lightbox').style.width = $('lightbox').scrollWidth  + 'px';
+        // $('lightbox').style.height = $('lightbox').scrollHeight + 'px';
+        $('lightbox').style.width = $('lightbox').scrollWidth  + 'px';
 
         $('lightbox').style.margin = "-" +  $('lightbox').scrollHeight /2 +"px 0 0 "
         + "-" + $('lightbox').scrollWidth /2 +"px";

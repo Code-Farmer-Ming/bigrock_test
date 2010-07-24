@@ -1,25 +1,25 @@
 <%f= form %>
 <%= f.error_messages %>
-<p>
+<div class="form_row">
   <%= f.label :ability_value,"工作能力"  ,:class=>"filed_lab" %>
   <%=  rating_field :judge, :ability_value%>
-</p>
-<p >
+</div>
+<div class="form_row">
   <%= f.label :eq_value,"沟通能力" ,:class=>"filed_lab"  %>
   <%=  rating_field :judge, :eq_value%>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :creditability_value,"资料真实" ,:class=>"filed_lab"  %>
   <%=  rating_field :judge, :creditability_value%>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= form.label :visiabled1,"评价",:class=>"filed_lab" %>
   <%= form.check_box  :anonymous %><%= form.label :anonymous,"匿名评价" %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :description,"写点什么"  ,:class=>"filed_lab" %>
   <%= f.text_area :description,:class=>"tag_input" %>
-</p>
+</div>
 <div>
   <div class="l">
     <%= label_tag "user_tags","常用标签" ,:class=>"filed_lab" %></div>
@@ -36,8 +36,8 @@
   <%= javascript_tag("new TagInput('my_tags','#user_tags span.tag')") %>
   <%=  auto_complete_field("my_tags", {:update=>"tags_list", :url => {:controller=>"company_judges",  :action => "auto_complete_for_tag" },:tokens=>" " })%>
 </div>
-<p>
+<div class="form_row">
   <%= label_tag "sub","   &nbsp;" ,:class=>"filed_lab" %>
   <span class="quiet">多个标签用空格分开</span>
-</p>
+</div>
 

@@ -20,11 +20,11 @@ module RatingHelper
  
 
     if options[:value]
-      content_tag(:span, hidden_field_tag("#{object}[#{method}]",options[:value] ? options[:value] : 0,
+      content_tag(:div, hidden_field_tag("#{object}[#{method}]",options[:value] ? options[:value] : 0,
           :class=>"int-range-1-5 validation-failed  required",:title=>"评价一下吧")+ (options[:extension_html] || "") ,options)+
         javascript_tag(function)
     else
-      content_tag(:span, hidden_field(object,method,:class=>"int-range-1-5 validation-failed required",:title=>"评价一下吧")+ (options[:extension_html] || ""),options)+
+      content_tag(:div, hidden_field(object,method,:class=>"int-range-1-5 validation-failed required",:title=>"评价一下吧")+ (options[:extension_html] || ""),options)+
         javascript_tag(function)
     end
   end

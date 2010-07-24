@@ -8,11 +8,9 @@ class MembersController < ApplicationController
     @normal_members = @group.normal_members.paginate :joins=>"join resumes on users.id = resumes.user_id ",
       :conditions=>[" resumes.user_name like ?",'%'+(params[:search] || '')+'%'],
       :page => params[:page]
-
   end
 
   def destroy
-  
     if @group.is_manager_member?(current_user) && @group.remove_member(@user)
       render :update do |page|
         page.visual_effect :fade, "group_member_user_#{params[:id]}", :duration => 0.5

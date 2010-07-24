@@ -35,7 +35,7 @@
   <%= javascript_tag("new TagInput('my_tags','#company_tags span.tag')") %>
   <%=  auto_complete_field("my_tags", {:update=>"tags_list", :url => {:controller=>"company_judges", :action => "auto_complete_for_tag" },:tokens=>" " })%>
 </div>
-<p>
+<div class="form_row">
   <%= label_tag "sub","   &nbsp;" ,:class=>"filed_lab" %>
   多个标签用空格分开
-</p>
+</div>

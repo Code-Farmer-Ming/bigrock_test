@@ -13,7 +13,7 @@
     }) %>
 </div>
 <%= hidden_field_tag  "company[last_edit_user_id]" ,current_user.to_param %>
-<p>
+<div class="form_row">
   <%= f.label :name,"公司名称",:class=>"filed_lab" %>
   <% if (@company.name.blank? || @_first_render.name=='edit')   %>
     <%=  f.text_field(:name ,:class=>"text"  ) %>
@@ -24,36 +24,36 @@
   <%@company.versions.find_version_by_column(:name).each do |version| %>
     <%= link_to_function "版本#{i+=1}","$('company_name').value='#{version.name}'",:title=>"#{version.name}" %>
   <%end%>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :industry ,"所属行业",:class=>"filed_lab" %>
   <%= f.select :industry_id,Industry.select_options,{}  %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :company_type, "公司类型",:class=>"filed_lab" %>
   <%= f.select :company_type_id,CompanyType.select_options  %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :size,"公司规模",:class=>"filed_lab" %>
   <%= f.select :company_size_id,CompanySize.select_options %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :phone,"电话",:class=>"filed_lab"  %>
   <%= f.text_field :phone,:class=>"text"  %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :fax,"传真",:class=>"filed_lab"  %>
   <%= f.text_field :fax ,:class=>"text" %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :website,"网站",:class=>"filed_lab"  %>
   <%= f.text_field :website ,:class=>"text" %>
   <%  i=0 %>
   <%@company.versions.find_version_by_column(:website).each do |version| %>
     <%= link_to_function "版本#{i+=1}","$('company_website').value='#{version.website}'",:title=>"#{version.website}" %>
   <%end%>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%  i=0 %>
   <%= f.label :address, "地址",:class=>"filed_lab" %>
   <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
@@ -65,8 +65,8 @@
   <%@company.versions.find_version_by_column(:address).each do |version| %>
     <%= link_to_function "版本#{i+=1}","$('company_address').value='#{version.address}'" ,:title=>"#{version.address}"%>
   <%end%>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%  i=0 %>
   <%= f.label :description,"介绍",:class=>"filed_lab"  %>
   <%= f.text_area :description ,:rows=>6%>
@@ -74,4 +74,4 @@
   <%@company.versions.find_version_by_column(:description).each do |version| %>
     <%= link_to_function "版本#{i+=1}","$('company_description').value=this.title",:title=>"#{version.description}" %>
   <%end%>
-</p>
+</div>

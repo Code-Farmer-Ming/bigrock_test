@@ -16,16 +16,16 @@ class UserTest < ActiveSupport::TestCase
     user.email="email@gmail.com"
     user.text_password="password"
     user.text_password_confirmation = "password"
-    assert user.text_password=="password","text_password is not match"
+    assert user.text_password=="password","两次输入的密码不匹配"
     assert user.valid?,user.errors.full_messages.to_s
-    assert user.save,"save fail"
-    assert !user.errors.invalid?("email"),"email is nil"
-    assert !user.errors.invalid?(:password),"password is nil"
-    assert !user.errors.invalid?(:nickName),"nickname is nil"
+    assert user.save,"保存失败"
+    assert !user.errors.invalid?("email"),"邮箱是空"
+    assert !user.errors.invalid?(:password),"密码是空"
+    assert !user.errors.invalid?(:nickName),"昵称是空"
 
     users= User.find_all_by_email("email@gmail.com")
-    assert users.length>0 ,"users is nil"
-    assert users[0].password ==User.encrypted_password("password",users[0].salt),"password is not match"
+    assert users.length>0 ,"不存在用户"
+    assert users[0].password ==User.encrypted_password("password",users[0].salt),"密码不匹配"
     assert users[0].aliases.size>0,"别名创建失败"
     assert_not_nil users[0].current_resume 
   end
@@ -350,7 +350,6 @@ class UserTest < ActiveSupport::TestCase
       new_job = Job.new(:company_id=>1,:city_id=>1,:title=>'title',
         :job_description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
       user_one.published_jobs << new_job
-      
     end
   end
 
@@ -366,4 +365,26 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "unjudge yokemates" do
+    user_1 = users(:one)
+    user_3=users(:three)
+    user_1.current_resume.passes << Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:user=>user_1,:job_title_id=>1,:department=>"部门")
+    assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.last).count",0) do
+      assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.first).count") do
+        assert_difference("user_1.unjudge_yokemates.count") do
+          temp_pass = user_1.current_resume.passes.first.clone
+          temp_pass.resume_id = user_3.current_resume.id
+          temp_pass.user_id= user_3.id
+          user_3.current_resume.passes << temp_pass
+        end
+      end
+    end
+  end
+
+  test "unjudge companies" do
+    user_1 = users(:one)
+    assert_difference("user_1.unjudge_companies.count") do
+      user_1.current_resume.passes << Pass.new(:company=>companies(:three),:resume=>user_1.current_resume,:user=>user_1,:job_title_id=>1,:department=>"部门")
+    end
+  end
 end

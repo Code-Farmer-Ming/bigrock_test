@@ -97,6 +97,9 @@ class Group < ActiveRecord::Base
   #推荐
   has_many :recommends,:as=>:recommendable,:dependent=>:destroy,:order=>"created_at desc"
 
+  #被动 作为 消息记录的内容
+  has_many :logable_log_items,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"
+  
   #新创建的 小组
   named_scope :new_groups,:order=>"created_at desc"
   #帖子最多的小组
@@ -176,6 +179,11 @@ class Group < ActiveRecord::Base
       member.update_attribute("type",Member::MEMBER_TYPES[2] ) if member
     end
   end
+  #是否 还可以创建小组，现在管理小组的数量不能多于4个
+  def self.can_create?(user)
+       user.manage_groups.size<=4
+  end
+  
   #图标 文件路径
   def icon_file_path(thumbnail=nil)
     if (thumbnail.nil?)
@@ -184,6 +192,7 @@ class Group < ActiveRecord::Base
       icon ? (icon.public_filename(thumbnail)) : "default_group_thumb.png"
     end
   end
+
 
   private
   

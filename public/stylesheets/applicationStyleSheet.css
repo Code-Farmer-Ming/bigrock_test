@@ -168,7 +168,11 @@ label{
     margin:0px 3px;
     display:inline-block;
     float: left;
-    /*  line-height:22px;*/
+    line-height:25px;
+    height:25px;
+    vertical-align: middle;
+    overflow: hidden;
+
 }
 .form_info .group_lab{
     color:blue;
@@ -178,7 +182,7 @@ label{
     padding:12px;
 }
 
-.form_row{margin:0 0 0.5em;}
+.form_row{margin:0 0 0.5em;overflow:hidden;zoom:1;}
 
 .drop_button{
     cursor: pointer;
@@ -480,8 +484,7 @@ ul#nav .activelink a,ul#nav a:hover{
 .group_icon p,.user_icon p{
     padding:0px;
     margin:0px;
-    line-height:1;
-    margin-top:2px;
+    line-height:1.2;
     overflow:hidden;
     white-space:normal;
     word-break:break-all;
@@ -594,7 +597,8 @@ ul#nav .activelink a,ul#nav a:hover{
     height:70px;
     width: 70px;
     vertical-align:middle;
-    display:table-cell;
+    margin-top:2px;
+    /* display:table-cell;*/
 }
 .company_icon a{
     line-height:0px;
@@ -698,15 +702,15 @@ ul#nav .activelink a,ul#nav a:hover{
     margin-bottom: 0.8em;
 }
 .company_short_info .icon .icon_inner{
-    display:table-cell;
-    vertical-align:middle;
-    text-align:center;
-    height:68px;
-    line-height:68px;
-    width:68px;
-
-    *font-size: 59px;/*约为高度的0.873，200*0.873 约为175*/
-    *font-family:Arial;/*防止非utf-8引起的hack失效问题，如gbk编码*/
+    /*    display:table-cell;
+        vertical-align:middle;
+        text-align:center;
+        height:68px;
+        line-height:68px;
+        width:68px;*/
+    /*
+        *font-size: 59px;约为高度的0.873，200*0.873 约为175
+        *font-family:Arial;防止非utf-8引起的hack失效问题，如gbk编码*/
 }
 .company_short_info .icon .icon_inner img{
     vertical-align:middle;
