@@ -2,18 +2,16 @@
 #
 # Table name: log_items
 #
-#  id                :integer       not null, primary key
-#  logable_type      :string(255)   
-#  logable_id        :integer       
-#  log_type          :string(255)   
-#  changes           :string(255)   
-#  owner_id          :integer       
-#  owner_type        :string(255)   
-#  created_at        :datetime      
-#  updated_at        :datetime      
-#  operation         :string(255)   
-#  origin_value_type :string(255)   
-#  origin_value_id   :integer       
+#  id           :integer       not null, primary key
+#  logable_type :string(255)   
+#  logable_id   :integer       
+#  log_type     :string(255)   
+#  operation    :string(255)   
+#  changes      :string(255)   
+#  owner_id     :integer       
+#  owner_type   :string(255)   
+#  created_at   :datetime      
+#  updated_at   :datetime      
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

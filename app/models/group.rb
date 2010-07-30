@@ -6,7 +6,7 @@
 #  name             :string(255)   not null
 #  description      :text          default(""), not null
 #  group_type_id    :integer       not null
-#  join_type        :string(255)   not null
+#  join_type        :string(16)    not null
 #  create_user_id   :integer       not null
 #  members_count    :integer       default(0)
 #  topics_count     :integer       default(0)
@@ -179,9 +179,9 @@ class Group < ActiveRecord::Base
       member.update_attribute("type",Member::MEMBER_TYPES[2] ) if member
     end
   end
-  #是否 还可以创建小组，现在管理小组的数量不能多于4个
+  #是否 还可以创建小组，现在管理小组的数量不能多于3个
   def self.can_create?(user)
-       user.manage_groups.size<=4
+       user.manage_groups.size<4
   end
   
   #图标 文件路径

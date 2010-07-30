@@ -10,10 +10,9 @@
 #  ability_value       :integer       default(0)
 #  eq_value            :integer       default(0)
 #  description         :text          
-#  visiabled           :boolean       default(TRUE)
+#  anonymous           :boolean       
 #  created_at          :datetime      
 #  updated_at          :datetime      
-#  anonymous           :boolean       default(TRUE)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

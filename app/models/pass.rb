@@ -22,11 +22,11 @@
 
 class Pass < ActiveRecord::Base
 
-  validates_uniqueness_of :user_id, :scope => [:resume_id,:company_id ]
+  validates_uniqueness_of :company_id, :scope => [:resume_id,:user_id ]
   #记录修改 资料
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:log_type=>"resume",:logable=>"company"
   #记录公司 加入人
-  acts_as_logger :log_action=>["create"],:owner_attribute=>"company",:log_type=>"join_company",:logable=>"user"
+  acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"company",:log_type=>"join_company",:logable=>"user"
   attr_accessor :title
   
   belongs_to :resume

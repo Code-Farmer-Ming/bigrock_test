@@ -42,6 +42,14 @@ class MsgTest < ActiveSupport::TestCase
     assert Msg.save_all(msg),"同时发送多个信息失败"
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
+  test "send to self" do
+     ActionMailer::Base.deliveries.clear
+    msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
+    msg.sender_id = 2
+    msg.sendees="2 3"
+    assert_false Msg.save_all(msg),"发给自己居然成功"
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
   
   test "send_to_multi_msg_faild" do
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")

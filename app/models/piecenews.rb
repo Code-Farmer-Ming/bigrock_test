@@ -3,16 +3,16 @@
 # Table name: news
 #
 #  id                :integer       not null, primary key
-#  company_id        :integer       
-#  title             :string(255)   
-#  content           :text          
-#  create_user_id    :integer       
+#  company_id        :integer       not null
+#  title             :string(64)    not null
+#  content           :text          default(""), not null
+#  create_user_id    :integer       not null
 #  last_edit_user_id :integer       
 #  created_at        :datetime      
 #  updated_at        :datetime      
 #  up                :integer       default(0)
 #  down              :integer       default(0)
-#  comments_count    :integer       
+#  comments_count    :integer       default(0)
 #  recommends_count  :integer       default(0)
 #  view_count        :integer       default(0)
 #  last_edit_at      :datetime      

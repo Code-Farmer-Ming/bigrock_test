@@ -7,7 +7,7 @@
 #  user_id    :integer       
 #  created_at :datetime      
 #  updated_at :datetime      
-#  is_current :boolean       default(TRUE)
+#  is_current :boolean       
 #
 
 class MyLanguage < ActiveRecord::Base

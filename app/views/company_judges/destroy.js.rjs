@@ -5,5 +5,5 @@ page.select( "##{dom_id(@company_judge,"judge_item")}" ).each  do |item|
 end
 
 page.select("#company_judge_count").each do |item|
-  page.replace_html("company_judge_count",render(:text=>"评价信息" +(@company_judge.company.judges.size>0 ? "(#{@company_judge.company.judges.size})" : "")))
+  page.replace_html("company_judge_count",render(:text=>"#{@company_judge.company.judges.size}"))
 end

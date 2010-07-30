@@ -3,14 +3,15 @@
 # Table name: users
 #
 #  id         :integer       not null, primary key
+#  nick_name  :string(255)   default("马甲"), not null
 #  email      :string(255)   not null
 #  password   :string(255)   not null
+#  title      :string(255)   default("")
 #  is_active  :boolean       
 #  created_at :datetime      
 #  updated_at :datetime      
-#  nick_name  :string(128)   
 #  parent_id  :integer       default(0), not null
-#  state      :string(12)    default("working")
+#  state      :string(12)    default("freedom")
 #  salt       :string(255)   not null
 #
 

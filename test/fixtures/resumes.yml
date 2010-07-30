@@ -18,7 +18,6 @@
 #  personal_website :string(255)   
 #  website3         :string(255)   
 #  website4         :string(255)   
-#  photo            :string(255)   default("imagesdefault_thumb.png")
 #  self_description :text          
 #  goal             :string(255)   
 #  interests        :string(255)   

@@ -5,5 +5,5 @@ page.insert_html :top,"company_judge_infos" ,render(:partial=>"company_judges/sh
 page.replace_html("tag_topN_list",render(:partial=>"tags/tag_topN_list",:object=>@company))
 
 page.select("#company_judge_count").each do |item|
-  page.replace_html("company_judge_count",render(:text=>"评价信息" +(@company.judges.size>0 ? "(#{@company.judges.size})" : "")))
+  page.replace_html("company_judge_count",render(:text=>"#{@company.judges.size}"))
 end

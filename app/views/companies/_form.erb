@@ -12,7 +12,7 @@
     {:button_text=>"上传文件",:post_params=>{:type=>CompanyIcon.to_s},:button_width=>60,:button_height=>18
     }) %>
 </div>
-<%= hidden_field_tag  "company[last_edit_user_id]" ,current_user.to_param %>
+<%#= hidden_field_tag  "company[last_edit_user_id]" ,current_user.to_param %>
 <div class="form_row">
   <%= f.label :name,"公司名称",:class=>"filed_lab" %>
   <% if (@company.name.blank? || @_first_render.name=='edit')   %>

@@ -5,13 +5,12 @@
 #  id              :integer       not null, primary key
 #  company_id      :integer       
 #  user_id         :integer       
-#  salary_value    :integer       
-#  condition_value :integer       
+#  salary_value    :integer       default(0)
+#  condition_value :integer       default(0)
 #  description     :text          
-#  visiabled       :boolean       default(TRUE)
+#  anonymous       :boolean       
 #  created_at      :datetime      
 #  updated_at      :datetime      
-#  anonymous       :boolean       
 #
 
 class CompanyJudge < ActiveRecord::Base

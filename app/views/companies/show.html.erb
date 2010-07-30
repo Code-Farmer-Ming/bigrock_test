@@ -55,12 +55,12 @@
     </p>
   </div>
 
-  <% sub_block_div("评价信息(#{@company.judges.size})",
+  <% sub_block_div("评价信息(<span id='company_judge_count'>#{@company.judges.size}</span>)",
     (link_to("全部",company_company_judges_path(@company)) if@company.judges.size>0)) do %>
     <div id="company_judge_infos">
       <%= render :partial=>"company_judges/show_judge_info",:collection=>@company.judges.find(:all,:limit=>4) %>
     </div>
-  <%end if @company.judges.size>0%>
+  <%end %>
   <%  sub_block_div("话题(#{@company.topics.size})", link_to("+我发言",new_company_topic_path(@company),:title=>"我来发布新话题")+
       "&nbsp;"+(link_to("全部", company_topics_path(@company)))) do  %>
     <%= render :partial=>"topics/topic_item",:collection=>@company.topics.top_level_and_last_comment.all(:limit=>10) %>

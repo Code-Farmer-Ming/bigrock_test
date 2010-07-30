@@ -5,7 +5,7 @@
 #  id          :integer       not null, primary key
 #  user_id     :integer       
 #  friend_id   :integer       
-#  friend_type :integer       
+#  friend_type :integer       default(1)
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #

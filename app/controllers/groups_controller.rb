@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
   # GET /groups/new.xml
   def new
     @page_title =  "创建小组"
-    if Group.can_create?(current_user)
+    if !Group.can_create?(current_user)
       flash[:notice] = "你已经管理多个小组了，精力好像不够吧。"
       redirect_to  groups_path()
     else

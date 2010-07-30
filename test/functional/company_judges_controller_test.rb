@@ -18,6 +18,7 @@ class CompanyJudgesControllerTest < ActionController::TestCase
     },:my_tags=>"好公司"
     assert(companies(:one).judges.exists?(assigns(:judge)),"judge failed")
     assert(!companies(:one).all_tags(:conditions=>"name='好公司'").size.zero?,"tag failed")
+    
   end
 
   test "edit" do

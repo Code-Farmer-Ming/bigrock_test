@@ -6,6 +6,7 @@
 #  name                 :string(255)   default("")
 #  description          :text          
 #  website              :string(255)   default("")
+#  address              :string(255)   default("")
 #  create_user_id       :integer       
 #  created_at           :datetime      
 #  updated_at           :datetime      
@@ -16,7 +17,6 @@
 #  fax                  :string(255)   
 #  phone                :string(255)   
 #  last_edit_user_id    :integer       
-#  address              :string(255)   default("")
 #  industry_root_id     :integer       
 #  industry_second_id   :integer       
 #  industry_third_id    :integer       
@@ -121,6 +121,7 @@ class Company < ActiveRecord::Base
   end
   #动态信息
   has_many :log_items,:as=>:owner,:dependent => :destroy,:order=>"created_at desc"
+
   #公司博客
   has_many :news ,:dependent => :destroy,:order=>"created_at desc"
   has_many :topics,:as=>:owner,:dependent=>:destroy

@@ -8,7 +8,7 @@ class PassesController < ApplicationController
   def new
     @pass = Pass.new
     @page_title= "添加工作经历"
-    if params[:request_company_id]
+    if not params[:request_company_id].to_s.blank?
       flash[:notice] = "现在填写一下工作信息，开始对您的同事进行评价吧"
       @pass.company_id = params[:request_company_id]
     end

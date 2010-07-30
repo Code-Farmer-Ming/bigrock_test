@@ -1707,7 +1707,7 @@ UI.AutoComplete = Class.create(UI.Options, {
     updateSelectedText: function() {
         var selected = this.container.select("li." + this.getClassName("box"));
         var content = selected.collect(function(element) {
-            return element.down("span").firstChild.textContent
+            return element.down("span").firstChild.nodeValue
         });
         var separator = this.getSeparatorChar();
         this.selectedText = content.empty() ? false : content.join(separator);

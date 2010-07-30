@@ -8,7 +8,9 @@ if @pass.errors.length>0
   page.delay(2) do
     page[dom_id(@pass, "error_msg")].visual_effect(:fade)
   end
+else
+  page.insert_html(:bottom,"pass_infos",render(:partial=>"show_passes",:object=>@pass))
+  page[dom_id(@pass,"container")].visual_effect(:highlight)
+  page << "Form.reset('new_pass')"
 end
-page.insert_html(:bottom,"pass_infos",render(:partial=>"show_passes",:object=>@pass))
-page[dom_id(@pass,"container")].visual_effect(:highlight)
-page << "Form.reset('new_pass')"
+

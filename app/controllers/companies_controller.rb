@@ -76,6 +76,7 @@ class CompaniesController < ApplicationController
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
       @company.icon = CompanyIcon.find(params[:uploaded_file_id])
     end
+    @company.last_edit_user = current_user
     respond_to do |format|
       if  @company.update_attributes(params[:company])  
         format.html { redirect_to(@company) }

@@ -104,8 +104,10 @@ for log in show_log
   when "join_company" #加入
     case log.operation
     when "create"
-      temp = "#{link_to log.logable.name,user_path(log.logable)}加入了 #{link_to(log.owner.name,company_path(log.owner))}"
-    end  if log.logable
+      temp = "#{link_to log.logable.name,user_path(log.logable)} 加入了 #{link_to(log.owner.name,company_path(log.owner))}"
+    when "destroy"
+      temp = "#{link_to log.logable.name,user_path(log.logable)} 退出了 #{link_to(log.owner.name,company_path(log.owner))}"
+  end  if log.logable
   when "company_news" #公司博客
     case log.operation
     when "create"

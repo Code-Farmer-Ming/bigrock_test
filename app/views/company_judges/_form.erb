@@ -1,24 +1,24 @@
 <%= form.error_messages %>
-<p style="overflow: auto">
+<div class="form_row">
   <%= form.label :salary_value,"待遇",:class=>"filed_lab" %>
   <%= rating_field :company_judge,:salary_value  %>
   <span id="advice-company_judge_salary_value" class="validation-advice"></span>
-</p>
-<p style="overflow: auto">
+</div>
+<div class="form_row">
   <%= form.label "company[saler1]","工作环境",:class=>"filed_lab" %>
 
   <%= rating_field :company_judge,:condition_value  %>
   <span id="advice-company_judge_condition_value" class="validation-advice"></span>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= form.label :visiabled1,"评价",:class=>"filed_lab" %>
 
   <%= form.check_box  :anonymous %> <%= form.label :anonymous,"匿名评价" %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%=form.label :description,"评论",:class=>"filed_lab" %>
   <%= form.text_area :description ,:rows=>4 ,:class=>"tag_input"%>
-</p>
+</div>
 <div>
   <div class="l">
     <%= label_tag "company_tags","常用标签" ,:class=>"filed_lab" %></div>

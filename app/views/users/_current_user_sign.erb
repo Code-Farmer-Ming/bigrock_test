@@ -1,14 +1,20 @@
 <div id="top_user_info">
   <%if current_user-%>
     <% menu("set_user_state_menu") do -%>
-      <%menu_item() do -%><%
-        link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[0].to_s()))) do -%><%= content_tag :span,"",:class=>"user_state_working" %>&nbsp;我工作很好<%end-%><%end -%><%menu_item() do -%><%
-        link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[1].to_s()))) do-%><%= content_tag :span,"",:class=>"user_state_freedom" %>&nbsp;我需要工作<%end-%><%end -%><%menu_item() do -%><%
-        link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[2].to_s()))) do-%><%= content_tag :span,"",:class=>"user_state_student " %>&nbsp;我还是学生<%end-%><%end -%><%menu_item() do -%><%= link_to "&nbsp;设置图片…",base_info_account_setting_path() %><%end-%>
+      <%0.upto(2) do |i|%>
+        <%menu_item() do -%><%
+          link_to("#", :onclick=>remote_function(:url=>url_for(:action=>"set_user_state",:controller=>"account",:state=>User::STATE_TYPES.keys[i].to_s()))) do -%>
+            <%= content_tag :span,"",:class=>"user_state_#{User::STATE_TYPES.keys[i].to_s}" %>&nbsp;<%=  User::STATE_TYPES.values[i].to_s%>
+          <%end-%>
+        <%end -%>
+      <%end%>
+      <%menu_item() do -%>
+        <%= link_to "&nbsp;设置图片…",base_info_account_setting_path() %>
+      <%end-%>
     <%end -%>
     <div id="current_user_img" class="l">
       <% link_to   "#"  do  -%><div class="user_icon" ><div class="icon" ><span
-              
+
               title="<%= User::STATE_TYPES[:"#{current_user.state || "working"}"] %>"
               class="user_state_<%= current_user.state || "working" %> user_state_at_icon current_user_state"></span><%=  image_tag current_user.icon_file_path(:thumb),:id=>"user_img_button",:title=>current_user.name + " 状态 "+  User::STATE_TYPES[:"#{current_user.state || "working"}"]  -%></div></div><%end-%>
     </div>

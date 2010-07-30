@@ -3,11 +3,11 @@
 # Table name: comments
 #
 #  id               :integer       not null, primary key
-#  commentable_id   :integer       
+#  commentable_id   :integer       not null
 #  up               :integer       default(0)
 #  down             :integer       default(0)
-#  content          :string(255)   
-#  user_id          :integer       
+#  content          :string(255)   not null
+#  user_id          :integer       not null
 #  created_at       :datetime      
 #  updated_at       :datetime      
 #  commentable_type :string(255)   

@@ -53,10 +53,13 @@ class Msg < ActiveRecord::Base
           new_msg = msg.clone
           sendee_id = sendee ? sendee : 0
           sendee_user = User.find(:first,:conditions=>["id=? or salt=?",sendee_id,sendee_id])
-  
+         
           if !sendee_user
             msg.errors.add('收件人',(sendee_user ? sendee_user.name : '') +' 不存在！')
             ActiveRecord::Rollback
+            return false
+          elsif   (sendee_user.id ==msg.sender_id)
+            msg.errors.add('不需要给自己发信息哦！');
             return false
           elsif  !new_msg.send_to(sendee_user)
             msg.errors= new_msg.errors

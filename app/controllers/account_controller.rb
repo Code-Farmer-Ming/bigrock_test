@@ -26,10 +26,10 @@ class AccountController < ApplicationController
         set_user_session(@user)
         format.html {
           flash[:success] = '恭喜你注册你成功，现在增加你的工作经历吧，能帮助你发现不少同事哦。'
-          if params[:request_company_id]
+          if not params[:request_company_id].to_s.blank?
             redirect_to(new_user_resume_pass_path(@user,@user.current_resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
           else
-            redirect_to((params[:reurl] || account_path()))
+            redirect_to((params[:reurl] || user_path(@user)))
           end
         }
         format.xml  { render :xml => @user, :status => :created, :location => @user }

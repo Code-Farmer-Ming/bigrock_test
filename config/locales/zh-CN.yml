@@ -151,6 +151,7 @@
        user: "用户信息"
        speciality: "专长"
        msg: "消息"
+       company : "公司"
     attributes:
        group:
           name:  "名称"

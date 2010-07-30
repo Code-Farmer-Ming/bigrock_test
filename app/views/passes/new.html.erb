@@ -5,11 +5,13 @@
     :html=>{:method=>:post,:class=>"form_info required-validate"}) do |f| %>
 
     <%= render :partial=>"passes/form" ,:object=>f %>
-    <%= f.submit '保存',:class=>"button" %>     <%= link_to_function "取消" ,"Element.hide('new_pass_container');"%>
+    <%= f.submit '保存',:class=>"button" %>    &nbsp; <%= link_to "暂时不想填" ,account_path()%>
   <% end %>
 </div>
 <div id="right_content">
   <% sub_block_div do%>
-    输入你工作记录，有可能会自动找到你一起工作的同事
+    输入工作记录，有可能会自动找到一起工作的同事哦
+    <br/>
+    也可以不填
   <%end%>
 </div>

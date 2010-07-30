@@ -21,7 +21,7 @@ class GroupsControllerTest < ActionController::TestCase
       post :create, :group => {:name=>"test group#{i}", :group_type_id=>0,:join_type=> Group::JOIN_TYPES[0][1]}
     end
     get :new
-    assert_redirected_to :action => "index"
+    assert_redirected_to groups_path
   end
   
   test "should create group" do
