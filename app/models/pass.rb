@@ -38,10 +38,10 @@ class Pass < ActiveRecord::Base
   #TODO:是否需要改进？
   #获取 某个 工作经历 中的同事
   has_many :yokemates, :class_name => "User",
-    :finder_sql => "select b.* from passes a join users b on a.user_id=b.id where (begin_date between '\#{begin_date}' and '\#{end_date}'
-        or end_date between '\#{begin_date}' and '\#{end_date}'
-        or '\#{begin_date}' between begin_date and end_date
-        or '\#{end_date}' between begin_date and end_date) and company_id=\#{company_id} and a.id<>\#{id}"  do
+    :finder_sql => "select b.* from passes a join users b on a.user_id=b.id where (begin_date between '\#{begin_date.to_date}' and '\#{end_date.to_date}'
+        or end_date between '\#{begin_date.to_date}' and '\#{end_date.to_date}'
+        or '\#{begin_date.to_date}' between begin_date and end_date
+        or '\#{end_date.to_date}' between begin_date and end_date) and company_id=\#{company_id} and a.id<>\#{id}"  do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql

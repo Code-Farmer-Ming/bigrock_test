@@ -3,9 +3,9 @@
   <%remote_form_for @msg,
     :url=> send_invite_user_resume_pass_path(params[:user_id],params[:resume_id],@pass),
     :method=>:post do |form| %>
-    <p id="<%= dom_id(form.object,"error_msg") %>">
+    <div id="<%= dom_id(form.object,"error_msg") %>">
       <%= form.error_messages %>
-    </p>
+    </div>
     <p>
       <label class="filed_lab">已注册同事</label>
       <span style="display: inline-block;">

@@ -368,9 +368,13 @@ class UserTest < ActiveSupport::TestCase
   test "unjudge yokemates" do
     user_1 = users(:one)
     user_3=users(:three)
-    user_1.current_resume.passes << Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:user=>user_1,:job_title_id=>1,:department=>"部门")
-    assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.last).count",0) do
-      assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.first).count") do
+    user_1.current_resume.passes.clear
+    user_3.current_resume.passes.clear
+ 
+    temp_pass =  Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:begin_date=>DateTime.now,:end_date=>DateTime.now,:is_current=>true,:user=>user_1,:job_title_id=>1,:department=>"unjudge yokemates部门")
+    user_1.current_resume.passes << temp_pass
+    assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.first).count") do
+      assert_difference("user_3.unjudge_yokemates.count") do
         assert_difference("user_1.unjudge_yokemates.count") do
           temp_pass = user_1.current_resume.passes.first.clone
           temp_pass.resume_id = user_3.current_resume.id
@@ -381,8 +385,22 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "unjudge yokemates other not changed" do
+    user_1 = users(:one)
+    user_3=users(:three)
+    temp_pass =  Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:begin_date=>DateTime.now,:end_date=>DateTime.now,:is_current=>true,:user=>user_1,:job_title_id=>1,:department=>"unjudge yokemates部门")
+    user_1.current_resume.passes << temp_pass
+    assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.last).count",0) do
+      temp_pass = user_1.current_resume.passes.first.clone
+      temp_pass.resume_id = user_3.current_resume.id
+      temp_pass.user_id= user_3.id
+      user_3.current_resume.passes << temp_pass
+    end
+  end
+
   test "unjudge companies" do
     user_1 = users(:one)
+    user_1.current_resume.passes.clear
     assert_difference("user_1.unjudge_companies.count") do
       user_1.current_resume.passes << Pass.new(:company=>companies(:three),:resume=>user_1.current_resume,:user=>user_1,:job_title_id=>1,:department=>"部门")
     end

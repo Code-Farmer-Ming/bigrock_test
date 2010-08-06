@@ -369,7 +369,7 @@ div#menu{
     overflow:hidden;
 }
 .user_short_info{
-    width:100%;
+ 
     margin-bottom:6px;
 }
 ul#nav,ul#nav li{
@@ -440,6 +440,7 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 .pass_judge{
     padding:4px;
+    margin-bottom: 2px;
 }
 .judge_infos{
     background-color:#fff;

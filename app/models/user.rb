@@ -393,12 +393,12 @@ class User< ActiveRecord::Base
 
   #已经评价的同事的id 数组
   def judged_yokemate_ids
-    judged.collect{ |obj| obj.user_id }
+    judged.empty? ? [-1] : judged.collect{ |obj| obj.user_id } 
   end
 
   #已经评价的公司的id 数组
   def judged_company_ids
-    judged_companies.collect{ |obj| obj.company_id }
+    judged_companies.empty?  ? [-1] : judged_companies.collect{ |obj| obj.company_id }
   end
   #当前user 的所有账号 包括自己 数组
   def accounts
@@ -556,9 +556,9 @@ class User< ActiveRecord::Base
   #未评价的同事
   def unjudge_yokemates(pass=nil)
     if pass
-      pass.yokemates.find(:all,:conditions=>["a.user_id not in (?)",judged_yokemate_ids])
+      pass.yokemates.find(:all,:conditions=>["a.user_id not in (?)",judged_yokemate_ids ])
     else
-      current_resume.yokemates.all(:conditions=>["b.user_id not in (?)",judged_yokemate_ids])
+      current_resume.yokemates.all(:conditions=>["b.user_id not in (?)",judged_yokemate_ids ])
     end
   end
   #未评价的公司

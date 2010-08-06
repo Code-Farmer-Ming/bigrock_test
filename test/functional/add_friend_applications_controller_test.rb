@@ -17,8 +17,11 @@ class AddFriendApplicationsControllerTest < ActionController::TestCase
       xhr :post ,:apply,:add_friend_application=>{:respondent_id=>12,:memo=>"apply"}
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
- 
+
+#    assert_tag :tag => "span", :attributes => { :class => "hot_text" }
+
   end
+  
   test "destroy" do
     user= User.find(1)
     assert_equal 1, user.add_friend_applications.size

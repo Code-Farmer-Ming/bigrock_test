@@ -1,6 +1,6 @@
-你好
+您好
 <br/>
-你在<%= link_to @pass.company.name,@pass.company %> 的同事 <%= link_to @pass.user.name,@pass.user %>，
+您在<%= link_to @pass.company.name,@pass.company %> 的同事 <%= link_to @pass.user.name,@pass.user %>，
 <br />
 邀请你对其评价，点击这个链接<%= link_to "来评价我(#{new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user)})",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！
 <br />

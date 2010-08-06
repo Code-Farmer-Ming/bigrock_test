@@ -4,7 +4,7 @@
   <table >
     <thead>
       <tr>
-        <th class="msg_title">标题</th>
+        <th class="msg_title" >标题</th>
         <th><%= (params[:type]=="send" ? "接收人" : "发送人") %></th>
         <th>日期</th>
         <th></th>
@@ -13,7 +13,7 @@
     <tbody>
       <% @msgs.each do |msg| %>
         <tr class="<%= cycle("topic_item", "topic_item gray_background") %>">
-          <td ><%=link_to(msg.title+(msg.can_response? ? "" : "     (对方已关闭)") ,account_msg_path(msg) ,:title=>msg.content)%></td>
+          <td  ><%=link_to(msg.title+(msg.can_response? ? "" : "     (对方已关闭)") ,account_msg_path(msg) ,:title=>msg.content)%></td>
           <td>
             <%= ((params[:type]=="send") ?  link_to_user_name(msg.sendee) :  link_to_user_name(msg.sender) ) %>
           </td>

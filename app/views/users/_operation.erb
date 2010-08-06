@@ -11,21 +11,13 @@
       else ""
       end%>
     <%else%>
-      好友申请中
+      <span class="hot_text">
+        好友申请中
+      </span>
     <%end%>
   <%else%>
     <%= link_to_remote  "解除好友",{:url=>destroy_friend_account_path(:friend_id=>user ),
       :confirm => '你确定吗?'},:class=>"button negative" %>
   <%end%>
-
-  <%#if !current_user.my_follow_users.exists?(user) %>
-    <%#= link_to_remote "关注",{:url=>attention_account_path(:target_id=>user,:target_type=>user.class)} ,:class=>"button"%>
-  <%#else%>
-    <%#= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>user,:target_type=>user.class)},:class=>"button" %>
-  <%#end%>
   <%= link_to "发消息" ,new_account_msg_path(:write_to=>user) ,:class=>"button"%>
- 
-
-  <%#= link_to "资料权限设置",set_resume_visibility_account_path(),:class=>"button" %>
 <%end%>
-<p class="clear"/>

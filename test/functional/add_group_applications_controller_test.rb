@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AddGroupApplicationsControllerTest < ActionController::TestCase
   def setup
-    login_as(users(:one))
+    login_as(users(:two))
   end
   
   test "index" do
@@ -11,9 +11,12 @@ class AddGroupApplicationsControllerTest < ActionController::TestCase
   end
 
   test "accept" do
+    g3= groups(:three)
+    g3.add_to_member(users(:two))
+    g3.to_root(users(:two))
     assert_difference("AddGroupApplication.count",-1) do
       assert_difference("Member.count") do
-        xhr :post ,:accept,:id=>3,:group_id=>2
+        post  :accept,:id=>3,:group_id=>3
       end
     end
     assert_equal "接受了申请！",flash[:success]
@@ -21,15 +24,10 @@ class AddGroupApplicationsControllerTest < ActionController::TestCase
   end
   #申请id传递 错误
   test "accept application error" do
-    xhr :post ,:accept,:id=>3,:group_id=>1
-    assert_equal "产生错误！",flash[:error]
-    assert_redirected_to :action => "index"
+    post :accept,:id=>3,:group_id=>3
+    assert_redirected_to assigns(:group)
   end
-  #小组 id 传递错误
-  test "accept group error" do
-    xhr :post ,:accept,:id=>3,:group_id=>9999
-    assert_redirected_to groups_path()
-  end
+ 
 
   test "destroy" do
     assert_difference("AddGroupApplication.count") do
@@ -50,12 +48,7 @@ class AddGroupApplicationsControllerTest < ActionController::TestCase
     assert_redirected_to :action => "index"
   end
 
-  test "destroy group error" do
-    assert_difference("AddGroupApplication.count",0) do
-      xhr :delete ,:destroy,:id=>1,:group_id=>5
-    end
-    assert_redirected_to groups_path()
-  end
+ 
   
   test "apply add group" do
     assert_difference("AddGroupApplication.count") do

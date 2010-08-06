@@ -5,8 +5,7 @@ class MsgsController < ApplicationController
   def show
     @page_title = @msg.title if @msg
     if @msg
-      @msg.read_msg(current_user)
- 
+      @msg.read_msg(current_user) 
     else
       redirect_to account_msgs_path()
     end
@@ -52,7 +51,6 @@ class MsgsController < ApplicationController
         format.html {
           render  "new"  }
       end
-   
     end
   end
 

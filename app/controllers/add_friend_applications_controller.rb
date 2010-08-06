@@ -34,7 +34,7 @@ class AddFriendApplicationsController < ApplicationController
       @add_friend.applicant = current_user
       if @add_friend.save()
         render :update do |page|
-          page["user_operation"].replace_html render(:partial=>"users/operation",:object=> @add_friend.respondent)
+          page[dom_id(@add_friend.respondent,"operation")].replace_html render(:partial=>"users/operation",:object=> @add_friend.respondent)
           page<<"Lightbox.close()"
         end
       end

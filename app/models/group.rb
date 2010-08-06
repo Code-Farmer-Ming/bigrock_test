@@ -119,7 +119,11 @@ class Group < ActiveRecord::Base
   end
   #加入为成员（普通成员）
   def add_to_member(user)
-    all_members << user unless is_member?(user)
+    if is_member?(user)
+      !errors.add("错误","已经是小组成员")
+    else
+      all_members << user
+    end
   end
   #移除成员
   def remove_member(user)
@@ -139,12 +143,10 @@ class Group < ActiveRecord::Base
   #是否管理员(不包括 组长 root)
   def is_manager?(user)
     return !errors.add("权限","不是管理员的权限。") unless manager_members.exists?(["users.id in (?)",user.ids])
-    
- 
   end
   #是否小组的组长
   def is_root?(user)
-    user && root_members.exists?(["users.id in (?)",user.ids])
+    return !errors.add("权限","不是管理员的权限。") unless user && root_members.exists?(["users.id in (?)",user.ids])
   end
   #是否 开放式加入
   def is_open_join?
@@ -181,7 +183,7 @@ class Group < ActiveRecord::Base
   end
   #是否 还可以创建小组，现在管理小组的数量不能多于3个
   def self.can_create?(user)
-       user.manage_groups.size<4
+    user.manage_groups.size<4
   end
   
   #图标 文件路径

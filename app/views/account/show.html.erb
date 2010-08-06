@@ -56,10 +56,10 @@
       <%=  link_to "有#{@user.published_job_applicants.size}人申请 " , {:action=>:published_job_applicants},:class=>"button"  if @user.published_job_applicants.size>0%>
       <%= link_to "我申请的职位 #{@user.job_applicants.size}", {:action=>:job_applicants} ,:class=>"button" %>
       <%=   link_to("我给同事的评价" ,judged_yokemate_account_path(),:class=>"button" )  %>
-      <%=   link_to("未评价的同事#{@user.unjudge_yokemates.size}个" ,unjudge_yokemate_account_path(),:class=>"button" ) if @user.unjudge_yokemates.size>0%>
+      <%=   link_to("需要我评价的同事#{@user.unjudge_yokemates.size}个" ,unjudge_yokemate_account_path(),:class=>"button" ) if @user.unjudge_yokemates.size>0%>
 
       <%= link_to "我给公司的评价", judged_company_account_path(),:class=>"button"  %>
-      <%= link_to "未评价的公司#{@user.unjudge_companies.size}",unjudge_company_account_path() ,:class=>"button"  if @user.unjudge_companies.size>0%>
+      <%= link_to "需要我评价的公司#{@user.unjudge_companies.size}",unjudge_company_account_path() ,:class=>"button"  if @user.unjudge_companies.size>0%>
       <%= link_to "我的好友#{current_user.friend_users.size}",friends_user_path(current_user) ,:class=>"button"  %>
       <%= link_to "我加入的小组#{current_user.groups.size}",groups_user_path(current_user) ,:class=>"button"  %>
 

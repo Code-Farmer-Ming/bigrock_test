@@ -32,9 +32,9 @@ two:
   
 three:
   id: 3
-  applicant_id: 1
+  applicant_id: 3
   applicant_type: User
-  respondent_id: 2
+  respondent_id: 3
   type: AddGroupApplication
   memo: MyString
 req_004:

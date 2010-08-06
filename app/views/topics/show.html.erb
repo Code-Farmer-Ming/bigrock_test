@@ -42,7 +42,7 @@ recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic
         :locals=>{:is_owner=>@is_owner,:is_manager=>@is_manager}%>
       <%= will_paginate  @comments %>
     </div>
-    <div id="comment_reply" class="item_content">
+    <div id="comment_reply" class="append-bottom">
       <%if  @can_reply%>
         <%= render :partial=>"comments/new_form",:object=>@topic,:locals=>{:is_owner=>@is_owner,:is_manager=>@is_manager} %>
       <%else%>

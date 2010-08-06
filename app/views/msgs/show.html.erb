@@ -15,7 +15,7 @@
   {s.disabled=false;}.bind(this))",
           :html=>{:class=>"required-validate", :method=>:put}  do |form| %>
           <%= form.text_area :content ,:id=>"response_comment",:class=>"required default_value",:title=>"输入你想说的话吧！"%>
-   
+
           <p>
             <%= form.submit "好了回复",:disabled => false,:class=>"button"  %>
             <span  id="advice-required-response_comment" class="validation-advice"></span>
@@ -23,7 +23,7 @@
         <%end%>
 
       <%else%>
-        对方已经删除，不能回复，<%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
+        对方已经关闭，不能回复，<%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
           new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param)) if @msg.sender.id!=-1%>
       <%end%>
     </div>
@@ -31,12 +31,9 @@
 </div>
 <div id="right_content">
   <%  sub_block_div() do %>
-
-    <%= link_to "给#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name} 发送新的消息吧",
+    <%= link_to "给[#{current_user?(@msg.sendee) ? @msg.sender.name : @msg.sendee.name}]发送新的消息吧",
       new_account_msg_path(:write_to=>(current_user?(@msg.sendee) ? @msg.sender.to_param : @msg.sendee.to_param)) if @msg.sender.id!=-1%>
     <br/>
     <%= link_to '×删除这条消息', account_msg_path(@msg,:type=>params[:type]), :confirm => '你确定吗?', :method => :delete %>
-
   <%end%>
-
 </div>
