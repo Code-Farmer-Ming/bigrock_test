@@ -14,7 +14,7 @@ class Member < ActiveRecord::Base
   #成员类型
   MEMBER_TYPES = ["Root","Manager","Normal"]
   validates_uniqueness_of :user_id, :scope => :group_id,:message =>"已经加入小组啦"
-    #记录修改 资料
+    #加入小组
   acts_as_logger :log_action=>["create"],:owner_attribute=>"user",:log_type=>"join_group",:logable=>"group",:can_log=>:"!user.is_alias?"
   
   belongs_to :group,:counter_cache => true

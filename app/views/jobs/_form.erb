@@ -18,7 +18,7 @@
   <%=  drop_list("job_state_id","job_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
 </p>
 <p>
-  <%= f.label :end_at ,"结束日期",:class=>"filed_lab"%>
+  <%= f.label :end_at ,"有效日期",:class=>"filed_lab"%>
   <%= f.date_select :end_at %>
 </p>
 <p>

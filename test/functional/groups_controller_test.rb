@@ -87,6 +87,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "should destroy group" do
+    login_as(users(:two))
     assert_difference('Group.count', -1) do
       delete :destroy, :id => groups(:one).to_param
     end

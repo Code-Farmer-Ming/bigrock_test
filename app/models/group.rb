@@ -133,20 +133,15 @@ class Group < ActiveRecord::Base
   end
   #是否小组的管理人员 （包括组长）
   def is_manager_member?(user)
-    if  !(user && all_manager_members.exists?(["users.id in (?)",user.ids]))
-      return  !errors.add("权限","不是管理员的权限。")
-    else
-      true
-    end
-
+    return  !(errors.add("权限","不是管理员的权限。") unless user && all_manager_members.exists?(["users.id in (?)",user.ids]))
   end
   #是否管理员(不包括 组长 root)
   def is_manager?(user)
-    return !errors.add("权限","不是管理员的权限。") unless manager_members.exists?(["users.id in (?)",user.ids])
+    return !(errors.add("权限","不是管理员的权限。") unless manager_members.exists?(["users.id in (?)",user.ids]))
   end
   #是否小组的组长
   def is_root?(user)
-    return !errors.add("权限","不是管理员的权限。") unless user && root_members.exists?(["users.id in (?)",user.ids])
+    return !(errors.add("权限","不是管理员的权限。") unless user && root_members.exists?(["users.id in (?)",user.ids]))
   end
   #是否 开放式加入
   def is_open_join?
@@ -194,7 +189,12 @@ class Group < ActiveRecord::Base
       icon ? (icon.public_filename(thumbnail)) : "default_group_thumb.png"
     end
   end
-
+  # 组长解散小组
+  def root_destroy(user)
+    if is_root?(user)
+      destroy
+    end
+  end
 
   private
   

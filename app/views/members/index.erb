@@ -5,32 +5,28 @@
     <div id="group_root_list">
       <%= render :partial=>"members/root_member",:collection=>@group.root_members,:locals=>{:group=>@group} %>
     </div>
-    <p class ="clear"/>
-
   <%end%>
 
   <% sub_block_div("管理员") do %>
     <div id="group_manager_list">
       <%= render :partial=>"members/manager_member",:collection=>@group.manager_members,:locals=>{:group=>@group} %>
     </div>
-    <p class ="clear"/>
   <%end%>
 
   <% sub_block_div("成员") do %>
     <div id="group_member_list">
       <%= render :partial=>"members/normal_member",:collection=> @normal_members ,:locals=>{:group=>@group}%>
     </div>
-    <p class ="clear"/>
+ 
     <%= will_paginate @normal_members%>
   <%end%>
 </div>
 <div id="right_content">
-  <% sub_block_div() do %>
-    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"仅查找普通成员",:url=>""} %>
-  <%end%>
+  <%# sub_block_div() do %>
+    <%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"成员名称",:url=>""} %>
+  <%#end%>
 
   <% sub_block_div() do %>
-
     <%= link_to "<< 返回 #{ @group.name}小组", @group %>
   <%end%>
 </div>

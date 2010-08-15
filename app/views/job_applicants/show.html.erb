@@ -1,8 +1,6 @@
 <div id="left_content">
   <h1>申请 <%= h @job_applicant.job.title %></h1>
-  <p class="quiet"><%= time_ago_in_words_plus(@job_applicant.created_at) %> </p>
-
-  <div>
+  <div class="form_row">
     <% if @job_applicant.recommend_user %>
       <div  class="l half_width">
         <b>申请人</b>
@@ -21,18 +19,20 @@
     <%end%>
 
   </div>
-  <div class="form_row ">
+  <p class="quiet"><%= time_ago_in_words_plus(@job_applicant.created_at) %>  申请</p>
+  <div class="form_row  box">
     <%=h @job_applicant.memo %>
   </div>
 
   <p class="c">
     <%= link_to "来面试吧",new_account_msg_path(:write_to=>@job_applicant.applicant_user,:title=>'面试通知',
       :content=>"感谢您申请[#{@job_applicant.job.owner.name}]的[#{@job_applicant.job.title}]职位，\n请于xxxx年xx月xx日xxxx时间到\n【#{@job_applicant.job.owner.full_address}】面试。" ),:class=>'button' %>
+    <%= link_to  '删除', company_job_applicant_path(@job_applicant.job.owner,@job_applicant.job,@job_applicant), :confirm => '确定删除吗?',
+      :method => :delete,:class=>"negative button" -%>
   </p>
 </div>
 <div id="right_content">
   <% sub_block_div('') do %>
-  <%= link_to "<< 返回 申请的记录",published_job_applicants_account_path() %>
+    <%= link_to "<< 返回所有的申请的记录",published_job_applicants_account_path() %>
   <%end%>
-
 </div>

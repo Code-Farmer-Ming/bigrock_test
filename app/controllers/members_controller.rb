@@ -5,9 +5,7 @@ class MembersController < ApplicationController
   
   def index
     @page_title = "#{@group.name}小组 成员管理"
-    @normal_members = @group.normal_members.paginate :joins=>"join resumes on users.id = resumes.user_id ",
-      :conditions=>[" resumes.user_name like ?",'%'+(params[:search] || '')+'%'],
-      :page => params[:page]
+    @normal_members = @group.normal_members.paginate    :page => params[:page]
   end
 
   def destroy

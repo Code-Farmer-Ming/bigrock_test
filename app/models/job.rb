@@ -24,12 +24,17 @@ class Job < ActiveRecord::Base
   JOB_TYPES = ["全职", "兼职"]
   #字段验证
   validates_presence_of :title,:job_description,:company_id,:create_user_id
-  
+  #发布职位
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"create_user",:log_type=>"post_job",:logable=>"job"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"post_job",:logable=>"job"
+    
   belongs_to :owner,:foreign_key =>"company_id",:class_name=>"Company",:counter_cache => true
   belongs_to :create_user,:class_name=>"User",:foreign_key =>"create_user_id"
   belongs_to :state
   belongs_to :city
 
+  #被动 作为 消息记录的内容
+  has_many :logable_log_items,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"
   has_many :comments ,:as=>:commentable,:dependent=>:destroy
   has_many :applicants,:class_name=>"JobApplicant",:dependent=>:destroy
     
@@ -40,7 +45,7 @@ class Job < ActiveRecord::Base
   named_scope :since,lambda { |day| { :conditions =>["(jobs.created_at>? or ?=0) ",day.to_i.days.ago,day.to_i]  } }
 
   def self.types
-    JOB_TYPES.enum_for(:each_with_index).map { |type, index| [type, index+1] }
+    JOB_TYPES.enum_for(:each_with_index).map { |type, index| [type, index] }
   end
   
   def type

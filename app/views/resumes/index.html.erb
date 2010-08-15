@@ -1,10 +1,10 @@
 <div id="single_column">
   <% link_to  @resume.user,:class=>"r hot_link" do%>
-    
-    <%#=  "#{@resume.user.current_resume.yokemates.size}个同事 " if @resume.user.current_resume.yokemates.size>0%>
-    <%#*&nbsp;%>
-    <%#=  "#{@resume.user.friend_users.size}个好友 " if @resume.user.friend_users.size>0%>
-  <%= " 给 #{@resume.user.name} 发送信息>>"  %>
+
+  <%#=  "#{@resume.user.current_resume.yokemates.size}个同事 " if @resume.user.current_resume.yokemates.size>0%>
+  <%#*&nbsp;%>
+  <%#=  "#{@resume.user.friend_users.size}个好友 " if @resume.user.friend_users.size>0%>
+    <%= "想了解更多信息 联系我吧>>"  %>
 
   <%end%>
   <%= render :partial=>"users/info_head",:object=>@resume.user %>

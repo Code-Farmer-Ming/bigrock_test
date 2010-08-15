@@ -16,14 +16,14 @@ is_manager ||= nil
     </p>
     <div id="<%= dom_id(comment,"content") %>" ><%=  simple_format(h(comment.content)) %></div>
     <p>
-      <%= link_to("编辑","",:id=>dom_id(comment,"edit")) if comment.is_author?(current_user) %>
+      <%#= link_to("编辑","",:id=>dom_id(comment,"edit")) if comment.ifs_author?(current_user) %>
       <%= link_to_remote('删除',
         :url=> [comment.commentable.owner,comment.commentable,comment] ,
         :confirm => '你确定吗?', :method => :delete) if comment.is_author?(current_user) || is_owner || is_manager  %>
     </p>
   </div>
 
-  <%=  in_place_editor(dom_id(comment,"content"),
+  <%#=  in_place_editor(dom_id(comment,"content"),
     :url=>url_for({:controller=>:comments,:action => "set_comment_content",:id=>comment}),
     :click_to_edit_text=> "" ,:rows=>10, :size=>38,
     :saving_text=>"保存…",

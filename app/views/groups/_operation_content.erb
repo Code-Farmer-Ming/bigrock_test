@@ -1,13 +1,11 @@
-
 <% group= operation_content%>
-
 <% if group.is_member?(current_user)%>
-
   <% if group.is_manager_member?(current_user) %>
     <%= link_to "管理<small>▼</small>","javascript:;",:class=>"button",:id=>"manaage_menu_button"  %>
     <% menu("manage_menu") do -%>
       <%= menu_item((link_to "编辑小组",edit_group_path(group))) -%>
       <%= menu_item((link_to "管理成员",group_members_path(group))) -%>
+     
     <%end%>
     <%= popmenu("manaage_menu_button","manage_menu") -%>
   <%end%>
@@ -36,7 +34,7 @@
         <%= link_to  "申请<small>▼</small>","JavaScript:;",:class=>"button",:id=>"apply_button" -%>
         <% menu("apply_add_group") do -%>
           <% for al in current_user.accounts -%>
-            <%= menu_item( link_to_remote_lightbox( "#{al.name} 申请加入",
+            <%= menu_item(link_to_remote_lightbox( "#{al.name} 申请加入",
                 :url=>{:controller=>:add_group_applications,:action=>:apply,:group_id=>group.id,:alias=>al})) -%>
           <%end-%>
         <%end -%>

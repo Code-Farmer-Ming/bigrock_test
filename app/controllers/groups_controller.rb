@@ -91,10 +91,13 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
-    @group.destroy
     respond_to do |format|
-      format.html { redirect_to(groups_url) }
-      format.xml  { head :ok }
+      if @group.root_destroy(current_user)
+        format.html { redirect_to(groups_url) }
+      else
+        flash.now[:error] = @group.errors.full_messages.to_s
+        format.html { redirect_to :show}
+      end
     end
   end
   #加入小组
@@ -153,7 +156,7 @@ class GroupsController < ApplicationController
         flash.now[:success] = "已经发出邀请！"
       else
         flash.now[:notice] = "请选择要邀请的好友！"
-      end     
+      end
     end
   end
    
@@ -173,6 +176,6 @@ class GroupsController < ApplicationController
   protected
 
   def find_group
-    @group = Group.find_by_id(params[:id])
+    @group = Group.find(params[:id])
   end
 end

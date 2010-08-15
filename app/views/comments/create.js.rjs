@@ -2,8 +2,6 @@ if !flash.now[:error]
   page.insert_html :bottom,"comments" ,render(:partial=>"comments/comment",:object=>@comment)
   page["response_comment"].value = ""
   page.visual_effect :highlight, dom_id(@comment)
-else
-  
+else 
     page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
-
 end

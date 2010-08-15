@@ -15,6 +15,7 @@ class JobApplicantsController < ApplicationController
   # GET /job_applicants/1
   # GET /job_applicants/1.xml
   def show
+    @page_title = "申请记录"
     @job_applicant = current_user.published_job_applicants.find(params[:id])
     @job_applicant.read
     respond_to do |format|

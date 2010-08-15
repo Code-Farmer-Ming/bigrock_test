@@ -60,6 +60,7 @@ class JobsController < ApplicationController
 
   # GET /jobs/1/edit
   def edit
+    @page_title= "职位编辑"
     @job =  current_user.published_jobs.find(params[:id])
   end
 
@@ -145,6 +146,5 @@ class JobsController < ApplicationController
 
   def find_company
     @company =  Company.find(params[:company_id])
- 
   end
 end

@@ -1,7 +1,6 @@
-
 <div id="left_content">
-<%= render :partial=>"groups/manage_type",:object=>@group %>
-  <% form_for(@group) do |f| %>
+  <%= render :partial=>"groups/manage_type",:object=>@group %>
+  <% form_for(@group,{},:html=>{:class=>"form_info required-validate",:multipart => true}) do |f| %>
     <%= f.error_messages %>
     <%= render :partial=>"groups/form" ,:object=>f %>
     <p>
@@ -13,7 +12,12 @@
 <div id="right_content">
 
   <% sub_block_div() do %>
-    <%= link_to "<< 返回 #{ @group.name}小组", @group %>
+    <p>
+      <%= link_to "<< 返回[#{ @group.name}]小组首页", @group %>
+    </p>
+    <p>
+      <%=  (link_to "×解散小组",group_path(@group),:method => :delete,:class=>"red_text" ,:confirm=>"你确定吗?") if @group.is_root?(current_user) -%>
+    </p>
   <%end%>
 
 </div>
