@@ -30,7 +30,7 @@
 </p>
 <p>
   <%= f.label :birthday,"出生日期" ,:class=>"filed_lab" %>
-  <%=f.date_select :birthday,:start_year => 1930  %>
+  <%=f.date_select :birthday,:start_year => 1930,:default=>nil, :include_blank => true  %>
 </p>
 <p>
   <%= f.label :blog_website,"博客" ,:class=>"filed_lab"  %>
@@ -59,9 +59,9 @@
 </p>
 <p>
   <%= f.label :address,"居住地址" ,:class=>"filed_lab" %>
-  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
-  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
-  <%=  drop_list("resume_state_id","resume_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+  <%= f.select :state_id,[[" ",-1]]+ State.all.collect {|p| [p.name,p.id]}%>
+  <%= f.select :city_id,[[" ",-1]]+City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+  <%=  drop_list("resume_state_id","resume_city_id",[[-1,[[-1," "]]]]+ State.all.collect{|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
   <%=f.text_field :address ,:class=>"text"  %>
 </p>
 <%if action_name=="new"%>

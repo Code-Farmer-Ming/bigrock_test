@@ -3,11 +3,16 @@ class AccountController < ApplicationController
   before_filter :check_login?,:except=>[:get_news,:login,:search,:new,:create,:forget_password,:reset_password,:show,:check_email]
   
   def new
-    flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了" if params[:request_company_id]
     @page_title ="注册"
     @user= User.new
     @user.nick_name = ""
     @user.email = params[:email]
+
+    if params[:request_company_id]
+      request_company = Company.find_by_id(params[:request_company_id])
+      @maybe_know_yokemates = request_company.all_employees.all(:limit=>3) if request_company
+#      flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了"
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }

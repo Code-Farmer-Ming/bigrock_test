@@ -24,6 +24,11 @@ class AccountControllerTest < ActionController::TestCase
     get :new
     assert_response :success
   end
+
+  test "new with request company id" do
+    get :new ,:request_company_id=>1
+    assert_not_nil assigns(:maybe_know_yokemates )
+  end
   
   test "create" do
     email ="zhang@ming1.com"

@@ -33,15 +33,18 @@
     <dl>
       <dt>注册</dt>
       <dd>
-        简单一步，即可注册成功。
+        简单一步，马上注册成功。
       </dd>
       <p>
       <dt>忘记密码</dt>
       <dd>
-        我有账号忘记密码了，<%=link_to "找回密码？",forget_password_account_path()%>
+        忘记密码了，这里<%=link_to "找回密码？",forget_password_account_path()%>
       </dd>
       </p>
     </dl>
   <%end%>
+  <% sub_block_div("可能认识的同事") do%>
+    <%= render :partial=>"users/user_short_info",:collection=> @maybe_know_yokemates%>
+  <%end if @maybe_know_yokemates && @maybe_know_yokemates.size>0%>
 </div>
 

@@ -15,12 +15,12 @@
     <%=h resume.telephone %>
   </p>
 <%end%>
-<% if resume.user.setting.can_visibility?(:address_visibility,current_user) && !resume.address.blank? %>
+<% if resume.user.setting.can_visibility?(:address_visibility,current_user) &&  resume.state %>
  
   <p>
     <span>现居住地址</span>
-    <%= resume.state.name -%>&nbsp;
-    <%= resume.city.name %>&nbsp;
+    <%= resume.state.name if resume.state-%>&nbsp;
+    <%= resume.city.name if resume.city %>&nbsp;
     <%=h resume.address %>
   </p>
 <%end%>
