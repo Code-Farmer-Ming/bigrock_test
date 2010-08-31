@@ -87,7 +87,7 @@ class JobApplicantsController < ApplicationController
     params[:select_applicants].each() do |item|
       @job_applicant = JobApplicant.find(item)
       @job_applicant.try_destroy(current_user)
-    end
+    end if params[:select_applicants]
     redirect_to(:back)
   end
 

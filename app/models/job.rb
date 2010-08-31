@@ -25,8 +25,8 @@ class Job < ActiveRecord::Base
   #字段验证
   validates_presence_of :title,:job_description,:company_id,:create_user_id
   #发布职位
-  acts_as_logger :log_action=>["create"],:owner_attribute=>"create_user",:log_type=>"post_job",:logable=>"job"
-  acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"post_job",:logable=>"job"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"create_user",:log_type=>"post_job"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"post_job"
     
   belongs_to :owner,:foreign_key =>"company_id",:class_name=>"Company",:counter_cache => true
   belongs_to :create_user,:class_name=>"User",:foreign_key =>"create_user_id"
