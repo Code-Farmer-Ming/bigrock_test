@@ -379,8 +379,7 @@ class User< ActiveRecord::Base
 
   #返回用户姓名
   def name
-    anonymity? ? "匿名" : parent ? nick_name  : (current_resume ? current_resume.user_name : "" )
-    #    current_user?(self) ? "我" : current_resume.user_name
+    anonymity? ? "匿名" : nick_name
   end
   #用户的状态 名称
   def state_string

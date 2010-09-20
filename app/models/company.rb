@@ -172,6 +172,11 @@ class Company < ActiveRecord::Base
   def short_info
     industry.name+"&nbsp;.&nbsp;"+company_type.name + "&nbsp;.&nbsp;"+  company_size.name
   end
+
+  #可能会认识的员工
+  def mybe_know_employees(limit=3)
+    all_employees.all(:limit=>limit)
+  end
  
   #图标 文件路径
   def icon_file_path(thumbnail=nil)

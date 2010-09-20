@@ -10,7 +10,7 @@ class AccountController < ApplicationController
 
     if params[:request_company_id]
       request_company = Company.find_by_id(params[:request_company_id])
-      @maybe_know_yokemates = request_company.all_employees.all(:limit=>3) if request_company
+      @maybe_know_yokemates = request_company.mybe_know_employees if request_company
 #      flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了"
     end
     respond_to do |format|

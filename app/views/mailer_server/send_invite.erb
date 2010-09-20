@@ -1,9 +1,16 @@
-您好
+您好:
+<br/>
 <br/>
 您在<%= link_to @pass.company.name,@pass.company %> 的同事 <%= link_to @pass.user.name,@pass.user %>，
 <br />
-邀请你对其评价，点击这个链接<%= link_to "来评价我(#{new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user)})",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！
+邀请你对其评价，点击这个链接<%= link_to "来评价#{@pass.user.name}",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！
 <br />
 <%= @msg.content %>
+<br />
+您可能也会认识这些同事:
+<hr/>
+<%for employee in  @pass.company.mybe_know_employees%>
+  <%= link_to employee.name,employee %>&nbsp;
+<%end%>
 <br />
 <%= render :partial=>"mailer_server/sit_info" %>

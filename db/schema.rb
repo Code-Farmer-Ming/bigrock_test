@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100621132442) do
+ActiveRecord::Schema.define(:version => 20100912050505) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "attachments", ["type", "master_id"], :name => "index_attachments_on_type_and_master_id", :unique => true
 
   create_table "attentions", :force => true do |t|
     t.integer  "user_id"
@@ -52,6 +54,8 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.datetime "updated_at"
     t.string   "commentable_type"
   end
+
+  add_index "comments", ["commentable_type", "commentable_id"], :name => "index_comments_on_commentable_type_and_commentable_id", :unique => true
 
   create_table "companies", :force => true do |t|
     t.string   "name",                 :default => ""
@@ -433,6 +437,8 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.integer  "recommends_count",                     :default => 0
   end
 
+  add_index "topics", ["owner_type", "owner_id"], :name => "index_topics_on_owner_type_and_owner_id"
+
   create_table "user_settings", :force => true do |t|
     t.integer  "user_id"
     t.string   "all_resume_visibility",       :default => "公开"
@@ -458,6 +464,8 @@ ActiveRecord::Schema.define(:version => 20100621132442) do
     t.datetime "updated_at"
     t.string   "apply_friend_auth",           :default => "允许"
   end
+
+  add_index "user_settings", ["user_id"], :name => "index_user_settings_on_user_id", :unique => true
 
   create_table "user_tags", :force => true do |t|
     t.integer  "user_id",    :null => false

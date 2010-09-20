@@ -1,7 +1,8 @@
 <%user_name =  user_icon_name.name%>
 <div class="user_icon" >
   <%  link_to_user_name  user_icon_name do  -%>
-    <div class="icon"><span id="<%= dom_id(user_icon_name,"state") %>" title="<%= user_icon_name.state_string %>" class="user_state_<%= user_icon_name.state || :working %> user_state_at_icon <%= current_user?(user_icon_name) ? "current_user_state" : "" %>"></span><%=  image_tag user_icon_name.icon_file_path(:thumb),
+    <div class="icon"><span id="<%= dom_id(user_icon_name,"state") %>" title="<%= user_icon_name.state_string %>"
+       class="user_state_<%= user_icon_name.state || :working %> user_state_at_icon <%= current_user?(user_icon_name) ? "current_user_state" : "" %>"></span><%=  image_tag user_icon_name.icon_file_path(:thumb),
         :alt=> user_name+" 图片" %></div><p><%= h(user_name.strip) -%></p>
   <%end-%>
 </div>

@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
-  before_filter :check_login?
+  before_filter :check_login?,:except=>[:show]
   before_filter :find_user,:only=>[:show,:yokemate_list,:logs,:friends,:groups]
   def show
+    if current_user
     @page_title ="#{@user.name}"
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
+    end
+    else
+      redirect_to user_resumes_path(@user)
     end
   end
 

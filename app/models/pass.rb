@@ -133,7 +133,7 @@ class Pass < ActiveRecord::Base
   #eq_value
   #creditability
   def judge_count_by_star(column_name,star=0)
-    self.judges.judge_star(column_name,star).size
+    self.judges.judge_star(column_name,star).count
   end
 
   #TODO：速度可以优化 使用

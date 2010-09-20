@@ -10,13 +10,12 @@ class JobsController < ApplicationController
     @page_title =  "职位搜索"
     @page_keywords = " 招聘 找工作"
     @page_description = "找工作，招聘职位搜索"
-    @company = Company.find_by_id(params[:company_id])
+    @company = Company.find_by_id(params[:company_id]) if params[:company_id]
     if @company
       @jobs = @company.jobs.paginate(:conditions=>["title like ? or
                 job_description like ? or skill_description like ?",
           search,search,search],:page=>params[:page])
       @page_title = @company.name + " 的职位"
-      
     end
     respond_to do |format|
       format.html # index.html.erb

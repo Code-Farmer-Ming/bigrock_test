@@ -1,9 +1,10 @@
 class MailerServer < ActionMailer::Base
+  helper :Application
   FROM_MAIL= "no-reply@shuikaopu.com"
   #找回密码
   def forget_password(token)
     sent_at = Time.now
-    subject '重设密码'
+    subject "重设密码"
     recipients token.user.name_with_email
     from       FROM_MAIL
     sent_on    sent_at

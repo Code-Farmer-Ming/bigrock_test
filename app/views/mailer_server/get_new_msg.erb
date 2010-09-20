@@ -1,4 +1,4 @@
-你好
+你好<%= @msg.sendee.name %>:
 <br />
 <%=  @msg.sender.name%> 给你新消息,标题为:
 <br />
@@ -6,5 +6,5 @@
 <br />
 请(登陆后)点击这里查看这个信息:
 <%=link_to account_msg_url(@msg) ,account_msg_url(@msg) %>
-
+<br />
 <%= render :partial=>"mailer_server/sit_info" %>
