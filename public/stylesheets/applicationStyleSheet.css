@@ -1079,12 +1079,10 @@ div.auto_complete ul strong.highlight {
 }
 
 #user_count,#company_count,#group_count{
-    font-size: 140%;
+   
     font-weight:bolder;
 }
-#user_count{
-    color: red;
-}
+
 #company_count{
     color:green;
 }

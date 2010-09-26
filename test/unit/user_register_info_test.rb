@@ -209,7 +209,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 3, cp.taggings.count
     assert_equal "500强 大公司 著名", cp.tag_list
     assert_equal 2,cp.tags.find_by_name("500强").taggings[0].user_tags.count
+    user_one.tag_something(user_three,"人好 有理想")
+    assert_equal 2, user_three.taggings.count
+    user_one.remove_something_tag(user_three)
+    assert_equal 0, user_three.taggings.count
   end
+
+  
 
   test "attention_someone" do
  

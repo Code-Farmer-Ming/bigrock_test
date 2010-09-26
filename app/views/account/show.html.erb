@@ -2,19 +2,13 @@
 <div id="left_content">
   <%if !current_user%>
     <h2>
-      欢迎 到这个世界
+      欢迎
     </h2>
     <div id="welcome_div">
       <%= link_to '',{:action=>'new'},:class=>'register_button' %>
-      <h3>
-        <span id="company_count"> <%= Company.count %></span>个公司， <span id="company_count"><%= Job.count %></span>个职位
-      </h3>
-      <h3>
-        <span id="group_count"> <%= Group.count %></span>个小组
-      </h3>
-      <h3>
-        <span id="user_count"><%= User.real_users.count %></span>人
-      </h3>
+
+       <h2 id="company_count">在线电子简历</h2>
+       <h3>注册马上拥有</h3>
     </div>
 
     <%sub_block_div("") do%>

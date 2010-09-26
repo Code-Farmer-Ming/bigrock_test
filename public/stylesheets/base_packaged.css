@@ -233,7 +233,7 @@ div.auto_complete ul li {cursor:pointer}
 #top_user_info{ display:table-cell; height:80px; vertical-align:middle; overflow:auto}
 #top_user_info .login_input{ width:120px; font-size:12px; height:18px}
 .user_language{ font-weight:normal; color:gray; width:160px; overflow:hidden}
-.user_short_info{ width:100%; margin-bottom:6px}
+.user_short_info{ margin-bottom:6px}
 ul#nav,ul#nav li{ list-style-type:none; margin:0;padding:0 }
 ul#nav{ padding-top:46px; margin:0 auto; width:100%; overflow:hidden}
 ul#nav li{float:left; margin-right: 5px; text-align: center }
@@ -247,7 +247,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .red_text{ color:#ff3333;  }
 .big_text{ font-size:2.5em}
 .strong{ font-weight:bolder}
-.pass_judge{ padding:4px}
+.pass_judge{ padding:4px; margin-bottom: 2px}
 .judge_infos{ background-color:#fff; padding:0px 4px}
  .upload_file_button{ text-align:center; background-color: #ccccff}
  .sub_block{ margin-bottom:4px; padding:2px}
@@ -375,8 +375,7 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .register_button{ background: url(/images/register.png); display: block; width: 291px; height:57px; margin: 0 auto; float: right; border: 1px #E1E9F8 solid}
 .register_button:hover {border: 1px silver solid}
 #welcome_div{ padding: 14px; overflow: auto; background-color: #E1E9F8}
-#user_count,#company_count,#group_count{ font-size: 140%; font-weight:bolder}
-#user_count{ color: red}
+#user_count,#company_count,#group_count{ font-weight:bolder}
 #company_count{ color:green}
 #group_count{ color:blue}
 #hide_register_button{ width: 30px; height:20px; display:block; margin: 0 auto}

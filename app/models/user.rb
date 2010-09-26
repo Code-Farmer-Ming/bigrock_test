@@ -545,7 +545,7 @@ class User< ActiveRecord::Base
   end
   #删除 对某个对象做的 标签
   def remove_something_tag(taggable_object)
-    tag_something(taggable_object)
+     tag_something(taggable_object)
   end
   #START:create_new_salt
   def create_new_salt

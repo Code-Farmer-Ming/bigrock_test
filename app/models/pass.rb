@@ -120,7 +120,7 @@ class Pass < ActiveRecord::Base
     #取消对此公司的关注
     user.remove_attention(company)
     #取消 对公司的评价
-    CompanyJudge.destroy_all(:company_id=>company,:user_id=>user )
+    CompanyJudge.destroy_all(:company_id=>company,:user_id=>user)
   end
   
   def title
