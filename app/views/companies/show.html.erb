@@ -37,8 +37,8 @@
     <%end%>
     <p>
       <b>地址:</b>
-      <%= link_to @company.state.name,{:action=>'search',:state_id=>@company.state_id} %>&nbsp;
-      <%= link_to @company.city.name,{:action=>'search',:city_id=>@company.city_id,:state_id=>@company.state_id} %>
+      <%= link_to @company.state.name,{:action=>'search',:state_id=>@company.state_id} if @company.state %>&nbsp;
+      <%= link_to @company.city.name,{:action=>'search',:city_id=>@company.city_id,:state_id=>@company.state_id} if @company.city%>
       <%= h(@company.address) if  @company.address%>
     </p>
     <p>
