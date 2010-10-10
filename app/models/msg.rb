@@ -117,8 +117,9 @@ class Msg < ActiveRecord::Base
   end
   #发送到用户
   def send_to(user)
-    self.sendee = user
-    save!
+    new_msg = self.clone
+    new_msg.sendee = user
+    new_msg.save!
   end
   #创建一个系统发送消息
   def self.new_system_msg(attributes={})

@@ -7,6 +7,8 @@ class ResumeTest < ActiveSupport::TestCase
     resume_one = resumes(:one)
     pass=Pass.new
     pass.company_id=1
+    pass.begin_date = "2009-06-01".to_date()
+    pass.end_date= "2009-06-01".to_date()
     pass.resume_id=resume_one
     pass.user = users(:one)
     pass.save!

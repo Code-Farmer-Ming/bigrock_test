@@ -408,7 +408,7 @@ class UserTest < ActiveSupport::TestCase
     user_1 = users(:one)
     user_1.current_resume.passes.clear
     assert_difference("user_1.unjudge_companies.count") do
-      user_1.current_resume.passes << Pass.new(:company=>companies(:three),:resume=>user_1.current_resume,:user=>user_1,:job_title_id=>1,:department=>"部门")
+      user_1.current_resume.passes << Pass.new(:company=>companies(:three),:resume=>user_1.current_resume,:user=>user_1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:job_title_id=>1,:department=>"部门")
     end
   end
 end

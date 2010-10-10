@@ -88,10 +88,14 @@ class Pass < ActiveRecord::Base
     clear_data()
   end
 
-  def before_create
+  def after_create
     if  !user.my_follow_companies.exists?(company)
       user.my_follow_companies << company
     end
+    new_yokemate_notice =  Msg.new_system_msg(:title=>"有同事新加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>快去看看吧。")
+    yokemates.each{|user|
+      new_yokemate_notice.send_to(user)
+      }
   end
  
  

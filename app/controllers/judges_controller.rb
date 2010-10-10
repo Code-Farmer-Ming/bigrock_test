@@ -52,7 +52,6 @@ class JudgesController < ApplicationController
  
   def destroy
     @judge =current_user.judged.find(params[:id])
-    current_user.remove_something_tag(@judge.user)
     respond_to do |format|
       if @judge.destroy
         format.xml  { head :ok }

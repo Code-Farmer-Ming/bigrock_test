@@ -258,7 +258,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .group_icon p,.user_icon p{ padding:0px; margin:0px; overflow:hidden; white-space:normal; word-break:break-all}
 .user_icon,.user_icon_top{ width:60px}
 .user_icon .icon {width:100%; position:relative}
-.user_extension{ margin-right:8px; margin-bottom:8px; height:90px}
+.user_extension{ margin-right:8px; margin-bottom:8px}
  .group_icon{ width:80px}
 .float_ul{ list-style-type:none; margin:0;padding:0; overflow:auto}
 .float_ul li{ display: inline; float: left}

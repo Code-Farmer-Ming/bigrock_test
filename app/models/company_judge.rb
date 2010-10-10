@@ -46,6 +46,7 @@ class CompanyJudge < ActiveRecord::Base
     company.salary_value = 0 if company.salary_value<0
     company.condition_value = 0 if company.condition_value<0
     company.save
+    judger.remove_something_tag(company)
   end
 
   def update_judge

@@ -43,7 +43,7 @@ class MsgTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
   test "send to self" do
-     ActionMailer::Base.deliveries.clear
+    ActionMailer::Base.deliveries.clear
     msg =Msg.new(:title=>"multi_msg_title",:content=>"multi_content")
     msg.sender_id = 2
     msg.sendees="2 3"

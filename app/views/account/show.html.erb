@@ -2,13 +2,13 @@
 <div id="left_content">
   <%if !current_user%>
     <h2>
-      欢迎
+      欢迎您
     </h2>
     <div id="welcome_div">
       <%= link_to '',{:action=>'new'},:class=>'register_button' %>
 
-       <h2 id="company_count">在线电子简历</h2>
-       <h3>注册马上拥有</h3>
+      <h2 id="company_count">在线电子简历</h2>
+      <h3>注册马上拥有</h3>
     </div>
 
     <%sub_block_div("") do%>
@@ -29,15 +29,17 @@
       <ul class="list">
         <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>
       </ul>
+    <%end if Job.limit(5).count>0%>
+
+    <%  sub_block_div("最新的话题",link_to("更多",topics_path())) do %>
+      <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
+
     <%end%>
+
     <%sub_block_div("最活跃小组",link_to("更多",groups_path())) do%>
       <ul class="float_ul">
         <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
       </ul>
-    <%end%>
-
-    <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
-      <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
     <%end%>
   <%else%><%#登录以后%>
     <%content_for :script  do%>
@@ -114,7 +116,7 @@
   <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
-  <%if !@user%>
-  <%end%>
+  <%#if !@user%>
+  <%#end%>
 </div>
 

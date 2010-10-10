@@ -53,6 +53,7 @@ class Judge < ActiveRecord::Base
     pass.eq_value = 0 if   pass.eq_value<0
     pass.creditability_value = 0 if  pass.creditability_value <0
     pass.save
+    judger.tag_something(user)
   end
   #做出评价的用户
   def judger_user

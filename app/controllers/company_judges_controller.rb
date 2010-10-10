@@ -73,9 +73,7 @@ class CompanyJudgesController < ApplicationController
   end
   def destroy
     @company_judge = current_user.judged_companies.find(params[:id])
-    @company_judge.destroy
-    current_user.remove_something_tag(@company_judge.company)
-   
+    @company_judge.destroy  
     respond_to do |format|
       format.xml  { head :ok }
       format.js {}

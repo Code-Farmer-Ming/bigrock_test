@@ -17,7 +17,7 @@ class PassesControllerTest < ActionController::TestCase
   test "should create pass" do
     Pass.destroy_all()
     assert_difference('Pass.count') do
-      post :create, :pass => {:title=>"普通员工" },:user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"}
+      post :create, :pass => {:title=>"普通员工" ,:begin_date=> "2009-06-01",:end_date=> "2009-06-01"},:user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"}
     end
     assert_redirected_to @userone
     resume= Pass.find_all_by_resume_id(@resumeone)
@@ -27,14 +27,14 @@ class PassesControllerTest < ActionController::TestCase
 
   test "should create pass with request user id nil" do
     Pass.destroy_all()
-    post :create, :pass => {:title=>"普通员工" },
+    post :create, :pass => {:title=>"普通员工",:begin_date=> "2009-06-01",:end_date=> "2009-06-01" },
       :user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"},:request_user_id=>nil
     assert_redirected_to user_path(1)
   end
 
   test "should create pass with request user id blank " do
     Pass.destroy_all()
-    post :create, :pass => {:title=>"普通员工" },
+    post :create, :pass => {:title=>"普通员工" ,:begin_date=> "2009-06-01",:end_date=> "2009-06-01"},
       :user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"},:request_user_id=>""
     assert_redirected_to user_path(1)
   end
