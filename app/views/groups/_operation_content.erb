@@ -1,11 +1,12 @@
 <% group= operation_content%>
+<%= link_to "新话题",new_group_topic_path(group),:class=>"button" ,:title=>"我来发布新话题" %>
 <% if group.is_member?(current_user)%>
   <% if group.is_manager_member?(current_user) %>
     <%= link_to "管理<small>▼</small>","javascript:;",:class=>"button",:id=>"manaage_menu_button"  %>
     <% menu("manage_menu") do -%>
       <%= menu_item((link_to "编辑小组",edit_group_path(group))) -%>
       <%= menu_item((link_to "管理成员",group_members_path(group))) -%>
-     
+
     <%end%>
     <%= popmenu("manaage_menu_button","manage_menu") -%>
   <%end%>

@@ -1,7 +1,7 @@
 
 <% topic = operation %>
 
-
+<%= link_to "新话题", {:action=>:new,:controller=>:topics} ,:class=>"button",:title=>"我来发布新话题"  %>
 <%if is_manager %>
   <span id="top_level_operation">
     <%= render :partial=>"topics/top_level_operation" ,:object=>topic%>
@@ -9,7 +9,7 @@
 <%end%>
 
 
-<%= link_to "发言", {:action=>:new,:controller=>:topics} ,:class=>"button",:title=>"我来发布新话题"  if can_reply%>
+
 
 <span id="recommend_operation">
   <%= render :partial=>"comm_partial/recommend_operation",:object=>topic %>
