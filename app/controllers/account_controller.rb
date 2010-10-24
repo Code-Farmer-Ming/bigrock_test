@@ -66,15 +66,15 @@ class AccountController < ApplicationController
       @logs = @user.my_follow_log_items.find(:all,:limit=>4,:order=>"created_at desc");
       @my_topics = @user.my_created_topics.all(:limit=>20)
       @join_topics =  @user.reply_topics.find(:all,:limit=>20)
-      @add_friend_request_size = @user.add_friend_applications.size
-      @join_group_invites_size = @user.join_group_invites.size
-      @unread_job_apply_size = @user.unread_published_job_applicants.size
+      @add_friend_request_size = @user.add_friend_applications.count
+      @join_group_invites_size = @user.join_group_invites.count
+      @unread_job_apply_size = @user.unread_published_job_applicants.count
     else
       @page_title ="首页"
-      @page_keywords="公司,简历,工作,找工作,公司信息,公司工作待遇,在线简历,评分,待遇,环境,小组"
-      @page_description = "提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。"
+      @page_keywords="公司,简历,工作,职位,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
+      @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。"
       #      @news = Piecenews.newly.all(:limit=>4)
-      @newly_topics = Topic.order_by_last_comment.limit(12)
+      @newly_topics = Topic.order_by_last_comment.limit(16)
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");     
     end
   end

@@ -18,6 +18,6 @@
 </div>
 <div id="right_content">
   <%  sub_block_div() do %>
-    <%= link_to "#{@owner.name}首页", {:controller=>@owner.class.table_name,:action=>:show,:id=>@owner} %>
+    <%= link_to "<<返回 #{@owner.name}首页", {:controller=>@owner.class.table_name,:action=>:show,:id=>@owner} %>
   <%end%>
 </div>
