@@ -10,5 +10,5 @@
     <%= submit_tag "登录"  ,:class=>"button"  -%> &nbsp;&nbsp;   <%=link_to "注册",:action=>"new" -%> &nbsp;&nbsp;<%=link_to "忘记密码",forget_password_account_path()%>
   </p>
 <% end %>
-<%=  javascript_tag("validation = new Validation('login_form',{immediate:true,useTitles:true,stopOnFirst:true});
+<%=  javascript_tag("validation = new Validation('ajax_login_form',{immediate:true,useTitles:true,stopOnFirst:true});
   Event.observe('ajax_login_form','reset',function() {validation.reset();},false);") %>

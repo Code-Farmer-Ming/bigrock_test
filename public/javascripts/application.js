@@ -71,7 +71,7 @@ TagInput.prototype= {
                 value = tag_values[j]
                 if (value.length>10)
                  {
-                   alert('"'+value+'" 作为标签太长了吧，简短一点更好哦！');
+                   alert('"'+value+'" 作为标签太长了，简短一点更好哦！');
                  }
                 else  if (el.innerHTML.strip()==value)
                 {

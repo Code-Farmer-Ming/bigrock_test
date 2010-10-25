@@ -52,7 +52,7 @@ StarRank.prototype = {
         this.title.setAttribute('style', "DISPLAY: inline-block;");
         Element.update(this.title, '&nbsp;&nbsp;');
         for(var i = 5; i >= 1; i--) {
-            var lnk1
+            var lnk1;
             
             if (this.disabled)
             {
@@ -63,21 +63,22 @@ StarRank.prototype = {
                 lnk1.setAttribute('href', "javascript:;");
             }
          
-            lnk1.setAttribute('disabled', this.disabled );
+//            lnk1.setAttribute('disabled', this.disabled );
             lnk1.setAttribute('rank', i);
             lnk1.setAttribute('style', "background-color:transparent; ");
             lnk1.setAttribute('id', "rankimg" + id + "i" + i);
             lnk1.setAttribute('class', this.imgEmpty_class);
             lnk1.setAttribute('title', this.titles[i-1]);
-            lnk1.onclick = function(){
+            Event.observe($(lnk1), 'click',function(){
                 _self.rankPreClick(_self, id, this.getAttribute('rank'));
-            };
-            lnk1.onmouseover = function(){
+            });
+            Event.observe(lnk1, 'mouseover',function(){
                 _self.rankPreMouseOver(_self, id, this.getAttribute('rank'));
-            };
-            lnk1.onmouseout = function(){
+            });
+            Event.observe(lnk1, 'mouseout',function(){
                 _self.rankPreMouseOut(_self, id, this.getAttribute('rank'));
-            };
+            });
+
             $(divParent).insertBefore(lnk1,$(divParent).childNodes[0]);
             this.links[i-1] = lnk1;
         }
