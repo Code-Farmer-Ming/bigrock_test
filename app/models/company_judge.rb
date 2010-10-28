@@ -18,6 +18,8 @@ class CompanyJudge < ActiveRecord::Base
   belongs_to :company ,:counter_cache=>true
   #做出评价用户
   belongs_to :judger ,:foreign_key =>"user_id",:class_name=>"User"
+
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"judger",:log_type=>"JudgeCompany",:can_log=>:"!anonymous"
   
   after_create :create_judge
   before_destroy :destroy_judge

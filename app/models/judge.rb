@@ -18,6 +18,8 @@
 class Judge < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope =>[:pass_id,:judger_id],:message =>"已经评价啦"
   
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"judger",:log_type=>"JudgeUser",:can_log=>:"!anonymous"
+
   belongs_to :pass,:counter_cache => true
   #被评价用户
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
@@ -32,6 +34,7 @@ class Judge < ActiveRecord::Base
     pass.eq_value += eq_value
     pass.creditability_value += creditability_value
     pass.save
+    Msg.new_system_msg(:title=>"评价信息",:content=>"您的同事#{judger.name if !anonymous}，对您做出了评价，去看看吧。").send_to(user)
   end
   
   def before_update

@@ -113,8 +113,8 @@ label{
     padding:0px 35px;
     height:100%;
     min-height: 300px;
-    height:auto !important; 
-    height: 300px;
+    height:auto !important;
+    *height: 300px;
 }
 
 #resume_content .inplaceeditor-form,.partial_container{
@@ -138,7 +138,7 @@ label{
     *overflow:hidden;
     min-height:21px;
     height:auto !important;
-    height: 21px;
+    *height: 21px;
 }
 #resume_content dl{
     margin:0 0 0.5em 0;
@@ -246,7 +246,7 @@ label{
 #group_content , #resume_content{
     min-height:125px;
     height:auto !important; 
-    height:125px;
+    *height:125px;
     font-family: Arial,Helvetica,sans-serif;
 }
 #job_info_show{
@@ -282,7 +282,7 @@ label{
     border-left:1px solid #EdEdEd;
     min-height:440px;
     height:auto !important;
-    height:440px;
+    *height:440px;
 }
 
 div.auto_complete ul li {
@@ -648,7 +648,7 @@ ul#nav .activelink a,ul#nav a:hover{
     display: inline-block;
     min-height:1.6em;
     height:auto !important;
-    height:1.7em;
+    *height:1.7em;
     width: 378px;
 }
 #invite_yokemate input{
@@ -825,7 +825,7 @@ div.auto_complete ul strong.highlight {
     margin-bottom:6px;
     min-height:100px;
     height: auto!important;
-    height:100px;
+    *height:100px;
     padding-bottom:8px
 }
 .news_company_icon{
@@ -852,7 +852,7 @@ div.auto_complete ul strong.highlight {
 .group_short_description{
     min-height:40px;
     height:auto !important;
-    height:40px;
+    *height:40px;
 }
 
 .item_content .editor_field{

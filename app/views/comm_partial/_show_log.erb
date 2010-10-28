@@ -10,7 +10,7 @@ temp =""
 log_owner = nil
 log_date = Date.new.tomorrow
 show_date = log_date
- 
+
 for log in show_log
 
   if log.owner != log_owner || log_date.to_date !=log.created_at.to_date
@@ -40,10 +40,26 @@ for log in show_log
   end
 
   case log.log_type
+  when "JudgeUser" #评价
+    case log.operation
+    when "create"
+      temp = "评价 “#{link_to log.logable.user.name,user_path(log.logable.user)}”<br/>"+
+        "工作能力 #{small_star(log.logable.ability_value )}<br/>"+
+        "沟通能力 #{ small_star(log.logable.eq_value)}<br/>"+
+        "资料真实 #{small_star(log.logable.creditability_value  )}"
+    end
+
+  when "JudgeCompany" #评价公司
+    case log.operation
+    when "create"
+      temp = "评价 “#{link_to log.logable.company.name,company_path(log.logable.company)}”<br/>"+
+        "待遇 #{small_star(log.logable.salary_value )}<br/>"+
+        "环境 #{ small_star(log.logable.condition_value)}"
+    end
   when "MyLanguage"
     case log.operation
     when "create"
-      temp = "“#{log.logable.content}”"
+      temp = "说“#{log.logable.content}”"
     end
 
   when  "Friend" #加为好友
@@ -106,7 +122,7 @@ for log in show_log
       temp = "#{link_to log.logable.name,user_path(log.logable)} 加入了 #{link_to(log.owner.name,company_path(log.owner))}"
     when "destroy"
       temp = "#{link_to log.logable.name,user_path(log.logable)} 退出了 #{link_to(log.owner.name,company_path(log.owner))}"
-  end  if log.logable
+    end  if log.logable
   when "company_news" #公司博客
     case log.operation
     when "create"
@@ -140,7 +156,7 @@ for log in show_log
     temp = "加入了：#{link_to(log.logable.name ,
     group_path(log.logable),:target=>"_blank" )} 小组"
   when "register_account" #注册账户
-     temp = "注册了账号"
+    temp = "注册了账号"
   end
 
   log_content  +=  content_tag(:div, content_tag(:span,log.created_at.strftime('%H:%M'),:class=>"r small quiet")+temp ,:class=>'topic_item')

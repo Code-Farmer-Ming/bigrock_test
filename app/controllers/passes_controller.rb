@@ -153,6 +153,7 @@ class PassesController < ApplicationController
     @msg.sendees.split(";").uniq.each do |sendee|
       MailerServer.deliver_send_invite(sendee,pass,@msg)
     end
+    flash.now[:success]="邀请发送成功！"
   end
 
 

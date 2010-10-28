@@ -63,6 +63,8 @@ class PassTest < ActiveSupport::TestCase
     judge.eq_value = 3
     judge.creditability_value =5
     judge.description ="表现不错"
+    judge.judger = users(:two)
+    judge.user = users(:one)
     passes_one.judges << judge
 
     assert_not_nil passes_one.judges.find(judge)
@@ -79,6 +81,8 @@ class PassTest < ActiveSupport::TestCase
     judge.eq_value = 3
     judge.creditability_value =5
     judge.description ="表现不错"
+    judge.judger = users(:two)
+    judge.user = users(:one)
     passes_one.judges << judge
 
     assert_not_nil passes_one.judges.find(judge)
