@@ -320,7 +320,8 @@ class User< ActiveRecord::Base
 
   #申请过的工作
   has_many :applied_jobs,:through=>:job_applicants,:source=>'job'
-
+  #求职
+  has_many :need_jobs,:foreign_key=>"poster_id"
 
   # 别名的父账号
   belongs_to :parent,

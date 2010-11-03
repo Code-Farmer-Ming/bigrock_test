@@ -1,0 +1,28 @@
+<h1>Listing need_jobs</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>State</th>
+    <th>City</th>
+    <th>Poster</th>
+  </tr>
+
+<% @need_jobs.each do |need_job| %>
+  <tr>
+    <td><%=h need_job.title %></td>
+    <td><%=h need_job.description %></td>
+    <td><%=h need_job.state_id %></td>
+    <td><%=h need_job.city_id %></td>
+    <td><%=h need_job.poster_id %></td>
+    <td><%= link_to 'Show', need_job %></td>
+    <td><%= link_to 'Edit', edit_need_job_path(need_job) %></td>
+    <td><%= link_to 'Destroy', need_job, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New need_job', new_need_job_path %>

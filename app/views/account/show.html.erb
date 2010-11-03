@@ -4,16 +4,16 @@
     <h2>
       欢迎您
     </h2>
-    <div id="welcome_div">
+    <div class="box">
       <%= link_to '',{:action=>'new'},:class=>'register_button' %>
 
       <h2 id="company_count">在线电子简历</h2>
-      <h3>注册马上拥有</h3>
+      <p class="b">注册马上拥有</p>
     </div>
-
+    
     <%sub_block_div("") do%>
       <%search_form nil,:class=>"text_center" do |f|%>
-        <br/>
+
         <%= text_field_tag  "search",params[:search],:class=>"text" %>
         <%= text_default_value 'search',"职位、公司、 小组信息" %>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
@@ -25,12 +25,27 @@
         </div>
       <%end%>
     <%end%>
-    <%sub_block_div("热门职位",link_to("全部",search_jobs_path())) do%>
-      <ul class="list">
-        <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>
-      </ul>
-      <%= link_to("<<查看更多…",search_jobs_path())%>
-    <%end if Job.limit(5).count>0%>
+    <%sub_block_div() do%>
+
+      <div class="half_width r">
+        <%sub_block_div("求职") do%>  
+          <ul class="list">
+            <%= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5)%>
+          </ul>
+          <%= link_to("<<查看更多…",search_need_jobs_path())%>
+        <%end%>
+      </div>
+      <div class="half_width">
+        <%sub_block_div("职位") do%>  
+          <ul class="list">
+            <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>
+          </ul>
+          <%= link_to("<<查看更多…",search_jobs_path())%>
+
+        <%end%>
+
+      </div>  
+    <%end%>
 
     <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
       <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
@@ -43,7 +58,7 @@
       <ul class="float_ul">
         <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
       </ul>
-      <%#= link_to("<<查看更多…",groups_path())%>
+    <%#= link_to("<<查看更多…",groups_path())%>
     <%end%>
   <%else%><%#登录以后%>
     <%content_for :script  do%>

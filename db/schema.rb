@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912050505) do
+ActiveRecord::Schema.define(:version => 20101101135035) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -274,6 +274,16 @@ ActiveRecord::Schema.define(:version => 20100912050505) do
     t.boolean  "is_current",               :default => false
   end
 
+  create_table "need_jobs", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.integer  "state_id"
+    t.integer  "city_id"
+    t.integer  "poster_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "news", :force => true do |t|
     t.integer  "company_id",                                     :null => false
     t.string   "title",             :limit => 64,                :null => false
@@ -483,7 +493,7 @@ ActiveRecord::Schema.define(:version => 20100912050505) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id",                :default => 0,         :null => false
-    t.string   "state",      :limit => 12, :default => "freedom"
+    t.string   "state",      :limit => 12, :default => "working"
     t.string   "salt",                                            :null => false
   end
 

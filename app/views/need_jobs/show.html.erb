@@ -1,0 +1,28 @@
+<p>
+  <b>Title:</b>
+  <%=h @need_job.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @need_job.description %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%=h @need_job.state_id %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%=h @need_job.city_id %>
+</p>
+
+<p>
+  <b>Poster:</b>
+  <%=h @need_job.poster_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_need_job_path(@need_job) %> |
+<%= link_to 'Back', need_jobs_path %>

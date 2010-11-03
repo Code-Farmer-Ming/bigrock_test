@@ -1,0 +1,2 @@
+module NeedJobsHelper
+end
