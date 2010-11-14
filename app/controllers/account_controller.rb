@@ -11,7 +11,7 @@ class AccountController < ApplicationController
     if params[:request_company_id]
       request_company = Company.find_by_id(params[:request_company_id])
       @maybe_know_yokemates = request_company.mybe_know_employees if request_company
-#      flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了"
+      #      flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了"
     end
     respond_to do |format|
       format.html # new.html.erb
@@ -75,7 +75,9 @@ class AccountController < ApplicationController
       @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。"
       #      @news = Piecenews.newly.all(:limit=>4)
       @newly_topics = Topic.order_by_last_comment.limit(20)
-      @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");     
+      @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
+      @need_jobs = NeedJob.limit(8)
+      @jobs = Job.limit(8)
     end
   end
   
@@ -215,6 +217,8 @@ class AccountController < ApplicationController
       redirect_to search_groups_path(:search=>params[:search])
     when "company"
       redirect_to search_companies_path(:search=>params[:search])
+    when "need_job"
+      redirect_to search_need_jobs_path(:search=>params[:search])
     else
       redirect_to search_jobs_path(:search=>params[:search])
     end
@@ -377,6 +381,10 @@ class AccountController < ApplicationController
     @user = current_user
     @page_title = '我的职位申请记录'
     @applicants = @user.job_applicants.paginate :page=>params[:page]
+  end
+
+  def add_job
+    
   end
   private
 

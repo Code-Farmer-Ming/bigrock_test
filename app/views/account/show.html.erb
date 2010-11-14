@@ -6,45 +6,46 @@
     </h2>
     <div class="box">
       <%= link_to '',{:action=>'new'},:class=>'register_button' %>
-
       <h2 id="company_count">在线电子简历</h2>
-      <p class="b">注册马上拥有</p>
+      <p class="b">展示您的价值&nbsp;&nbsp;&nbsp;&nbsp;注册马上拥有</p>
     </div>
-    
+
     <%sub_block_div("") do%>
       <%search_form nil,:class=>"text_center" do |f|%>
 
         <%= text_field_tag  "search",params[:search],:class=>"text" %>
-        <%= text_default_value 'search',"职位、公司、 小组信息" %>
+        <%= text_default_value 'search',"职位、求职、公司、小组信息" %>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
         <br/>
         <div class="text_center">
           <%= radio_button_tag( "type", "job",true) %><%= label_tag "type_job","职位" %>
+          <%= radio_button_tag( "type", "need_job") %> <%= label_tag "type_need_job","求职信息" %>
           <%= radio_button_tag( "type", "company") %> <%= label_tag "type_company","公司" %>
           <%= radio_button_tag( "type", "group") %><%= label_tag "type_group","小组" %>
         </div>
       <%end%>
     <%end%>
     <%sub_block_div() do%>
-
       <div class="half_width r">
-        <%sub_block_div("求职") do%>  
+        <%sub_block_div("求职") do%>
           <ul class="list">
-            <%= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5)%>
+            <%= render :partial=>"need_jobs/short_item",:collection=>@need_jobs%>
           </ul>
-          <%= link_to("<<查看更多…",search_need_jobs_path())%>
+          <%= link_to("<<查看更多…",search_need_jobs_path()) if @need_jobs.size>8%>
+          <br />
+          <%= link_to "+发一条求职信息",new_account_need_job_path(),:class=>"button positive" %>
         <%end%>
       </div>
       <div class="half_width">
-        <%sub_block_div("职位") do%>  
+        <%sub_block_div("职位") do%>
           <ul class="list">
-            <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>
+            <%= render :partial=>"jobs/short_item",:collection=>@jobs ,:locals=>{:is_show_company=>true}%>
           </ul>
-          <%= link_to("<<查看更多…",search_jobs_path())%>
-
+          <%= link_to("<<查看更多…",search_jobs_path()) if @jobs.size>8%>
+          <br />
+          <%= link_to "+发一条招聘信息",add_job_account_path(),:class=>"button negative" %>
         <%end%>
-
-      </div>  
+      </div>
     <%end%>
 
     <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
@@ -77,7 +78,7 @@
       <%= link_to "需要我评价的公司#{@user.unjudge_companies.count}",unjudge_company_account_path() ,:class=>"button"  if @user.unjudge_companies.count>0%>
       <%= link_to "我的好友#{current_user.friend_users.count}",friends_user_path(current_user) ,:class=>"button"  %>
       <%= link_to "我加入的小组#{current_user.groups.count}",groups_user_path(current_user) ,:class=>"button"  %>
-
+      <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button"  %>
     <%end %>
     <% sub_block_div("") do%>
       <%tabs do%>

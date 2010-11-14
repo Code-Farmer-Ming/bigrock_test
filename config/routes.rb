@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get}
+  map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show]
 
 
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
@@ -57,6 +57,7 @@ ActionController::Routing::Routes.draw do |map|
     :unjudge_company=>:get,
     :published_jobs=>:get,
     :published_job_applicants=>:get,
+    :add_job=>:get,
     :follow_logs=>:get} do |account|
     account.resource :setting,:collection=>{ :auth=>[:get,:put],
       :base_info=>[:get,:put],
@@ -66,12 +67,13 @@ ActionController::Routing::Routes.draw do |map|
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
     account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
     account.resources :join_group_invites ,:member=>{:accept=>:post}
+    account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]}
   end
 
   map.resources :users,:collection =>{},
     :member=>{:yokemate_list=>:get, :logs=>:get,:friends=>:get,:groups=>:get} do |users|
     users.resources :judges,:only=>[:index]
-    users.resources :need_jobs
+ 
     users.resources :tags,:only=>[:index]
     users.resources :topics
     users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}
@@ -85,7 +87,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :tags
   map.resources :topics ,:only=>[:index]
-map.resources :jobs ,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:index,:batch_destroy]
+  map.resources :jobs ,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:index,:batch_destroy]
   map.resources :job_applicants ,:collection=>{:batch_destroy=>[:delete]},:only=>[:batch_destroy]
   # The priority is based upon order of creation: first created -> highest priority.
 

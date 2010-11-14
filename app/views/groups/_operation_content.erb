@@ -1,5 +1,5 @@
 <% group= operation_content%>
-<%= link_to "新话题",new_group_topic_path(group),:class=>"button" ,:title=>"我来发布新话题" %>
+<%= link_to "新话题",new_group_topic_path(group),:class=>"button positive" ,:title=>"我来发布新话题" %>
 <% if group.is_member?(current_user)%>
   <% if group.is_manager_member?(current_user) %>
     <%= link_to "管理<small>▼</small>","javascript:;",:class=>"button",:id=>"manaage_menu_button"  %>

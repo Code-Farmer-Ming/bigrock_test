@@ -5,5 +5,6 @@ class NeedJob < ActiveRecord::Base
   belongs_to :poster ,:class_name=>"User",:foreign_key=>"poster_id"
   belongs_to :state
   belongs_to :city 
-  
+  named_scope :limit,lambda { |size| { :limit => size } }
+  named_scope :since,lambda { |day| { :conditions =>["(created_at>? or ?=0) ",day.to_i.days.ago,day.to_i]  } }
 end

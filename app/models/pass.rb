@@ -146,7 +146,7 @@ class Pass < ActiveRecord::Base
   #  eq_value            :integer       default(0)
   #judges_count
   def average_judge(column_name)
-    self.judges.average(column_name)
+    self.judges.average(column_name).to_f.round(1)
   end
   #是否 同事 可以评价
   def yokemate?(user)

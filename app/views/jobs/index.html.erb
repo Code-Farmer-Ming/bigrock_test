@@ -5,9 +5,8 @@
       <thead>
         <tr>
           <th class="msg_title">职位</th>
-          <th>工作地点</th>
-          <th>发布日期</th>
           <th>类型</th>
+          <th>发布日期</th>
           <th>操作</th>
           <th><%=  check_box_tag "select", "",false,
               :onclick=>"$$('input[name=\\'select_jobs[]\\']').each(function(s) \
@@ -31,24 +30,31 @@
   </div>
 <%else%>
   <div id="single_column">
+    <br/>
     <div  class="center_block" >
       <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索职位"} %>
     </div>
 
+    <br/>
+    <br/>
     <div class="half_width r">
-      <%sub_block_div("求职") do%>  
+      <%sub_block_div("求职") do%>
         <ul class="list">
           <%= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5)%>
         </ul>
         <%= link_to("<<查看更多…",search_need_jobs_path())%>
+        <br />
+        <%= link_to "+发一条求职信息",new_account_need_job_path(),:class=>"button positive" %>
       <%end%>
     </div>
     <div class="half_width">
-      <%sub_block_div("职位") do%>  
+      <%sub_block_div("职位") do%>
         <ul class="list">
           <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5) ,:locals=>{:is_show_company=>true}%>
         </ul>
         <%= link_to("<<查看更多…",search_jobs_path())%>
+        <br />
+        <%= link_to "+发一条招聘信息",add_job_account_path(),:class=>"button negative" %>
 
       <%end%>
 

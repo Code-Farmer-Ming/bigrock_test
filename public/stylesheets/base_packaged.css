@@ -180,16 +180,16 @@ label{ cursor: pointer}
 #errorExplanation h2 {text-align: left; font-weight: bold; padding: 5px 5px 5px 15px; font-size: 12px; margin: -7px; background-color: #c00; color: #fff}
 #errorExplanation p {color: #333; margin-bottom: 0; padding: 5px; margin:5px}
 #errorExplanation ul li {font-size: 12px}
-#main{ min-width:1000px}
+#main{ min-width:996px}
  #header{ height:80px; background-color:#c9ff5e; background-image: url(/images/logo.png); background-repeat: no-repeat; background-position: 25px;  }
 .content{ margin:16px auto;  }
 #footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px; padding: 8px}
-.container{ padding:0px 35px; height:100%; min-height: 300px; height:auto !important; height: 300px}
+.container{ padding:0px 35px; height:100%; min-height: 300px; height:auto !important; *height: 300px}
 #resume_content .inplaceeditor-form,.partial_container{ border:1px solid silver; background-color: #FFF4C2;  margin-bottom:2px; padding:5px 12px}
 #lightbox_content textarea{ height:8em}
 .section{ padding:0px 20px}
 #base_info p span{ font-weight:bold}
-#user_base_info{ *overflow:hidden; min-height:21px; height:auto !important; height: 21px}
+#user_base_info{ *overflow:hidden; min-height:21px; height:auto !important; *height: 21px}
 #resume_content dl{ margin:0 0 0.5em 0}
 #resume_content dl dd{ margin:0px}
 .form_info{ padding:6px 6px; margin:6px 6px }
@@ -208,17 +208,17 @@ label{ cursor: pointer}
 #top_user_info #email{ *margin-top:3px}
  #set_base_info_page .text{ height:16px; width:220px}
 .mian_info h1{ padding:0px; margin:0px}
-.main_info{ padding:20px 40px; margin-bottom: 8px; width:auto}
+.main_info{ padding:20px 30px; margin-bottom: 8px; width:auto}
 #resume_info_show{ background-color:#ddf0f8; width: auto}
 #resume_info h1{ margin: 0px}
 #company_info_show{ background-color:#E9EFF8}
 #group_info_show{ background-color:#F7EAEA}
-#group_content , #resume_content{ min-height:125px; height:auto !important; height:125px; font-family: Arial,Helvetica,sans-serif}
+#group_content , #resume_content{ min-height:125px; height:auto !important; *height:125px; font-family: Arial,Helvetica,sans-serif}
 #job_info_show{ background-color:#daebdc}
 .pass_item{ padding-bottom:10px; margin-bottom:10px; border-bottom:1px dotted silver}
  #single_column{ width:890px; margin: 0px auto}
-#left_content{ float:left; width:68%; padding:0px; margin:0px; padding-right:12px;  }
-#right_content{ float:left; padding:0px; margin:0px; padding-left:12px; height:100%; width:29%; border-left:1px solid #EdEdEd; min-height:440px; height:auto !important; height:440px}
+#left_content{ float:left; width:62%; padding:0px; margin:0px; padding-right:12px;  }
+#right_content{ float:left; padding:0px; margin:0px; padding-left:12px; height:100%; width:35%; border-left:1px solid #EdEdEd; min-height:440px; height:auto !important; *height:440px}
 div.auto_complete ul li {cursor:pointer}
 .operation_lab{ display:none; margin-top:2px; float: right; margin-left:4px; font-size:10px}
 .hover{ background-color:#FFF9DD; cursor:pointer}
@@ -284,7 +284,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .list li a{  width:100%;  max-height:6em;  }
 #current_li a{ color:black; background-color: #E1E9F8; font-weight: bold}
 .list li a:hover {color:black; background-color: #E1E9F8}
- #invite_yokemate{ display: inline-block; min-height:1.6em; height:auto !important; height:1.7em; width: 378px}
+ #invite_yokemate{ display: inline-block; min-height:1.6em; height:auto !important; *height:1.7em; width: 378px}
 #invite_yokemate input{ height:auto; width:auto}
 #invite_email,#invite_msg {width:380px}
 #invite_msg{ height:150px}
@@ -318,13 +318,13 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .make_up,.make_down{ padding:3px; text-align:center; width:26px; border: 1px solid #e6e6e6}
 .make_up{ background-color:#E1E9F8}
 .make_down{ background-color:#FBE3E4}
- .main_content{ border-bottom:1px silver solid; line-height:1.6em; margin-bottom:6px; min-height:100px; height: auto!important; height:100px; padding-bottom:8px }
+ .main_content{ border-bottom:1px silver solid; line-height:1.6em; margin-bottom:6px; min-height:100px; height: auto!important; *height:100px; padding-bottom:8px }
 .news_company_icon{ margin-right:12px}
   .operation{ text-align:center}
 .item_content{ padding:8px 2px;  border-bottom:1px silver dotted ; overflow:auto}
 .icon_right_content{ margin-left:80px}
 .group_short_content{ margin-left:100px}
-.group_short_description{ min-height:40px; height:auto !important; height:40px}
+.group_short_description{ min-height:40px; height:auto !important; *height:40px}
 .item_content .editor_field{ height:60px; width:500px}
   .recommend_memo{ height:120px}
  .topic_item{ padding:4px 5px 4px 5px; overflow:auto; border-bottom:#F0F0F0 solid 1px }
@@ -374,7 +374,7 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .panel{ overflow:hidden}
 .register_button{ background: url(/images/register.png); display: block; width: 291px; height:57px; margin: 0 auto; float: right; border: 1px #E1E9F8 solid}
 .register_button:hover {border: 1px silver solid}
-#welcome_div{ padding: 14px; overflow: auto; background-color: #E1E9F8}
+#welcome_div{ padding: 12px; overflow: auto; background-color: #E1E9F8}
 #user_count,#company_count,#group_count{ font-weight:bolder}
 #company_count{ color:green}
 #group_count{ color:blue}

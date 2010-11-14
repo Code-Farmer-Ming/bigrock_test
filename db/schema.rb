@@ -493,7 +493,7 @@ ActiveRecord::Schema.define(:version => 20101101135035) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id",                :default => 0,         :null => false
-    t.string   "state",      :limit => 12, :default => "working"
+    t.string   "state",      :limit => 12, :default => "freedom"
     t.string   "salt",                                            :null => false
   end
 

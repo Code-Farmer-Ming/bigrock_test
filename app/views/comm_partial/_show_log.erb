@@ -53,7 +53,7 @@ for log in show_log
     case log.operation
     when "create"
       temp = "评价 “#{link_to log.logable.company.name,company_path(log.logable.company)}”<br/>"+
-        "待遇 #{small_star(log.logable.salary_value )}<br/>"+
+        "待遇 #{small_star(log.logable.salary_value )}&nbsp;&nbsp;"+
         "环境 #{ small_star(log.logable.condition_value)}"
     end
   when "MyLanguage"

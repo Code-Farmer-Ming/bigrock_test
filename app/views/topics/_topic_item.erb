@@ -8,10 +8,12 @@
     <span class="small quiet">&nbsp;<%=  link_to_user_name(topic_item.author)%>
       <%=  time_ago_in_words(topic_item.created_at)+'前'%>写
     </span>
-    <%=  link_to "[#{topic_item.owner.name}]",[topic_item.owner],:title=>"#{topic_item.owner.name}"  if show_group%>
+    <%=  link_to "[#{topic_item.owner.name}]",[topic_item.owner],
+      :title=>"#{topic_item.owner.name}" + (topic_item.owner.type.to_s.eql?("Group") ? " 小组" : '')  if show_group%>
   </div>
   <%= "[置顶]"  if !show_group && topic_item.top_level   %>
   <%=  link_to highlight(h(topic_item.title),params[:search]),[topic_item.owner,topic_item],:target=>"_blank",:title=>topic_item.title %>
-  <span class="small quiet"><%= "回复#{topic_item.comments_count}" if topic_item.comments_count>0 %>&nbsp;<%= "浏览#{topic_item.view_count}" if topic_item.view_count>0 %></span>
+  <span class="small quiet"><%= "回复#{topic_item.comments_count}" if topic_item.comments_count>0 %>&nbsp;
+<%= "浏览#{topic_item.view_count}" if topic_item.view_count>0 %></span>
 
 </div>

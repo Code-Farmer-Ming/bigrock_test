@@ -1,7 +1,10 @@
 <li class="<%= cycle("topic_item gray_background", "topic_item") %>">
-  <div class="quiet r"> <%= date_ago_in_words(object.created_at)+"发布" %></div>
-  <%= link_to h(object.title),company_job_path(object.owner,object) ,:target=>"_blank" %>
+  <div class="quiet r"> 
+    <%= date_ago_in_words(object.created_at)+"发布" %>
+    
+  </div>
+  <%= link_to h(object.title),need_job_path(object) ,:target=>"_blank" %>
   <br/>
   <%= link_to object.poster.name, object.poster,:class=>"small",:target=>"_blank"%>
-<%end%>
+
 </li>

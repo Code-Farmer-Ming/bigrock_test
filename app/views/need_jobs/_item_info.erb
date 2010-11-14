@@ -1,6 +1,16 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
+<div class="<%= cycle("topic_item gray_background", "topic_item") %>">
+  <div class="quiet r">  <%= link_to object.poster.name, object.poster, :target=>"_blank"%>
+    <%= date_ago_in_words(object.created_at)+"发布" %></div>
+  <p>
+    [<%= link_to  object.state.name,{:action=>'search',:state_id=>object.state_id} %>.
+    <%= link_to  object.city.name,{:action=>'search',:state_id=>object.state_id,:city_id=>object.city_id} %>]
+    <%= link_to h(object.title),need_job_path(object) ,:target=>"_blank" %>
+  </p>
+  <p>
+    <%= h(truncate("#{ object.description}", :length=>120)) %>
+  </p>
+  <p class="small">
+    <%= link_to "查看详细…",need_job_path(object) ,:target=>"_blank" %>
+  </p>
 
-<%= "_item_info" %>
+</div>

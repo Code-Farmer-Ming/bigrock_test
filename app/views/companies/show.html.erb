@@ -35,6 +35,7 @@
         <%= auto_link(h(@company.website), :all, :target => "_blank")%>
       </p>
     <%end%>
+  
     <p>
       <b>地址:</b>
       <%= link_to @company.state.name,{:action=>'search',:state_id=>@company.state_id} if @company.state %>&nbsp;
@@ -47,6 +48,10 @@
         <%= render :partial=>"tags/tag_topN_list",:object=>@company %>
       </span>
     </p>
+        <p>
+        <b>资料地址：</b>
+      <%= link_to company_url(@company), company_url(@company)%>
+      </p>
     <p>
       <b> <%= link_to @company.create_user.name,user_path(@company.create_user)%>  </b> 创建于 <%=  localize(@company.created_at,:format=>:long)%>&nbsp;&nbsp;
       <%if @company.last_edit_user%>

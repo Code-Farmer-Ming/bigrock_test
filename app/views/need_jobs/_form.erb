@@ -1,0 +1,18 @@
+<%  f = form %>
+<%= f.error_messages %>
+<p>
+  <%= f.label :title,"标题",:class=>"filed_lab" %>
+  <%= f.text_field :title,:class=>"text" %>
+</p>
+<p>
+  <%= f.label :state_id,"所在地" ,:class=>"filed_lab"%>
+
+  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
+  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+
+  <%=  drop_list("need_job_state_id","need_job_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+</p>
+<p>
+  <%= f.label :description,"描述",:class=>"filed_lab" %>
+  <%= f.text_area :description %>
+</p>

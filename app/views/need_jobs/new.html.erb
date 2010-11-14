@@ -1,31 +1,13 @@
-<h1>New need_job</h1>
-
-<% form_for(@need_job) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :description %><br />
-    <%= f.text_field :description %>
-  </p>
-  <p>
-    <%= f.label :state_id %><br />
-    <%= f.text_field :state_id %>
-  </p>
-  <p>
-    <%= f.label :city_id %><br />
-    <%= f.text_field :city_id %>
-  </p>
-  <p>
-    <%= f.label :poster_id %><br />
-    <%= f.text_field :poster_id %>
-  </p>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', need_jobs_path %>
+<div id="left_content">
+  <h1>新建求职信息</h1>
+  <% form_for([:account,@need_job],{},:html=>{:class=>"form_info required-validate"}) do |f| %>
+    <%= render :partial=>"need_jobs/form" ,:object=>f %>
+    <p>
+      <%= f.submit '发布' %>
+    </p>
+  <% end %>
+</div>
+<div id="right_content">
+  
+  <%= link_to '我的求职列表', account_need_jobs_path() %>
+</div>
