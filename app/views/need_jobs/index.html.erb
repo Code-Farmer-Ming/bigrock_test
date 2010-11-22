@@ -12,7 +12,7 @@
 
             <%= link_to '查看', need_job_path(need_job) ,:target=>"_blank"  %>
             <%= link_to '编辑', edit_account_need_job_path(need_job) %>
-            <%= link_to '删除', need_job, :confirm => '你确定删除吗?', :method => :delete %>
+            <%= link_to '删除', need_job, :confirm => '你确定删除吗?',:class=>"red_text", :method => :delete %>
           </div>
           <p>
             <%= link_to h(need_job.title),need_job_path(need_job) ,:target=>"_blank" %>

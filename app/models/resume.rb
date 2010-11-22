@@ -35,7 +35,7 @@
 class Resume < ActiveRecord::Base
   #简历类型
   RESUME_TYPES=["中文","英文"]
-#  validates_format_of :blog_website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
+  #  validates_format_of :blog_website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
 
   belongs_to :state
   belongs_to :city
@@ -49,7 +49,7 @@ class Resume < ActiveRecord::Base
   
   has_many :educations,:dependent=>:destroy,:order=>"begin_date desc"
   has_many :specialities,:dependent=>:destroy
-
+  has_many :skills,:through=>:specialities,:source=>:skill
   #获取 某个 工作经历 中的同事
   has_many :yokemates, :class_name => "User",
     :finder_sql => "select  distinct c.* from passes a join passes b  join users c
@@ -87,7 +87,10 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
       find_by_sql(sql).size >0
     end
   end
- 
+   def skill_list 
+    skills.reload
+    skills.to_s
+  end
 
   #简历是否有同事
   def has_yokemates?

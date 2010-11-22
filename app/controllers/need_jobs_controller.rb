@@ -27,6 +27,7 @@ class NeedJobsController < ApplicationController
   def new
     @need_job = NeedJob.new
     @page_title =  "新建求职信息"
+    @need_job.skill_text= "c# delphi"
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @need_job }
@@ -78,7 +79,7 @@ class NeedJobsController < ApplicationController
     @need_job = current_user.need_jobs.find(params[:id])
     @need_job.destroy
     respond_to do |format|
-      format.html { redirect_to(acount_need_jobs_url) }
+      format.html { redirect_to(account_need_jobs_path) }
       format.xml  { head :ok }
     end
   end

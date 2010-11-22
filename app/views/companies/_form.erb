@@ -56,10 +56,10 @@
 <div class="form_row">
   <%  i=0 %>
   <%= f.label :address, "地址",:class=>"filed_lab" %>
-  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
-  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+  <%= f.select :state_id,State.to_select_option %>
+  <%= f.select :city_id,City.to_select_option(f.object.state_id) %>
 
-  <%=  drop_list("company_state_id","company_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+  <%=  drop_list("company_state_id","company_city_id",State.to_select_option_with_city)%>
 
   <%= f.text_field(:address,:class=>"text" ) %>
   <%@company.versions.find_version_by_column(:address).each do |version| %>

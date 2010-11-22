@@ -566,6 +566,8 @@ class User< ActiveRecord::Base
     current_resume.pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])
   end
 
+
+  
   private
   #  #START:encrypted_password
   def self.encrypted_password(password, salt)

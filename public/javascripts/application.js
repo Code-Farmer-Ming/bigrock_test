@@ -93,10 +93,10 @@ DropList.prototype= {
         this.option_collection = array_value
         this.target_select = $(target_select);
         Event.observe(this.src_select, 'change',this.onchange.bindAsEventListener(this));        
-        for(var i=0; i < this.option_collection[this.src_select.value].length; i++) {
-            this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
-                this.option_collection[this.src_select.value][i][0]);
-        }
+//        for(var i=0; i < this.option_collection[this.src_select.value].length; i++) {
+//            this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
+//                this.option_collection[this.src_select.value][i][0]);
+//        }
     },
     onchange : function(event){
         this.target_select.options.length = 0;

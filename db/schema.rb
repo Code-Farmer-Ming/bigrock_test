@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101101135035) do
+ActiveRecord::Schema.define(:version => 20101117140515) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -380,6 +380,16 @@ ActiveRecord::Schema.define(:version => 20101101135035) do
   end
 
   add_index "schools", ["name"], :name => "index_schools_on_name"
+
+  create_table "skill_taggings", :force => true do |t|
+    t.integer  "skill_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "skill_taggings", ["skill_id", "taggable_id", "taggable_type"], :name => "skill_taggings_index", :unique => true
 
   create_table "skills", :force => true do |t|
     t.string   "name"

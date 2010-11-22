@@ -46,7 +46,7 @@ TextDefaultValue.prototype= {
             this.inputText.observe('focus',function(){
                 if (this.inputText.value==this.defaultValue){
                     this.inputText.value='';
-                    this.inputText.style.color='';
+                    this.inputText.style.color='black';
                 //                if (this.isPassword) this.inputText.type='password';
                 }
             }.bindAsEventListener(this));

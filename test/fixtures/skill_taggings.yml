@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  skill_id: 1
+  taggable_id: 1
+  taggable_type: MyString
+
+two:
+  id: 2
+  skill_id: 1
+  taggable_id: 2
+  taggable_type: MyString

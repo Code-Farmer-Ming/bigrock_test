@@ -5,12 +5,16 @@
   <%= f.text_field :title,:class=>"text" %>
 </p>
 <p>
+  <%= f.label :skill_text,"技术",:class=>"filed_lab" %>
+  <%= f.text_field :skill_text,:class=>"text"%>
+</p>
+<p>
   <%= f.label :state_id,"所在地" ,:class=>"filed_lab"%>
 
-  <%= f.select :state_id,State.all.collect {|p| [p.name,p.id]} %>
-  <%= f.select :city_id,City.find_all_by_state_id(f.object.state_id).collect {|p| [p.name,p.id]} %>
+  <%= f.select :state_id,State.to_select_option %>
+  <%= f.select :city_id,  City.to_select_option(f.object.state_id,"") %>
 
-  <%=  drop_list("need_job_state_id","need_job_city_id",State.all.collect {|p| [ p.id, p.cities.all.collect{|q| [q.id,q.name] } ] })%>
+  <%=  drop_list("need_job_state_id","need_job_city_id",State.to_select_option_with_city(nil,""))%>
 </p>
 <p>
   <%= f.label :description,"描述",:class=>"filed_lab" %>

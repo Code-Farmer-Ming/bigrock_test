@@ -5,8 +5,8 @@
   <div class="box main_info">
     <p>
       <b>工作地点</b>
-      <%=h @need_job.state.name%>
-      <%=h @need_job.city.name %>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%=h @need_job.state_name%>
+      <%=h @need_job.city_name %>&nbsp;&nbsp;&nbsp;&nbsp;
       <%= link_to_user_name @need_job.poster %> <b>发布于</b>&nbsp;
       <span class="quiet"><%= h time_ago_in_words_plus(@need_job.created_at)  %></span>
     </p>
