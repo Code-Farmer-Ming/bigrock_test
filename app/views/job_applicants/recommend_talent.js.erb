@@ -1,4 +1,4 @@
-<% remote_form_for(:job_applicant,:url=> company_job_applicants_path(params[:company_id],@job),
+<% remote_form_for(:job_applicant,:url=> job_applicants_path(@job),
   :loading=>"$('job_applicant_submit').disabled=true;",
   :complete=>"$('job_applicant_submit').disabled=false;",
   :html=>{:class=>"form_info"}) do |f| %>

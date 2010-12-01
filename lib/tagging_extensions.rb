@@ -64,7 +64,7 @@ class ActiveRecord::Base #:nodoc:
     end
 
     def tag_list=(value)
-      skill_with(value)
+      tag_with(value)
     end    
 
     #    private

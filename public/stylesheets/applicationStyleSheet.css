@@ -619,7 +619,7 @@ ul#nav .activelink a,ul#nav a:hover{
 
 .list li{
     list-style-type:none;
-    margin-bottom:2px;
+  
     overflow: hidden;
 }
 

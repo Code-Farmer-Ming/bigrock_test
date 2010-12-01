@@ -1,7 +1,7 @@
 <tr class="<%= cycle("gray_background", "")  %> <%= " bold_text_row" unless object.is_read   %>">
 
   <td>
-    <%= link_to(h(object.job.title), [object.job.owner,object.job]) %>
+    <%= link_to(h(object.job.title), [object.job]) %>
     <% if object.recommend_user  %>
       &nbsp;&nbsp;[<%= link_to object.recommend_user.name,object.recommend_user %>]举荐
     <%end%>

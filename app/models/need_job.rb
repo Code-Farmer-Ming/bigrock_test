@@ -1,93 +1,68 @@
+# == Schema Information
+#
+# Table name: need_jobs
+#
+#  id          :integer       not null, primary key
+#  title       :string(255)   
+#  description :string(255)   
+#  state_id    :integer       
+#  city_id     :integer       
+#  poster_id   :integer       
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+require 'skill_tag_extensions'
+
 class NeedJob < ActiveRecord::Base
   
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"poster",:log_type=>"post_need_job"
   #发布者
   belongs_to :poster ,:class_name=>"User",:foreign_key=>"poster_id"
   belongs_to :state
   belongs_to :city 
   named_scope :limit,lambda { |size| { :limit => size } }
+  named_scope :order,lambda { |order| { :order => order } }
   named_scope :since,lambda { |day| { :conditions =>["(created_at>? or ?=0) ",day.to_i.days.ago,day.to_i]  } }
 
   delegate :name,:to=>:state, :prefix => true ,:allow_nil=>true
   delegate :name,:to=>:city, :prefix => true,:allow_nil=>true
-  attr_accessor :skill_text
 
-  def skill_text
-    skill_list.blank? ? @skill_text : skill_list
+  #被动 作为 消息记录的内容
+  has_many :logable_logs,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"
+
+
+  #相似求职
+  has_many :similar_need_jobs,:class_name=>"NeedJob",
+    :finder_sql=>'select * from (select id ,count(1) same_tags
+                                from (select e.taggable_id id from
+                                      (select * from  skill_taggings d where #{id}<>d.taggable_id and d.taggable_type=\'NeedJob\' ) e
+                                      join
+                                      (select * from skill_taggings b where #{id}=b.taggable_id and b.taggable_type=\'NeedJob\' ) f
+                                     on e.skill_id=f.skill_id ) g
+                                    group by id
+                                    order by same_tags desc) y join need_jobs z on y.id=z.id ' do
+    
+    def find(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+ 
   end
   
   def after_save
-    skill_with @skill_text
+    skill_with skill_text if skill_text
+  end
+ 
+  
+  #工作类型 全职兼职
+  def type
+    Job::JOB_TYPES[type_id]
   end
   
-  #工作地点
-  def site
-    "#{ state_name} #{city_name}"
-  end
-
-  def add_skills incoming
-    tag_cast_to_string(incoming).each do |tag_name|
-      begin
-        skill = Skill.find_or_create_by_name(tag_name)
-        raise Skill::Error, "tag could not be saved: #{tag_name}" if skill.new_record?
-        skills << skill
-      rescue ActiveRecord::StatementInvalid => e
-        raise unless e.to_s =~ /duplicate/i
-      end
-    end
-  end
-
-  # Removes tags from <tt>self</tt>. Accepts a string of tagnames, an array of tagnames, an array of ids, or an array of Tags.
-  def remove_skills outgoing
-    outgoing = tag_cast_to_string(outgoing)
-    return [] if outgoing.empty?
-    outgoing_tags = skills.find_all_by_name(outgoing)
-    outgoing_taggings = skill_taggings.find_all_by_skill_id(outgoing_tags.map(&:id))
-    skill_taggings.destroy(*outgoing_taggings)
-
-  end
-
-
-  # Replace the existing tags on <tt>self</tt>. Accepts a string of tagnames, an array of tagnames, an array of ids, or an array of Tags.
-  def skill_with list
-    list = tag_cast_to_string(list)
-    # Transactions may not be ideal for you here; be aware.
-    Skill.transaction do
-      current = skills.map(&:name)
-      add_skills(list - current)
-      remove_skills(current - list)
-    end
-  end
-
-  # Returns the tags on <tt>self</tt> as a string.
-  def skill_list #:nodoc:
-    skills.reload
-    skills.to_s
-  end
-
-  def skill_list=(value)
-    skill_with(value)
-  end
-
-  #    private
-
-  def tag_cast_to_string obj #:nodoc:
-    case obj
-    when Array
-      obj.map! do |item|
-        case item
-        when /^\d+$/, Fixnum then Skill.find(item).name # This will be slow if you use ids a lot.
-        when Skill then item.name
-        when String then item
-        else
-          raise "Invalid type"
-        end
-      end
-    when String
-      obj = obj.split(Skill::DELIMITER).map do |tag_name|
-        tag_name.strip.squeeze(" ")
-      end
-    else
-      raise "Invalid object of class #{obj.class} as tagging method parameter"
-    end.flatten.compact.map(&:downcase).uniq
-  end
+ 
 end

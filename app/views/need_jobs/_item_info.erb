@@ -2,15 +2,16 @@
   <div class="quiet r">  <%= link_to object.poster.name, object.poster, :target=>"_blank"%>
     <%= date_ago_in_words(object.created_at)+"发布" %></div>
   <p>
-    [<%= link_to  object.state.name,{:action=>'search',:state_id=>object.state_id} %>.
-    <%= link_to  object.city.name,{:action=>'search',:state_id=>object.state_id,:city_id=>object.city_id} %>]
-    <%= link_to h(object.title),need_job_path(object) ,:target=>"_blank" %>
+    [<%= link_to_state_city(object) %>]
+    <%= highlight(link_to(h(object.title),need_job_path(object) ,:target=>"_blank"),params[:search]) %>
   </p>
   <p>
-    <%= h(truncate("#{ object.description}", :length=>120)) %>
+    <%= highlight(h(truncate("#{ object.description}", :length=>120)),params[:search]) %>
+  </p>
+  <p>
+    <b>技术</b> <%= highlight(render(:partial=>"need_jobs/skill_tag",:collection=> object.skills),params[:search])%>
   </p>
   <p class="small">
     <%= link_to "查看详细…",need_job_path(object) ,:target=>"_blank" %>
   </p>
-
 </div>

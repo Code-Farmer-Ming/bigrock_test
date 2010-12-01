@@ -8,7 +8,7 @@
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
       </p>
       <p>
-        搜索结果 <%= @need_jobs.count %>
+        搜索结果 <%= @need_jobs.count %>条
       </p>
     </div>
 
@@ -28,8 +28,8 @@
     <%#=  drop_list("state_id","city_id",[[0,[[0,'所有市']]]]+State.all.collect {|p| [ p.id,[[0,'所有市']]+p.cities.all.collect{|q| [q.id,q.name] } ] })%>
       </p>
       <p>
-        <%= label_tag :job_type,"职位类型" %><br/>
-        <%= select_tag :job_type,options_for_job_type(params[:job_type]),
+        <%= label_tag :type_id,"职位类型" %><br/>
+        <%= select_tag :type_id,options_for_job_type(params[:type_id]),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
       </p>
       <p>
@@ -37,7 +37,7 @@
         <%= select_tag :since_day,options_for_since_day(params[:since_day]),
           {:onchange=>'this.form.onsubmit();this.form.submit();return false;'}  %>
       </p>
-      <br/>
+      <%#*<br/>%>
     <%#*<p>%>
     <%#= label_tag :industry ,"所属行业"%>
     <%#*<br/>%>

@@ -7,7 +7,6 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "apply job" do
-    
     applicant = JobApplicant.new(:applicant_user=>users(:one),:memo=>'I wanna applicat the job')
     assert_difference("@job.applicants.count",1) do
       @job.apply_job applicant
@@ -30,8 +29,23 @@ class JobTest < ActiveSupport::TestCase
       @job.apply_job(JobApplicant.new(:applicant_id=>users(:three).to_param))
       job3.apply_job(JobApplicant.new(:applicant_id=>users(:three).to_param))
     end
-   assert_equal job3, @job.related_jobs.first
+    assert_equal job3, @job.related_jobs.first
 
+  end
+
+  test "create job log" do
+    job = Job.new
+    job.title="job title"
+    job.type_id = 1
+    job.state_id = 1
+     job.city_id = 1
+    job.owner = companies(:one)
+    job.create_user = users(:one)
+    job.job_description ="job description"
+    job.end_at = Time.now
+    assert_difference("job.logable_log_items.count",2) do
+      job.save!
+    end
   end
 
 end

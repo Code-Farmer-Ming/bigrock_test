@@ -1,33 +1,16 @@
-<div id="left_content">
-  <h1>我的求职列表</h1>
-
-  <% sub_block_div("") do %>
-    <% form_for @need_jobs,:url=>batch_destroy_need_jobs_path() do |f|%>
-      <% @need_jobs.each do |need_job| %>
-        <div class="<%= cycle("topic_item gray_background", "topic_item") %>">
-          <div class="quiet r">
-            <%= date_ago_in_words(need_job.created_at)+"发布" %>
-            <%=  check_box_tag  "select_ids[]",need_job.id ,false -%>
-            &nbsp;
-
-            <%= link_to '查看', need_job_path(need_job) ,:target=>"_blank"  %>
-            <%= link_to '编辑', edit_account_need_job_path(need_job) %>
-            <%= link_to '删除', need_job, :confirm => '你确定删除吗?',:class=>"red_text", :method => :delete %>
-          </div>
-          <p>
-            <%= link_to h(need_job.title),need_job_path(need_job) ,:target=>"_blank" %>
-          </p>
-        </div>
-        <%= will_paginate @need_jobs %>
-        <%= f.submit "删除所选" %>
-      <%end%>
-    <%end%>
-
-
+<div id="single_column">
+  <br/>
+  <div  class="center_block" >
+    <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索求职"} %>
+  </div>
+  <br/>
+  <br/>
+  <%sub_block_div("最新的求职") do%>
+    <ul class="list">
+      <%= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5).order("created_at desc")%>
+    </ul>
+    <%= link_to("<<查看更多…",search_need_jobs_path())%>
+    <br />
+    <%= link_to "+发一条求职信息",new_account_need_job_path(),:class=>"button positive" %>
   <%end%>
-
-
-</div>
-<div id="right_content">
-  <%= link_to '新建求职信息', new_account_need_job_path %>
 </div>

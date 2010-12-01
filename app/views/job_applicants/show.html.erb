@@ -27,7 +27,7 @@
   <p class="c">
     <%= link_to "来面试吧",new_account_msg_path(:write_to=>@job_applicant.applicant_user,:title=>'面试通知',
       :content=>"感谢您申请[#{@job_applicant.job.owner.name}]的[#{@job_applicant.job.title}]职位，\n请于xxxx年xx月xx日xxxx时间到\n【#{@job_applicant.job.owner.full_address}】面试。" ),:class=>'button' %>
-    <%= link_to  '删除', company_job_applicant_path(@job_applicant.job.owner,@job_applicant.job,@job_applicant), :confirm => '确定删除吗?',
+    <%= link_to  '删除', job_applicant_path(@job_applicant.job,@job_applicant), :confirm => '确定删除吗?',
       :method => :delete,:class=>"negative button" -%>
   </p>
 </div>

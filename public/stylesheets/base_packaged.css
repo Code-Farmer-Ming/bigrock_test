@@ -280,7 +280,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .company_icon a{ line-height:0px}
 .company_icon img{ vertical-align:middle}
  .list {clear:both; list-style-image:none; list-style-position:outside; list-style-type:none; margin:0; padding:0}
-.list li{ list-style-type:none; margin-bottom:2px; overflow: hidden}
+.list li{ list-style-type:none; overflow: hidden}
 .list li a{  width:100%;  max-height:6em;  }
 #current_li a{ color:black; background-color: #E1E9F8; font-weight: bold}
 .list li a:hover {color:black; background-color: #E1E9F8}

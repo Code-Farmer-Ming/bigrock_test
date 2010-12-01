@@ -4,20 +4,24 @@
   </h1>
   <div class="box main_info">
     <p>
+      <%=link_to @need_job.type,{:action=>'search',:job_type=>@need_job.type_id}%>&nbsp;
       <b>工作地点</b>
-      <%=h @need_job.state_name%>
-      <%=h @need_job.city_name %>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%=  link_to_state_city(@need_job)%>&nbsp;
+    
       <%= link_to_user_name @need_job.poster %> <b>发布于</b>&nbsp;
       <span class="quiet"><%= h time_ago_in_words_plus(@need_job.created_at)  %></span>
     </p>
     <p>
       <%=h @need_job.description %>
     </p>
+    <p>
+      <b>技术</b> <%= render :partial=>"need_jobs/skill_tag",:collection=> @need_job.skills%>
+    </p>
   </div>
 </div>
 <div id="right_content">
   <% sub_block_div("") do %>
-    <%= link_to '编辑', edit_account_need_job_path(@need_job),:class=>"button" %>
+    <%= link_to '编辑', edit_need_job_path(@need_job),:class=>"button" %>
     <%= link_to '删除', @need_job, :confirm => '你确定删除吗?', :method => :delete ,:class=>"button negative" %>
     <%= link_to '我的求职列表', account_need_jobs_path ,:class=>"button" %>
   <%end if current_user?(@need_job.poster)%>
@@ -25,5 +29,8 @@
     <%= render :partial=>"users/user_short_info",:object=> @need_job.poster %>
   <%end%>
   <% sub_block_div("相似求职") do %>
+    <ul class="list">
+      <%= render :partial=>"need_jobs/short_item",:collection=>@need_job.similar_need_jobs.find(:limit=>4,:order=>"created_at desc")%>
+    </ul>
   <%end%>
 </div>

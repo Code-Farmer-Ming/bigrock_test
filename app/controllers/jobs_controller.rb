@@ -2,25 +2,13 @@ class JobsController < ApplicationController
   include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:show,:index,:search]
   #
-  before_filter :find_company,:only=>[:new,:edit,:update,:create]
+  before_filter :find_company,:only=>[:new,:create]
   # GET /jobs
   # GET /jobs.xml
   def index
-    search = "%#{params[:search]}%"
-    @page_title =  "职位搜索"
+    @page_title =  "职位"
     @page_keywords = " 招聘 找工作"
     @page_description = "找工作，招聘职位搜索"
-    @company = Company.find_by_id(params[:company_id]) if params[:company_id]
-    if @company
-      @jobs = @company.jobs.paginate(:conditions=>["title like ? or
-                job_description like ? or skill_description like ?",
-          search,search,search],:page=>params[:page])
-      @page_title = @company.name + " 的职位"
-    end
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @jobs }
-    end
   end
 
   # GET /jobs/1
@@ -66,11 +54,12 @@ class JobsController < ApplicationController
   # POST /jobs
   # POST /jobs.xml
   def create
-    @job = Job.new(params[:job]) 
+    @job = Job.new(params[:job])
+    @job.end_at =  Time.now
     respond_to do |format|
       if @company.add_job(@job,current_user)
         flash.now[:notice] = '招聘信息发布成功'
-        format.html { redirect_to([@company,@job]) }
+        format.html { redirect_to(@job) }
         format.xml  { render :xml => @job, :status => :created, :location => @job }
       else
         flash.now[:error] = @company.errors.full_messages.to_s+@job.errors.full_messages.to_s
@@ -83,11 +72,11 @@ class JobsController < ApplicationController
   # PUT /jobs/1
   # PUT /jobs/1.xml
   def update
-    @job = @company.jobs.find(params[:id])
+    @job = current_user.published_jobs.find(params[:id])
     respond_to do |format|
       if @job.update_attributes(params[:job])
         flash[:notice] = '修改成功!'
-        format.html { redirect_to([@company,@job]) }
+        format.html { redirect_to(@job) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -102,11 +91,7 @@ class JobsController < ApplicationController
     current_user.published_jobs.destroy(params[:id])
     respond_to do |format|
       format.html {
-        if request.headers["Referer"] == company_job_url(params[:company_id],params[:id])
-          redirect_to(company_jobs_path(params[:company_id]))
-        else
-          redirect_to(:back)
-        end
+        redirect_to published_jobs_account_path()
       }
       format.xml  { head :ok }
     end
@@ -134,7 +119,7 @@ class JobsController < ApplicationController
     company_type = params[:company_type_id].to_i
 
     @jobs = Job.since(since_day).paginate :select=>"jobs.*",:joins=>"join companies on jobs.company_id=companies.id" ,:conditions=>["(title like ? or job_description like ? or skill_description like ?)
-      and (jobs.state_id=? or ?=0) and (jobs.city_id=? or ?=0) and (type_id=? or ?=0)
+      and (jobs.state_id=? or ?=0) and (jobs.city_id=? or ?=0) and (type_id=? or ?=-1)
       and (company_size_id=? or ?=0) and (company_type_id=? or ?=0)",
       search_word,search_word,search_word,state_id,state_id,
       city_id,city_id,job_type,job_type,company_size,company_size,

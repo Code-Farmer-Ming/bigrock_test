@@ -6,7 +6,7 @@
   <%= f.text_field :title,:class=>"text" %>
 </p>
 <p>
-  <%= f.label :job_type,"工作类型" ,:class=>"filed_lab"%>
+  <%= f.label :type_id,"工作类型" ,:class=>"filed_lab"%>
   <%= f.select :type_id,Job.types %>
 
 </p>
@@ -16,6 +16,10 @@
   <%= f.select :city_id,City.to_select_option(f.object.state_id) %>
 <%=  drop_list("job_state_id","job_city_id",State.to_select_option_with_city)%>
  
+</p>
+<p>
+  <%= f.label :skill_list,"特长需求",:class=>"filed_lab" %>
+  <%= f.text_field :skill_list,:class=>"text"%> 多个用空格分开
 </p>
 <%#*<p>%>
   <%#= f.label :end_at ,"有效日期",:class=>"filed_lab"%>

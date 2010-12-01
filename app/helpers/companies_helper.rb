@@ -39,6 +39,6 @@ module CompaniesHelper
   end
 
   def options_for_job_type(default_id)
-     options_for_select([['所有',0]]+Job.types,default_id.to_i)
+     options_for_select([['所有',-1]]+Job.types,default_id.to_i)
   end
 end

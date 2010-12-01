@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101117140515) do
+ActiveRecord::Schema.define(:version => 20101129145158) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -54,8 +54,6 @@ ActiveRecord::Schema.define(:version => 20101117140515) do
     t.datetime "updated_at"
     t.string   "commentable_type"
   end
-
-  add_index "comments", ["commentable_type", "commentable_id"], :name => "index_comments_on_commentable_type_and_commentable_id", :unique => true
 
   create_table "companies", :force => true do |t|
     t.string   "name",                 :default => ""
@@ -282,6 +280,8 @@ ActiveRecord::Schema.define(:version => 20101117140515) do
     t.integer  "poster_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "type_id",     :default => 0, :null => false
+    t.string   "skill_text"
   end
 
   create_table "news", :force => true do |t|

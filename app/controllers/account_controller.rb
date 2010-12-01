@@ -71,13 +71,13 @@ class AccountController < ApplicationController
       @unread_job_apply_size = @user.unread_published_job_applicants.count
     else
       @page_title ="首页"
-      @page_keywords="公司,简历,工作,职位,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
-      @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。"
+      @page_keywords="公司,简历,工作,职位,求职,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
+      @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
       #      @news = Piecenews.newly.all(:limit=>4)
       @newly_topics = Topic.order_by_last_comment.limit(20)
       @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-      @need_jobs = NeedJob.limit(8)
-      @jobs = Job.limit(8)
+      @need_jobs = NeedJob.limit(8).order("created_at desc")
+      @jobs = Job.limit(8).order("created_at desc")
     end
   end
   
@@ -383,8 +383,9 @@ class AccountController < ApplicationController
     @applicants = @user.job_applicants.paginate :page=>params[:page]
   end
 
-  def add_job
-    
+  def need_jobs
+    @page_title = '我的求职列表'
+    @need_jobs = current_user.need_jobs.paginate :page=>params[:page]
   end
   private
 

@@ -19,14 +19,14 @@
 #  applicants_count  :integer       default(0)
 #  comments_count    :integer       default(0)
 #
-
+require 'skill_tag_extensions'
 class Job < ActiveRecord::Base
   JOB_TYPES = ["全职", "兼职"]
   #字段验证
   validates_presence_of :title,:job_description,:company_id,:create_user_id
   #发布职位
   acts_as_logger :log_action=>["create"],:owner_attribute=>"create_user",:log_type=>"post_job"
-  acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"post_job"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"user_post_job"
     
   belongs_to :owner,:foreign_key =>"company_id",:class_name=>"Company",:counter_cache => true
   belongs_to :create_user,:class_name=>"User",:foreign_key =>"create_user_id"
@@ -42,6 +42,7 @@ class Job < ActiveRecord::Base
   delegate :name,:to=>:city, :prefix => true
 
   named_scope :limit,lambda { |size| { :limit => size } }
+  named_scope :order,lambda { |order| { :order => order } }
   named_scope :since,lambda { |day| { :conditions =>["(jobs.created_at>? or ?=0) ",day.to_i.days.ago,day.to_i]  } }
 
   def self.types
@@ -50,10 +51,6 @@ class Job < ActiveRecord::Base
   
   def type
     JOB_TYPES[type_id.to_i]
-  end
-  #工作地点
-  def site
-    "#{ state_name} #{city_name}"
   end
 
   def other_jobs(limit=6)
@@ -81,12 +78,23 @@ class Job < ActiveRecord::Base
     end
   end
   #相关的职位 根据申请了 这个职位又申请别的职位，按共同申请的数量 排序
-  def related_jobs    
-    Job.find_by_sql( " select a.* ,count(*) from job_applicants x
+
+  has_many :related_jobs,:class_name=>"Job",
+    :finder_sql=>'select a.* ,count(*) from job_applicants x
                       join job_applicants y  on  x.applicant_id=y.applicant_id
                       join jobs a on a.id=x.job_id
                       where y.job_id=#{id} and x.job_id<>#{id}
                       group by x.job_id
-                      order by count(*) desc ")
+                      order by count(*) desc ' do
+    def all(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
   end
+ 
 end

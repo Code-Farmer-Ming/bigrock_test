@@ -1,4 +1,4 @@
-<%remote_form_for([new_form.owner,new_form,Comment.new],:html=>{:class=>"required-validate"} ) do |f| %>
+<%remote_form_for([new_form,Comment.new],:html=>{:class=>"required-validate"} ) do |f| %>
   <div class="form_row">
     <%= f.text_area :content,:id=>"response_comment",:class=>"required",:title=>"要写点什么哦" %>
   </div>

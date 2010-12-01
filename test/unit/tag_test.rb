@@ -5,9 +5,9 @@ class TagTest < ActiveSupport::TestCase
   
   def setup
     @obj = Company.find(:first)
-    @obj.skill_with "pale imperial"
+    @obj.tag_with "pale imperial"
     @obj1 = Group.find(:first)
-    @obj1.skill_with "pale imperial"
+    @obj1.tag_with "pale imperial"
   end
 
   def test_to_s

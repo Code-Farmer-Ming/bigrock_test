@@ -5,7 +5,7 @@
     <%end%>
     <%= link_to object.applicant_user.name,object.applicant_user %>
   </td>
-  <td><%= highlight(link_to(h(object.job.title), [object.job.owner,object.job]),params[:search]) %>
+  <td><%= highlight(link_to(h(object.job.title), [object.job]),params[:search]) %>
     <br/>
     <small>
       <%= link_to object.job.owner.name,object.job.owner %>
@@ -15,8 +15,8 @@
   <td><%=date_ago_in_words(object.created_at) %></td>
 
   <td>
-    <%= link_to "详细", company_job_applicant_path(object.job.owner,object.job,object) %>
-    <%= link_to  '删除', company_job_applicant_path(object.job.owner,object.job,object), :confirm => '确定删除吗?',
+    <%= link_to "详细", job_applicant_path(object.job,object) %>
+    <%= link_to  '删除', job_applicant_path(object.job,object), :confirm => '确定删除吗?',
       :method => :delete,:class=>"red_text" -%>
     <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>
   </td>

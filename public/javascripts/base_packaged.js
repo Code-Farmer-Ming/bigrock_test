@@ -218,7 +218,7 @@ return true;}],['validate-chinese',/^[\u4e00-\u9fa5]+$/],['validate-phone',/^((0
 else
 {this.inputText.style.color=this.options.default_text_color;if(!this.inputText.value||this.inputText.value=='')
 {this.inputText.value=this.defaultValue;}
-this.inputText.observe('focus',function(){if(this.inputText.value==this.defaultValue){this.inputText.value='';this.inputText.style.color='';}}.bindAsEventListener(this));this.inputText.observe('blur',function(){if(this.inputText.value=='')
+this.inputText.observe('focus',function(){if(this.inputText.value==this.defaultValue){this.inputText.value='';this.inputText.style.color='black';}}.bindAsEventListener(this));this.inputText.observe('blur',function(){if(this.inputText.value=='')
 {if(this.isPassword)this.inputText.type='text';this.inputText.value=this.defaultValue;this.inputText.style.color=this.options.default_text_color;}}.bindAsEventListener(this));}
 if(parentForm){if(typeof(parentForm.onsubmit)=='function')
 {this.originSubmit=parentForm.onsubmit.bind(parentForm);}
@@ -315,7 +315,7 @@ else if(el.innerHTML.strip()==value)
 else
 {Element.removeClassName(el,this.options.disableClass);}}}}}
 DropList=Class.create();DropList.prototype={initialize:function(src_select,target_select,array_value){this.src_select=$(src_select);this.option_collection=array_value
-this.target_select=$(target_select);Event.observe(this.src_select,'change',this.onchange.bindAsEventListener(this));for(var i=0;i<this.option_collection[this.src_select.value].length;i++){this.target_select.options[i]=new Option(this.option_collection[this.src_select.value][i][1],this.option_collection[this.src_select.value][i][0]);}},onchange:function(event){this.target_select.options.length=0;for(var i=0;i<this.option_collection[this.src_select.value].length;i++){this.target_select.options[i]=new Option(this.option_collection[this.src_select.value][i][1],this.option_collection[this.src_select.value][i][0]);}}}
+this.target_select=$(target_select);Event.observe(this.src_select,'change',this.onchange.bindAsEventListener(this));},onchange:function(event){this.target_select.options.length=0;for(var i=0;i<this.option_collection[this.src_select.value].length;i++){this.target_select.options[i]=new Option(this.option_collection[this.src_select.value][i][1],this.option_collection[this.src_select.value][i][0]);}}}
 function PerpareNew(element)
 {el=$(element);if(!el)return;el.show();el.scrollIntoView();el.select("Form").each(function(el){el.reset();el.focusFirstElement();});}
 function PerpareEdit(element)

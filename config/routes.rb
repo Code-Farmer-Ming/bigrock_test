@@ -1,12 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show]
+  map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit]
 
 
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
-    groups.resources :topics, :collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post}  do |topics|
-      topics.resources :comments,:member=>{:up=>:post,:down=>:post}
-    end
+    groups.resources :topics, :collection=>{:search=>:get}  
+
     groups.resources :tags,:only=>[:index]
     #    groups.resources :recommends
     groups.resources :members,:member=>{:to_root=>:post,:to_manager=>:post,:to_normal=>:post}
@@ -20,24 +19,18 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :companies,
     :member=>{:employee_list=>:get,     
-    :logs=>:get },
+    :logs=>:get,
+    :jobs=>:get},
     :collection=>{:search=>:get} do |companies|
     companies.resources :company_judges
-    companies.resources :jobs do |jobs|
-      jobs.resources :comments,:member=>{:up=>:post,:down=>:post}
-      jobs.resources :applicants,:controller=>"JobApplicants",
-        :member=>{:recommend_talent=>:get}
-    end
+    companies.resources :jobs,:only=>[:new,:create]
     companies.resources :tags,:only=>[:index]
- 
-    companies.resources :topics ,:collection=>{:search=>:get},:member=>{:up=>:post,:down=>:post} do |topics|
-      topics.resources :comments,:member=>{:up=>:post,:down=>:post}
-    end
-    companies.resources :news,:collection=>{:search=>:get}   do |news|
-      news.resources :comments,:member=>{:up=>:post,:down=>:post}
-    end
+    companies.resources :topics ,:collection=>{:search=>:get}
   end
-  
+  map.resource  :news,:collection=>{:search=>:get}   do |news|
+    news.resources :comments,:member=>{:up=>:post,:down=>:post}
+  end
+    
   map.resource :account,:controller=>"account",
     :collection =>{ :forget_password=>:get,
     :set_resume_visibility=>[:get,:put],
@@ -58,7 +51,8 @@ ActionController::Routing::Routes.draw do |map|
     :published_jobs=>:get,
     :published_job_applicants=>:get,
     :add_job=>:get,
-    :follow_logs=>:get} do |account|
+    :follow_logs=>:get,
+    :need_jobs=>:get} do |account|
     account.resource :setting,:collection=>{ :auth=>[:get,:put],
       :base_info=>[:get,:put],
       :alias=>[:get,:put],
@@ -67,7 +61,7 @@ ActionController::Routing::Routes.draw do |map|
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
     account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
     account.resources :join_group_invites ,:member=>{:accept=>:post}
-    account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]}
+    account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]},:except=>[:show,:index,:edit,:destroy]
   end
 
   map.resources :users,:collection =>{},
@@ -86,8 +80,14 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   map.resources :tags
-  map.resources :topics ,:only=>[:index]
-  map.resources :jobs ,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:index,:batch_destroy]
+  map.resources :topics ,:only=>[:index,:show],:member=>{:up=>:post,:down=>:post}  do |topics|
+    topics.resources :comments,:member=>{:up=>:post,:down=>:post}
+  end
+  map.resources :jobs ,:collection=>{:batch_destroy=>[:delete],:search=>:get}, :except=>[:new,:create] do |jobs|
+    jobs.resources :comments,:member=>{:up=>:post,:down=>:post}
+    jobs.resources :applicants,:controller=>"JobApplicants",
+      :member=>{:recommend_talent=>:get}
+  end
   map.resources :job_applicants ,:collection=>{:batch_destroy=>[:delete]},:only=>[:batch_destroy]
   # The priority is based upon order of creation: first created -> highest priority.
 

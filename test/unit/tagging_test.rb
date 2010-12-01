@@ -7,11 +7,11 @@ class TaggingTest < ActiveSupport::TestCase
     @objs = Company.find(:all, :limit => 2)
     
     @obj1 = @objs[0]
-    @obj1.skill_with("pale")
+    @obj1.tag_with("pale")
     @obj1.reload
     
     @obj2 = @objs[1]
-    @obj2.skill_with("pale imperial")
+    @obj2.tag_with("pale imperial")
     @obj2.reload
     
 
@@ -21,13 +21,13 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   def test_tag_with
-    @obj2.skill_with "hoppy pilsner"
+    @obj2.tag_with "hoppy pilsner"
     assert_equal "hoppy pilsner", @obj2.tag_list
   end
   
   def test_find_tagged_with
-    @obj1.skill_with "seasonal lager ipa"
-    @obj2.skill_with ["lager", "stout", "fruity", "seasonal"]
+    @obj1.tag_with "seasonal lager ipa"
+    @obj2.tag_with ["lager", "stout", "fruity", "seasonal"]
     
     result1 = [@obj1]
     assert_equal Company.tagged_with("ipa"), result1

@@ -1,10 +1,10 @@
 <%if object.create_user==current_user%>
-  <%= link_to  '编辑', edit_company_job_path(params[:company_id],object),:class=>"button" -%>
-  <%= link_to  '删除', company_job_path(params[:company_id],object), :confirm => '确定删除吗?',
+  <%= link_to  '编辑', edit_job_path(object),:class=>"button" -%>
+  <%= link_to  '删除',  job_path(object), :confirm => '确定删除吗?',
     :method => :delete,:class=>"button negative" -%>
 <%else%>
   <%= link_to_remote_lightbox '申请' ,
-    {:url=>new_company_job_applicant_path(params[:company_id],object)},:class=>"button" -%>
+    {:url=>new_job_applicant_path(object)},:class=>"button" -%>
   <%= link_to_remote_lightbox  '推荐人才',
-    {:url=>recommend_talent_company_job_applicant_path(params[:company_id],object)},:class=>"button" -%>
+    {:url=>recommend_talent_company_job_applicant_path(object.owner,object)},:class=>"button" -%>
 <%end%>

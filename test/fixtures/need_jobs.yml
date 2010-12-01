@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: need_jobs
+#
+#  id          :integer       not null, primary key
+#  title       :string(255)   
+#  description :string(255)   
+#  state_id    :integer       
+#  city_id     :integer       
+#  poster_id   :integer       
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

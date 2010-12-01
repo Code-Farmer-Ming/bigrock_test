@@ -42,6 +42,7 @@
             <li id="who" class="<%= "activelink" if controller.controller_name=="users"  %>" ><%= link_to "个人", user_path(current_user) if current_user %></li>
             <li id="company" class="<%= "activelink" if controller.controller_name=="companies" %>" > <%= link_to "公司",companies_path() %></li>
             <li id="job"  class="<%= "activelink" if controller.controller_name=="jobs"  %>" ><%= link_to "职位",jobs_path() %></li>
+             <li id="need_job"  class="<%= "activelink" if controller.controller_name=="need_jobs"  %>" ><%= link_to "求职",need_jobs_path() %></li>
             <li id="group"  class="<%= "activelink" if controller.controller_name=="groups"  %>"><%= link_to "小组",groups_path() %></li>
           </ul>
         </div>

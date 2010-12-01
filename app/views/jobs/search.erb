@@ -6,7 +6,9 @@
         <%= text_field_tag  "search",params[:search],:class=>"text" %>
         <%= text_default_value 'search',"职位搜索" %>
         <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
-        共<%= @jobs.size %>记录
+      </p>
+      <p>
+        搜索结果<%= @jobs.size %>记录
       </p>
     </div>
     <table>

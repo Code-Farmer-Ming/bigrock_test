@@ -84,4 +84,10 @@ class CompaniesControllerTest < ActionController::TestCase
     assert_equal 3,assigns(:companies).first.id
   end
 
+  test "jobs" do
+    get :jobs, :id => companies(:one).to_param
+    assert_response :success
+    assert_not_nil assigns(:jobs)
+  end
+
 end

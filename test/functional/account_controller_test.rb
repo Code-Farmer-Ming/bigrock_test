@@ -282,6 +282,13 @@ class AccountControllerTest < ActionController::TestCase
     assert_not_nil assigns(:applicants)
   end
 
+  test "need jobs"  do
+    login_as(users(:one))
+    get :need_jobs
+    assert_response :success
+    assert_not_nil assigns(:need_jobs)
+  end
+
   test "search" do
     get :search ,:type=>"group",:search=>"test"
     assert_redirected_to search_groups_path(:search=>"test")

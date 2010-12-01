@@ -1,9 +1,8 @@
 <% job = object
 show_company ||= nil%>
 <tr class="<%= cycle("gray_background", "") %>">
-  <td>[<%= link_to  object.state_name,{:action=>'search',:state_id=>object.state_id} %>.
-    <%= link_to  object.city_name,{:action=>'search',:state_id=>object.state_id,:city_id=>object.city_id} %>]
-    <%= highlight(link_to(h(job.title), [job.owner,job],:target=>"_blank"),params[:search]) %>
+  <td>[<%= link_to_state_city(job) %>]
+    <%= highlight(link_to(h(job.title),job,:target=>"_blank"),params[:search]) %>
     <%if job.applicants.size>0%> <span class="quiet small"><%= job.applicants.size %>个申请</span><%end%>
     <% if show_company %>
       <br/>
@@ -12,20 +11,22 @@ show_company ||= nil%>
       </span>
     <%end%>
   </td>
-    <td><%=link_to object.type,{:action=>'search',:job_type=>object.type_id}%></td>
+  <td><%=link_to object.type,{:action=>'search',:job_type=>object.type_id}%></td>
   <td><%=date_ago_in_words(job.created_at) %></td>
- 
+
   <td>
-    <%= link_to "详细",company_job_path(object.owner,object) %>
+    <%= link_to "详细",job_path(object) %>
     <%if current_user?(object.create_user)%>
-      <%= link_to '编辑',edit_company_job_path(object.owner,object) %>
-      <%= link_to  '删除', company_job_path(object.owner,object), :confirm => '确定删除吗?',
+      <%= link_to '编辑',edit_job_path(object) %>
+      <%= link_to  '删除', job_path(object), :confirm => '确定删除吗?',
         :method => :delete,:class=>"red_text" -%>
     <%end%>
     <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>
   </td>
   <td>
-    <%=  check_box_tag  "select_jobs[]",object.id ,false -%>
+    <%if current_user?(object.create_user)%>
+      <%=  check_box_tag  "select_jobs[]",object.id ,false -%>
+    <%end%>
   </td>
 </tr>
 <tr style="display:none" id="<%= dom_id(object,"detail") %>" >

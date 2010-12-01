@@ -157,7 +157,16 @@ for log in show_log
     group_path(log.logable),:target=>"_blank" )} 小组"
   when "register_account" #注册账户
     temp = "注册了账号"
+  when "post_job" #发布职位
+    temp ="发布了职位 #{link_to(log.logable.title,job_path(log.logable),:target=>"_blank")}"
+
+  when "user_post_job" #发布职位
+    temp ="发布了职位 #{link_to(log.logable.title,job_path(log.logable),:target=>"_blank")}"
+  when "post_need_job" #发布求职
+    temp ="发布求职信息 #{link_to(log.logable.title,log.logable,:target=>"_blank")}"
   end
+
+
 
   log_content  +=  content_tag(:div, content_tag(:span,log.created_at.strftime('%H:%M'),:class=>"r small quiet")+temp ,:class=>'topic_item')
   #if  log_temp  !=  log &&  log_type !=  log.log_type

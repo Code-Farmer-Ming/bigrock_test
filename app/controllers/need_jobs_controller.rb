@@ -1,14 +1,12 @@
 class NeedJobsController < ApplicationController
-  before_filter :check_login?,:except=>[:show,:index,:search]
+  before_filter :check_login?,:except=>[:show,:search,:index]
   # GET /need_jobs
   # GET /need_jobs.xml
   def index
-    @page_title = "我的求职列表"
-    @need_jobs = current_user.need_jobs.paginate :page => params[:page]
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @need_jobs }
-    end
+    @page_title = "求职"
+    @page_keywords = " 求职 求职信息 最新求职"
+    @page_description = "发布求职信息"
+    @need_jobs =NeedJob.limit(5).order("created_at desc");
   end
 
   # GET /need_jobs/1
@@ -27,7 +25,7 @@ class NeedJobsController < ApplicationController
   def new
     @need_job = NeedJob.new
     @page_title =  "新建求职信息"
-    @need_job.skill_text= "c# delphi"
+    @need_job.skill_text=  current_user.current_resume.specialities.skill_text
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @need_job }
@@ -98,12 +96,11 @@ class NeedJobsController < ApplicationController
     search_word = "%#{params[:search]}%"
     state_id = params[:state_id].to_i
     city_id = params[:city_id].to_i
-    job_type = params[:job_type].to_i
+    type_id = params[:type_id].to_i
     since_day = params[:since_day].to_i
-    @need_jobs = NeedJob.since(since_day).paginate :conditions=>["(title like ? or description like ?)
-      and (state_id=? or ?=0) and (city_id=? or ?=0)",
-      search_word,search_word,state_id,state_id,
-      city_id,city_id], :page => params[:page]
- 
+    @need_jobs = NeedJob.since(since_day).paginate :conditions=>["(title like ? or description like ? or skill_text like ?)
+      and (state_id=? or ?=0) and (city_id=? or ?=0) and (type_id=? or ?=-1)",
+      search_word,search_word,search_word,state_id,state_id,
+      city_id,city_id,type_id,type_id],:order=>"created_at desc", :page => params[:page]
   end
 end

@@ -2,7 +2,7 @@
 class CompaniesController < ApplicationController
   include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:show,:index,:news,:show_by_tag,:all_tags,:tags,:search]
-  before_filter :find_company,:only=>[:show,:edit,:update,:destroy,:logs,:employee_list]
+  before_filter :find_company,:only=>[:show,:edit,:update,:destroy,:logs,:employee_list,:jobs]
   # GET /companies
   # GET /companies.xml    
   def index
@@ -118,6 +118,14 @@ class CompaniesController < ApplicationController
       @employees = @company.pass_employees.paginate   :joins=>" join resumes on resumes.user_id=users.id",
         :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'],:select=>"users.*",:order=>"users.created_at",:page => params[:page]
     end
+  end
+
+  def jobs
+    search = "%#{params[:search]}%"
+    @jobs = @company.jobs.paginate(:conditions=>["title like ? or
+                job_description like ? or skill_description like ?",
+        search,search,search],:order=>"created_at desc",:page=>params[:page])
+    @page_title = @company.name + " 的职位"
   end
  
   def search()

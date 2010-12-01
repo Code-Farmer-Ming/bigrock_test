@@ -48,7 +48,11 @@ class Resume < ActiveRecord::Base
   has_many :current_companies ,:through=>:current_passes,:source=>:company
   
   has_many :educations,:dependent=>:destroy,:order=>"begin_date desc"
-  has_many :specialities,:dependent=>:destroy
+  has_many :specialities,:dependent=>:destroy do
+    def skill_text
+      self.map(&:name).sort.join(Skill::DELIMITER)
+    end
+  end
   has_many :skills,:through=>:specialities,:source=>:skill
   #获取 某个 工作经历 中的同事
   has_many :yokemates, :class_name => "User",
