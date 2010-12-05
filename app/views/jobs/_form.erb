@@ -14,16 +14,16 @@
   <%= f.label :state_id,"工作地点",:class=>"filed_lab" %>
   <%= f.select :state_id,State.to_select_option() %>
   <%= f.select :city_id,City.to_select_option(f.object.state_id) %>
-<%=  drop_list("job_state_id","job_city_id",State.to_select_option_with_city)%>
- 
+  <%=  drop_list("job_state_id","job_city_id",State.to_select_option_with_city)%>
+
 </p>
-<p>
-  <%= f.label :skill_list,"特长需求",:class=>"filed_lab" %>
-  <%= f.text_field :skill_list,:class=>"text"%> 多个用空格分开
-</p>
+<div class="form_row">
+  <%= f.label :skill_text,"特长需求",:class=>"filed_lab" %>
+  <%=  text_field_with_auto_complete :job, :skill_text,{:class=>"text",:id=>dom_id(f.object,"name")},:tokens=>Skill::DELIMITER %>多个用空格分开
+</div>
 <%#*<p>%>
-  <%#= f.label :end_at ,"有效日期",:class=>"filed_lab"%>
-  <%#= f.date_select :end_at %>
+<%#= f.label :end_at ,"有效日期",:class=>"filed_lab"%>
+<%#= f.date_select :end_at %>
 <%#*</p>%>
 <p>
   <%= f.label :job_description,"工作描述",:class=>"filed_lab" %>
@@ -37,4 +37,3 @@
 <%#= f.label :job_title %><br />
 <%#= f.text_field :job_title %>
 <%#*</p>%>
- 

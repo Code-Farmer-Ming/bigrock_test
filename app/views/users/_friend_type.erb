@@ -8,6 +8,7 @@
 <%#*</li>%>
     <li><%= link_to   "同事",yokemate_list_user_path(object) ,:class=>(controller.action_name=="yokemate_list"   ? "active-tab" : "" )  %></li>
     <li><%= link_to   "关注的公司", friends_user_path(object,:type=>"follow_company"),:class=>(params[:type]=="follow_company" ? "active-tab" : "" )  %></li>
+    <li><%= link_to   "工作的公司", friends_user_path(object,:type=>"work_for_company"),:class=>(params[:type]=="work_for_company" ? "active-tab" : "" )  %></li>
   </ul>
   <p class="clear_float" />
 </div>

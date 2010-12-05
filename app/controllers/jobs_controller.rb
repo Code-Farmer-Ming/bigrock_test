@@ -7,7 +7,7 @@ class JobsController < ApplicationController
   # GET /jobs.xml
   def index
     @page_title =  "职位"
-    @page_keywords = " 招聘 找工作"
+    @page_keywords = " 招聘 找工作 职位搜索"
     @page_description = "找工作，招聘职位搜索"
   end
 
@@ -16,9 +16,11 @@ class JobsController < ApplicationController
   def show
     @job = Job.find(params[:id])
     @page_title = @job.title + "职位 "+  @job.owner.name
-    @page_keyworks = @job.title + " 职位"
-    @page_description = " 招聘职位 " +  truncate(@job.job_description,:length=>100)
+    @page_keyworks = " 职位"
+    @page_description = @job.owner.name + " 招聘职位," +  truncate(@job.job_description,:length=>100)
     @comments = @job.comments.paginate :page=>params[:page]
+    @job.update_attribute(:view_count, @job.view_count+1)
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @job }
@@ -102,7 +104,7 @@ class JobsController < ApplicationController
       current_user.published_jobs.destroy(item)
     end
     respond_to do |format|
-      format.html { redirect_to(:back) }
+      format.html { redirect_to(published_jobs_account_path()) }
       format.xml  { head :ok }
     end
   end
@@ -118,14 +120,19 @@ class JobsController < ApplicationController
     company_size = params[:company_size_id].to_i
     company_type = params[:company_type_id].to_i
 
-    @jobs = Job.since(since_day).paginate :select=>"jobs.*",:joins=>"join companies on jobs.company_id=companies.id" ,:conditions=>["(title like ? or job_description like ? or skill_description like ?)
+    @jobs = Job.since(since_day).paginate :select=>"jobs.*",:joins=>"join companies on jobs.company_id=companies.id" ,
+      :conditions=>["(title like ? or job_description like ? or skill_description like ? or skill_text like ?)
       and (jobs.state_id=? or ?=0) and (jobs.city_id=? or ?=0) and (type_id=? or ?=-1)
       and (company_size_id=? or ?=0) and (company_type_id=? or ?=0)",
-      search_word,search_word,search_word,state_id,state_id,
+      search_word,search_word,search_word,search_word,state_id,state_id,
       city_id,city_id,job_type,job_type,company_size,company_size,
       company_type,company_type], :page => params[:page]
   end
-
+  
+  def  auto_complete_for_job_skill_text
+    @items =  Skill.all(:conditions =>["lower(name) like ? ","%#{params[:job][:skill_text].downcase}%"])
+    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:job][:skill_text]}' %>"
+  end
   protected
 
   def find_company

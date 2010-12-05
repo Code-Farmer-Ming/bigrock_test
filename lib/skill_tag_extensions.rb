@@ -1,9 +1,8 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 class ActiveRecord::Base #:nodoc:
- 
+
   module IncludeMethods
-  
     def add_skills incoming
       tag_cast_to_string(incoming).each do |tag_name|
         begin
@@ -48,6 +47,7 @@ class ActiveRecord::Base #:nodoc:
       skill_with(value)
     end
 
+  
 
 
     def tag_cast_to_string obj #:nodoc:
@@ -74,7 +74,7 @@ class ActiveRecord::Base #:nodoc:
 
 
   include IncludeMethods
- 
+
   
 end
 

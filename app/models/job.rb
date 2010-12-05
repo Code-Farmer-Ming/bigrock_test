@@ -60,6 +60,10 @@ class Job < ActiveRecord::Base
   def add_comment(comment)
     comments << comment
   end
+
+  def after_save
+    skill_with skill_text if skill_text
+  end
   
   #申请职位
   def apply_job(job_applicant)
@@ -77,8 +81,8 @@ class Job < ActiveRecord::Base
       applicants << job_applicant
     end
   end
-  #相关的职位 根据申请了 这个职位又申请别的职位，按共同申请的数量 排序
 
+  #相关的职位 根据申请了 这个职位又申请别的职位，按共同申请的数量 排序
   has_many :related_jobs,:class_name=>"Job",
     :finder_sql=>'select a.* ,count(*) from job_applicants x
                       join job_applicants y  on  x.applicant_id=y.applicant_id
@@ -87,6 +91,26 @@ class Job < ActiveRecord::Base
                       group by x.job_id
                       order by count(*) desc ' do
     def all(*args)
+      options = args.extract_options!
+      sql = @finder_sql
+      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+      find_by_sql(sql)
+    end
+  end
+  #根据标签 相似的职位
+  has_many :similar_jobs,:class_name=>"Job",
+    :finder_sql=>'select * from (select id ,count(1) same_tags
+                                from (select e.taggable_id id from
+                                      (select * from  skill_taggings d where #{id}<>d.taggable_id and d.taggable_type=\'Job\' ) e
+                                      join
+                                      (select * from skill_taggings b where #{id}=b.taggable_id and b.taggable_type=\'Job\' ) f
+                                     on e.skill_id=f.skill_id ) g
+                                    group by id
+                                    order by same_tags desc) y join need_jobs z on y.id=z.id ' do
+
+    def find(*args)
       options = args.extract_options!
       sql = @finder_sql
 

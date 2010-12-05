@@ -1,4 +1,5 @@
 class NeedJobsController < ApplicationController
+  include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:show,:search,:index]
   # GET /need_jobs
   # GET /need_jobs.xml
@@ -13,7 +14,10 @@ class NeedJobsController < ApplicationController
   # GET /need_jobs/1.xml
   def show
     @need_job = NeedJob.find(params[:id])
-    @page_title =  @need_job.title 
+    @page_description = truncate( @need_job.description,:length=>100)
+    @page_title =  @need_job.title + "求职"
+    @page_keywords = @need_job.skill_text
+    @need_job.update_attribute(:view_count,@need_job.view_count+1)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @need_job }
@@ -26,6 +30,8 @@ class NeedJobsController < ApplicationController
     @need_job = NeedJob.new
     @page_title =  "新建求职信息"
     @need_job.skill_text=  current_user.current_resume.specialities.skill_text
+    @need_job.state_id = current_user.current_resume.state_id
+    @need_job.city_id = current_user.current_resume.city_id
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @need_job }
@@ -102,5 +108,10 @@ class NeedJobsController < ApplicationController
       and (state_id=? or ?=0) and (city_id=? or ?=0) and (type_id=? or ?=-1)",
       search_word,search_word,search_word,state_id,state_id,
       city_id,city_id,type_id,type_id],:order=>"created_at desc", :page => params[:page]
+  end
+
+  def  auto_complete_for_need_job_skill_text
+    @items =  Skill.all(:conditions =>["lower(name) like ? ","%#{params[:need_job][:skill_text].downcase}%"])
+    render :inline => "<%= auto_complete_result @items, 'name', '#{params[:need_job][:skill_text]}' %>"
   end
 end

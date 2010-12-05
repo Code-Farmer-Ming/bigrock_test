@@ -31,5 +31,5 @@
 
   
   <div id ="tags_list" class="auto_complete"></div>
-  <%=  auto_complete_field("group_tag_list", {:update=>"tags_list", :url => {:action => "auto_complete_for_tag" },:tokens=>" " })%>
+  <%=  auto_complete_field("group_tag_list", {:update=>"tags_list", :url => {:action => "auto_complete_for_tag" },:tokens=>Tag::DELIMITER})%>
 </div>

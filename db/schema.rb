@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101129145158) do
+ActiveRecord::Schema.define(:version => 20101204020035) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -212,6 +212,7 @@ ActiveRecord::Schema.define(:version => 20101129145158) do
     t.integer  "view_count",        :default => 0
     t.integer  "applicants_count",  :default => 0
     t.integer  "comments_count",    :default => 0
+    t.string   "skill_text"
   end
 
   create_table "judges", :force => true do |t|
@@ -282,6 +283,7 @@ ActiveRecord::Schema.define(:version => 20101129145158) do
     t.datetime "updated_at"
     t.integer  "type_id",     :default => 0, :null => false
     t.string   "skill_text"
+    t.integer  "view_count",  :default => 0
   end
 
   create_table "news", :force => true do |t|

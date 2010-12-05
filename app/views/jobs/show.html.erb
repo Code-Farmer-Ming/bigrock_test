@@ -19,9 +19,9 @@
       <span class="quiet"><%= h time_ago_in_words_plus(@job.created_at)  %></span>&nbsp;
       <b>浏览</b>&nbsp;<%= @job.view_count %>
     </p>
-    <h6>工作描述</h6>
+    <h4>工作描述</h4>
     <%= simple_format( h @job.job_description) %>
-    <h6>工作要求</h6>
+    <h4>工作要求</h4>
     <%=simple_format(h @job.skill_description) %>
     <p>
       <b>技术</b> <%= render :partial=>"need_jobs/skill_tag",:collection=> @job.skills%>
@@ -44,14 +44,16 @@
 
   <% sub_block_div(" ") do%>
     <%= render :partial=>"companies/company_short_info",:object=>@job.owner %>
-  <%#= render :partial=>"users/user_short_info",:object=>@job.create_user %>
   <%end%>
-  <%# sub_block_div("其他职位",link_to("所有",company_jobs_path(@job.owner))) do%>
-    <%#= render :partial=>"jobs/short_item",:collection=>@job.other_jobs %>
-  <%#end if @job.other_jobs.size>0%>
-  <% sub_block_div("同时申请的其他职位") do %>
-    <ul class="list">
-      <%= render :partial=>'jobs/short_item',:collection=>@job.related_jobs(:limit=>4) %>
-    </ul>
+  <%  if @job.related_jobs(:limit=>4).size>0 %>
+    <% sub_block_div("申请该职位的人同时还申请") do %>
+      <ul class="list">
+        <%= render :partial=>'jobs/short_item',:collection=>@job.related_jobs(:limit=>4) %>
+      </ul>
+    <%end%>
+  <%else%>
+    <% sub_block_div("相似职位") do%>
+      <%= render :partial=>"jobs/short_item",:collection=>@job.similar_jobs(:limit=>4)%>
+    <%end%>
   <%end%>
 </div>

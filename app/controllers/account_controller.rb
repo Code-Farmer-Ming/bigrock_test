@@ -387,6 +387,10 @@ class AccountController < ApplicationController
     @page_title = '我的求职列表'
     @need_jobs = current_user.need_jobs.paginate :page=>params[:page]
   end
+
+  def add_job
+     @page_title = '新建招聘职位'
+  end
   private
 
   #  def set_User_my_language

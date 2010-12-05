@@ -1,7 +1,13 @@
 <div id="left_content">
-  <h1>添加招聘信息</h1>
-  <h2>添加招聘信息，请到你当前工作的公司的页面。</h2>
-  <h3><%= link_to "查看我的公司",user_path(current_user) %></h3>
+  <h1>新建招聘职位</h1>
+
+  <%if current_user.current_companies.size>0%>
+    <h3>请选择要发布的公司</h3>
+    <%= render(:partial=>"companies/company_info_and_operation",:collection=>current_user.current_companies) %>
+  <%else%>
+    <h3>是不是没有添加工作经历？只能在当前工作的公司发布招聘职位哦。</h3>
+    <%= link_to "<<去增加工作经历去",user_path(current_user) %>
+  <%end%>
 </div>
 <div id="right_content">
 

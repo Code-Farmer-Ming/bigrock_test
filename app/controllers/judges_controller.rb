@@ -11,7 +11,7 @@ class JudgesController < ApplicationController
       format.xml  { render :xml => @judge }
     end
   end
-  #TODO:   @pass=Pass.find(params[:pass_id])有一定的危险 修改成 @user.passes.find(X)和 current_user 同事的判断
+   
   def create
     @user = User.real_users.find(params[:user_id])
     @judge= Judge.new(params[:judge])

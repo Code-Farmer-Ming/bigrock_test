@@ -4,7 +4,11 @@
     :method => :delete,:class=>"button negative" -%>
 <%else%>
   <%= link_to_remote_lightbox '申请' ,
-    {:url=>new_job_applicant_path(object)},:class=>"button" -%>
+    {:url=>new_job_applicant_path(object)},:class=>"button positive" -%>
   <%= link_to_remote_lightbox  '推荐人才',
-    {:url=>recommend_talent_company_job_applicant_path(object.owner,object)},:class=>"button" -%>
+    {:url=>recommend_talent_job_applicant_path(object)},:class=>"button positive" -%>
+  <%= link_to  '公司其他职位',
+    company_jobs_path(object.owner) ,:class=>"button" -%>
+  <%= link_to  '公司信息',
+    company_path(object) ,:class=>"button",:target=>"_blank" -%>
 <%end%>

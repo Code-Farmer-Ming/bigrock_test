@@ -34,7 +34,7 @@
   <%= text_field_tag "my_tags",current_user.used_tags_text(f.object.user)  ,:class=>"tag_input text" %>
   <div id ="tags_list" class="auto_complete"></div>
   <%= javascript_tag("new TagInput('my_tags','#user_tags span.tag')") %>
-  <%=  auto_complete_field("my_tags", {:update=>"tags_list", :url => {:controller=>"company_judges",  :action => "auto_complete_for_tag" },:tokens=>" " })%>
+  <%=  auto_complete_field("my_tags", {:update=>"tags_list", :url => {:controller=>"company_judges",  :action => "auto_complete_for_tag" },:tokens=>Tag::DELIMITER })%>
 </div>
 <div class="form_row">
   <%= label_tag "sub","   &nbsp;" ,:class=>"filed_lab" %>

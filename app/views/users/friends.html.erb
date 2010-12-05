@@ -2,7 +2,7 @@
 <div id="left_content">
 
   <%= render(:partial=>"users/friend_type",:object=>@user)%>
-  <% if params[:type]=='follow_company' %>
+  <% if params[:type]=='follow_company' || params[:type]=='work_for_company' %>
     <%= highlight(render(:partial=>"companies/company_info_and_operation",:collection=>@friends_user),params[:search]) %>
   <%else%>
     <%=  highlight(render(:partial=>"users/user_info_and_operation" ,:collection=>@friends_user),params[:search])  %>

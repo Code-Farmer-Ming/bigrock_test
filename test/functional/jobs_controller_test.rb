@@ -10,7 +10,8 @@ class JobsControllerTest < ActionController::TestCase
     assert_response :success
     assert_nil assigns(:jobs)
   end
-  test "should get index" do
+  test "should get index without login" do
+    logout()
     get :index 
     assert_response :success
  
@@ -33,15 +34,19 @@ class JobsControllerTest < ActionController::TestCase
     pass.save
     assert_difference('Job.count',1) do
       post :create, :job => {:title=>"new job",
+        :skill_text=>"skill1 skill2",
         :job_description=>"work_description",
         :skill_description=>"skill_description",:end_at=>Time.now,
         :type_id=>0,:city_id=>1,:state_id=>1 },:company_id=>@company
     end
+    assert_equal assigns(:job).skill_list ,"skill1 skill2"
     assert_redirected_to job_path(assigns(:job))
   end
 
+
   test "should show job" do
-    get :show, :id => jobs(:one).to_param,:company_id=>@company
+    logout()
+    get :show, :id => jobs(:one).to_param
     assert_response :success
   end
 
@@ -57,13 +62,13 @@ class JobsControllerTest < ActionController::TestCase
     assert_redirected_to  job_path(assigns(:job))
   end
 
-#  test "should destroy job" do
-#    @request.env['HTTP_REFERER'] =  company_job_url(@company,jobs(:one))
-#    assert_difference('Job.count', -1) do
-#      delete :destroy,{ :id => jobs(:one).to_param,:company_id=>@company}
-#    end
-#    assert_redirected_to company_jobs_path(@company)
-#  end
+  #  test "should destroy job" do
+  #    @request.env['HTTP_REFERER'] =  company_job_url(@company,jobs(:one))
+  #    assert_difference('Job.count', -1) do
+  #      delete :destroy,{ :id => jobs(:one).to_param,:company_id=>@company}
+  #    end
+  #    assert_redirected_to company_jobs_path(@company)
+  #  end
 
   test "should destroy job from published job page" do
    

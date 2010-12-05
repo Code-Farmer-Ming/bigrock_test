@@ -79,6 +79,7 @@
       <%= link_to "我的好友#{current_user.friend_users.count}",friends_user_path(current_user) ,:class=>"button"  %>
       <%= link_to "我加入的小组#{current_user.groups.count}",groups_user_path(current_user) ,:class=>"button"  %>
       <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button"  %>
+    <%= link_to "发布招聘",add_job_account_path() ,:class=>"button"  %>
     <%end %>
     <% sub_block_div("") do%>
       <%tabs do%>

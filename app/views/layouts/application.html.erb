@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <meta name="description" content="<%= (@page_title || "")+"谁靠谱网 "+(@page_description || "") %>" />
-    <meta name="keywords" content="<%=  (@page_title || "")+"谁靠谱网 "+(@page_keywords || "") %>" />
+    <meta name="description" content="<%=@page_description || "" %>" />
+    <meta name="keywords" content="<%= @page_keywords || "" %>" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <title> <%=   "#{@page_title } - 谁靠谱网"%></title>
+    <title><%=  "#{@page_title } - 谁靠谱网"%></title>
 
     <%=  stylesheet_link_merged :base %>
 
