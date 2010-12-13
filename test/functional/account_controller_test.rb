@@ -7,6 +7,11 @@ class AccountControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
+
+  test "index" do
+     get :index
+     assert_response :success
+  end
   
   test "show" do
     login_as(users(:one))
@@ -17,7 +22,7 @@ class AccountControllerTest < ActionController::TestCase
 
   test "show with not login" do
     get :show
-    assert_response :success
+    assert_redirected_to login_account_path(:reurl=>account_url())
   end
  
   test "new" do

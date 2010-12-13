@@ -369,7 +369,7 @@ div#menu{
     overflow:hidden;
 }
 .user_short_info{
- 
+
     margin-bottom:6px;
 }
 ul#nav,ul#nav li{
@@ -485,7 +485,7 @@ ul#nav .activelink a,ul#nav a:hover{
 .group_icon p,.user_icon p{
     padding:0px;
     margin:0px;
-     
+
     overflow:hidden;
     white-space:normal;
     word-break:break-all;
@@ -503,7 +503,7 @@ ul#nav .activelink a,ul#nav a:hover{
 .user_extension{
     margin-right:8px;
     margin-bottom:8px;
- 
+
 }
 
 /*小组 图标*/
@@ -619,7 +619,7 @@ ul#nav .activelink a,ul#nav a:hover{
 
 .list li{
     list-style-type:none;
-  
+
     overflow: hidden;
 }
 
@@ -723,21 +723,26 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 
 
-#industry_link_list
+#industry_link_list,#user_navigate
 {
     width: 100%;
-    overflow:auto;
+    overflow:hidden;
 }
-#industry_link_list li{
+#industry_link_list li,#user_navigate li{
     display: inline;
     float: left;
 
 }
-#industry_link_list a{
+#industry_link_list a ,#user_navigate a{
     width: 16em;
     padding:2px 4px;
     display:block;
 }
+#user_navigate a {
+      width: 12em;
+}
+
+
 /*tag 标签的css*/
 .tag,.disable_tag{
     padding:2px 8px;
@@ -1079,7 +1084,7 @@ div.auto_complete ul strong.highlight {
 }
 
 #user_count,#company_count,#group_count{
-   
+
     font-weight:bolder;
 }
 

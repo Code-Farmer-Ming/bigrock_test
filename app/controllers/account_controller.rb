@@ -1,6 +1,17 @@
 
 class AccountController < ApplicationController
-  before_filter :check_login?,:except=>[:get_news,:login,:search,:new,:create,:forget_password,:reset_password,:show,:check_email]
+  before_filter :check_login?,:except=>[:get_news,:index,:login,:search,:new,:create,:forget_password,:reset_password,:check_email]
+
+  def index
+    @page_title ="首页"
+    @page_keywords="公司,简历,工作,职位,求职,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
+    @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
+    #      @news = Piecenews.newly.all(:limit=>4)
+    @newly_topics = Topic.order_by_last_comment.limit(20)
+    @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
+    @need_jobs = NeedJob.limit(8).order("created_at desc")
+    @jobs = Job.limit(8).order("created_at desc")
+  end
   
   def new
     @page_title ="注册"
@@ -59,26 +70,16 @@ class AccountController < ApplicationController
     @join_group_invites_size =0
     @unread_job_apply_size =0
     @user= current_user
-    if @user
-      @page_title =" #{@user.name} 的首页"
-      #      @news = @user.my_follow_company_news.find(:all,:limit=>6)
-      @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
-      @logs = @user.my_follow_log_items.find(:all,:limit=>4,:order=>"created_at desc");
-      @my_topics = @user.my_created_topics.all(:limit=>20)
-      @join_topics =  @user.reply_topics.find(:all,:limit=>20)
-      @add_friend_request_size = @user.add_friend_applications.count
-      @join_group_invites_size = @user.join_group_invites.count
-      @unread_job_apply_size = @user.unread_published_job_applicants.count
-    else
-      @page_title ="首页"
-      @page_keywords="公司,简历,工作,职位,求职,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
-      @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
-      #      @news = Piecenews.newly.all(:limit=>4)
-      @newly_topics = Topic.order_by_last_comment.limit(20)
-      @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-      @need_jobs = NeedJob.limit(8).order("created_at desc")
-      @jobs = Job.limit(8).order("created_at desc")
-    end
+    @page_title =" #{@user.name} 的首页"
+    #      @news = @user.my_follow_company_news.find(:all,:limit=>6)
+    @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
+    @logs = @user.my_follow_log_items.find(:all,:limit=>4,:order=>"created_at desc");
+    @my_topics = @user.my_created_topics.all(:limit=>20)
+    @join_topics =  @user.reply_topics.find(:all,:limit=>20)
+    @add_friend_request_size = @user.add_friend_applications.count
+    @join_group_invites_size = @user.join_group_invites.count
+    @unread_job_apply_size = @user.unread_published_job_applicants.count
+ 
   end
   
   
@@ -141,7 +142,7 @@ class AccountController < ApplicationController
   def logout
     cookies.delete(:auto_login_user_id)
     set_user_session()
-    redirect_to( account_path() )
+    redirect_to( accounts_path() )
   end
   #begin 一些设置功能
   #忘记密码
@@ -389,7 +390,7 @@ class AccountController < ApplicationController
   end
 
   def add_job
-     @page_title = '新建招聘职位'
+    @page_title = '新建招聘职位'
   end
   private
 

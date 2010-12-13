@@ -1,109 +1,54 @@
 
 <div id="left_content">
-  <%if !current_user%>
-    <h2>
-      欢迎您
-    </h2>
-    <div class="box">
-      <%= link_to '',{:action=>'new'},:class=>'register_button' %>
-      <h2 id="company_count">在线电子简历</h2>
-      <p class="b">展示您的价值&nbsp;&nbsp;&nbsp;&nbsp;注册马上拥有</p>
-    </div>
+  <%content_for :script  do%>
+    <%= javascript_include_merged :dragdrop %>
+  <%end %>
+  <h1>欢迎，<%= current_user.name %></h1>
+  <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button positive"  %>
+  <%= link_to "发布招聘",add_job_account_path() ,:class=>"button negative"    %>
+  <%=   link_to("有#{@user.unjudge_yokemates.count}个同事可评价" ,unjudge_yokemate_account_path()  ) if @user.unjudge_yokemates.count>0%>
+  <%= link_to "有#{@user.unjudge_companies.count}个公司可评价",unjudge_company_account_path() if @user.unjudge_companies.count>0%>
+  <% sub_block_div(" ") do%>
+    <ul id="user_navigate" class="set_center">
 
-    <%sub_block_div("") do%>
-      <%search_form nil,:class=>"text_center" do |f|%>
+      <li><%= link_to "评价管理<small>▼</small>","javascript:;",:id=>"manaage_menu_link"  %> </li>
+      <li><%= link_to "好友(#{current_user.friend_users.count})",friends_user_path(current_user)   %></li>
+      <li><%= link_to "加入的小组(#{current_user.groups.count+current_user.hidden_groups.count})",groups_user_path(current_user)   %></li>
 
-        <%= text_field_tag  "search",params[:search],:class=>"text" %>
-        <%= text_default_value 'search',"职位、求职、公司、小组信息" %>
-        <%=  f.submit "搜索" ,:disable_with=>"搜索",:disabled => false,:class=>"button"%>
-        <br/>
-        <div class="text_center">
-          <%= radio_button_tag( "type", "job",true) %><%= label_tag "type_job","职位" %>
-          <%= radio_button_tag( "type", "need_job") %> <%= label_tag "type_need_job","求职信息" %>
-          <%= radio_button_tag( "type", "company") %> <%= label_tag "type_company","公司" %>
-          <%= radio_button_tag( "type", "group") %><%= label_tag "type_group","小组" %>
-        </div>
-      <%end%>
+
+      <li><%=  link_to "发布的职位(#{@user.published_jobs.count})", {:action=>:published_jobs} if @user.published_jobs.count>0%></li>
+      <li><%=  link_to "#{@user.published_job_applicants.count}人申请 " , {:action=>:published_job_applicants}   if @user.published_job_applicants.count>0%></li>
+      <li><%= link_to "发布的求职(#{@user.need_jobs.count})", {:action=>:need_jobs} if @user.need_jobs.count>0 %></li>
+      <li><%= link_to "申请的职位(#{@user.job_applicants.count})", {:action=>:job_applicants} if @user.job_applicants.count>0 %></li>
+
+    </ul>
+    <% menu("manage_menu") do -%>
+      <%= menu_item((link_to "对公司的评价",judged_company_account_path())) -%>
+      <%= menu_item((link_to "对同事的评价",judged_yokemate_account_path())) -%>
     <%end%>
-    <%sub_block_div() do%>
-      <div class="half_width r">
-        <%sub_block_div("求职") do%>
-          <ul class="list">
-            <%= render :partial=>"need_jobs/short_item",:collection=>@need_jobs%>
-          </ul>
-          <%= link_to("<<查看更多…",search_need_jobs_path()) if @need_jobs.size>8%>
-          <br />
-          <%= link_to "+发一条求职信息",new_account_need_job_path(),:class=>"button positive" %>
-        <%end%>
-      </div>
-      <div class="half_width">
-        <%sub_block_div("职位") do%>
-          <ul class="list">
-            <%= render :partial=>"jobs/short_item",:collection=>@jobs ,:locals=>{:is_show_company=>true}%>
-          </ul>
-          <%= link_to("<<查看更多…",search_jobs_path()) if @jobs.size>8%>
-          <br />
-          <%= link_to "+发一条招聘信息",add_job_account_path(),:class=>"button negative" %>
-        <%end%>
-      </div>
+    <%= popmenu("manaage_menu_link","manage_menu") -%>
+  <%end %>
+  <% sub_block_div("") do%>
+    <%tabs do%>
+      <%= tab_button("最新的话题","new_topics") %>
+      <%= tab_button("我参与的话题","join_topics") if @user%>
+      <%= tab_button("我创建的话题","my_topics") if @user%>
     <%end%>
-
-    <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
-      <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
-      <p class="">
-        <%=  link_to("<<查看更多…",topics_path())%>
+    <%tab_panel("new_topics") do%>
+      <%= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
+      <%= link_to "更多…",{:action=>"my_topics"} if @topics.size>10%>
+    <%end%>
+    <%tab_panel("join_topics") do%>
+      <%= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
+      <%= link_to "更多…",{:action=>"my_topics",:type=>"join"}  if @join_topics && @join_topics.size>10%>
+    <%end%>
+    <%tab_panel("my_topics") do%>
+      <%= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
+      <p>
+        <%= link_to "更多…",{:action=>"my_topics",:type=>"create"} if @my_topics && @my_topics.count>10%>
       </p>
     <%end%>
-
-    <%sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>
-      <ul class="float_ul">
-        <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
-      </ul>
-    <%#= link_to("<<查看更多…",groups_path())%>
-    <%end%>
-  <%else%><%#登录以后%>
-    <%content_for :script  do%>
-      <%= javascript_include_merged :dragdrop %>
-    <%end %>
-    <h1>欢迎，<%= current_user.name %></h1>
-    <% sub_block_div() do%>
-
-      <%=  link_to "我发布的职位 #{@user.published_jobs.count}个", {:action=>:published_jobs},:class=>"button" %>
-      <%=  link_to "有#{@user.published_job_applicants.count}人申请 " , {:action=>:published_job_applicants},:class=>"button"  if @user.published_job_applicants.count>0%>
-      <%= link_to "我申请的职位 #{@user.job_applicants.count}", {:action=>:job_applicants} ,:class=>"button" %>
-      <%=   link_to("我给同事的评价" ,judged_yokemate_account_path(),:class=>"button" )  %>
-      <%=   link_to("需要我评价的同事#{@user.unjudge_yokemates.count}个" ,unjudge_yokemate_account_path(),:class=>"button" ) if @user.unjudge_yokemates.count>0%>
-
-      <%= link_to "我给公司的评价", judged_company_account_path(),:class=>"button"  %>
-      <%= link_to "需要我评价的公司#{@user.unjudge_companies.count}",unjudge_company_account_path() ,:class=>"button"  if @user.unjudge_companies.count>0%>
-      <%= link_to "我的好友#{current_user.friend_users.count}",friends_user_path(current_user) ,:class=>"button"  %>
-      <%= link_to "我加入的小组#{current_user.groups.count}",groups_user_path(current_user) ,:class=>"button"  %>
-      <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button"  %>
-    <%= link_to "发布招聘",add_job_account_path() ,:class=>"button"  %>
-    <%end %>
-    <% sub_block_div("") do%>
-      <%tabs do%>
-        <%= tab_button("最新的话题","new_topics") %>
-        <%= tab_button("我参与的话题","join_topics") if @user%>
-        <%= tab_button("我创建的话题","my_topics") if @user%>
-      <%end%>
-      <%tab_panel("new_topics") do%>
-        <%= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
-        <%= link_to "更多…",{:action=>"my_topics"} if @topics.size>10%>
-      <%end%>
-      <%tab_panel("join_topics") do%>
-        <%= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
-        <%= link_to "更多…",{:action=>"my_topics",:type=>"join"}  if @join_topics && @join_topics.size>10%>
-      <%end%>
-      <%tab_panel("my_topics") do%>
-        <%= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
-        <p>
-          <%= link_to "更多…",{:action=>"my_topics",:type=>"create"} if @my_topics && @my_topics.count>10%>
-        </p>
-      <%end%>
-    <%end%>
   <%end%>
-
 </div>
 <div id ="right_content">
 <%# sub_block_div() do%>
@@ -139,7 +84,6 @@
   <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
-<%#if !@user%>
-<%#end%>
+
 </div>
 

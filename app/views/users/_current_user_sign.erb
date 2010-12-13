@@ -40,7 +40,7 @@
     </div>
     <%= popmenu("user_img_button","set_user_state_menu") -%>
   <%else-%>
-    <%if controller_name=="account" && action_name=="show"%>
+    <%if controller_name=="account" && action_name=="index"%>
 
       <% form_tag(url_for(:controller=>:account,:action=>"login")) do -%>
 

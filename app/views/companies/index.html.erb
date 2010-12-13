@@ -6,13 +6,13 @@
   <%end%>
 
   <% sub_block_div("行业") do%>
-    <%i= 1%>
+
     <ul id="industry_link_list" class="set_center">
       <% Industry.all.each do |item| -%>
         <li>
           <%=  link_to item.name,{:action=>'search',:industry_id=>item.id} %>
         </li>
-        <% i= i+1 -%>
+ 
       <%end-%>
     </ul>
   <%end%>

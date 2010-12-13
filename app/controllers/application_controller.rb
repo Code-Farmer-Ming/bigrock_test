@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
         redirect_to login_account_path(:format=>:js,:from=>params[:from])
       else
         flash[:notice] = "请先登录后才能进行操作"
-        redirect_to login_account_path(:reurl=>url_for())
+        redirect_to login_account_path(:reurl=>url_for(:overwrite_params => {}))
       end
     else
       user=User.real_users.find_by_id(cookies[:auto_login_user_id])
