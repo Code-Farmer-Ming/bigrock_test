@@ -12,14 +12,15 @@
     <div id="edit_container_user_base_info" style="display:none" class="partial_container"  >
     </div>
   </div>
-  <div class="section">
-    <h2>标签</h2>
-    <p id="tag_topN_list">
-      <%= render :partial=>"resumes/show_tag",:collection=>resume.user.taggings%>
-      <%= link_to "…所有#{resume.user.taggings.size}个",[resume.user,:tags] if resume.user.taggings.size>5 %>
-    </p>
-  </div>
-
+  <%if resume.user.taggings.count>0%>
+    <div class="section">
+      <h2>标签</h2>
+      <p id="tag_topN_list">
+        <%= render :partial=>"resumes/show_tag",:collection=>resume.user.taggings%>
+        <%= link_to "…所有#{resume.user.taggings.size}个",[resume.user,:tags] if resume.user.taggings.size>5 %>
+      </p>
+    </div>
+  <%end%>
   <%= javascript_tag(" AddHover('base_info')")  if current_user?(resume.user)%>
   <%if resume.user.setting.can_visibility?(:self_description_visibility,current_user)%>
     <div id="self_description"  >
@@ -33,7 +34,7 @@
       <div id="pass_infos" style="display:<%=  (resume.passes.length>0 || ( current_user?(resume.user))) ? "" : "none" %>">
         <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
           <%content_tag :span,:class=>"operation_lab" do -%>
-        
+
             <%= link_to_function "","PerpareNew('new_pass_container');",
               :class=>"add_img_button",:title=>"添加" %>
           <%end if  current_user?(resume.user)-%>
@@ -72,7 +73,7 @@
     <div id="speciality">
       <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
         <% content_tag :div,:class=>"operation_lab" do %>
-         
+
 
           <%= link_to_function "","PerpareNew('new_speciality_container');",
             :class=>"add_img_button",:title=>"添加" %>

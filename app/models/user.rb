@@ -18,7 +18,7 @@
 
 class User< ActiveRecord::Base
   #状态
-  STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作",:student=>"我还是学生"}
+  STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作"}
   
   acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
   #字段验证
@@ -49,6 +49,12 @@ class User< ActiveRecord::Base
   has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
   #被谁加为好友
   has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
+
+  #同事
+  has_many :colleagues,:foreign_key=>"user_id",:dependent=>:destroy
+  has_many :colleague_users,:through=>:colleagues,:source=>:colleague
+
+  #TODO 增加一个 colleague增加一个是否评价的字段
 
   #  #添加好友 申请
   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
@@ -448,6 +454,17 @@ class User< ActiveRecord::Base
     friend_users.delete(friend) &&   my_follow_users.delete(friend)
   end
   
+  #加为同事
+  def add_colleague colleague
+    colleague_users << colleague unless colleague_users.exists?(colleague)
+    my_follow_users << colleague unless  my_follow_users.exists?(colleague)
+  end
+  
+  #解除同事关系
+  def remove_colleague colleague
+    colleague_users.delete(colleague) &&   my_follow_users.delete(colleague)
+  end
+  
   #用户关注 某个对象 如 company 或 user
   def add_attention(target_object)
     targets << target_object
@@ -546,7 +563,7 @@ class User< ActiveRecord::Base
   end
   #删除 对某个对象做的 标签
   def remove_something_tag(taggable_object)
-     tag_something(taggable_object)
+    tag_something(taggable_object)
   end
   #START:create_new_salt
   def create_new_salt

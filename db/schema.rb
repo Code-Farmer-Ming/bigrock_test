@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101204020035) do
+ActiveRecord::Schema.define(:version => 20101213131605) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(:version => 20101204020035) do
   end
 
   add_index "cities", ["name"], :name => "index_cities_on_name"
+
+  create_table "colleagues", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "colleague_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "colleagues", ["user_id", "colleague_id"], :name => "index_colleagues_on_user_id_and_colleague_id", :unique => true
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",                  :null => false

@@ -14,7 +14,7 @@
       <b>浏览</b>&nbsp;<%= @need_job.view_count %> 
     </p>
     <p>
-      <%=h @need_job.description %>
+       <%= simple_format(auto_link(h(@need_job.description))) %>
     </p>
     <p>
       <b>技术</b> <%= render :partial=>"need_jobs/skill_tag",:collection=> @need_job.skills%>

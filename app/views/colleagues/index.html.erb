@@ -1,0 +1,22 @@
+<h1>Listing colleagues</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Colleague</th>
+  </tr>
+
+<% @colleagues.each do |colleague| %>
+  <tr>
+    <td><%=h colleague.user_id %></td>
+    <td><%=h colleague.colleague_id %></td>
+    <td><%= link_to 'Show', colleague %></td>
+    <td><%= link_to 'Edit', edit_colleague_path(colleague) %></td>
+    <td><%= link_to 'Destroy', colleague, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New colleague', new_colleague_path %>

@@ -411,4 +411,29 @@ class UserTest < ActiveSupport::TestCase
       user_1.current_resume.passes << Pass.new(:company=>companies(:three),:resume=>user_1.current_resume,:user=>user_1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:job_title_id=>1,:department=>"部门")
     end
   end
+
+  test "add colleague" do
+    ActionMailer::Base.deliveries.clear
+    user_1 = users(:one)
+    user_2 = users(:two)
+    assert_difference("user_1.my_follow_users.count") do
+      assert_difference("user_1.colleagues.count") do
+        user_1.add_colleague(user_2)
+      end
+    end
+
+    assert user_1.colleague_users.exists?(users(:two))
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+  
+  test "remove colleague" do
+    user_1 = users(:one)
+    user_2 = users(:two)
+    user_1.add_colleague(user_2)
+    assert_difference("user_1.my_follow_users.count",-1) do
+      assert_difference("user_1.colleagues.count",-1) do
+        user_1.remove_colleague(user_2)
+      end
+    end
+  end
 end

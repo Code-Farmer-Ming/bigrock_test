@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :colleagues
+
   map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit]
 
 
