@@ -174,27 +174,27 @@ Event.observe(window, "load", function() {
     Nifty('div.user_icon',"small");
 });
 
-function SetCookie(Cookie_name,value)　　
-{　　
-　var Then = new Date()　　
-　Then.setTime(Then.getTime() + 2*3600000 ) //小时　　
-　document.cookie = Cookie_name+"="+value+";expires="+ Then.toGMTString()　　
-}　　
-function GetCookie(Cookie_name)　　
-{　　
-　var cookieString = new String(document.cookie)　　
-　var cookieHeader = Cookie_name+"="　　
-　var beginPosition = cookieString.indexOf(cookieHeader)　　
-　if (beginPosition != -1) //cookie已经设置值，应该 不显示提示框　　
-　{　　
-　　return cookieString.substring(beginPosition + cookieHeader.length);　　
-　}　　
-　else　//cookie没有设置值，应该显示提示框　　
-　{　　
-　  return null;　　
-　}　　
-}　　
-function MoveCookie(Cookie_name)　　
-{　　
-　document.cookie = Cookie_name+"=;expires=Fri, 02-Jan-1970 00:00:00 GMT";　　
-}　
+//function SetCookie(Cookie_name,value)　　
+//{　　
+//　var Then = new Date()　　
+//　Then.setTime(Then.getTime() + 2*3600000 ) //小时　　
+//　document.cookie = Cookie_name+"="+value+";expires="+ Then.toGMTString()　　
+//}　　
+//function GetCookie(Cookie_name)　　
+//{　　
+//　var cookieString = new String(document.cookie)　　
+//　var cookieHeader = Cookie_name+"="　　
+//　var beginPosition = cookieString.indexOf(cookieHeader)　　
+//　if (beginPosition != -1) //cookie已经设置值，应该 不显示提示框　　
+//　{　　
+//　　return cookieString.substring(beginPosition + cookieHeader.length);　　
+//　}　　
+//　else　//cookie没有设置值，应该显示提示框　　
+//　{　　
+//　  return null;　　
+//　}　　
+//}　　
+//function MoveCookie(Cookie_name)　　
+//{　　
+//　document.cookie = Cookie_name+"=;expires=Fri, 02-Jan-1970 00:00:00 GMT";　　
+//}　

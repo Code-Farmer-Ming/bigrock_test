@@ -100,23 +100,30 @@ class PassTest < ActiveSupport::TestCase
     passes_one = passes(:one)
     assert passes_one.yokemate?(users(:two))
   end
-  test "yokemates" do
-    passes_one = passes(:one)
-    assert_equal 1, passes_one.yokemates.size
+  test "create pass" do
     user_three = users(:three)
-    user_three.current_resume.passes << Pass.new(:user_id=>3,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
- 
-    assert_equal 2, passes_one.yokemates.size
-    user_three.destroy
-    assert_equal 1, passes_one.yokemates.size
+
+    pass = Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
+
+    #    assert_difference  "pass.coll.count" do
+    assert_difference  "users(:one).all_msgs.count" do
+      assert_difference  "pass.colleagues.count",2 do
+        user_three.current_resume.passes << pass
+      end
+    end
+    #    end
+    assert_equal 2,pass.same_company_passes.count
+   
+    assert_difference  "pass.colleagues.count",-2 do
+      user_three.destroy
+    end
   end
 
   test "create pass send msg" do
     ActionMailer::Base.deliveries.clear
-    passes_one = passes(:one)
-    assert_equal 1, passes_one.yokemates.size
+ 
     user_three = users(:three)
-    new_pass =Pass.new(:user_id=>3,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
+    new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
     assert_difference("Msg.count",2) do
       user_three.current_resume.passes << new_pass
     end

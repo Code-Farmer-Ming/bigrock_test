@@ -34,6 +34,15 @@ class Pass < ActiveRecord::Base
   belongs_to :user ,:class_name=>"User",:foreign_key => "user_id"
 
   belongs_to :job_title
+
+  has_many :same_company_passes , :class_name => "Pass",:foreign_key => "company_id",:primary_key=>"company_id",
+    :conditions =>"id<>'\#{id}' and (begin_date between '\#{begin_date.to_date}' and '\#{end_date.to_date}'
+        or end_date between '\#{begin_date.to_date}' and '\#{end_date.to_date}'
+        or '\#{begin_date.to_date}' between begin_date and end_date
+        or '\#{end_date.to_date}' between begin_date and end_date)"
+
+  #  has_many :coll,:through=>:same_company_passes,:primary_key=>"company_id",:source => :user
+
   
   #TODO:是否需要改进？
   #获取 某个 工作经历 中的同事
@@ -81,6 +90,13 @@ class Pass < ActiveRecord::Base
   #对这段经历的评价
   has_many :judges, :dependent=>:destroy ,:order=>"created_at desc"
 
+  has_many :colleagues, :dependent=>:destroy,:foreign_key => "my_pass_id"
+  #已经记录的 经历
+  has_many :record_passes,:class_name=>"Pass",:through=>:colleagues,:source => :colleague_pass
+
+  #被他们当做同事
+  has_many :them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "my_pass_id"
+  
   #按日期排序
   named_scope :date_desc_order,:order=>"iscurrent desc,begin_date  desc"
   #Pass删除时的 要清除该pass对应的 其他人和公司的评价
@@ -92,10 +108,7 @@ class Pass < ActiveRecord::Base
     if  !user.my_follow_companies.exists?(company)
       user.my_follow_companies << company
     end
-    new_yokemate_notice =  Msg.new_system_msg(:title=>"有同事新加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>快去看看吧。")
-    yokemates.each{|user|
-      new_yokemate_notice.send_to(user)
-      }
+
   end
  
  
@@ -106,6 +119,9 @@ class Pass < ActiveRecord::Base
     if @title
       self.job_title = JobTitle.find_or_create_by_name_and_company_id(@title,self.company.id)
     end
+
+
+
   end
   
   def after_save
@@ -115,6 +131,20 @@ class Pass < ActiveRecord::Base
 
     if self.job_title_id_changed?
       JobTitle.destroy_all(:id=>self.job_title_id_was)
+    end
+    if begin_date_changed? || end_date_changed?
+      add_list =   same_company_passes - record_passes
+      new_yokemate_notice =  Msg.new_system_msg(:title=>"有同事新加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>快去看看吧。")
+
+      add_list.each do |add_pass|
+        colleagues << Colleague.new(:colleague_pass=>add_pass)
+
+        new_yokemate_notice.send_to(add_pass.user)
+      end
+      destroy_list =  record_passes - same_company_passes
+      destroy_list.each do |destroy_pass|
+        colleagues.first(:colleague_pass_id=>destroy_pass.id).destroy
+      end
     end
   end
   #清除相关 pass产生评价等 数据

@@ -50,12 +50,16 @@ class User< ActiveRecord::Base
   #被谁加为好友
   has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
-  #同事
-  has_many :colleagues,:foreign_key=>"user_id",:dependent=>:destroy
+  #还未确认的同事
+  has_many :no_decided_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
+  has_many :no_decided_colleague_users,:through=>:no_decided_colleagues,:source=>:colleague
+  #已经确定是同事了
+  has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :colleague_users,:through=>:colleagues,:source=>:colleague
-
-  #TODO 增加一个 colleague增加一个是否评价的字段
-
+  #确认不是同事
+  has_many :no_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[2]} ,:dependent=>:destroy
+  has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague
+  
   #  #添加好友 申请
   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
     :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
@@ -454,15 +458,9 @@ class User< ActiveRecord::Base
     friend_users.delete(friend) &&   my_follow_users.delete(friend)
   end
   
-  #加为同事
-  def add_colleague colleague
-    colleague_users << colleague unless colleague_users.exists?(colleague)
-    my_follow_users << colleague unless  my_follow_users.exists?(colleague)
-  end
-  
-  #解除同事关系
-  def remove_colleague colleague
-    colleague_users.delete(colleague) &&   my_follow_users.delete(colleague)
+  #加到同事队列里
+  def add_colleague colleague,pass
+    Colleague.create(:pass=>pass,:company=>pass.company,:colleague=>colleague,:user=>self)
   end
   
   #用户关注 某个对象 如 company 或 user

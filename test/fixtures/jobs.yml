@@ -18,6 +18,7 @@
 #  view_count        :integer       default(0)
 #  applicants_count  :integer       default(0)
 #  comments_count    :integer       default(0)
+#  skill_text        :string(255)   
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

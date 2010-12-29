@@ -10,6 +10,23 @@
 #  poster_id   :integer       
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  type_id     :integer       default(0), not null
+#  skill_text  :string(255)   
+#  view_count  :integer       default(0)
+#
+
+# == Schema Information
+#
+# Table name: need_jobs
+#
+#  id          :integer       not null, primary key
+#  title       :string(255)   
+#  description :string(255)   
+#  state_id    :integer       
+#  city_id     :integer       
+#  poster_id   :integer       
+#  created_at  :datetime      
+#  updated_at  :datetime      
 #
 require 'skill_tag_extensions'
 

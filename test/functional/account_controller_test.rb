@@ -230,7 +230,7 @@ class AccountControllerTest < ActionController::TestCase
 
   test "set user state" do
     login_as(users(:one))
-    for i in 0..2
+    for i in 0..1
       xhr :post,:set_user_state,:state=>User::STATE_TYPES.keys[i].to_s
       assert_equal User::STATE_TYPES.keys[i].to_s,users(:one).reload().state
     end

@@ -1,9 +1,16 @@
+# == Schema Information
+#
+# Table name: colleagues
+#
+#  id           :integer       not null, primary key
+#  user_id      :integer       
+#  colleague_id :integer       
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  company_id   :integer       
+#  pass_id      :integer       
+#  state        :string(255)   default("未定")
+#  is_judge     :boolean       
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  user_id: 1
-  colleague_id: 1
-
-two:
-  user_id: 1
-  colleague_id: 1

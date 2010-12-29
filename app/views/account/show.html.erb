@@ -6,21 +6,27 @@
   <h1>欢迎，<%= current_user.name %></h1>
   <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button positive"  %>
   <%= link_to "发布招聘",add_job_account_path() ,:class=>"button negative"    %>
-  <%=   link_to("有#{@user.unjudge_yokemates.count}个同事可评价" ,unjudge_yokemate_account_path()  ) if @user.unjudge_yokemates.count>0%>
-  <%= link_to "有#{@user.unjudge_companies.count}个公司可评价",unjudge_company_account_path() if @user.unjudge_companies.count>0%>
+  <%=   link_to("有#{@user.unjudge_yokemates.count}个同事可评价" ,unjudge_yokemate_account_path(),:class=>"small"  ) if @user.unjudge_yokemates.count>0%>
+  <%= link_to "有#{@user.unjudge_companies.count}个公司可评价",unjudge_company_account_path(),:class=>"small" if @user.unjudge_companies.count>0%>
+  <%=  link_to "#{@user.published_job_applicants.count}人申请职位" , {:action=>:published_job_applicants},:class=>"small" %>
   <% sub_block_div(" ") do%>
     <ul id="user_navigate" class="set_center">
 
       <li><%= link_to "评价管理<small>▼</small>","javascript:;",:id=>"manaage_menu_link"  %> </li>
       <li><%= link_to "好友(#{current_user.friend_users.count})",friends_user_path(current_user)   %></li>
-      <li><%= link_to "加入的小组(#{current_user.groups.count+current_user.hidden_groups.count})",groups_user_path(current_user)   %></li>
+      <li><%= link_to "加入的小组(#{current_user.all_groups.count})",groups_user_path(current_user)   %></li>
 
-
-      <li><%=  link_to "发布的职位(#{@user.published_jobs.count})", {:action=>:published_jobs} if @user.published_jobs.count>0%></li>
-      <li><%=  link_to "#{@user.published_job_applicants.count}人申请 " , {:action=>:published_job_applicants}   if @user.published_job_applicants.count>0%></li>
-      <li><%= link_to "发布的求职(#{@user.need_jobs.count})", {:action=>:need_jobs} if @user.need_jobs.count>0 %></li>
-      <li><%= link_to "申请的职位(#{@user.job_applicants.count})", {:action=>:job_applicants} if @user.job_applicants.count>0 %></li>
-
+      <%if @user.published_jobs.count>0%>
+        <li >
+          <%=  link_to "发布的职位(#{@user.published_jobs.count})", {:action=>:published_jobs}%>
+        </li>
+      <%end%>
+      <% if @user.need_jobs.count>0  %>
+        <li><%= link_to "发布的求职(#{@user.need_jobs.count})", {:action=>:need_jobs} %></li>
+      <%end%>
+      <% if @user.job_applicants.count>0 %>
+        <li><%= link_to "申请的职位(#{@user.job_applicants.count})", {:action=>:job_applicants}%></li>
+      <%end%>
     </ul>
     <% menu("manage_menu") do -%>
       <%= menu_item((link_to "对公司的评价",judged_company_account_path())) -%>

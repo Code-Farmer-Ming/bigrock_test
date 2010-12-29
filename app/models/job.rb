@@ -18,6 +18,29 @@
 #  view_count        :integer       default(0)
 #  applicants_count  :integer       default(0)
 #  comments_count    :integer       default(0)
+#  skill_text        :string(255)   
+#
+
+# == Schema Information
+#
+# Table name: jobs
+#
+#  id                :integer       not null, primary key
+#  title             :string(255)   not null
+#  type_id           :string(255)   not null
+#  job_description   :text          default(""), not null
+#  skill_description :text          
+#  state_id          :integer       not null
+#  city_id           :integer       not null
+#  job_title_id      :integer       
+#  end_at            :datetime      not null
+#  create_user_id    :integer       
+#  created_at        :datetime      
+#  updated_at        :datetime      
+#  company_id        :integer       
+#  view_count        :integer       default(0)
+#  applicants_count  :integer       default(0)
+#  comments_count    :integer       default(0)
 #
 require 'skill_tag_extensions'
 class Job < ActiveRecord::Base

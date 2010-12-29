@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101213131605) do
+ActiveRecord::Schema.define(:version => 20101229124858) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -49,9 +49,12 @@ ActiveRecord::Schema.define(:version => 20101213131605) do
     t.integer  "colleague_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "company_id"
+    t.integer  "colleague_pass_id"
+    t.string   "state",             :default => "未定"
+    t.boolean  "is_judge",          :default => false
+    t.integer  "my_pass_id"
   end
-
-  add_index "colleagues", ["user_id", "colleague_id"], :name => "index_colleagues_on_user_id_and_colleague_id", :unique => true
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",                  :null => false

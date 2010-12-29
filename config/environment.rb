@@ -37,6 +37,7 @@ Rails::Initializer.run do |config|
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   config.action_mailer.default_url_options = { :host => 'www.shuikaopu.com' }
+#  config.action_controller.assert_host="www.shuikaopu.com"
   config.i18n.default_locale = "zh-CN"
 end
 
