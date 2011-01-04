@@ -51,14 +51,17 @@ class User< ActiveRecord::Base
   has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
   #还未确认的同事
-  has_many :no_decided_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
-  has_many :no_decided_colleague_users,:through=>:no_decided_colleagues,:source=>:colleague
+  has_many :not_confirm_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
+  has_many :not_confirm_colleague_users,:through=>:not_confirm_colleagues,:source=>:colleague_user
   #已经确定是同事了
   has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
-  has_many :colleague_users,:through=>:colleagues,:source=>:colleague
+  has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user
+  #未评价的同事
+  has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
+  has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
   #确认不是同事
   has_many :no_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[2]} ,:dependent=>:destroy
-  has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague
+  has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague_user
   
   #  #添加好友 申请
   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
@@ -334,21 +337,20 @@ class User< ActiveRecord::Base
   has_many :need_jobs,:foreign_key=>"poster_id"
 
   # 别名的父账号
-  belongs_to :parent,
-    :class_name => 'User',
-    :foreign_key => 'parent_id'
+  belongs_to :parent,:class_name => 'User',:foreign_key => 'parent_id'
   #当前简历信息
-  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>"is_current=#{true}",:dependent => :destroy
+  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>{:is_current=>true},:dependent => :destroy
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
-  
-  delegate :passes,:to=>:current_resume
+
+  has_many :passes,:through=>:current_resume,:source=>:passes
+#  delegate :passeses,:to=>:current_resume
   delegate :pass_companies,:to=>:current_resume
   delegate :current_passes,:to=>:current_resume
   delegate :current_companies,:to=>:current_resume
 
   #实际用户
-  named_scope :real_users,:conditions=>["parent_id=0"]
+  named_scope :real_users,:conditions=>{:parent_id=>0} 
 
   #最新加入
   named_scope :newly_order,:order=>"users.created_at desc"

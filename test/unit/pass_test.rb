@@ -102,22 +102,63 @@ class PassTest < ActiveSupport::TestCase
   end
   test "create pass" do
     user_three = users(:three)
-
+    user_one_pass = users(:one).passes.first(:conditions=>{:company_id=>1})
     pass = Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
-
-    #    assert_difference  "pass.coll.count" do
-    assert_difference  "users(:one).all_msgs.count" do
-      assert_difference  "pass.colleagues.count",2 do
-        user_three.current_resume.passes << pass
+    
+    assert_difference  "pass.not_confirm_colleague_users.count",2 do
+      assert_difference  "pass.all_colleague_users.count",2 do
+        assert_difference  "user_one_pass.all_colleagues.count" do
+          assert_difference  "users(:one).all_msgs.count" do
+            assert_difference  "pass.all_colleagues.count",2 do
+              user_three.current_resume.passes << pass
+            end
+          end
+        end
       end
     end
-    #    end
     assert_equal 2,pass.same_company_passes.count
+    assert_equal 2, pass.record_passes.count
    
-    assert_difference  "pass.colleagues.count",-2 do
+    assert_difference  "pass.all_colleagues.count",-2 do
       user_three.destroy
     end
   end
+
+  test "change pass begin date" do
+    user_three = users(:three)
+    pass = Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-02",:is_current=>true)
+
+    assert_difference  "users(:one).all_msgs.count" do
+      assert_difference  "pass.all_colleagues.count",2 do
+        user_three.current_resume.passes << pass
+      end
+    end
+    pass.reload
+    assert_equal 2,pass.same_company_passes.count
+    assert_equal 2, pass.record_passes.count
+
+    assert_difference  "pass.all_colleagues.count",-2 do
+      pass.update_attributes(:begin_date=>"2009-06-02")
+    end
+
+  end
+  
+  test "destroy pass" do
+    user_three = users(:three)
+    pass = Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
+
+    assert_difference  "users(:one).all_msgs.count" do
+      assert_difference  "pass.all_colleagues.count",2 do
+        user_three.current_resume.passes << pass
+      end
+    end
+   
+    assert_equal 2,pass.same_company_passes.count
+    assert_difference  "pass.all_colleagues.count",-2 do
+      pass.destroy
+    end
+  end
+
 
   test "create pass send msg" do
     ActionMailer::Base.deliveries.clear
@@ -129,6 +170,8 @@ class PassTest < ActiveSupport::TestCase
     end
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
+
+  
   test "available_yokemates" do
     passes_one = passes(:one)
     assert_equal passes_one.yokemates.size, passes_one.available_yokemates.size

@@ -59,7 +59,7 @@ for log in show_log
   when "MyLanguage"
     case log.operation
     when "create"
-      temp = "说“#{log.logable.content}”"
+      temp = "说“#{auto_link(log.logable.content)}”"
     end
 
   when  "Friend" #加为好友

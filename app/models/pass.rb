@@ -23,6 +23,7 @@
 class Pass < ActiveRecord::Base
 
   validates_uniqueness_of :company_id, :scope => [:resume_id,:user_id ]
+
   #记录修改 资料
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:log_type=>"resume",:logable=>"company"
   #记录公司 加入人
@@ -40,8 +41,6 @@ class Pass < ActiveRecord::Base
         or end_date between '\#{begin_date.to_date}' and '\#{end_date.to_date}'
         or '\#{begin_date.to_date}' between begin_date and end_date
         or '\#{end_date.to_date}' between begin_date and end_date)"
-
-  #  has_many :coll,:through=>:same_company_passes,:primary_key=>"company_id",:source => :user
 
   
   #TODO:是否需要改进？
@@ -89,14 +88,31 @@ class Pass < ActiveRecord::Base
   has_many :work_items,:dependent=>:destroy ,:order=>"begin_date desc"
   #对这段经历的评价
   has_many :judges, :dependent=>:destroy ,:order=>"created_at desc"
+  
+  #所有的同一个公司 并且工作日期有交集的记录
+  has_many :all_colleagues,:class_name=>"Colleague",:dependent=>:destroy,:foreign_key => "my_pass_id"
+  #所有的同一个公司 并且工作日期有交集 经历
+  has_many :record_passes,:class_name=>"Pass",:through=>:all_colleagues,:source => :colleague_pass
 
-  has_many :colleagues, :dependent=>:destroy,:foreign_key => "my_pass_id"
-  #已经记录的 经历
-  has_many :record_passes,:class_name=>"Pass",:through=>:colleagues,:source => :colleague_pass
+  #所有的同一个公司 并且工作日期有交集的人
+  has_many :all_colleague_users,:class_name=>"User",:through=>:all_colleagues,:source => :colleague_user
+
+ 
+  #未确认的同事
+  has_many :not_confirm_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "my_pass_id",:conditions=>{:state=>Colleague::STATES[0]}
+  has_many :not_confirm_colleague_users,:class_name=>"User",:through=>:not_confirm_colleagues,:source => :colleague_user
+
+  #已经确认的同事
+  has_many :colleagues, :dependent=>:destroy,:foreign_key => "my_pass_id",:conditions=>{:state=>Colleague::STATES[1]}
+  has_many :colleague_users,:class_name=>"User",:through=>:not_judged_colleagues,:source => :colleague_user
 
   #被他们当做同事
-  has_many :them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "my_pass_id"
-  
+  has_many :them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_pass_id"
+  #对自己仍未评价  
+  has_many :not_judged_me_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_pass_id",:conditions =>{:is_judge=>false,:state=>Colleague::STATES[1]}
+  #对自己仍未评价的同事
+  has_many :not_judged_me_colleague_users,:class_name=>"User",:through=>:not_judged_me_colleagues,:source => :colleague_user
+
   #按日期排序
   named_scope :date_desc_order,:order=>"iscurrent desc,begin_date  desc"
   #Pass删除时的 要清除该pass对应的 其他人和公司的评价
@@ -110,43 +126,43 @@ class Pass < ActiveRecord::Base
     end
 
   end
- 
- 
-  #  def job_title_attributes=(attributes)
-  #    self.job_title = JobTitle.find_or_create_by_name_and_company_id(attributes[:name],self.company.id)
-  #  end
+
   def before_save
     if @title
       self.job_title = JobTitle.find_or_create_by_name_and_company_id(@title,self.company.id)
     end
-
-
-
   end
   
   def after_save
-    #    if self.company_id_changed?
-    #      before_create()
-    #    end
-
     if self.job_title_id_changed?
       JobTitle.destroy_all(:id=>self.job_title_id_was)
     end
     if begin_date_changed? || end_date_changed?
-      add_list =   same_company_passes - record_passes
-      new_yokemate_notice =  Msg.new_system_msg(:title=>"有同事新加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>快去看看吧。")
+      same_passes =  real_get_same_company_pass
+      add_list =  same_passes - record_passes
+      
+      new_yokemate_notice =  Msg.new_system_msg(:title=>"有新同事加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>快去看看吧。")
 
       add_list.each do |add_pass|
-        colleagues << Colleague.new(:colleague_pass=>add_pass)
-
+        colleagues << Colleague.new(:colleague_pass=>add_pass,:user=>user,:colleague_user=>add_pass.user)
+        add_pass.colleagues << Colleague.new(:colleague_pass=>self,:user=>add_pass.user,:colleague_user=>user)
         new_yokemate_notice.send_to(add_pass.user)
       end
-      destroy_list =  record_passes - same_company_passes
+      destroy_list =  record_passes - same_passes
       destroy_list.each do |destroy_pass|
-        colleagues.first(:colleague_pass_id=>destroy_pass.id).destroy
+        colleagues.first(:conditions=>{:colleague_pass_id=>destroy_pass.id}).destroy
+        destroy_pass.colleagues.first(:conditions=>{:colleague_pass_id=>self.id}).destroy
       end
     end
   end
+
+  def real_get_same_company_pass
+    Pass.find_by_sql("select a.* from passes a  where (begin_date between '#{begin_date.to_date}' and '#{end_date.to_date}'
+        or end_date between '#{begin_date.to_date}' and '#{end_date.to_date}'
+        or '#{begin_date.to_date}' between begin_date and end_date
+        or '#{end_date.to_date}' between begin_date and end_date) and company_id=#{company_id} and a.id<>#{id}")
+  end
+  
   #清除相关 pass产生评价等 数据
   def clear_data
     #取消对同事的评价
@@ -198,4 +214,12 @@ class Pass < ActiveRecord::Base
   def add_judge(judge)
     judges << judge if yokemate?(judge.judger) &&  !judges.exists?(judge.judger)
   end
+
+  protected
+  #有效性检查 不是开始日期小于结束日期提示
+  def validate
+    errors.add("begin_date", "结束日期不能早于结开始期") unless begin_date.to_date<=end_date.to_date
+  end
+
+
 end

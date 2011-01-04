@@ -19,8 +19,7 @@ class JobsController < ApplicationController
     @page_keyworks = " 职位"
     @page_description = @job.owner.name + " 招聘职位," +  truncate(@job.job_description,:length=>100)
     @comments = @job.comments.paginate :page=>params[:page]
-    @job.update_attribute(:view_count, @job.view_count+1)
-    
+    @job.increment(:view_count)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @job }

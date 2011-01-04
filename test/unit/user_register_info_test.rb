@@ -379,7 +379,7 @@ class UserTest < ActiveSupport::TestCase
  
     temp_pass =  Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:begin_date=>DateTime.now,:end_date=>DateTime.now,:is_current=>true,:user=>user_1,:job_title_id=>1,:department=>"unjudge yokemates部门")
     user_1.current_resume.passes << temp_pass
-    assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.first).count") do
+    assert_difference("user_1.unjudge_yokemates(user_1.passes.first).count") do
       assert_difference("user_3.unjudge_yokemates.count") do
         assert_difference("user_1.unjudge_yokemates.count") do
           temp_pass = user_1.current_resume.passes.first.clone
@@ -416,14 +416,14 @@ class UserTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     user_1 = users(:one)
     user_2 = users(:two)
-    assert_difference("user_1.my_follow_users.count") do
-      assert_difference("user_1.colleagues.count") do
-        user_1.add_colleague(user_2)
-      end
-    end
 
-    assert user_1.colleague_users.exists?(users(:two))
-    assert_equal 1, ActionMailer::Base.deliveries.size
+      assert_difference("user_1.not_confirm_colleague_users.count") do
+        user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
+      end
+ 
+
+    assert user_1.not_confirm_colleague_users.exists?(users(:two))
+    
   end
   
   test "remove colleague" do
