@@ -92,9 +92,7 @@
       </p>
     </div>
     <div id="pass_employees_tab"  class="panel" >
-      <% @company.pass_employees.find(:all,:limit=>4).each() do |employee| %>
-        <%= render :partial=>"users/user_short_info",:object=>  employee,:locals=>{:old_company=>params[:id]} %>
-      <%end%>
+        <%= render :partial=>"users/user_short_info",:collection=>  @company.pass_employees.find(:all,:limit=>4),:locals=>{:old_company=>params[:id]} %>
       <%unless    @company.pass_employees.size>0%>
         <p class="quiet">还没有过去员工的信息</p>
       <%end%>

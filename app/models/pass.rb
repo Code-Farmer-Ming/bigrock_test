@@ -137,21 +137,23 @@ class Pass < ActiveRecord::Base
     if self.job_title_id_changed?
       JobTitle.destroy_all(:id=>self.job_title_id_was)
     end
+    #pass 的开始、结束日期改变的时候
     if begin_date_changed? || end_date_changed?
       same_passes =  real_get_same_company_pass
       add_list =  same_passes - record_passes
       
-      new_yokemate_notice =  Msg.new_system_msg(:title=>"有新同事加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>快去看看吧。")
-
+      new_yokemate_notice =  Msg.new_system_msg(:title=>"有新同事加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>也许你们认识快去看看吧。")
+      #新可能的同事
       add_list.each do |add_pass|
         colleagues << Colleague.new(:colleague_pass=>add_pass,:user=>user,:colleague_user=>add_pass.user)
-        add_pass.colleagues << Colleague.new(:colleague_pass=>self,:user=>add_pass.user,:colleague_user=>user)
+        add_pass.all_colleagues << Colleague.new(:colleague_pass=>self,:user=>add_pass.user,:colleague_user=>user)
         new_yokemate_notice.send_to(add_pass.user)
       end
       destroy_list =  record_passes - same_passes
+      #需要移除的同事
       destroy_list.each do |destroy_pass|
-        colleagues.first(:conditions=>{:colleague_pass_id=>destroy_pass.id}).destroy
-        destroy_pass.colleagues.first(:conditions=>{:colleague_pass_id=>self.id}).destroy
+        all_colleagues.first(:conditions=>{:colleague_pass_id=>destroy_pass.id}).destroy
+        destroy_pass.all_colleagues.first(:conditions=>{:colleague_pass_id=>self.id}).destroy
       end
     end
   end
@@ -166,9 +168,9 @@ class Pass < ActiveRecord::Base
   #清除相关 pass产生评价等 数据
   def clear_data
     #取消对同事的评价
-    user.judged.all.each{ |object| object.destroy if (object.pass.company==company) }
+#    user.judged.all.each{ |object| object.destroy if (object.pass.company==company) }
     #取消对此公司的关注
-    user.remove_attention(company)
+#    user.remove_attention(company)
     #取消 对公司的评价
     CompanyJudge.destroy_all(:company_id=>company,:user_id=>user)
   end

@@ -59,6 +59,10 @@ class User< ActiveRecord::Base
   #未评价的同事
   has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
+  #已经评价的同事
+  has_many :has_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>true,:state => Colleague::STATES[1]} ,:dependent=>:destroy
+  has_many :has_judge_colleague_users,:through=>:has_judge_colleagues,:source=>:colleague_user
+
   #确认不是同事
   has_many :no_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[2]} ,:dependent=>:destroy
   has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague_user
@@ -344,7 +348,7 @@ class User< ActiveRecord::Base
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
 
   has_many :passes,:through=>:current_resume,:source=>:passes
-#  delegate :passeses,:to=>:current_resume
+  #  delegate :passeses,:to=>:current_resume
   delegate :pass_companies,:to=>:current_resume
   delegate :current_passes,:to=>:current_resume
   delegate :current_companies,:to=>:current_resume
@@ -504,6 +508,12 @@ class User< ActiveRecord::Base
     else
       0.0
     end
+  end
+  
+  #评价
+  def judge_colleague(user,judge)
+     colleague =  not_judge_colleagues.first(:conditions=>{:colleague_id=>user.id})
+     colleague.judge_colleague(judge) if colleague
   end
   
 

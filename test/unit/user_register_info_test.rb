@@ -73,9 +73,7 @@ class UserTest < ActiveSupport::TestCase
 
     assert_difference("Attention.count",-2) do
       user.destroy
- 
     end
- 
     assert_nil User.find_by_id(1)
     assert_nil User.find_by_id(17)
 
@@ -86,6 +84,26 @@ class UserTest < ActiveSupport::TestCase
     assert_nil LogItem.find_by_log_type_and_owner_id("Attention",1)
     assert_nil LogItem.find_by_log_type_and_owner_id("Attention",users(:two))
     
+  end
+
+  test "judge colleague" do
+    Judge.destroy_all
+    user_one = users(:one)
+    judge = Judge.new(:description=>"描述……")
+    chang_first_pass_end_date
+    user_one.not_confirm_colleagues.first.confirm_colleague
+    ActionMailer::Base.deliveries.clear
+    assert_difference("ActionMailer::Base.deliveries.size") do
+      assert_difference("users(:two).unread_msgs.count") do
+        assert_difference("users(:two).judges.count") do
+          assert_difference( "user_one.not_judge_colleague_users.count",-1) do
+            assert_difference( "user_one.has_judge_colleague_users.count") do
+              user_one.judge_colleague(users(:two),judge)
+            end
+          end
+        end
+      end
+    end
   end
   
   test "user attenion log item" do
@@ -412,28 +430,59 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "add colleague" do
-    ActionMailer::Base.deliveries.clear
+  test "new pass generate colleague" do
     user_1 = users(:one)
-    user_2 = users(:two)
-
-      assert_difference("user_1.not_confirm_colleague_users.count") do
-        user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
-      end
- 
-
+    assert_difference("user_1.not_confirm_colleague_users.count") do
+      user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
+    end
     assert user_1.not_confirm_colleague_users.exists?(users(:two))
-    
+  end
+
+  test "confirm colleague users" do
+    user_1 = users(:one)
+    chang_first_pass_end_date
+   
+    assert_difference("user_1.colleague_users.count") do
+      user_1.not_confirm_colleagues.first.confirm_colleague
+    end
+  end
+
+  test "not judge colleague" do
+    user_1 = users(:one)
+    chang_first_pass_end_date
+    assert_difference("user_1.not_judge_colleague_users.count") do
+      user_1.not_confirm_colleagues.first.confirm_colleague
+    end
   end
   
+  test "has judge colleague" do
+    user_1 = users(:one)
+    chang_first_pass_end_date
+    assert_difference("user_1.has_judge_colleague_users.count") do
+      user_1.not_confirm_colleagues.first.confirm_colleague
+      user_1.not_judge_colleagues.first.update_attributes(:is_judge=>true)
+    end
+  end
+
+  test "not colleague users" do
+    user_1 = users(:one)
+    chang_first_pass_end_date
+ 
+    assert_difference("user_1.no_colleague_users.count") do
+      user_1.not_confirm_colleagues.first.not_colleague
+    end
+  end
+
   test "remove colleague" do
     user_1 = users(:one)
-    user_2 = users(:two)
-    user_1.add_colleague(user_2)
-    assert_difference("user_1.my_follow_users.count",-1) do
-      assert_difference("user_1.colleagues.count",-1) do
-        user_1.remove_colleague(user_2)
-      end
+    chang_first_pass_end_date
+    assert_difference("user_1.not_confirm_colleague_users.count",-1) do
+      user_1.passes.first.update_attributes(:end_date=>"2010-10-10",:begin_date=>"2010-10-10")
     end
+  end
+
+  def chang_first_pass_end_date
+    user_1 = users(:one)
+    user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
   end
 end

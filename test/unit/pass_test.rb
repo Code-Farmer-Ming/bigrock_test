@@ -4,7 +4,14 @@ class PassTest < ActiveSupport::TestCase
   test "destroy" do
     
   end
-  
+  test "when pass begin_date > end_date" do
+    pass_one = passes(:one)
+    pass_one.begin_date ="2010-10-10"
+    pass_one.end_date ="2010-10-09"
+    assert !pass_one.save
+    assert pass_one.errors.on("begin_date")=="结束日期不能早于结开始期"
+  end
+
   # Replace this with your real tests.
   test "sub_work_item" do  
     passes_one = passes(:one)
@@ -16,6 +23,7 @@ class PassTest < ActiveSupport::TestCase
     passes_one.save()
     assert_not_nil passes_one.work_items.find(work_item)
   end
+  
   test "sub_judge" do
     passes_one = passes(:one)
     passes_one.judges_count = 0
@@ -152,11 +160,13 @@ class PassTest < ActiveSupport::TestCase
         user_three.current_resume.passes << pass
       end
     end
-   
     assert_equal 2,pass.same_company_passes.count
-    assert_difference  "pass.all_colleagues.count",-2 do
-      pass.destroy
+    assert_difference  "users(:two).not_confirm_colleague_users.count",-1 do
+      assert_difference  "pass.all_colleagues.count",-2 do
+        pass.destroy
+      end
     end
+    
   end
 
 

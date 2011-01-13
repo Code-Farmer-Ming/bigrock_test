@@ -113,15 +113,15 @@ class ResumesController < ApplicationController
 
   # DELETE /resumes/1
   # DELETE /resumes/1.xml
-  def destroy
-    #    @resume = Resume.find(params[:id])
-    #    @resume.destroy
-
-    respond_to do |format|
-      format.html { redirect_to( user_resumes_path()) }
-      format.xml  { head :ok }
-      format.js {}
-    end
-  end
+#  def destroy
+#    #    @resume = Resume.find(params[:id])
+#    #    @resume.destroy
+#
+#    respond_to do |format|
+#      format.html { redirect_to( user_resumes_path()) }
+#      format.xml  { head :ok }
+#      format.js {}
+#    end
+#  end
   
 end

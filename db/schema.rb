@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(:version => 20101229124858) do
     t.boolean  "anonymous",           :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "colleague_id"
   end
 
   add_index "judges", ["pass_id", "user_id", "judger_id"], :name => "index_judges_on_pass_id_and_user_id_and_judger_id", :unique => true
