@@ -726,7 +726,7 @@ ul#nav .activelink a,ul#nav a:hover{
 #industry_link_list,#user_navigate
 {
     width: 100%;
-    overflow:hidden;
+    overflow:auto;
 }
 #industry_link_list li,#user_navigate li{
     display: inline;

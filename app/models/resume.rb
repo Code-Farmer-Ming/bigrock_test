@@ -96,10 +96,7 @@ and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
     skills.to_s
   end
 
-  #简历是否有同事
-  def has_yokemates?
-    self.yokemates.size >0
-  end
+
 
 
 

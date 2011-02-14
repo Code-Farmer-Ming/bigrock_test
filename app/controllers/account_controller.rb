@@ -349,8 +349,9 @@ class AccountController < ApplicationController
     @user = current_user
     if params[:pass_id]
       @pass = Pass.find(params[:pass_id])
+    else
+      @unjudge_yokemates =  @user.unjudge_yokemates(@pass).paginate :page => params[:page]
     end
-    @unjudge_yokemates =  @user.unjudge_yokemates(@pass).paginate :page => params[:page]
   end
   
   #给公司的评价

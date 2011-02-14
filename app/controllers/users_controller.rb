@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :check_login?,:except=>[:show]
-  before_filter :find_user,:only=>[:show,:yokemate_list,:logs,:friends,:groups]
+  before_filter :find_user,:only=>[:show,:colleague_list,:logs,:friends,:groups]
   def show
     if current_user
       @page_title ="#{@user.name}"
@@ -13,13 +13,13 @@ class UsersController < ApplicationController
     end
   end
 
-  def yokemate_list
+  def colleague_list
     @page_title ="#{@user.name} 同事信息列表"
     if !params[:pass_id]
-      @yokemates=@user.current_resume.yokemates.paginate :page => params[:page]
+      @colleeagus=@user.colleague_users.paginate :page => params[:page]
     else
       @pass =@user.current_resume.passes.find(params[:pass_id])
-      @yokemates =@pass.yokemates.paginate :page => params[:page]
+      @colleeagus =@pass.colleague_users.paginate :page => params[:page]
     end
   end
 
@@ -37,10 +37,10 @@ class UsersController < ApplicationController
     @page_title ="#{@user.name} 好友列表"
 
     case params[:type]
-      #    when "my_follow"
-      #      @friends_user =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
-      #        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-      #    when "follow_me"
+    when "my_follow"
+      @friends_user =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
+        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+      :page#    when "follow_me"
       #      @friends_user =@user.follow_me_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
       #        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     when "work_for_company"

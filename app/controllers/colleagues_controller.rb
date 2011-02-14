@@ -1,76 +1,44 @@
 class ColleaguesController < ApplicationController
+  before_filter :check_login?
   # GET /colleagues
   # GET /colleagues.xml
   def index
-    @colleagues = Colleague.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @colleagues }
-    end
-  end
-
-  # GET /colleagues/1
-  # GET /colleagues/1.xml
-  def show
-    @colleague = Colleague.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @colleague }
-    end
-  end
-
-  # GET /colleagues/new
-  # GET /colleagues/new.xml
-  def new
-    @colleague = Colleague.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @colleague }
-    end
-  end
-
-  # GET /colleagues/1/edit
-  def edit
-    @colleague = Colleague.find(params[:id])
-  end
-
-  # POST /colleagues
-  # POST /colleagues.xml
-  def create
-    @colleague = Colleague.new(params[:colleague])
-
-    respond_to do |format|
-      if @colleague.save
-        flash[:notice] = 'Colleague was successfully created.'
-        format.html { redirect_to(@colleague) }
-        format.xml  { render :xml => @colleague, :status => :created, :location => @colleague }
+    @user = User.find(params[:user_id])
+    @page_title ="#{@user.name} 同事信息列表"
+    if params[:type]=="undetermined"
+      if !params[:pass_id]
+        @colleeagus=@user.undetermined_colleague_users.paginate :page => params[:page]
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @colleague.errors, :status => :unprocessable_entity }
+        @pass =@user.current_resume.passes.find(params[:pass_id])
+        @colleeagus =@pass.undetermined_colleague_users.paginate :page => params[:page]
+      end
+    else
+      if !params[:pass_id]
+        @colleeagus=@user.colleague_users.paginate :page => params[:page]
+      else
+        @pass =@user.current_resume.passes.find(params[:pass_id])
+        @colleeagus =@pass.colleague_users.paginate :page => params[:page]
       end
     end
   end
-
-  # PUT /colleagues/1
-  # PUT /colleagues/1.xml
-  def update
-    @colleague = Colleague.find(params[:id])
-
-    respond_to do |format|
-      if @colleague.update_attributes(params[:colleague])
-        flash[:notice] = 'Colleague was successfully updated.'
-        format.html { redirect_to(@colleague) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @colleague.errors, :status => :unprocessable_entity }
-      end
+  #确认
+  def confirm
+    @colleague = current_user.all_colleagues.find(params[:id])
+    @colleague.confirm_colleague
+    render :update do |page|
+      page[dom_id(@colleague.colleague_user,"operation")].replace_html render(:partial=>"users/operation",:object=>@colleague.colleague_user)
+      page[dom_id(@colleague.colleague_user,"operation")].visual_effect(:highlight)
     end
   end
-
+  #取消
+  def cancel
+    @colleague = current_user.all_colleagues.find(params[:id])
+    @colleague.not_colleague
+    render :update do |page|
+      page[dom_id(@colleague.colleague_user,"operation")].replace_html render(:partial=>"users/operation",:object=>@colleague.colleague_user)
+      page[dom_id(@colleague.colleague_user,"operation")].visual_effect(:highlight)
+    end
+  end
   # DELETE /colleagues/1
   # DELETE /colleagues/1.xml
   def destroy

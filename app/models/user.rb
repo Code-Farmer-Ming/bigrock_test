@@ -50,12 +50,14 @@ class User< ActiveRecord::Base
   #被谁加为好友
   has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
+  has_many :all_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:dependent=>:destroy
+
   #还未确认的同事
-  has_many :not_confirm_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
-  has_many :not_confirm_colleague_users,:through=>:not_confirm_colleagues,:source=>:colleague_user
+  has_many :undetermined_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
+  has_many :undetermined_colleague_users,:through=>:undetermined_colleagues,:source=>:colleague_user,:uniq =>true
   #已经确定是同事了
   has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
-  has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user
+  has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user,:uniq=>true
   #未评价的同事
   has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
@@ -66,6 +68,9 @@ class User< ActiveRecord::Base
   #确认不是同事
   has_many :no_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[2]} ,:dependent=>:destroy
   has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague_user
+
+  #被他们当做同事
+  has_many :them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_id",:conditions=>{:state => Colleague::STATES[1]}
   
   #  #添加好友 申请
   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
@@ -512,8 +517,8 @@ class User< ActiveRecord::Base
   
   #评价
   def judge_colleague(user,judge)
-     colleague =  not_judge_colleagues.first(:conditions=>{:colleague_id=>user.id})
-     colleague.judge_colleague(judge) if colleague
+    colleague =  not_judge_colleagues.first(:conditions=>{:colleague_id=>user.id})
+    colleague.judge_colleague(judge) if colleague
   end
   
 
@@ -592,7 +597,10 @@ class User< ActiveRecord::Base
   def unjudge_companies
     current_resume.pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])
   end
-
+  #简历是否有同事
+  def has_colleagues?
+    self.colleagues.count >0
+  end
 
   
   private

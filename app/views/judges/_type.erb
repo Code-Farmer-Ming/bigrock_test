@@ -1,7 +1,7 @@
 <h1><%= "#{@user.name}" %></h1>
 <div class="tab">
   <ul class="item">
-    <li  ><%= link_to "同事给的评价",user_judges_path(current_user),:class=>( controller.action_name=="index") ? "active-tab" : ""   %> </li>
+    <li  ><%= link_to "对我的评价",user_judges_path(current_user),:class=>( controller.action_name=="index") ? "active-tab" : ""   %> </li>
     <li  ><%= link_to "给同事的评价", judged_yokemate_account_path() ,:class=>  controller.action_name=="judged_yokemate" ? "active-tab" : "" %> </li>
     <li  ><%= link_to "未评价的同事", unjudge_yokemate_account_path(),:class=>controller.action_name=="unjudge_yokemate"  ? "active-tab" : "" %> </li>
     <li  ><%= link_to "给公司的评价", judged_company_account_path(),:class=>controller.action_name=="judged_company"  ? "active-tab" : "" %> </li>

@@ -11,15 +11,12 @@ class JudgesController < ApplicationController
       format.xml  { render :xml => @judge }
     end
   end
-   
+  #TODO: 
   def create
-    @user = User.real_users.find(params[:user_id])
+    colleague =  current_user.them_colleagues.find_by_colleague_id(params[:user_id])
     @judge= Judge.new(params[:judge])
-    @judge.user =  @user
-    @judge.judger = current_user
-    @pass= @user.passes.find(params[:pass_id])
-    current_user.tag_something(@user, params[:my_tags])
-    if  !@pass.add_judge(@judge)#提示错误
+    current_user.tag_something(colleague.colleague_user, params[:my_tags])
+    if  !colleague.judge_colleague(@judge) #提示错误
       flash.now[:error] = @judge.errors.full_messages.to_s()
       render :update do |page|
         page["lightbox_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
@@ -36,7 +33,7 @@ class JudgesController < ApplicationController
   end
   
   def update
-    @judge = Judge.find(params[:id])
+    @judge = current_user.judged.find(params[:id])
     current_user.tag_something(@judge.user, params[:my_tags])
     respond_to do |format|
       if @judge.update_attributes(params[:judge])

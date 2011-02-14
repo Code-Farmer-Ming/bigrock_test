@@ -1,0 +1,9 @@
+<div class="tab">
+  <ul class="item">
+    <li><%= link_to "同事",  "?",
+        :class=>(params[:type]!="undetermined") ?  "active-tab" :""   %> </li>
+    <li><%= link_to "状态未确认", "?type=undetermined",
+        :class=>(params[:type]=="undetermined") ?  "active-tab" :""   %> </li>
+  </ul>
+  <p class="clear_float"></p>
+</div>

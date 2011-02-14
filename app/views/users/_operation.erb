@@ -1,23 +1,70 @@
 <%user =   operation %>
 <% if !current_user?(user) %>
-  <% if !current_user.is_friend?(user) %>
-    <% if !user.add_friend_applications.exists?(["applicant_id=#{current_user.to_param}"]) %>
-      <%= case (user.setting.apply_friend_auth)
-      when UserSetting::APPLY_FRIEND_TYPES[0] then
-        link_to_remote "加为好友",{:url=>add_friend_account_path(:friend_id=>user),:method=>:post},:class=>"button"
-      when UserSetting::APPLY_FRIEND_TYPES[1] then
-        link_to_remote_lightbox( "申请好友",
-          {:url=>apply_account_add_friend_applications_path(:respondent_id=>user)},:class=>"button")
-      else ""
-      end%>
-    <%else%>
-      <span class="hot_text">
-        好友申请中
-      </span>
+  <%# if !current_user.is_friend?(user) %>
+  <%# if !user.add_friend_applications.exists?(["applicant_id=#{current_user.to_param}"]) %>
+  <%#= case (user.setting.apply_friend_auth)
+  when UserSetting::APPLY_FRIEND_TYPES[0] then
+  link_to_remote "加为好友",{:url=>add_friend_account_path(:friend_id=>user),:method=>:post},:class=>"button"
+  when UserSetting::APPLY_FRIEND_TYPES[1] then
+  link_to_remote_lightbox( "申请好友",
+  {:url=>apply_account_add_friend_applications_path(:respondent_id=>user)},:class=>"button")
+  else ""
+  end%>
+  <%#else%>
+  <%#*<span class="hot_text">%>
+  <%#*好友申请中%>
+  <%#*</span>%>
+  <%#end%>
+  <%#else%>
+  <%#= link_to_remote  "解除好友",{:url=>destroy_friend_account_path(:friend_id=>user ),
+  :confirm => '你确定吗?'},:class=>"button negative" %>
+  <%#end%>
+
+  <%if current_user.undetermined_colleagues.find_all_by_colleague_id(user.to_param).size>0%>
+
+    <%= link_to "是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"manaage_menu_button")  %>
+    <% menu(dom_id(user,"manage_menu")) do -%>
+      <%current_user.undetermined_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
+        <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>confirm_user_colleague_path(user,undetermined)}) -%>
+      <%end%>
     <%end%>
+    <%= popmenu(dom_id(user,"manaage_menu_button"),dom_id(user,"manage_menu")) -%>
+
+    <%= link_to "不是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"cancel_colleague_menu_button")  %>
+    <% menu(dom_id(user,"cancel_colleague_menu")) do -%>
+      <%current_user.undetermined_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
+        <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>cancel_user_colleague_path(user,undetermined)}) -%>
+      <%end%>
+    <%end%>
+    <%= popmenu(dom_id(user,"cancel_colleague_menu_button"),dom_id(user,"cancel_colleague_menu")) -%>
+  <%end%>
+
+  <%if current_user.no_colleagues.find_all_by_colleague_id(user.to_param).size>0%>
+    <%= link_to "是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"manaage_menu_button")  %>
+    <% menu(dom_id(user,"manage_menu")) do -%>
+      <%current_user.no_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
+        <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>confirm_user_colleague_path(user,undetermined)}) -%>
+      <%end%>
+      <%= popmenu(dom_id(user,"manaage_menu_button"),dom_id(user,"manage_menu")) -%>
+    <%end%>
+  <%end%>
+
+  <%if current_user.colleagues.find_all_by_colleague_id(user.to_param).size>0%>
+    <%= link_to "不是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"cancel_colleague_menu_button")  %>
+    <% menu(dom_id(user,"cancel_colleague_menu")) do -%>
+      <%current_user.colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
+        <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>cancel_user_colleague_path(user,undetermined)}) -%>
+      <%end%>
+    <%end%>
+    <%= popmenu(dom_id(user,"cancel_colleague_menu_button"),dom_id(user,"cancel_colleague_menu")) -%>
+  <%end%>
+  <%if !current_user.my_follow_users.exists?(user) %>
+    <%= link_to_remote "关注",{:url=>attention_account_path(:target_id=>user,:target_type=>user.class)} ,:class=>"button"%>
   <%else%>
-    <%= link_to_remote  "解除好友",{:url=>destroy_friend_account_path(:friend_id=>user ),
-      :confirm => '你确定吗?'},:class=>"button negative" %>
+    <%= link_to_remote "取消关注",{:url=>destroy_attention_account_path(:target_id=>user,:target_type=>user.class)},:class=>"button negative" %>
   <%end%>
   <%= link_to "发消息" ,new_account_msg_path(:write_to=>user) ,:class=>"button"%>
+<%else%>
+  <%= link_to_remote "关注",{:url=>attention_account_path(:target_id=>user,:target_type=>user.class)} ,:class=>"button"%>
 <%end%>
+

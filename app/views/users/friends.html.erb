@@ -1,15 +1,13 @@
-
 <div id="left_content">
-
   <%= render(:partial=>"users/friend_type",:object=>@user)%>
   <% if params[:type]=='follow_company' || params[:type]=='work_for_company' %>
     <%= highlight(render(:partial=>"companies/company_info_and_operation",:collection=>@friends_user),params[:search]) %>
   <%else%>
     <%=  highlight(render(:partial=>"users/user_info_and_operation" ,:collection=>@friends_user),params[:search])  %>
   <%end%>
-
   <%= will_paginate @friends_user %>
 </div>
+
 <div id="right_content">
   <% sub_block_div() do %>
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"输入名称",:url=>""} %>

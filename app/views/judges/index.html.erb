@@ -19,9 +19,9 @@
   <%end%>
   <% sub_block_div() do%>
     <ul class="list">
-      <li id="<%=  params[:pass_id] ? "" : "current_li" %>"><%= link_to "全部",user_judges_path(@user) %></li>
+      <li class="topic_item" id="<%=  params[:pass_id] ? "" : "current_li" %>"><%= link_to "全部",user_judges_path(@user) %></li>
       <% @user.current_resume.passes.each do |pass|-%>
-        <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>" >
+        <li class="topic_item" id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>" >
           <%= link_to  "#{pass.company.name} (#{pass.judges.count})" ,user_resume_pass_judges_path(@user,pass.resume,pass) %></li>
       <%end-%>
     <%end%>

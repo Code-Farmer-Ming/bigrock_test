@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :colleagues
+    map.resources :colleagues
 
   map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit]
 
@@ -67,9 +67,10 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :users,:collection =>{},
-    :member=>{:yokemate_list=>:get, :logs=>:get,:friends=>:get,:groups=>:get} do |users|
+    :member=>{:colleague_list=>:get, :logs=>:get,:friends=>:get,:groups=>:get} do |users|
     users.resources :judges,:only=>[:index]
- 
+    users.resources :colleagues,:member=>{:confirm=>:post,:cancel=>:post} #同事
+
     users.resources :tags,:only=>[:index]
     users.resources :topics
     users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}

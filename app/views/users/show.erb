@@ -49,31 +49,37 @@
   <%end if !current_user?(@user)%>
 
   <%tabs() do%>
-    <%= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
-  <%#= tab_button("关注"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_tab" ) %>
-    <%= tab_button("同事"+(@user.current_resume.has_yokemates? ? "(#{@user.current_resume.yokemates.size})" : ""),"my_yokemates_tab") %>
+  <%#= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
+    <%= tab_button("同事(#{@user.colleagues.count})","my_colleagues_tab") %>
+    <%= tab_button("关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_user_tab" ) %>
+    <%= tab_button("关注的公司"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_company_tab" ) %>
   <%end%>
-  <div>
-    <div id="my_friends_tab"  class="panel" >
-      <%= render :partial=>"users/user_short_info",:collection=> @user.friend_users.newly_order.find(:all,:limit=>3) %>
-      <%unless   @user.friend_users.size>0%>
-        <p>还没有好友</p>
-      <%end%>
-      <%=   link_to("全部好友…",friends_user_path(@user)) if @user.friend_users.size>0%>
-    </div>
 
-    <div id="my_yokemates_tab"  class="panel" >
-      <%= render :partial=>"users/user_short_info",:collection=> @user.current_resume.yokemates.newly_order.all(:limit=>3) %>
-      <%unless    @user.current_resume.has_yokemates?%>
+  <div>
+    <div id="my_colleagues_tab"  class="panel" >
+      <%= render :partial=>"users/user_short_info",:collection=> @user.colleague_users.all(:limit=>3) %>
+      <%unless    @user.has_colleagues?%>
         <p>赶快添加工作经历，邀请同事进来吧。</p>
       <%end%>
-      <%=  link_to("全部同事…",yokemate_list_user_path(@user)) if @user.current_resume.has_yokemates?%>
+      <%=  link_to("全部同事…",user_colleagues_path(@user)) if @user.has_colleagues?%>
+    </div>
+    <div id="my_follow_user_tab"  class="panel" >
+      <%= render :partial=>"users/user_short_info",:collection=> @user.my_follow_users.find(:all,:limit=>3) %>
+      <%=   link_to("所有…",friends_user_path(@user,:type=>"my_follow")) if @user.friend_users.size>0%>
+    </div>
+    <div id="my_follow_company_tab" class="panel">
+      <%= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>80)%>
+      <%=   link_to("所有…",friends_user_path(@user,:type=>"follow_company")) if  @user.my_follow_companies.count>0%>
     </div>
   </div>
 
-  <% sub_block_div("关注的公司"+(@user.my_follow_companies.size>0 ? "(#{@user.my_follow_companies.size})" : ""),
-    (link_to("全部",friends_user_path(@user,:type=>"follow_company")) if @user.my_follow_companies.size>0)) do %>
-    <%= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>10)%>
+<%# sub_block_div("关注的公司"+(@user.my_follow_companies.size>0 ? "(#{@user.my_follow_companies.size})" : ""),
+(link_to("全部",friends_user_path(@user,:type=>"follow_company")) if @user.my_follow_companies.size>0)) do %>
+<%#= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>10)%>
+<%#end%>
+  <% sub_block_div("动态 ",
+    (link_to("全部",logs_user_path(@user))  if @user.log_items.size>0)) do%>
+    <%= render :partial=>"comm_partial/show_log",:object=>@user.log_items.all(:limit=>8),:locals=>{:hide_left=>true} %>
   <%end%>
   <% if  current_user?(@user) %>
     <% sub_block_div("参加的小组"+(@user.all_groups.size>0 ? "(#{@user.all_groups.size})" : ""),
@@ -93,8 +99,5 @@
       </ul>
     <%end%>
   <%end%>
-  <% sub_block_div("动态 ",
-    (link_to("全部",logs_user_path(@user))  if @user.log_items.size>0)) do%>
-    <%= render :partial=>"comm_partial/show_log",:object=>@user.log_items.all(:limit=>8),:locals=>{:hide_left=>true} %>
-  <%end%>
+
 </div>

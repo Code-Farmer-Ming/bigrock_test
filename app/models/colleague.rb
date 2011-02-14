@@ -25,13 +25,15 @@ class Colleague < ActiveRecord::Base
 
   belongs_to :my_pass,:class_name=>"Pass",:foreign_key=>"my_pass_id"
   belongs_to :colleague_pass,:class_name=>"Pass",:foreign_key=>"colleague_pass_id"
+
+
   
   #互为同事
   #  belongs_to :sideA,:class_name=>"Colleague",:foreign_key=>"colleague_pass_id"
   #  has_one :sideB,:class_name=>"Colleague",:primary_key=>"colleague_pass_id",:dependent=>:destroy,:foreign_key=>"my_pass_id"
 
   has_one :judge,:dependent=>:destroy
-  
+ 
   #  has_one :colleague_user ,:class_name=>"User",:through=>:colleague_pass,:source => :user
   #  has_one :my ,:class_name=>"User",:through=>:my_pass,:source => :user
 
@@ -47,13 +49,14 @@ class Colleague < ActiveRecord::Base
   
   #不是同事
   def not_colleague
-    update_attributes(:state=>STATES[2])
+    update_attributes(:state=>STATES[2])    
+    judge.destroy if judge
   end
 
   def judge_colleague(judge)
-    judge.pass = colleague_pass
-    judge.user = colleague_user
-    judge.judger = user
+    judge.pass = my_pass
+    judge.user = user
+    judge.judger = colleague_user
     self.judge = judge
     update_attributes(:is_judge => true)
   end

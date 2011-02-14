@@ -91,7 +91,7 @@ class UserTest < ActiveSupport::TestCase
     user_one = users(:one)
     judge = Judge.new(:description=>"描述……")
     chang_first_pass_end_date
-    user_one.not_confirm_colleagues.first.confirm_colleague
+    user_one.undetermined_colleagues.first.confirm_colleague
     ActionMailer::Base.deliveries.clear
     assert_difference("ActionMailer::Base.deliveries.size") do
       assert_difference("users(:two).unread_msgs.count") do
@@ -435,7 +435,7 @@ class UserTest < ActiveSupport::TestCase
     assert_difference("user_1.not_confirm_colleague_users.count") do
       user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
     end
-    assert user_1.not_confirm_colleague_users.exists?(users(:two))
+    assert user_1.undetermined_colleague_users.exists?(users(:two))
   end
 
   test "confirm colleague users" do
@@ -443,7 +443,7 @@ class UserTest < ActiveSupport::TestCase
     chang_first_pass_end_date
    
     assert_difference("user_1.colleague_users.count") do
-      user_1.not_confirm_colleagues.first.confirm_colleague
+      user_1.undetermined_colleagues.first.confirm_colleague
     end
   end
 
@@ -451,7 +451,7 @@ class UserTest < ActiveSupport::TestCase
     user_1 = users(:one)
     chang_first_pass_end_date
     assert_difference("user_1.not_judge_colleague_users.count") do
-      user_1.not_confirm_colleagues.first.confirm_colleague
+      user_1.undetermined_colleagues.first.confirm_colleague
     end
   end
   
@@ -459,7 +459,7 @@ class UserTest < ActiveSupport::TestCase
     user_1 = users(:one)
     chang_first_pass_end_date
     assert_difference("user_1.has_judge_colleague_users.count") do
-      user_1.not_confirm_colleagues.first.confirm_colleague
+      user_1.undetermined_colleagues.first.confirm_colleague
       user_1.not_judge_colleagues.first.update_attributes(:is_judge=>true)
     end
   end
@@ -469,7 +469,7 @@ class UserTest < ActiveSupport::TestCase
     chang_first_pass_end_date
  
     assert_difference("user_1.no_colleague_users.count") do
-      user_1.not_confirm_colleagues.first.not_colleague
+      user_1.undetermined_colleagues.first.not_colleague
     end
   end
 

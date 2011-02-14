@@ -113,7 +113,7 @@ class PassTest < ActiveSupport::TestCase
     user_one_pass = users(:one).passes.first(:conditions=>{:company_id=>1})
     pass = Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
     
-    assert_difference  "pass.not_confirm_colleague_users.count",2 do
+    assert_difference  "pass.undetermined_colleague_users.count",2 do
       assert_difference  "pass.all_colleague_users.count",2 do
         assert_difference  "user_one_pass.all_colleagues.count" do
           assert_difference  "users(:one).all_msgs.count" do
@@ -161,7 +161,7 @@ class PassTest < ActiveSupport::TestCase
       end
     end
     assert_equal 2,pass.same_company_passes.count
-    assert_difference  "users(:two).not_confirm_colleague_users.count",-1 do
+    assert_difference  "users(:two).undetermined_colleague_users.count",-1 do
       assert_difference  "pass.all_colleagues.count",-2 do
         pass.destroy
       end

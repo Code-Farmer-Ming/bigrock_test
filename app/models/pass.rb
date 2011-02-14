@@ -99,19 +99,26 @@ class Pass < ActiveRecord::Base
 
  
   #未确认的同事
-  has_many :not_confirm_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "my_pass_id",:conditions=>{:state=>Colleague::STATES[0]}
-  has_many :not_confirm_colleague_users,:class_name=>"User",:through=>:not_confirm_colleagues,:source => :colleague_user
+  has_many :undetermined_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "my_pass_id",:conditions=>{:state=>Colleague::STATES[0]}
+  has_many :undetermined_colleague_users,:class_name=>"User",:through=>:undetermined_colleagues,:source => :colleague_user
 
   #已经确认的同事
   has_many :colleagues, :dependent=>:destroy,:foreign_key => "my_pass_id",:conditions=>{:state=>Colleague::STATES[1]}
-  has_many :colleague_users,:class_name=>"User",:through=>:not_judged_colleagues,:source => :colleague_user
+  has_many :colleague_users,:class_name=>"User",:through=>:colleagues,:source => :colleague_user
 
   #被他们当做同事
   has_many :them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_pass_id"
-  #对自己仍未评价  
+
+  #对自己仍未评价
   has_many :not_judged_me_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_pass_id",:conditions =>{:is_judge=>false,:state=>Colleague::STATES[1]}
   #对自己仍未评价的同事
   has_many :not_judged_me_colleague_users,:class_name=>"User",:through=>:not_judged_me_colleagues,:source => :colleague_user
+
+  #对自己已评价
+  has_many :has_judged_me_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_pass_id",:conditions =>{:is_judge=>true,:state=>Colleague::STATES[1]}
+  #对自己已评价的同事
+  has_many :has_judged_me_colleague_users,:class_name=>"User",:through=>:not_judged_me_colleagues,:source => :colleague_user
+
 
   #按日期排序
   named_scope :date_desc_order,:order=>"iscurrent desc,begin_date  desc"
@@ -145,8 +152,8 @@ class Pass < ActiveRecord::Base
       new_yokemate_notice =  Msg.new_system_msg(:title=>"有新同事加入了",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>新加入了<a href='/companies/#{company.id}'>#{company.name}</a>也许你们认识快去看看吧。")
       #新可能的同事
       add_list.each do |add_pass|
-        colleagues << Colleague.new(:colleague_pass=>add_pass,:user=>user,:colleague_user=>add_pass.user)
-        add_pass.all_colleagues << Colleague.new(:colleague_pass=>self,:user=>add_pass.user,:colleague_user=>user)
+        colleagues << Colleague.new(:colleague_pass=>add_pass,:user=>user,:colleague_user=>add_pass.user,:company=>company)
+        add_pass.all_colleagues << Colleague.new(:colleague_pass=>self,:user=>add_pass.user,:colleague_user=>user,:company=>company)
         new_yokemate_notice.send_to(add_pass.user)
       end
       destroy_list =  record_passes - same_passes
@@ -168,9 +175,9 @@ class Pass < ActiveRecord::Base
   #清除相关 pass产生评价等 数据
   def clear_data
     #取消对同事的评价
-#    user.judged.all.each{ |object| object.destroy if (object.pass.company==company) }
+    #    user.judged.all.each{ |object| object.destroy if (object.pass.company==company) }
     #取消对此公司的关注
-#    user.remove_attention(company)
+    #    user.remove_attention(company)
     #取消 对公司的评价
     CompanyJudge.destroy_all(:company_id=>company,:user_id=>user)
   end
