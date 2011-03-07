@@ -6,11 +6,11 @@
   <h1>欢迎，<%= current_user.name %></h1>
   <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button positive"  %>
   <%= link_to "发布招聘",add_job_account_path() ,:class=>"button negative"    %>
-  <%=   link_to("#{@user.unjudge_yokemates.count}个同事可评价" ,unjudge_yokemate_account_path(),:class=>"small"  ) if @user.unjudge_yokemates.count>0%>
+  <%=   link_to("#{@user.not_judge_them_colleague_users.count}个同事可评价" ,unjudge_yokemate_account_path(),:class=>"small"  ) if @user.not_judge_them_colleague_users.count>0%>
   <%= link_to "#{@user.unjudge_companies.count}个公司可评价",unjudge_company_account_path(),:class=>"small" if @user.unjudge_companies.count>0%>
   <%=  link_to "#{@user.published_job_applicants.count}人申请职位" , {:action=>:published_job_applicants},:class=>"small" %>
-  <%=  link_to "#{@user.undetermined_colleagues.count}人个也许您认识" ,user_colleagues_path(@user,:type=>"undetermined"),
-    :class=>"small" if @user.undetermined_colleagues.count>0%>
+  <%=  link_to "#{@user.undetermined_colleague_users.count}人个也许认识" ,user_colleagues_path(@user,:type=>"undetermined"),
+    :class=>"small" if @user.undetermined_colleague_users.count>0%>
     <% sub_block_div(" ") do%>
       <ul id="user_navigate" class="set_center">
 

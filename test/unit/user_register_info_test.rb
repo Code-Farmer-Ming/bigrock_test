@@ -94,11 +94,11 @@ class UserTest < ActiveSupport::TestCase
     user_one.undetermined_colleagues.first.confirm_colleague
     ActionMailer::Base.deliveries.clear
     assert_difference("ActionMailer::Base.deliveries.size") do
-      assert_difference("users(:two).unread_msgs.count") do
-        assert_difference("users(:two).judges.count") do
-          assert_difference( "user_one.not_judge_colleague_users.count",-1) do
-            assert_difference( "user_one.has_judge_colleague_users.count") do
-              user_one.judge_colleague(users(:two),judge)
+      assert_difference("user_one.unread_msgs.count") do
+        assert_difference("user_one.judges.count") do
+          assert_difference( "users(:two).not_judge_them_colleagues.count",-1) do
+            assert_difference( "users(:two).has_judge_them_colleagues.count") do
+              users(:two).judge_colleague(user_one,judge)
             end
           end
         end
@@ -389,38 +389,8 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "unjudge yokemates" do
-    user_1 = users(:one)
-    user_3=users(:three)
-    user_1.current_resume.passes.clear
-    user_3.current_resume.passes.clear
- 
-    temp_pass =  Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:begin_date=>DateTime.now,:end_date=>DateTime.now,:is_current=>true,:user=>user_1,:job_title_id=>1,:department=>"unjudge yokemates部门")
-    user_1.current_resume.passes << temp_pass
-    assert_difference("user_1.unjudge_yokemates(user_1.passes.first).count") do
-      assert_difference("user_3.unjudge_yokemates.count") do
-        assert_difference("user_1.unjudge_yokemates.count") do
-          temp_pass = user_1.current_resume.passes.first.clone
-          temp_pass.resume_id = user_3.current_resume.id
-          temp_pass.user_id= user_3.id
-          user_3.current_resume.passes << temp_pass
-        end
-      end
-    end
-  end
 
-  test "unjudge yokemates other not changed" do
-    user_1 = users(:one)
-    user_3=users(:three)
-    temp_pass =  Pass.new(:company=>companies(:two),:resume=>user_1.current_resume,:begin_date=>DateTime.now,:end_date=>DateTime.now,:is_current=>true,:user=>user_1,:job_title_id=>1,:department=>"unjudge yokemates部门")
-    user_1.current_resume.passes << temp_pass
-    assert_difference("user_1.unjudge_yokemates(user_1.current_resume.passes.last).count",0) do
-      temp_pass = user_1.current_resume.passes.first.clone
-      temp_pass.resume_id = user_3.current_resume.id
-      temp_pass.user_id= user_3.id
-      user_3.current_resume.passes << temp_pass
-    end
-  end
+
 
   test "unjudge companies" do
     user_1 = users(:one)
@@ -432,7 +402,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "new pass generate colleague" do
     user_1 = users(:one)
-    assert_difference("user_1.not_confirm_colleague_users.count") do
+    assert_difference("user_1.undetermined_colleagues.count") do
       user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
     end
     assert user_1.undetermined_colleague_users.exists?(users(:two))
@@ -446,39 +416,82 @@ class UserTest < ActiveSupport::TestCase
       user_1.undetermined_colleagues.first.confirm_colleague
     end
   end
-
-  test "not judge colleague" do
-    user_1 = users(:one)
-    chang_first_pass_end_date
-    assert_difference("user_1.not_judge_colleague_users.count") do
-      user_1.undetermined_colleagues.first.confirm_colleague
-    end
-  end
-  
-  test "has judge colleague" do
-    user_1 = users(:one)
-    chang_first_pass_end_date
-    assert_difference("user_1.has_judge_colleague_users.count") do
-      user_1.undetermined_colleagues.first.confirm_colleague
-      user_1.not_judge_colleagues.first.update_attributes(:is_judge=>true)
-    end
-  end
-
-  test "not colleague users" do
-    user_1 = users(:one)
-    chang_first_pass_end_date
  
-    assert_difference("user_1.no_colleague_users.count") do
-      user_1.undetermined_colleagues.first.not_colleague
-    end
-  end
+
 
   test "remove colleague" do
     user_1 = users(:one)
     chang_first_pass_end_date
-    assert_difference("user_1.not_confirm_colleague_users.count",-1) do
-      user_1.passes.first.update_attributes(:end_date=>"2010-10-10",:begin_date=>"2010-10-10")
+    assert_difference("user_1.undetermined_colleagues.count",-1) do
+      user_1.passes.first.update_attributes(:end_date=>"2009-5-10",:begin_date=>"2009-5-10",:is_current=>false)
     end
+  end
+
+  test "has comfire colleague count" do
+    pass = create_a_pass_for_user3
+    assert_difference("users(:three).colleague_users.count") do
+      assert_difference("users(:three).colleagues.count") do
+        pass.undetermined_colleagues.first.confirm_colleague
+      end
+    end
+  end
+
+  test "need comfire colleague" do
+    assert_difference("users(:three).need_comfire_colleagues.count",2) do
+      pass = create_a_pass_for_user3
+      pass.undetermined_colleagues.first.not_colleague
+    end
+  end
+
+  test "need cancel colleague" do
+    pass = create_a_pass_for_user3
+    assert_difference("users(:three).need_cancel_colleagues.count",-1) do
+      pass.undetermined_colleagues.first.not_colleague
+    end
+  end
+  test "need cancel and comfire colleague" do
+    pass = create_a_pass_for_user3
+    assert_equal users(:three).need_cancel_colleagues.count,
+      users(:three).need_comfire_colleagues.count
+  end
+  test "has_judge_me_colleagues" do
+    pass = create_a_pass_for_user3
+    pass.undetermined_colleagues.first.confirm_colleague
+    judge = Judge.new()
+    assert_difference("users(:three).has_judge_me_colleagues.count") do
+      users(:one).judge_colleague(users(:three),judge)
+    end
+  end
+
+
+
+  test "not_judge_them_colleagues" do
+    pass3 =create_a_pass_for_user3
+    pass = users(:one).current_resume.passes.first
+    judge = Judge.new()
+    assert_difference("users(:one).not_judge_them_colleagues.count") do
+      pass3.undetermined_colleagues.first.confirm_colleague
+    end
+    assert_difference("users(:one).not_judge_them_colleagues.count",-1) do
+      users(:one).judge_colleague(users(:three),judge)
+    end
+  end
+
+  test "has_judge_them_colleagues" do
+    pass3 =create_a_pass_for_user3
+    pass = users(:one).current_resume.passes.first
+    judge = Judge.new()
+    pass3.undetermined_colleagues.first.confirm_colleague
+    assert_difference("users(:one).has_judge_them_colleagues.count") do
+      users(:one).judge_colleague(users(:three),judge)
+    end
+  end
+
+  def create_a_pass_for_user3
+    user_three = users(:three)
+    new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
+    user_three.current_resume.passes << new_pass
+    new_pass
   end
 
   def chang_first_pass_end_date

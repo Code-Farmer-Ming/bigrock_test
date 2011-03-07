@@ -58,20 +58,42 @@ class User< ActiveRecord::Base
   #已经确定是同事了
   has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user,:uniq=>true
-  #未评价的同事
-  has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
-  has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
-  #已经评价的同事
-  has_many :has_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>true,:state => Colleague::STATES[1]} ,:dependent=>:destroy
-  has_many :has_judge_colleague_users,:through=>:has_judge_colleagues,:source=>:colleague_user
+
+  #需要确认的同事(未确认+已经取消)
+  has_many :need_comfire_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "state=? or state=?",Colleague::STATES[0],Colleague::STATES[2]] ,:dependent=>:destroy
+  has_many :need_comfire_colleague_users,:through=>:need_comfire_colleagues,:source=>:colleague_user,:uniq =>true
+
+  has_many :need_cancel_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "state=? or state=?",Colleague::STATES[0],Colleague::STATES[1]] ,:dependent=>:destroy
+  has_many :need_cancel_colleague_users,:through=>:need_cancel_colleagues,:source=>:colleague_user,:uniq =>true
+
+  #对自己未评价的同事
+  #  has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
+  #  has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
+
+  #对自己已评价的同事
+  has_many :has_judge_me_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>true,:state => Colleague::STATES[1]} ,:dependent=>:destroy
+  #  has_many :has_judge_me_colleague_users,:through=>:has_judge_me_colleagues,:source=>:colleague_user
+  #
+  has_many :judge_me_infos,:through=>:has_judge_me_colleagues,:source=>:judge
 
   #确认不是同事
-  has_many :no_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[2]} ,:dependent=>:destroy
-  has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague_user
+  #  has_many :no_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[2]} ,:dependent=>:destroy
+  #  has_many :no_colleague_users,:through=>:no_colleagues,:source=>:colleague_user
 
   #被他们当做同事
   has_many :them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_id",:conditions=>{:state => Colleague::STATES[1]}
-  
+  #被他们当做同事 我还还未评价他们
+  has_many :not_judge_them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]}
+  #被他们当做同事 我还还未评价他们
+  has_many :not_judge_them_colleague_users,:through=>:not_judge_them_colleagues,:source=>:user,:uniq=>true
+
+  #被他们当做同事 我已评价他们的
+  has_many :has_judge_them_colleagues,:class_name=>"Colleague", :dependent=>:destroy,:foreign_key => "colleague_id",:conditions=>{:is_judge=>true,:state => Colleague::STATES[1]}
+  #  has_many :has_judge_them_colleague_users,:through=>:has_judge_them_colleagues,:source=>:user,:uniq=>true
+  #我评价过的信息
+  has_many :judged_infos,:through=>:has_judge_them_colleagues,:source=>:judge,:uniq=>true
+
+
   #  #添加好友 申请
   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
     :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
@@ -412,11 +434,6 @@ class User< ActiveRecord::Base
     is_alias? ? [parent_id,id] : [id]+alias_ids
   end
 
-  #已经评价的同事的id 数组
-  def judged_yokemate_ids
-    judged.empty? ? [-1] : judged.collect{ |obj| obj.user_id } 
-  end
-
   #已经评价的公司的id 数组
   def judged_company_ids
     judged_companies.empty?  ? [-1] : judged_companies.collect{ |obj| obj.company_id }
@@ -517,7 +534,7 @@ class User< ActiveRecord::Base
   
   #评价
   def judge_colleague(user,judge)
-    colleague =  not_judge_colleagues.first(:conditions=>{:colleague_id=>user.id})
+    colleague =  not_judge_them_colleagues.first(:conditions=>{:user_id=>user.id})
     colleague.judge_colleague(judge) if colleague
   end
   
@@ -585,14 +602,7 @@ class User< ActiveRecord::Base
     self.salt = self.object_id.to_s + rand.to_s
   end
   #END:create_new_salt
-  #未评价的同事
-  def unjudge_yokemates(pass=nil)
-    if pass
-      pass.yokemates.find(:all,:conditions=>["a.user_id not in (?)",judged_yokemate_ids ])
-    else
-      current_resume.yokemates.all(:conditions=>["b.user_id not in (?)",judged_yokemate_ids ])
-    end
-  end
+ 
   #未评价的公司
   def unjudge_companies
     current_resume.pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])

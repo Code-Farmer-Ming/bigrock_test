@@ -54,43 +54,7 @@ class Resume < ActiveRecord::Base
     end
   end
   has_many :skills,:through=>:specialities,:source=>:skill
-  #获取 某个 工作经历 中的同事
-  has_many :yokemates, :class_name => "User",
-    :finder_sql => "select  distinct c.* from passes a join passes b  join users c
-on c.id=b.user_id and a.company_id=b.company_id   and
-(a.begin_date between b.begin_date and b.end_date or
-a.end_date between b.begin_date and b.end_date or
-b.begin_date between a.begin_date and a.end_date or
-b.end_date between a.begin_date and a.end_date)
-and a.resume_id <>b.resume_id where a.resume_id=\#{id}"  do
-    def all(*args)
-      options = args.extract_options!
-      sql = @finder_sql
-      sql += " and #{sanitize_sql options[:conditions]}"  if options[:conditions]
-      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
-      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
-      find_by_sql(sql)
-    end
-    def find(*args)
-      options = args.extract_options!
-      sql = @finder_sql
-      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
-      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
-      find_by_sql(sql)
-    end
-    def exists?(*args)
-      options = args.extract_options!
-
-      options[:conditions] =expand_id_conditions(args)
-      options[:limit] =1
-      sql = @finder_sql
-      sql += sanitize_sql " and  #{options[:conditions]}" if options[:conditions]
-      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
-      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
-      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
-      find_by_sql(sql).size >0
-    end
-  end
+   
    def skill_list 
     skills.reload
     skills.to_s

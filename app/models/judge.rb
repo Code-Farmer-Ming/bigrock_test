@@ -60,6 +60,7 @@ class Judge < ActiveRecord::Base
     pass.creditability_value = 0 if  pass.creditability_value <0
     pass.save
     judger.tag_something(user)
+    colleague.update_attribute("is_judge", false)
   end
   #做出评价的用户
   def judger_user

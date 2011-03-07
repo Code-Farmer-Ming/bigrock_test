@@ -337,9 +337,9 @@ class AccountController < ApplicationController
     @user = current_user
     if params[:pass_id]
       @pass = Pass.find(params[:pass_id])
-      @judged= @user.judged.find(:all,:conditions=>["user_id in (?)",@pass.yokemates]).paginate :page => params[:page]
+      @judged= @pass.judged_infos.paginate :page => params[:page]
     else
-      @judged= @user.judged.paginate :page => params[:page]
+      @judged= @user.judged_infos.paginate :page => params[:page]
     end
   end
   
@@ -349,8 +349,9 @@ class AccountController < ApplicationController
     @user = current_user
     if params[:pass_id]
       @pass = Pass.find(params[:pass_id])
+      @unjudge_colleagues = @pass.not_judge_them_colleague_users.paginate  :page => params[:page]
     else
-      @unjudge_yokemates =  @user.unjudge_yokemates(@pass).paginate :page => params[:page]
+      @unjudge_colleagues =  @user.not_judge_them_colleague_users.paginate  :page => params[:page]
     end
   end
   

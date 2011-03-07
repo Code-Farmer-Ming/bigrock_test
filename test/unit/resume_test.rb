@@ -40,13 +40,5 @@ class ResumeTest < ActiveSupport::TestCase
     assert_equal resume_one.specialities.find_all_by_id(spe).size,0
 
   end
-
-  test "resume_yokemate" do
-    resume = resumes(:one)
-    assert_equal 1, resume.yokemates.size
-
-    resume.passes << Pass.new(:user_id=>1,:company_id=>3,:begin_date=> "2009-06-01",:end_date=> "2009-06-02")
-    assert_equal 2, resume.yokemates.size
-
-  end
+ 
 end

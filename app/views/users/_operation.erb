@@ -20,39 +20,20 @@
   :confirm => '你确定吗?'},:class=>"button negative" %>
   <%#end%>
 
-  <%if current_user.undetermined_colleagues.find_all_by_colleague_id(user.to_param).size>0%>
-
-    <%= link_to "是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"manaage_menu_button")  %>
-    <% menu(dom_id(user,"manage_menu")) do -%>
-      <%current_user.undetermined_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
+  <%if current_user.need_comfire_colleagues.find_all_by_colleague_id(user.to_param).size>0%>
+    <%= link_to "是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"comfire_menu_button")  %>
+    <% menu(dom_id(user,"comfire_menu")) do -%>
+      <%current_user.need_comfire_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
         <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>confirm_user_colleague_path(user,undetermined)}) -%>
       <%end%>
-    <%end%>
-    <%= popmenu(dom_id(user,"manaage_menu_button"),dom_id(user,"manage_menu")) -%>
-
-    <%= link_to "不是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"cancel_colleague_menu_button")  %>
-    <% menu(dom_id(user,"cancel_colleague_menu")) do -%>
-      <%current_user.undetermined_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
-        <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>cancel_user_colleague_path(user,undetermined)}) -%>
-      <%end%>
-    <%end%>
-    <%= popmenu(dom_id(user,"cancel_colleague_menu_button"),dom_id(user,"cancel_colleague_menu")) -%>
-  <%end%>
-
-  <%if current_user.no_colleagues.find_all_by_colleague_id(user.to_param).size>0%>
-    <%= link_to "是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"manaage_menu_button")  %>
-    <% menu(dom_id(user,"manage_menu")) do -%>
-      <%current_user.no_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
-        <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>confirm_user_colleague_path(user,undetermined)}) -%>
-      <%end%>
-      <%= popmenu(dom_id(user,"manaage_menu_button"),dom_id(user,"manage_menu")) -%>
+      <%= popmenu(dom_id(user,"comfire_menu_button"),dom_id(user,"comfire_menu")) -%>
     <%end%>
   <%end%>
 
-  <%if current_user.colleagues.find_all_by_colleague_id(user.to_param).size>0%>
+  <%if current_user.need_cancel_colleagues.find_all_by_colleague_id(user.to_param).size>0%>
     <%= link_to "不是同事<small>▼</small>","javascript:;",:class=>"button",:id=>dom_id(user,"cancel_colleague_menu_button")  %>
     <% menu(dom_id(user,"cancel_colleague_menu")) do -%>
-      <%current_user.colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
+      <%current_user.need_cancel_colleagues.find_all_by_colleague_id(user.to_param).each do |undetermined|%>
         <%= menu_item(link_to_remote "在 #{undetermined.my_pass.company.name}",{:url=>cancel_user_colleague_path(user,undetermined)}) -%>
       <%end%>
     <%end%>

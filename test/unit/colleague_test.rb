@@ -22,13 +22,6 @@ class ColleagueTest < ActiveSupport::TestCase
   end
 
   def create_colleague
-    #  user_id      :integer
-    #  colleague_id :integer
-    #  created_at   :datetime
-    #  updated_at   :datetime
-    #  company_id   :integer
-    #  pass_id      :integer
-
     Colleague.create(:user_id=>1,:colleague_id=>2,:my_pass_id=>12,:colleague_pass_id=>1)
   end
 end

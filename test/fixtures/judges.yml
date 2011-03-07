@@ -18,20 +18,20 @@
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  pass_id: 1
-  user_id: 1
-  creditability_value: 5
-  ability_value: 1
-  eq_value: 1
-  description: MyText
-  judger_id: 3
-
-two:
-  pass_id: 2
-  user_id: 2
-  creditability_value: 1
-  ability_value: 1
-  eq_value: 1
-  description: MyText
-  judger_id: 1
+#one:
+#  pass_id: 1
+#  user_id: 1
+#  creditability_value: 5
+#  ability_value: 1
+#  eq_value: 1
+#  description: MyText
+#  judger_id: 3
+#
+#two:
+#  pass_id: 2
+#  user_id: 2
+#  creditability_value: 1
+#  ability_value: 1
+#  eq_value: 1
+#  description: MyText
+#  judger_id: 1

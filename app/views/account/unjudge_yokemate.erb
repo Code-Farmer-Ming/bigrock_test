@@ -1,7 +1,7 @@
 <div id="left_content">
    <%= render :partial=>"judges/type",:object=>@user %>
-  <%= render :partial=>"users/user_info_and_operation" ,:collection=> @unjudge_yokemates %>
-  <%= will_paginate   @unjudge_yokemates%>
+  <%= render :partial=>"users/user_info_and_operation" ,:collection=> @unjudge_colleagues %>
+  <%= will_paginate   @unjudge_colleagues%>
 
 </div>
 <div id="right_content">
@@ -10,9 +10,9 @@
   <%end%>
   <% sub_block_div() do%>
     <ul class="list">
-      <li id="<%=  params[:pass_id] ? "" : "current_li" %>"><%= link_to "全部",unjudge_yokemate_account_path() %></li>
+      <li id="<%=  params[:pass_id] ? "" : "current_li" %>" class="topic_item"><%= link_to "全部",unjudge_yokemate_account_path() %></li>
       <% @user.current_resume.passes.each do |pass|-%>
-        <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>" >
+        <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>"   class="topic_item">
           <%= link_to  "#{pass.company.name}" ,unjudge_yokemate_account_path(:pass_id=>pass) %></li>
       <%end-%>
     </ul>

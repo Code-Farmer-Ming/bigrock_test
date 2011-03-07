@@ -13,10 +13,10 @@ class JudgesController < ApplicationController
   end
   #TODO: 
   def create
-    colleague =  current_user.them_colleagues.find_by_colleague_id(params[:user_id])
+    user =  current_user.not_judge_them_colleague_users.find(params[:user_id])
     @judge= Judge.new(params[:judge])
-    current_user.tag_something(colleague.colleague_user, params[:my_tags])
-    if  !colleague.judge_colleague(@judge) #提示错误
+    current_user.tag_something(user, params[:my_tags])
+    if  !current_user.judge_colleague(user,@judge) #提示错误
       flash.now[:error] = @judge.errors.full_messages.to_s()
       render :update do |page|
         page["lightbox_msg"].replace_html render(:partial=>"comm_partial/flash_msg")

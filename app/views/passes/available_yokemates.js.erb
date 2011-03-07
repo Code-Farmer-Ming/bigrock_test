@@ -10,9 +10,9 @@
       <label class="filed_lab">已注册同事</label>
       <span style="display: inline-block;">
         <ul id="invite_yokemate" class="pui-autocomplete-holder" >
-          <%@pass.available_yokemates.each do |yokemate|%>
+          <%@pass.not_judged_me_colleague_users.each do |colleague|%>
             <li class="pui-autocomplete-input">
-              <%=  check_box_tag "yokemates[]", yokemate.id,false,:id=>"yokemates#{yokemate.id}"%><label for="<%= "yokemates#{yokemate.id}" %>"><%= yokemate.name %></label>
+              <%=  check_box_tag "yokemates[]", colleague.id,false,:id=>"yokemates#{colleague.id}"%><label for="<%= "yokemates#{colleague.id}" %>"><%= colleague.name %></label>
             </li>
           <%end%>
         </ul>
