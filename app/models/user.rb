@@ -163,7 +163,7 @@ class User< ActiveRecord::Base
   #  has_many :my_follow,:through=>:my_follow_collection,:source=>:target
   #我跟随关注的用户或公司或其他
   has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all
-  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User"
+  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company"
   #关注的目标 包括 用户或公司
   has_many_polymorphs :targets,

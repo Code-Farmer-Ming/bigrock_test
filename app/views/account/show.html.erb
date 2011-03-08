@@ -15,7 +15,7 @@
       <ul id="user_navigate" class="set_center">
 
         <li><%= link_to "评价管理<small>▼</small>","javascript:;",:id=>"manaage_menu_link"  %> </li>
-        <li><%= link_to "好友(#{current_user.friend_users.count})",friends_user_path(current_user)   %></li>
+        <li><%= link_to "关注的人(#{current_user.my_follow_users.count})",following_user_path(current_user)   %></li>
         <li><%= link_to "加入的小组(#{current_user.all_groups.count})",groups_user_path(current_user)   %></li>
 
         <%if @user.published_jobs.count>0%>

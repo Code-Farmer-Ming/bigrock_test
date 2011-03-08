@@ -1,5 +1,5 @@
 <div id="left_content">
-  <%= render(:partial=>"users/friend_type",:object=>@user)%>
+  <%= render(:partial=>"users/following_type",:object=>@user)%>
   <h3><%=  params[:pass_id] ? @pass.company.name : "全部" %></h3>
   <%= render :partial=>"users/user_info_and_operation" ,:collection=> @colleeagus %>
   <%= will_paginate  @colleeagus %>

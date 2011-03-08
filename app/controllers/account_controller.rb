@@ -224,48 +224,6 @@ class AccountController < ApplicationController
       redirect_to search_jobs_path(:search=>params[:search])
     end
   end
-  
-  def add_friend
-    friend= User.real_users.find(params[:friend_id])
-    respond_to do |format|
-     
-      format.js{
-        render :update do |page|
-          if current_user.add_friend(friend)
-            page[dom_id(friend,"operation")].replace_html render(:partial=>"users/operation",:object=>friend)
-            page[dom_id(friend,"operation")].visual_effect(:highlight)
-          else
-            flash.now[:error] = current_user.errors.full_messages.to_s
-            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
-          end
-        end
-      }
-   
-    end
-  end
-  
-  def destroy_friend
-    @user =current_user.friend_users.find_by_id(params[:friend_id])
-    respond_to do |format|
-      if current_user.remove_friend(@user)
-        format.html {redirect_to friends_user_path(current_user,:page=>params[:page]) }
-        format.js {
-          render :update do |page|
-            page[dom_id(@user,"operation")].replace_html render(:partial=>"users/operation",:object=>@user)
-            page[dom_id(@user,"operation")].visual_effect(:highlight)
-          end
-        }
-      else
-        format.html {redirect_to friends_user_path(current_user,:page=>params[:page]) }
-        format.js {
-          render :update do |page|
-            flash.now[:error] = current_user.errors.full_messages.to_s
-            page["flash_msg"].replace_html render(:partial=>"comm_partial/flash_msg")
-          end
-        }
-      end
-    end
-  end
 
   #检查email是否存在
   def check_email

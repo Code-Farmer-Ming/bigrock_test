@@ -41,8 +41,6 @@ ActionController::Routing::Routes.draw do |map|
     :set_user_state=>:post,
     :logout=>:get,
     :login=>:get,
-    :add_friend=>[:post],
-    :destroy_friend=>[:delete],
     :attention=>[:post],
     :destroy_attention=>[:delete],
     :check_email=>:get,
@@ -67,7 +65,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :users,:collection =>{},
-    :member=>{:colleague_list=>:get, :logs=>:get,:friends=>:get,:groups=>:get} do |users|
+    :member=>{:colleague_list=>:get, :logs=>:get,:following=>:get,:groups=>:get} do |users|
     users.resources :judges,:only=>[:index]
     users.resources :colleagues,:member=>{:confirm=>:post,:cancel=>:post} #同事
 

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :check_login?,:except=>[:show]
-  before_filter :find_user,:only=>[:show,:colleague_list,:logs,:friends,:groups]
+  before_filter :find_user,:only=>[:show,:colleague_list,:logs,:following,:groups]
   def show
     if current_user
       @page_title ="#{@user.name}"
@@ -32,29 +32,23 @@ class UsersController < ApplicationController
       @log_items = @user.log_items.paginate_by_log_type params[:type], :page => params[:page]
     end
   end
-
-  def friends
+  #关注的用户和公司
+  def following
     @page_title ="#{@user.name} 好友列表"
 
-    case params[:type]
-    when "my_follow"
-      @friends_user =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
-        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-      :page#    when "follow_me"
-      #      @friends_user =@user.follow_me_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
-      #        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+    case params[:type].to_s
     when "work_for_company"
-      @friends_user = @user.pass_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-    when "follow_company"
-      @friends_user =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+      @following_objs = @user.pass_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+    when "company"
+      @following_objs =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     else
-      @friends_user = @user.friend_users.paginate  :joins=>" join resumes on resumes.user_id=users.id",
+      @following_objs =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
         :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @friends_user }
+      format.xml  { render :xml => @following_objs }
     end
   end
   

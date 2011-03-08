@@ -193,20 +193,6 @@ class AccountControllerTest < ActionController::TestCase
   #    assert_equal UserSetting::VISIBILITY_TYPES[1], assigns(:user).setting.img_visibility
   #  end
   
-  test "add_friend_and_destroy" do
-    one= users(:one)
-
-    login_as(users(:one))
-    xhr :post, :add_friend ,:friend_id=>2
-    one.reload
-    assert one.friend_users.exists?(2),"添加好友失败"
-    assert one.my_follow_users.exists?(users(:two)),"关注失败"
-    
-    xhr :delete, :destroy_friend ,:friend_id=>2
-    assert !one.friend_users.exists?(2),"删除好友失败"
-    assert_not_nil User.find_by_id(users(:two))
-    assert !one.my_follow_users.exists?(users(:two)),"取消关注失败"
-  end
   test "attention_user_and_cancel_attention" do
     one= users(:one)
     login_as(users(:one))
