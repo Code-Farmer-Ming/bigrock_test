@@ -80,7 +80,7 @@ class UserTest < ActiveSupport::TestCase
     assert_nil Comment.find_by_id(1)
     assert_nil Comment.find_by_id(2)
     assert_nil Topic.find_by_id(1)
-    assert_nil Friend.find_by_id(1)
+  
     assert_nil LogItem.find_by_log_type_and_owner_id("Attention",1)
     assert_nil LogItem.find_by_log_type_and_owner_id("Attention",users(:two))
     
@@ -91,7 +91,7 @@ class UserTest < ActiveSupport::TestCase
     user_one = users(:one)
     judge = Judge.new(:description=>"描述……")
     chang_first_pass_end_date
-    user_one.undetermined_colleagues.first.confirm_colleague
+    user_one.undetermined_colleagues.first.confirm
     ActionMailer::Base.deliveries.clear
     assert_difference("ActionMailer::Base.deliveries.size") do
       assert_difference("user_one.unread_msgs.count") do
@@ -182,15 +182,7 @@ class UserTest < ActiveSupport::TestCase
     assert_nil  Msg.find_by_id(msg)
     assert_equal 1, user.receive_msgs.size
   end
-
-
-  test "destroy_friend" do
-    user =  users(:two)
-    friend = user.friends.find_by_friend_id(users(:one))
-    assert_difference("user.friends.count", -1) do
-      friend.destroy
-    end
-  end
+ 
 
   test "user_tags" do
     user_one = users(:one)
@@ -346,18 +338,7 @@ class UserTest < ActiveSupport::TestCase
     code,user=User.login(user_one.email,"prefix MyString")
     assert_equal -2, code
   end
-
-  test "add friend" do
-    ActionMailer::Base.deliveries.clear
-    user_one= users(:one)
-    assert_difference("users(:two).unread_msgs.size",1) do
-      user_one.add_friend(users(:two))
-    end
-    assert_equal 1, user_one.friend_users.size
-    assert_not_nil user_one.friend_users.find(users(:two))
-    assert user_one.friend_users.exists?(users(:two))
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
+ 
 
   test 'applied jobs' do
     user_one = users(:one)
@@ -413,7 +394,7 @@ class UserTest < ActiveSupport::TestCase
     chang_first_pass_end_date
    
     assert_difference("user_1.colleague_users.count") do
-      user_1.undetermined_colleagues.first.confirm_colleague
+      user_1.undetermined_colleagues.first.confirm
     end
   end
  
@@ -431,7 +412,7 @@ class UserTest < ActiveSupport::TestCase
     pass = create_a_pass_for_user3
     assert_difference("users(:three).colleague_users.count") do
       assert_difference("users(:three).colleagues.count") do
-        pass.undetermined_colleagues.first.confirm_colleague
+        pass.undetermined_colleagues.first.confirm
       end
     end
   end
@@ -456,7 +437,7 @@ class UserTest < ActiveSupport::TestCase
   end
   test "has_judge_me_colleagues" do
     pass = create_a_pass_for_user3
-    pass.undetermined_colleagues.first.confirm_colleague
+    pass.undetermined_colleagues.first.confirm
     judge = Judge.new()
     assert_difference("users(:three).has_judge_me_colleagues.count") do
       users(:one).judge_colleague(users(:three),judge)
@@ -470,7 +451,7 @@ class UserTest < ActiveSupport::TestCase
     pass = users(:one).current_resume.passes.first
     judge = Judge.new()
     assert_difference("users(:one).not_judge_them_colleagues.count") do
-      pass3.undetermined_colleagues.first.confirm_colleague
+      pass3.undetermined_colleagues.first.confirm
     end
     assert_difference("users(:one).not_judge_them_colleagues.count",-1) do
       users(:one).judge_colleague(users(:three),judge)
@@ -481,7 +462,7 @@ class UserTest < ActiveSupport::TestCase
     pass3 =create_a_pass_for_user3
     pass = users(:one).current_resume.passes.first
     judge = Judge.new()
-    pass3.undetermined_colleagues.first.confirm_colleague
+    pass3.undetermined_colleagues.first.confirm
     assert_difference("users(:one).has_judge_them_colleagues.count") do
       users(:one).judge_colleague(users(:three),judge)
     end

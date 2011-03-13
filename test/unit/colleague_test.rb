@@ -9,7 +9,7 @@ class ColleagueTest < ActiveSupport::TestCase
     
     assert_equal Colleague::STATES[0], Colleague.first.state
     assert_difference "Colleague.first.colleague_user.receive_msgs.count" do
-      Colleague.first.confirm_colleague
+      Colleague.first.confirm
     end
     assert_equal Colleague::STATES[1], Colleague.first.state
 

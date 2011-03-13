@@ -1,6 +1,6 @@
 class PassesController < ApplicationController
   before_filter :check_login?
-  before_filter :find_pass,:only=>[:edit,:update,:destroy,:available_yokemates]
+  before_filter :find_pass,:only=>[:edit,:update,:destroy,:available_colleagues]
   auto_complete_for :company, :name
  
   # GET /passes/new
@@ -111,7 +111,7 @@ class PassesController < ApplicationController
     end
   end
   #同事
-  def  available_yokemates
+  def  available_colleagues
     @msg = Msg.new(params[:msg])
   end
   #发送评价邀请信息
@@ -132,14 +132,14 @@ class PassesController < ApplicationController
     end
 
     #发送站内信息
-    if (params[:yokemates])
+    if (params[:colleagues])
       @msg.sender = current_user
       @msg.sender_stop = true
       @msg.title = "你在 #{pass.company.name} 的同事 #{current_user.name} 邀请你对其工作进行评价"
       @msg.content += "你好<br />我是你在<a href=' #{company_url(pass.company)}' >#{ pass.company.name}</a>的同事"+
         "<a href=' #{user_url(current_user)}' > #{current_user.name}</a>，<br/>赶快来<a href=' #{user_url(current_user)}' >评价我</a>吧!"
       Msg.transaction do
-        params[:yokemates].each do |id|
+        params[:colleagues].each do |id|
           new_msg = @msg.clone
           new_msg.sendee_id = id
           if  !new_msg.save

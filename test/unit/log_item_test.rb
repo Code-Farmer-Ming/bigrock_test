@@ -31,15 +31,7 @@ class LogItemTest < ActiveSupport::TestCase
     edu.destroy
     assert_equal 0,LogItem.all.size
   end
-  test "create_and_destroy_friend" do
-    user_one = users(:one)
-    user_two = users(:two)
-    user_one.friend_users <<  user_two
-    assert_equal 1,LogItem.find_all_by_log_type_and_operation("Friend","create").size
-    friend = user_one.friends.find_by_friend_id(user_two)
-    friend.destroy
-    assert_equal 1,LogItem.find_all_by_log_type_and_operation("Friend","destroy").size
-  end
+ 
   
   test "create_and_destroy_attention" do
     user_one = users(:one)

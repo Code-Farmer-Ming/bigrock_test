@@ -4,6 +4,6 @@
     <li><%= link_to "未读的消息", account_msgs_path(:type=>:unread),:class=>(controller.action_name =="index" && params[:type]!="recieve" && params[:type]!="send"  ? "active-tab" : "" ) %> </li>
     <li><%= link_to "收到的消息",account_msgs_path(:type=>:recieve) ,:class=>(controller.action_name =="index" && params[:type]=="recieve"  ? "active-tab" : "") %> </li>
     <li><%= link_to   "发送的消息",account_msgs_path(:type=>:send),:class=>(controller.action_name =="index" && params[:type]=="send"  ? "active-tab" : "")  %></li>
-    <li><%= link_to "+写消息",new_account_msg_path()%></li>
+  
   </ul>
 </div>

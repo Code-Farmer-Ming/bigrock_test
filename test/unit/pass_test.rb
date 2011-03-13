@@ -194,9 +194,9 @@ class PassTest < ActiveSupport::TestCase
   end
 
   
-  #  test "available_yokemates" do
+  #  test "available_colleagues" do
   #    passes_one = passes(:one)
-  #    assert_equal passes_one.yokemates.size, passes_one.available_yokemates.size
+  #    assert_equal passes_one.colleagues.size, passes_one.available_colleagues.size
   #
   #    judge= Judge.new()
   #    judge.ability_value =4
@@ -207,14 +207,14 @@ class PassTest < ActiveSupport::TestCase
   #    judge.user= passes_one.user
   #    passes_one.judges << judge
   #    passes_one.reload
-  #    assert_equal 0, passes_one.available_yokemates.size
+  #    assert_equal 0, passes_one.available_colleagues.size
   #  end
   #
   test "has comfire colleague count" do
     pass = create_a_pass_for_user3
     assert_difference("pass.colleague_users.count") do
       assert_difference("pass.colleagues.count") do
-        pass.undetermined_colleagues.first.confirm_colleague
+        pass.undetermined_colleagues.first.confirm
       end
     end
   end
@@ -222,13 +222,13 @@ class PassTest < ActiveSupport::TestCase
   test "not_judged_me_colleagues" do
     pass = create_a_pass_for_user3
     assert_difference("pass.not_judged_me_colleagues.count") do
-      pass.undetermined_colleagues.first.confirm_colleague
+      pass.undetermined_colleagues.first.confirm
     end
   end
   
   test "has_judge_me_colleagues" do
     pass = create_a_pass_for_user3
-    pass.undetermined_colleagues.first.confirm_colleague
+    pass.undetermined_colleagues.first.confirm
     judge = Judge.new()
     assert_difference("pass.has_judge_me_colleagues.count") do
       assert_difference("pass.not_judged_me_colleagues.count",-1) do
@@ -242,7 +242,7 @@ class PassTest < ActiveSupport::TestCase
     pass = users(:one).current_resume.passes.first
     judge = Judge.new()
     assert_difference("pass.not_judge_them_colleagues.count") do
-      pass3.undetermined_colleagues.first.confirm_colleague
+      pass3.undetermined_colleagues.first.confirm
     end
     assert_difference("pass.not_judge_them_colleagues.count",-1) do
       users(:one).judge_colleague(users(:three),judge)
@@ -253,7 +253,7 @@ class PassTest < ActiveSupport::TestCase
     pass3 =create_a_pass_for_user3
     pass = users(:one).current_resume.passes.first
     judge = Judge.new()
-    pass3.undetermined_colleagues.first.confirm_colleague
+    pass3.undetermined_colleagues.first.confirm
     assert_difference("pass.has_judge_them_colleagues.count") do
       users(:one).judge_colleague(users(:three),judge)
     end

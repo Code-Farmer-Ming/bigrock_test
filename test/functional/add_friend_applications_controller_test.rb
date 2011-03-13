@@ -29,36 +29,36 @@ class AddFriendApplicationsControllerTest < ActionController::TestCase
     delete :destroy,:id=>1
     assert_equal 0, user.add_friend_applications.size
   end
-  test "accept" do
-    assert_difference("AddFriendApplication.count") do
-      xhr :get ,:apply,:respondent_id=>12
-      xhr :post ,:apply,:add_friend_application=>{:respondent_id=>12,:memo=>"apply"}
-    end
-    login_as(users(:user_012))
-    assert_difference("AddFriendApplication.count",-1) do
-      post :accept ,:id => assigns(:add_friend).id
-    end
-
-    users(:one).reload
-    assert users(:one).friend_users.exists?(users(:user_012))
-    assert !users(:user_012).friend_users.exists?(users(:one))
-    assert_equal "添加成功！",flash[:success]
-  end
-
-  test "accept each" do
-    assert_difference("AddFriendApplication.count") do
-      xhr :get ,:apply,:respondent_id=>12
-      xhr :post ,:apply,:add_friend_application=>{:respondent_id=>12,:memo=>"apply"}
-    end
-    login_as(users(:user_012))
-    assert_difference("AddFriendApplication.count",-1) do
-      post :accept ,:id => assigns(:add_friend).id,:commit=>"接受并加其为好友"
-    end
-    users(:one).reload
-    users(:user_012).reload
-    assert users(:one).friend_users.exists?(users(:user_012))
-    assert users(:user_012).friend_users.exists?(users(:one))
-    assert_equal "添加成功！",flash[:success]
-
-  end
+#  test "accept" do
+#    assert_difference("AddFriendApplication.count") do
+#      xhr :get ,:apply,:respondent_id=>12
+#      xhr :post ,:apply,:add_friend_application=>{:respondent_id=>12,:memo=>"apply"}
+#    end
+#    login_as(users(:user_012))
+#    assert_difference("AddFriendApplication.count",-1) do
+#      post :accept ,:id => assigns(:add_friend).id
+#    end
+#
+#    users(:one).reload
+#    assert users(:one).friend_users.exists?(users(:user_012))
+#    assert !users(:user_012).friend_users.exists?(users(:one))
+#    assert_equal "添加成功！",flash[:success]
+#  end
+#
+#  test "accept each" do
+#    assert_difference("AddFriendApplication.count") do
+#      xhr :get ,:apply,:respondent_id=>12
+#      xhr :post ,:apply,:add_friend_application=>{:respondent_id=>12,:memo=>"apply"}
+#    end
+#    login_as(users(:user_012))
+#    assert_difference("AddFriendApplication.count",-1) do
+#      post :accept ,:id => assigns(:add_friend).id,:commit=>"接受并加其为好友"
+#    end
+#    users(:one).reload
+#    users(:user_012).reload
+#    assert users(:one).friend_users.exists?(users(:user_012))
+#    assert users(:user_012).friend_users.exists?(users(:one))
+#    assert_equal "添加成功！",flash[:success]
+#
+#  end
 end

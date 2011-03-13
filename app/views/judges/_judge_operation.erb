@@ -4,14 +4,14 @@
   <%if colleague = pass.colleagues.find_by_colleague_id(current_user) %>
     <% if (!colleague.is_judge)%>
       <%= link_to_remote_lightbox("我来评价",
-        {:url=>new_user_resume_pass_judge_path(pass.resume.user,pass.resume,pass.id)},:class=>"hot_link") %>
+        {:url=>new_account_judge_path(:user_id=>pass.resume.user)},:class=>"hot_link") %>
     <%else%>
       <%= link_to_remote_lightbox("修改我给的评价",
-        {:url=>edit_user_resume_pass_judge_path(pass.user,pass.resume,pass.id,colleague.judge)},:class=>"hot_link") %>
-      <%=  link_to_remote "删除我给的评价",:url=>user_resume_pass_judge_path(pass.user,pass.resume,pass,colleague.judge), :confirm => '确定删除吗?', :method => :delete%>
+        {:url=>edit_account_judge_path(colleague.judge)},:class=>"hot_link") %>
+      <%=  link_to_remote "删除我给的评价",:url=>account_judge_path(colleague.judge), :confirm => '确定删除吗?', :method => :delete%>
     <%end%>
   <%end%>
 <%else%>
   <%=  link_to_remote_lightbox( "邀请同事对你评价吧",
-    {:url=>available_yokemates_user_resume_pass_path(pass.user,pass.resume,pass.id)},:class=>"hot_link") %>
+    {:url=>available_colleagues_user_resume_pass_path(pass.user,pass.resume,pass.id)},:class=>"hot_link") %>
 <%end%>

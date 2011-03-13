@@ -21,7 +21,7 @@ class AccountController < ApplicationController
 
     if params[:request_company_id]
       request_company = Company.find_by_id(params[:request_company_id])
-      @maybe_know_yokemates = request_company.mybe_know_employees if request_company
+      @maybe_know_colleagues = request_company.mybe_know_employees if request_company
       #      flash[:notice] = "请先快速的注册，马上就能对您的朋友进行评价了"
     end
     respond_to do |format|
@@ -35,9 +35,9 @@ class AccountController < ApplicationController
     respond_to do |format|
       if @user.save
         invite_user = User.real_users.find_by_id(params[:request_user_id]) unless !params[:request_user_id]
-        if invite_user#相互加为好友
-          invite_user.add_friend(@user)
-          @user.add_friend(invite_user)
+        if invite_user#相互加关注
+          invite_user.add_attention(@user)
+          @user.add_attention(invite_user)
         end
         set_user_session(@user)
         format.html {
@@ -290,7 +290,7 @@ class AccountController < ApplicationController
   end
 
   #给同事的评价
-  def judged_yokemate
+  def judged_colleagues
     @page_title ="给同事的评价"
     @user = current_user
     if params[:pass_id]
@@ -302,7 +302,7 @@ class AccountController < ApplicationController
   end
   
   #未评价的同事
-  def unjudge_yokemate
+  def unjudge_colleagues
     @page_title ="未评价的同事信息"
     @user = current_user
     if params[:pass_id]

@@ -44,11 +44,11 @@ class User< ActiveRecord::Base
   has_many :judged_companies,:class_name=>"CompanyJudge",:foreign_key=>"user_id",:dependent=>:destroy
 
   #我的好友
-  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
-  has_many :friend_users,:through=>:friends,:source=>:friend
+#  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
+#  has_many :friend_users,:through=>:friends,:source=>:friend
   has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
   #被谁加为好友
-  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
+#  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
   has_many :all_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:dependent=>:destroy
 
@@ -374,7 +374,7 @@ class User< ActiveRecord::Base
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
 
-  has_many :passes,:through=>:current_resume,:source=>:passes
+  has_many :passes
   #  delegate :passeses,:to=>:current_resume
   delegate :pass_companies,:to=>:current_resume
   delegate :current_passes,:to=>:current_resume
@@ -459,10 +459,7 @@ class User< ActiveRecord::Base
   def is_alias?
     parent_id!=0
   end
-  #是否好友
-  def is_friend?(user)
-    friend_users.exists?(user)
-  end
+ 
   #当前的短语
   def my_phrase
     my_languages.current_phrase ?  my_languages.current_phrase.content : ""
@@ -475,15 +472,6 @@ class User< ActiveRecord::Base
     else
       icon ? (icon.public_filename) : "default_user.png"
     end
-  end
-  #添加为好友
-  def add_friend(user)
-    friend_users << user unless is_friend?(user)
-    my_follow_users << user unless  my_follow_users.exists?(user)
-  end
-  #解除好友
-  def remove_friend(friend)
-    friend_users.delete(friend) &&   my_follow_users.delete(friend)
   end
   
   #加到同事队列里

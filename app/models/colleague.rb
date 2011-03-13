@@ -41,7 +41,7 @@ class Colleague < ActiveRecord::Base
   #    :log_type=>"confirm_colleague",:can_log=>:"state="
 
   #确认是同事
-  def confirm_colleague
+  def confirm
     update_attributes(:state=>STATES[1])
     msg =  Msg.new_system_msg(:title=>"确认您为同事",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>确认您为同事，快去看看是不是认识。")
     msg.send_to(colleague_user)

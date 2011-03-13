@@ -44,8 +44,8 @@ ActionController::Routing::Routes.draw do |map|
     :attention=>[:post],
     :destroy_attention=>[:delete],
     :check_email=>:get,
-    :judged_yokemate=>:get,
-    :unjudge_yokemate=>:get,
+    :judged_colleagues=>:get,
+    :unjudge_colleagues=>:get,
     :judged_company=>:get,
     :unjudge_company=>:get,
     :published_jobs=>:get,
@@ -57,7 +57,7 @@ ActionController::Routing::Routes.draw do |map|
       :base_info=>[:get,:put],
       :alias=>[:get,:put],
       :password=>[:get,:put]}
-
+    account.resources :judges,:except=>[:index]
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
     account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
     account.resources :join_group_invites ,:member=>{:accept=>:post}
@@ -72,9 +72,9 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :tags,:only=>[:index]
     users.resources :topics
     users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}
-      resumes.resources :passes,:member=>{:available_yokemates=>:get,:send_invite=>:post} do |passes|
+      resumes.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post} do |passes|
         passes.resources :work_items
-        passes.resources :judges
+       
       end
       resumes.resources :specialities
       resumes.resources :educations

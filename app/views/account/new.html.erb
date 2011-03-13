@@ -44,7 +44,7 @@
     </dl>
   <%end%>
   <% sub_block_div("可能认识的同事") do%>
-    <%= render :partial=>"users/user_short_info",:collection=> @maybe_know_yokemates%>
-  <%end if @maybe_know_yokemates && @maybe_know_yokemates.size>0%>
+    <%= render :partial=>"users/user_short_info",:collection=> @maybe_know_colleagues%>
+  <%end if @maybe_know_colleagues && @maybe_know_colleagues.size>0%>
 </div>
 

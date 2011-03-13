@@ -31,5 +31,10 @@ class UsersControllerTest < ActionController::TestCase
     get :following ,:id=>@user_one,:type=>:company
     assert_response :success
   end
+
+  test "show" do
+    get :show ,:id=>@user_one
+    assert_response :success
+  end
  
 end

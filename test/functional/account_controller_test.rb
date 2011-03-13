@@ -32,7 +32,7 @@ class AccountControllerTest < ActionController::TestCase
 
   test "new with request company id" do
     get :new ,:request_company_id=>1
-    assert_not_nil assigns(:maybe_know_yokemates )
+    assert_not_nil assigns(:maybe_know_colleagues )
   end
   
   test "create" do
@@ -226,16 +226,16 @@ class AccountControllerTest < ActionController::TestCase
   
   test "judged" do
     login_as(users(:one))
-    get :judged_yokemate
+    get :judged_colleagues
     assert_response :success
     assert_not_nil assigns(:judged)
   end
   
-  test "unjudge yokemate" do
+  test "unjudge colleague" do
     login_as(users(:one))
-    get :unjudge_yokemate
+    get :unjudge_colleagues
     assert_response :success
-    assert_not_nil assigns(:unjudge_yokemates)
+    assert_not_nil assigns(:unjudge_colleagues)
   end
   
   test "judged company" do

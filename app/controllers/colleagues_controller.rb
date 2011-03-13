@@ -9,22 +9,22 @@ class ColleaguesController < ApplicationController
       if !params[:pass_id]
         @colleeagus=@user.undetermined_colleague_users.paginate :page => params[:page]
       else
-        @pass =@user.current_resume.passes.find(params[:pass_id])
+        @pass =@user.passes.find(params[:pass_id])
         @colleeagus =@pass.undetermined_colleague_users.paginate :page => params[:page]
       end
     else
       if !params[:pass_id]
         @colleeagus=@user.colleague_users.paginate :page => params[:page]
       else
-        @pass =@user.current_resume.passes.find(params[:pass_id])
+        @pass =@user.passes.find(params[:pass_id])
         @colleeagus =@pass.colleague_users.paginate :page => params[:page]
       end
     end
   end
   #确认
   def confirm
-    @colleague = current_user.all_colleagues.find(params[:id])
-    @colleague.confirm_colleague
+    @colleague = current_user.need_comfire_colleagues.find(params[:id])
+    @colleague.confirm
     render :update do |page|
       page[dom_id(@colleague.colleague_user,"operation")].replace_html render(:partial=>"users/operation",:object=>@colleague.colleague_user)
       page[dom_id(@colleague.colleague_user,"operation")].visual_effect(:highlight)
@@ -32,7 +32,7 @@ class ColleaguesController < ApplicationController
   end
   #取消
   def cancel
-    @colleague = current_user.all_colleagues.find(params[:id])
+    @colleague = current_user.need_cancel_colleagues.find(params[:id])
     @colleague.not_colleague
     render :update do |page|
       page[dom_id(@colleague.colleague_user,"operation")].replace_html render(:partial=>"users/operation",:object=>@colleague.colleague_user)

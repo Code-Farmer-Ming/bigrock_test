@@ -65,11 +65,11 @@
     </div>
     <div id="my_follow_user_tab"  class="panel" >
       <%= render :partial=>"users/user_short_info",:collection=> @user.my_follow_users.find(:all,:limit=>3) %>
-      <%=   link_to("所有…",friends_user_path(@user,:type=>"my_follow")) if @user.friend_users.size>0%>
+      <%=   link_to("所有…",following_user_path(@user,:type=>"user") ) if @user.my_follow_users.count>0%>
     </div>
     <div id="my_follow_company_tab" class="panel">
       <%= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>80)%>
-      <%=   link_to("所有…",friends_user_path(@user,:type=>"follow_company")) if  @user.my_follow_companies.count>0%>
+      <%=   link_to("所有…",following_user_path(@user,:type=>"company")) if  @user.my_follow_companies.count>0%>
     </div>
   </div>
 

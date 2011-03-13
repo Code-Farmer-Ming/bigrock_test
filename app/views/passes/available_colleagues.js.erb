@@ -12,7 +12,7 @@
         <ul id="invite_yokemate" class="pui-autocomplete-holder" >
           <%@pass.not_judged_me_colleague_users.each do |colleague|%>
             <li class="pui-autocomplete-input">
-              <%=  check_box_tag "yokemates[]", colleague.id,false,:id=>"yokemates#{colleague.id}"%><label for="<%= "yokemates#{colleague.id}" %>"><%= colleague.name %></label>
+              <%=  check_box_tag "colleagues[]", colleague.id,false,:id=>"colleagues#{colleague.id}"%><label for="<%= "colleagues#{colleague.id}" %>"><%= colleague.name %></label>
             </li>
           <%end%>
         </ul>

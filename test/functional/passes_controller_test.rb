@@ -64,8 +64,7 @@ class PassesControllerTest < ActionController::TestCase
     #      assert_equal 2, ActionMailer::Base.deliveries.size
   end
   test "send invite with validate yokemate" do
-    xhr :post ,:send_invite ,:id=>passes(:two),:msg=>{:sendees=>"xiao@gmail.com;xx@gmail.com",:title=>"",:content=>"test"},:yokemates=>[22,33,44]
+    xhr :post ,:send_invite ,:id=>passes(:two),:msg=>{:sendees=>"xiao@gmail.com;xx@gmail.com",:title=>"",:content=>"test"},:colleagues=>[22,33,44]
     assert_not_nil flash[:error]
-    
   end
 end

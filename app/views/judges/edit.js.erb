@@ -2,7 +2,7 @@
 <div class="form_info">
   <h1>编辑工作评价</h1>
   <%  remote_form_for(@judge ,
-    :url=> user_resume_pass_judge_path(params[:user_id],params[:resume_id],params[:pass_id],@judge),
+    :url=> account_judge_path(@judge),
     :loading=>"$('judge_submit').disabled=true;",
     :complete=>"$('judge_submit').disabled=false;",
     :html=>{:method=>:put}) do |f| %>
