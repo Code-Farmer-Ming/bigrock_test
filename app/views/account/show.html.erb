@@ -15,9 +15,9 @@
     &nbsp;
   <%end%>
 
-  <%=  link_to "#{@user.published_job_applicants.count}人申请职位" , {:action=>:published_job_applicants},:class=>"small" %>
+  <%=  link_to "#{@user.published_job_applicants.count}个申请职位" , {:action=>:published_job_applicants},:class=>"small" %>
   <%if @user.undetermined_colleague_users.count>0%>
-    <%=  link_to "#{@user.undetermined_colleague_users.count}人个也许认识" ,user_colleagues_path(@user,:type=>"undetermined"),
+    <%=  link_to "#{@user.undetermined_colleague_users.count}人个也许是同事" ,user_colleagues_path(@user,:type=>"undetermined"),
       :class=>"small" %>
     &nbsp;
   <%end%>
@@ -25,6 +25,8 @@
     <ul id="user_navigate" class="set_center">
 
       <li><%= link_to "评价管理<small>▼</small>","javascript:;",:id=>"manaage_menu_link"  %> </li>
+      <li> <%=  link_to("同事(#{current_user.colleagues.count})",user_colleagues_path(current_user))  %></li>
+
       <li><%= link_to "关注的人(#{current_user.my_follow_users.count})",following_user_path(current_user)   %></li>
       <li><%= link_to "加入的小组(#{current_user.all_groups.count})",groups_user_path(current_user)   %></li>
 
@@ -39,9 +41,10 @@
       <% if @user.job_applicants.count>0 %>
         <li><%= link_to "申请的职位(#{@user.job_applicants.count})", {:action=>:job_applicants}%></li>
       <%end%>
+
     </ul>
     <% menu("manage_menu") do -%>
-      <%= menu_item((link_to "对公司的评价",judged_colleagues_account_path())) -%>
+      <%= menu_item((link_to "对公司的评价",judged_company_account_path())) -%>
       <%= menu_item((link_to "对同事的评价",judged_colleagues_account_path())) -%>
     <%end%>
     <%= popmenu("manaage_menu_link","manage_menu") -%>

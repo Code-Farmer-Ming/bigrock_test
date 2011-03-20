@@ -73,10 +73,10 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :topics
     users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}
       resumes.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post} do |passes|
-        passes.resources :work_items
+#        passes.resources :work_items
        
       end
-      resumes.resources :specialities
+      resumes.resources :speciedalities
       resumes.resources :educations
     end
   end

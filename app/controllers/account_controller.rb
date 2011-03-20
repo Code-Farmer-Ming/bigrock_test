@@ -73,7 +73,7 @@ class AccountController < ApplicationController
     @page_title =" #{@user.name} 的首页"
     #      @news = @user.my_follow_company_news.find(:all,:limit=>6)
     @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
-    @logs = @user.my_follow_log_items.find(:all,:limit=>4,:order=>"created_at desc");
+    @logs = @user.my_follow_log_items.find(:all,:limit=>6,:order=>"created_at desc");
     @my_topics = @user.my_created_topics.all(:limit=>20)
     @join_topics =  @user.reply_topics.find(:all,:limit=>20)
     @add_friend_request_size = @user.add_friend_applications.count
