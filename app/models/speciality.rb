@@ -13,7 +13,7 @@
 class Speciality < ActiveRecord::Base
   belongs_to :resume
   belongs_to  :skill
-
+  belongs_to :user
  
   attr_accessor                 :name
 

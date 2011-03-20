@@ -11,10 +11,10 @@
     useTitles:true,
     stopOnFirst:true
     });",
-        :url=>edit_user_resume_education_path(edu.resume.user,edu.resume,edu),:method=>"get"},
+        :url=>edit_user_education_path(edu.user,edu),:method=>"get"},
         :class=>"edit_img_button",:title=>"编辑" %>
       <%=  link_to_remote "",
-        {:url=>user_resume_education_path(edu.resume.user,edu.resume,edu), :confirm => '确定删除吗?', :method => :delete},
+        {:url=>user_education_path(edu.user,edu), :confirm => '确定删除吗?', :method => :delete},
         :class=>"del_img_button",:title=>"删除"%>
     </span>
   <%end%>

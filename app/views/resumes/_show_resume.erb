@@ -73,8 +73,6 @@
     <div id="speciality">
       <div class="section <%= current_user?(resume.user) ? "edit_section" : "" %>">
         <% content_tag :div,:class=>"operation_lab" do %>
-
-
           <%= link_to_function "","PerpareNew('new_speciality_container');",
             :class=>"add_img_button",:title=>"添加" %>
         <%end if  current_user?(resume.user) %>

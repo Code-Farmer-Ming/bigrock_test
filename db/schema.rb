@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101229124858) do
+ActiveRecord::Schema.define(:version => 20110320060456) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -142,15 +142,15 @@ ActiveRecord::Schema.define(:version => 20101229124858) do
     t.date     "begin_date"
     t.date     "end_date"
     t.text     "description"
-    t.integer  "resume_id"
     t.string   "degree"
     t.string   "major"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "school_id",   :null => false
+    t.integer  "user_id"
   end
 
-  add_index "educations", ["resume_id", "school_id"], :name => "index_educations_on_resume_id_and_school_id", :unique => true
+  add_index "educations", ["user_id", "school_id"], :name => "index_educations_on_user_id_and_school_id"
 
   create_table "friends", :force => true do |t|
     t.integer  "user_id"
@@ -416,13 +416,13 @@ ActiveRecord::Schema.define(:version => 20101229124858) do
 
   create_table "specialities", :force => true do |t|
     t.string   "description"
-    t.integer  "resume_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "skill_id",    :null => false
+    t.integer  "user_id"
   end
 
-  add_index "specialities", ["resume_id", "skill_id"], :name => "index_specialities_on_resume_id_and_skill_id", :unique => true
+  add_index "specialities", ["user_id", "skill_id"], :name => "index_specialities_on_user_id_and_skill_id"
 
   create_table "states", :force => true do |t|
     t.string "name", :limit => 32

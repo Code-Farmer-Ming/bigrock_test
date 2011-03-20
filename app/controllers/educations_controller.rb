@@ -24,14 +24,13 @@ class EducationsController < ApplicationController
   # POST /educations
   # POST /educations.xml
   def create
-    resume = Resume.find(params[:resume_id])
-    @education= resume.educations.build(params[:education])
+    @education= current_user.educations.build(params[:education])
     respond_to do |format|
       if @education.save
         format.js {}
         format.html {
           flash[:success] = '教育创建成功.'
-          redirect_to new_user_resume_education_path(params[:user_id],
+          redirect_to new_user_education_path(params[:user_id],
             params[:resume_id])
         }
         format.xml  { render :xml => @education, :status => :created, :location => @education }
@@ -52,7 +51,7 @@ class EducationsController < ApplicationController
         format.js {}
         format.html {
           flash[:notice] = '编辑成功.'
-          redirect_to(user_resume_education_path(params[:user_id],params[:resume_id], @education)) }
+          redirect_to(user_education_path(current_user, @education)) }
         format.xml  { head :ok }
       else
         flash.now[:error] = @education.errors.full_messages.to_s
@@ -69,7 +68,7 @@ class EducationsController < ApplicationController
     @education.destroy
     respond_to do |format|
       format.js {}
-      format.html { redirect_to(user_resume_educations_path(params[:user_id],params[:resume_id])) }
+      format.html { redirect_to(user_educations_path(params[:user_id])) }
       format.xml  { head :ok }
     end
   end
@@ -84,6 +83,6 @@ class EducationsController < ApplicationController
   protected
 
   def find_edu
-    @education = Education.find(params[:id])
+    @education = current_user.educations.find(params[:id])
   end
 end

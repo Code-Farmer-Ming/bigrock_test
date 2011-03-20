@@ -1,6 +1,6 @@
 
 <% remote_form_for(Education.new,
-  :url=>user_resume_educations_path(params[:user_id],params[:resume_id]),
+  :url=>user_educations_path(params[:user_id]),
   :loading=>"$('education_submit').disabled=true;",
   :complete=>"$('education_submit').disabled=false;",
   :html=>{:method=>:post,:class=>"form_info required-validate"}) do |f| %>

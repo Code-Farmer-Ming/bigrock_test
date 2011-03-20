@@ -24,11 +24,11 @@ class SpecialitiesController < ApplicationController
   # POST /specialities.xml
   def create
     @speciality = Speciality.new(params[:speciality])
-    @speciality.resume_id=params[:resume_id]
+   
     respond_to do |format|
       if @speciality.save
         format.js {}
-        format.html { redirect_to(new_user_resume_speciality_path(params[:user_id],params[:resume_id])) }
+        format.html { redirect_to(new_user_speciality_path(params[:user_id])) }
         format.xml  { render :xml => @speciality, :status => :created, :location => @speciality }
       else
         flash.now[:error] = @speciality.errors.full_messages.to_s
@@ -45,7 +45,7 @@ class SpecialitiesController < ApplicationController
     respond_to do |format|
       if @speciality.update_attributes(params[:speciality])
         format.js {}
-        format.html { redirect_to(user_resume_speciality_path(params[:user_id],params[:resume_id],@speciality)) }
+        format.html { redirect_to(user_speciality_path(params[:user_id],@speciality)) }
         format.xml  { head :ok }
       else
         flash.now[:error] = @speciality.errors.full_messages.to_s
@@ -61,7 +61,7 @@ class SpecialitiesController < ApplicationController
   def destroy
     @speciality.destroy
     respond_to do |format|
-      format.html { redirect_to(user_resume_specialities_url(params[:user_id],params[:resume_id])) }
+      format.html { redirect_to(user_specialities_url(params[:user_id])) }
       format.js {}
       format.xml  { head :ok }
     end
@@ -76,6 +76,6 @@ class SpecialitiesController < ApplicationController
   protected
 
   def find_speciality
-    @speciality = Speciality.find(params[:id])
+    @speciality = current_user.specialities.find(params[:id])
   end
 end

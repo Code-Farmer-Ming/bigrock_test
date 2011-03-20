@@ -34,7 +34,7 @@ class Pass < ActiveRecord::Base
 
   belongs_to :job_title
   
-  has_many :work_items,:dependent=>:destroy ,:order=>"begin_date desc"
+ 
   #对这段经历的评价
   has_many :judges, :dependent=>:destroy ,:order=>"created_at desc"
 
@@ -166,10 +166,7 @@ class Pass < ActiveRecord::Base
   def can_visibility?(user)
     self.user.setting.can_visibility?(:pass_visibility,user)
   end
-  #是否有 工作业绩
-  def has_work_items?
-    self.work_items.size>0
-  end
+ 
 
   protected
   #有效性检查 不是开始日期小于结束日期提示

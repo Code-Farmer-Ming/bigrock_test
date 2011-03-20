@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-    map.resources :colleagues
+  map.resources :colleagues
 
   map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit]
 
@@ -71,14 +71,11 @@ ActionController::Routing::Routes.draw do |map|
 
     users.resources :tags,:only=>[:index]
     users.resources :topics
-    users.resources :resumes  do |resumes| #,:member=>{:new_pass=>:get}
-      resumes.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post} do |passes|
-#        passes.resources :work_items
-       
-      end
-      resumes.resources :speciedalities
-      resumes.resources :educations
-    end
+    users.resources :resumes  
+    users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post}
+ 
+    users.resources :specialities
+    users.resources :educations
   end
   map.resources :tags
   map.resources :topics ,:only=>[:index,:show],:member=>{:up=>:post,:down=>:post}  do |topics|

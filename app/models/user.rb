@@ -34,8 +34,13 @@ class User< ActiveRecord::Base
   validates_length_of :nick_name, :within => 2..10
   #我的简历
   has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
-
-
+  
+  #基本信息
+  has_one :base_info,:dependent=>:destroy
+  #教育信息
+  has_many :educations,:dependent=>:destroy
+  #特长信息 
+  has_many :specialities,:dependent=>:destroy
   #别人对自己的评价
   has_many :judges,:foreign_key=>"user_id",:dependent=>:destroy
   #自己对别人的评价
@@ -44,11 +49,11 @@ class User< ActiveRecord::Base
   has_many :judged_companies,:class_name=>"CompanyJudge",:foreign_key=>"user_id",:dependent=>:destroy
 
   #我的好友
-#  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
-#  has_many :friend_users,:through=>:friends,:source=>:friend
+  #  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
+  #  has_many :friend_users,:through=>:friends,:source=>:friend
   has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
   #被谁加为好友
-#  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
+  #  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
   has_many :all_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:dependent=>:destroy
 
@@ -370,15 +375,15 @@ class User< ActiveRecord::Base
   # 别名的父账号
   belongs_to :parent,:class_name => 'User',:foreign_key => 'parent_id'
   #当前简历信息
-  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>{:is_current=>true},:dependent => :destroy
+#  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>{:is_current=>true},:dependent => :destroy
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
 
   has_many :passes
   #  delegate :passeses,:to=>:current_resume
-  delegate :pass_companies,:to=>:current_resume
-  delegate :current_passes,:to=>:current_resume
-  delegate :current_companies,:to=>:current_resume
+#  delegate :pass_companies,:to=>:current_resume
+#  delegate :current_passes,:to=>:current_resume
+#  delegate :current_companies,:to=>:current_resume
 
   #实际用户
   named_scope :real_users,:conditions=>{:parent_id=>0} 

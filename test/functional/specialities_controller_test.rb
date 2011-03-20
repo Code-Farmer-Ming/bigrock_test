@@ -9,32 +9,32 @@ class SpecialitiesControllerTest < ActionController::TestCase
  
 
   test "should get new" do
-    get :new,:resume_id=>@resume_one.id
+    get :new 
     assert_response :success
   end
 
   test "should create speciality" do
     assert_difference('Speciality.count') do
-      post :create, :speciality => {:name=>"vc++" },:resume_id=>@resume_one.id,:user_id=>@user_one.id
+      post :create, :speciality => {:name=>"vc++" },:user_id=>@user_one.id
     end
 #    assert_redirected_to user_resume_speciality_path(@user_one.id,@resume_one.id,assigns(:speciality))
   end
 
  
   test "should get edit" do
-    get :edit, :id => specialities(:one).to_param,:resume_id=>@resume_one.id,:user_id=>@user_one.id
+    get :edit, :id => specialities(:one).to_param, :user_id=>@user_one.id
     assert_response :success
   end
 
   test "should update speciality" do
-    put :update, :id => specialities(:one).to_param, :speciality => {:name=>"c#" },:resume_id=>@resume_one.id,:user_id=>@user_one.id
+    put :update, :id => specialities(:one).to_param, :speciality => {:name=>"c#" } ,:user_id=>@user_one.id
     #assert_redirected_to  user_resume_speciality_path(@user_one.id,@resume_one.id,assigns(:speciality))
   end
 
   test "should destroy speciality" do
     assert_difference('Speciality.count', -1) do
-      delete :destroy, :id => specialities(:one).to_param,:resume_id=>@resume_one.id,:user_id=>@user_one.id
+      delete :destroy, :id => specialities(:one).to_param ,:user_id=>@user_one.id
     end
-    assert_redirected_to user_resume_specialities_path(@user_one,@resume_one)
+    assert_redirected_to user_specialities_path(@user_one)
   end
 end

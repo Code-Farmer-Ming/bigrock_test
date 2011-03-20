@@ -13,18 +13,7 @@ class PassTest < ActiveSupport::TestCase
     assert !pass_one.save
     assert pass_one.errors.on("begin_date")=="结束日期不能早于结开始期"
   end
-
-  # Replace this with your real tests.
-  test "sub_work_item" do  
-    passes_one = passes(:one)
-    work_item= WorkItem.new()
-    work_item.name="sjtu"
-    work_item.work_description="description"
-    work_item.work_content ="content"
-    passes_one.work_items<<work_item
-    passes_one.save()
-    assert_not_nil passes_one.work_items.find(work_item)
-  end
+ 
   
   #  test "sub_judge" do
   #    passes_one = passes(:one)

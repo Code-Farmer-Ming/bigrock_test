@@ -1,5 +1,5 @@
 <% remote_form_for(@speciality,
-  :url=>user_resume_speciality_path(params[:user_id],params[:resume_id],@speciality),
+  :url=>user_speciality_path(params[:user_id],@speciality),
   :loading=>"$('speciality_submit').disabled=true;",
   :complete=>"$('speciality_submit').disabled=false;",
   :html=>{:method=>:put,:class=>"form_info required-validate"}) do |f| %>

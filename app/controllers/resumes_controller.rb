@@ -34,14 +34,14 @@ class ResumesController < ApplicationController
   end
   # GET /resumes/1
   # GET /resumes/1.xml
-  def show
-    #    @resumes = Resume.find_all_by_user_id(params[:user_id])
-    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @resume }
-    end
-  end
+#  def show
+#    #    @resumes = Resume.find_all_by_user_id(params[:user_id])
+#    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.xml  { render :xml => @resume }
+#    end
+#  end
 
   # GET /resumes/new
   # GET /resumes/new.xml
