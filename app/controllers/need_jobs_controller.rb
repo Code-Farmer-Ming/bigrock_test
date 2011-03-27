@@ -29,9 +29,9 @@ class NeedJobsController < ApplicationController
   def new
     @need_job = NeedJob.new
     @page_title =  "新建求职信息"
-    @need_job.skill_text=  current_user.current_resume.specialities.skill_text
-    @need_job.state_id = current_user.current_resume.state_id
-    @need_job.city_id = current_user.current_resume.city_id
+    @need_job.skill_text=  current_user.specialities.skill_text
+    @need_job.state_id = current_user.base_info.state_id
+    @need_job.city_id = current_user.base_info.city_id
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @need_job }

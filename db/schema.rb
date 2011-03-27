@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110320060456) do
+ActiveRecord::Schema.define(:version => 20110320071735) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -36,6 +36,34 @@ ActiveRecord::Schema.define(:version => 20110320060456) do
   end
 
   add_index "attentions", ["user_id", "target_id", "target_type"], :name => "index_attentions_on_user_id_and_target_id_and_target_type", :unique => true
+
+  create_table "base_infos", :force => true do |t|
+    t.string   "type_name",        :limit => 18
+    t.integer  "user_id"
+    t.date     "birthday"
+    t.boolean  "sex"
+    t.string   "address"
+    t.string   "mobile"
+    t.string   "telephone"
+    t.string   "phone3"
+    t.string   "phone4"
+    t.string   "blog_website"
+    t.string   "personal_website"
+    t.string   "website3"
+    t.string   "website4"
+    t.text     "self_description"
+    t.string   "goal"
+    t.string   "interests"
+    t.string   "qq"
+    t.string   "msn"
+    t.string   "city"
+    t.string   "industry"
+    t.boolean  "is_current",                     :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "city_id"
+    t.integer  "state_id"
+  end
 
   create_table "cities", :force => true do |t|
     t.integer "state_id",               :null => false
@@ -357,36 +385,6 @@ ActiveRecord::Schema.define(:version => 20110320060456) do
   end
 
   add_index "requisitions", ["applicant_id", "respondent_id", "applicant_type", "type"], :name => "index_requisition_applicant", :unique => true
-
-  create_table "resumes", :force => true do |t|
-    t.string   "name"
-    t.string   "type_name",        :limit => 18
-    t.integer  "user_id"
-    t.string   "user_name",        :limit => 18
-    t.date     "birthday"
-    t.boolean  "sex"
-    t.string   "address"
-    t.string   "mobile"
-    t.string   "telephone"
-    t.string   "phone3"
-    t.string   "phone4"
-    t.string   "blog_website"
-    t.string   "personal_website"
-    t.string   "website3"
-    t.string   "website4"
-    t.text     "self_description"
-    t.string   "goal"
-    t.string   "interests"
-    t.string   "qq"
-    t.string   "msn"
-    t.string   "city"
-    t.string   "industry"
-    t.boolean  "is_current",                     :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "city_id"
-    t.integer  "state_id"
-  end
 
   create_table "schools", :force => true do |t|
     t.string   "name"

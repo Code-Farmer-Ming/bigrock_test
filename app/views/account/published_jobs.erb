@@ -1,6 +1,6 @@
 <div id="left_content">
   <%= render :partial=>"account/job_type" %>
-  <% form_for @jobs,:url=>batch_destroy_jobs_path() do |f|%>
+  <% form_for :job,:url=>batch_destroy_jobs_path() do |f|%>
     <table>
       <thead>
         <tr>

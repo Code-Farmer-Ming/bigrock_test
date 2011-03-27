@@ -1,6 +1,6 @@
 <%edu=show_edu_info%>
 <h4>
-  <%if current_user?(edu.resume.user)%>
+  <%if current_user?(edu.user)%>
     <span class="operation_lab">
       <%= link_to_remote "",
         {:update=> dom_id(edu,"edit_container"),

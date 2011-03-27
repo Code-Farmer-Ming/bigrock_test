@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EducationsControllerTest < ActionController::TestCase
   def setup
-    @resume=resumes(:one)
+ 
     @user=users(:one)
     login_as(@user)
   end

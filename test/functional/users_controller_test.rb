@@ -21,11 +21,11 @@ class UsersControllerTest < ActionController::TestCase
     get :following ,:id=>@user_one,:type=>:user
     assert_response :success
   end
-#
-#  test "friend follow_me" do
-#    get :following ,:id=>@user_one,:type=>:follow_me
-#    assert_response :success
-#  end
+  #
+  #  test "friend follow_me" do
+  #    get :following ,:id=>@user_one,:type=>:follow_me
+  #    assert_response :success
+  #  end
   
   test " follow_company" do
     get :following ,:id=>@user_one,:type=>:company
@@ -34,6 +34,13 @@ class UsersControllerTest < ActionController::TestCase
 
   test "show" do
     get :show ,:id=>@user_one
+    assert_response :success
+  end
+
+  test "colleague list" do
+    get :colleague_list ,:id=>users(:one).id
+    assert_response :success
+    get :colleague_list ,:id=>users(:one).id,:pass_id=>users(:one).passes.first
     assert_response :success
   end
  

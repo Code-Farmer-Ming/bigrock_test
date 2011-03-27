@@ -7,12 +7,10 @@
 
     <br/>
     <br/>
-      <%sub_block_div("最新的职位") do%>
+      <%sub_block_div("最新的职位" , link_to("+发一条招聘信息",add_job_account_path(),:class=>"button negative",:style=>"display:inline;")) do%>
         <ul class="list">
           <%= render :partial=>"jobs/short_item",:collection=>Job.limit(5).order("created_at desc") ,:locals=>{:is_show_company=>true}%>
         </ul>
         <%= link_to("<<查看更多…",search_jobs_path())%>
-        <br />
-        <%= link_to "+发一条招聘信息",add_job_account_path(),:class=>"button negative" %>
       <%end%>
   </div>

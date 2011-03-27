@@ -17,7 +17,7 @@ class JobsControllerTest < ActionController::TestCase
  
   end
   test "should get new" do
-    pass = users(:one).current_resume.passes.first
+    pass = users(:one).passes.first
     pass.creditability_value = 4
     pass.save
     get :new,:company_id=>@company
@@ -29,7 +29,7 @@ class JobsControllerTest < ActionController::TestCase
   end
 
   test "should create job" do
-    pass = users(:one).current_resume.passes.first
+    pass = users(:one).passes.first
     pass.creditability_value = 4
     pass.save
     assert_difference('Job.count',1) do

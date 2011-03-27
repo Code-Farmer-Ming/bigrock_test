@@ -12,7 +12,7 @@
         <br />
         <%= h current_pass.title%>
       </div>
-    <%end if user_short_info.current_resume%>
+    <%end%>
     <%if old_company && (pass=user_short_info.passes.find_by_company_id(old_company)) then%>
       <div class="gray_background" title="过去的工作">
         <b>

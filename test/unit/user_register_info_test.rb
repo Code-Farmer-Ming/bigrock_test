@@ -27,7 +27,7 @@ class UserTest < ActiveSupport::TestCase
     assert users.length>0 ,"不存在用户"
     assert users[0].password ==User.encrypted_password("password",users[0].salt),"密码不匹配"
     assert users[0].aliases.size>0,"别名创建失败"
-    assert_not_nil users[0].current_resume 
+ 
   end
 
   test "create_exist_email" do
@@ -55,10 +55,10 @@ class UserTest < ActiveSupport::TestCase
 
   test "seach" do
     user = User.find_all_by_email("MyStringone")
-    first_resume=resumes(:one)
+    
     assert user!=nil,"MyStringone is not exist "
     assert_equal user[0].email,"MyStringone"
-    assert_equal user[0].resumes.find(:first),first_resume
+
   end
 
   test "destroy" do
@@ -121,22 +121,7 @@ class UserTest < ActiveSupport::TestCase
     assert users(:two).log_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",users(:two)))
     assert user.loged_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",users(:two)))
   end
-
-  test "sub_resumes" do
-    user_one = users(:one)
-    resume=Resume.new()
-    resume.name="resumename"
-    resume.user_name ="user_name"
-    resume.address=""
-    resume.user_id = user_one.id
-    resume.save!
-    resume.reload
-    user_first=User.find(1)
-    sub_resume= user_first.resumes.find(resume.id)
-    assert_not_nil(sub_resume)
-    assert_equal sub_resume.id,resume.id
-
-  end
+ 
 
   test "new_msg" do
     user= users(:one)
@@ -288,7 +273,7 @@ class UserTest < ActiveSupport::TestCase
   test "courrent companies" do
     user_one = users(:one)
     assert_equal 1, user_one.current_companies.size
-    assert_equal 1, user_one.current_resume.current_companies.size
+    
     assert_equal companies(:one), user_one.current_companies[0]
   end
  
@@ -375,9 +360,9 @@ class UserTest < ActiveSupport::TestCase
 
   test "unjudge companies" do
     user_1 = users(:one)
-    user_1.current_resume.passes.clear
+    user_1.passes.clear
     assert_difference("user_1.unjudge_companies.count") do
-      user_1.current_resume.passes << Pass.new(:company=>companies(:three),:resume=>user_1.current_resume,:user=>user_1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:job_title_id=>1,:department=>"部门")
+      user_1.passes << Pass.new(:company=>companies(:three),:user=>user_1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:job_title_id=>1,:department=>"部门")
     end
   end
 
@@ -448,7 +433,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "not_judge_them_colleagues" do
     pass3 =create_a_pass_for_user3
-    pass = users(:one).current_resume.passes.first
+    pass = users(:one).passes.first
     judge = Judge.new()
     assert_difference("users(:one).not_judge_them_colleagues.count") do
       pass3.undetermined_colleagues.first.confirm
@@ -460,7 +445,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "has_judge_them_colleagues" do
     pass3 =create_a_pass_for_user3
-    pass = users(:one).current_resume.passes.first
+    pass = users(:one).passes.first
     judge = Judge.new()
     pass3.undetermined_colleagues.first.confirm
     assert_difference("users(:one).has_judge_them_colleagues.count") do
@@ -471,7 +456,7 @@ class UserTest < ActiveSupport::TestCase
   def create_a_pass_for_user3
     user_three = users(:three)
     new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
-    user_three.current_resume.passes << new_pass
+    user_three.passes << new_pass
     new_pass
   end
 

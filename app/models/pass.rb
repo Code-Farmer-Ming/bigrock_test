@@ -21,7 +21,7 @@
 #
 
 class Pass < ActiveRecord::Base
-  validates_uniqueness_of :company_id, :scope => [:resume_id,:user_id ]
+ 
   #记录修改 资料
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:log_type=>"resume",:logable=>"company"
   #记录公司 加入人

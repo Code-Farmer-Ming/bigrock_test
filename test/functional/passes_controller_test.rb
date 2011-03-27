@@ -3,7 +3,6 @@ require 'test_helper'
 class PassesControllerTest < ActionController::TestCase
   def setup
     @userone=users(:one)
-    @resumeone=resumes(:one)
     login_as(@userone)
   end
 
@@ -16,13 +15,10 @@ class PassesControllerTest < ActionController::TestCase
 
   test "should create pass" do
     Pass.destroy_all()
-    assert_difference('Pass.count') do
-      post :create, :pass => {:title=>"普通员工" ,:begin_date=> "2009-06-01",:end_date=> "2009-06-01"},:user_id=>@userone,:resume_id=>@resumeone,:company=>{:name=>"MyString"}
+    assert_difference('@userone.passes.count') do
+      post :create, :pass => {:title=>"普通员工" ,:begin_date=> "2009-06-01",:end_date=> "2009-06-01"},:user_id=>@userone, :company=>{:name=>"MyString"}
     end
     assert_redirected_to @userone
-    resume= Pass.find_all_by_resume_id(@resumeone)
-    assert(resume.length>0,"count error"+resume.length.to_s)
-    assert_equal(resume[0].resume_id,@resumeone.id)  
   end
 
   test "should create pass with request user id nil" do

@@ -31,38 +31,42 @@
 #  city_id          :integer       
 #  state_id         :integer       
 #
+#用户的基本信息
 
-class Resume < ActiveRecord::Base
+class BaseInfo < ActiveRecord::Base
   #简历类型
-  RESUME_TYPES=["中文","英文"]
+  #  RESUME_TYPES=["中文","英文"]
   #  validates_format_of :blog_website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
 
   belongs_to :state
   belongs_to :city
   belongs_to :user,:class_name=> "User",:foreign_key =>"user_id"
-  
-  has_many :passes,:dependent=>:destroy ,:order=>"begin_date desc,is_current desc"
-  has_many :current_passes,:class_name=>"Pass",:conditions=>{:is_current=>true}
+  attr_accessor :user_name
+  #  has_many :passes,:dependent=>:destroy ,:order=>"begin_date desc,is_current desc"
+  #  has_many :current_passes,:class_name=>"Pass",:conditions=>{:is_current=>true}
   #经历过的公司  包含当前公司的
-  has_many :pass_companies ,:through=>:passes,:source=>:company
-  has_many :current_companies ,:through=>:current_passes,:source=>:company
+  #  has_many :pass_companies ,:through=>:passes,:source=>:company
+  #  has_many :current_companies ,:through=>:current_passes,:source=>:company
   
-  has_many :educations,:dependent=>:destroy,:order=>"begin_date desc"
-  has_many :specialities,:dependent=>:destroy do
-    def skill_text
-      self.map(&:name).sort.join(Skill::DELIMITER)
-    end
+  #  has_many :educations,:dependent=>:destroy,:order=>"begin_date desc"
+  #  has_many :specialities,:dependent=>:destroy do
+  #    def skill_text
+  #      self.map(&:name).sort.join(Skill::DELIMITER)
+  #    end
+  #  end
+  #  has_many :skills,:through=>:specialities,:source=>:skill
+  #
+  #   def skill_list
+  #    skills.reload
+  #    skills.to_s
+  #  end
+  
+  def user_name=(value)
+    user.nick_name = value
+    user.save
   end
-  has_many :skills,:through=>:specialities,:source=>:skill
-   
-   def skill_list 
-    skills.reload
-    skills.to_s
+  
+  def user_name
+    user.nick_name
   end
-
-
-
-
-
-
 end

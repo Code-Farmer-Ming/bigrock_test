@@ -13,7 +13,7 @@
   <% sub_block_div() do%>
     <ul class="list">
       <li class="topic_item" id="<%=  params[:pass_id] ? "" : "current_li" %>"><%= link_to "全部",judged_colleagues_account_path() %></li>
-      <% @user.current_resume.passes.each do |pass|-%>
+      <% @user.passes.each do |pass|-%>
         <li class="topic_item"  id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>" >
           <%= link_to  "#{pass.company.name}" ,judged_colleagues_account_path(:pass_id=>pass) %></li>
       <%end-%>

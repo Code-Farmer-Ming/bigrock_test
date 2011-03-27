@@ -4,6 +4,7 @@
   <%= render :partial=>"users/user_icon_name",:object=> judge.judger_user %>
 </div>
 <div class="icon_right_content">
+  <%if !judge.anonymous%>
   <% judge.judger_user.current_passes.each() do |pass| %>
     <p title="当前的工作">
       <b>
@@ -11,15 +12,16 @@
       </b>
       <%= h pass.title%>
     </p>
-  <%end if judge.judger_user.current_resume%>
+  <%end%>
   <% if !judge.judger_user.current_companies.exists?(judge.pass.company) %>
     <p class="gray_background quiet" title="过去的工作">
       <b>
         <%= link_to(judge.pass.company.name,company_path(judge.pass.company),:target=>"_blank")%>
       </b>
-      <%= h judge.judger_user.passes.find_by_company_id(judge.pass.company.id).title%>
+       <%= h judge.judger_user.passes.find_by_company_id(judge.pass.company.id).title%>
     </p>
-  <%end if judge.judger_user.current_resume%>
+  <%end%>
+    <%end%>
   <p  class="quiet">
     <%= localize(judge.created_at) %> 评价
   </p>

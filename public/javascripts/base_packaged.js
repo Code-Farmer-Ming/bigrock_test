@@ -325,24 +325,4 @@ Ajax.Responders.register({onCreate:function(requester,xhrObject){if(Ajax.activeR
 {$(requester.container["success"]).update("<p class='loading'></p>","top");}}},onComplete:function(requester){if(Ajax.activeRequestCount==0)
 {if(requester&&requester.container&&requester.container["success"]&&$(requester.container["success"]).select(".loading"))
 {$(requester.container["success"]).select(".loading").each(function(el){el.remove();});}}}});function AddHover(element){section_el=$(element);section_el.select(".edit_section").each(function(el){Event.observe(el,"mouseover",function(){this.addClassName("hover");this.setAttribute('style','');});Event.observe(el,"mouseout",function(){this.removeClassName("hover");});});}
-Event.observe(window,"load",function(){Nifty('#nav a',"top");Nifty('div.main_info');Nifty('div.user_icon',"small");});function SetCookie(Cookie_name,value)　　
-{　　
-　var Then=new Date()　　
-　Then.setTime(Then.getTime()+2*3600000)
-　document.cookie=Cookie_name+"="+value+";expires="+Then.toGMTString()　　}　　
-function GetCookie(Cookie_name)　　
-{　　
-　var cookieString=new String(document.cookie)　　
-　var cookieHeader=Cookie_name+"="　　
-　var beginPosition=cookieString.indexOf(cookieHeader)　　
-　if(beginPosition!=-1)
-　{　　
-　　return cookieString.substring(beginPosition+cookieHeader.length);　　
-　}　　
-　else　
-　{　　
-　 return null;　　
-　}　　}　　
-function MoveCookie(Cookie_name)　　
-{　　
-　document.cookie=Cookie_name+"=;expires=Fri, 02-Jan-1970 00:00:00 GMT";　　}　
+Event.observe(window,"load",function(){Nifty('#nav a',"top");Nifty('div.main_info');Nifty('div.user_icon',"small");});

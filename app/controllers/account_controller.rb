@@ -43,7 +43,7 @@ class AccountController < ApplicationController
         format.html {
           flash[:success] = '恭喜你注册你成功，现在增加你的工作经历吧，能帮助你发现不少同事哦。'
           if not params[:request_company_id].to_s.blank?
-            redirect_to(new_user_resume_pass_path(@user,@user.current_resume,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
+            redirect_to(new_user_pass_path(@user,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
           else
             redirect_to((params[:reurl] || user_path(@user)))
           end
@@ -66,17 +66,16 @@ class AccountController < ApplicationController
   end
  
   def show
-    @add_friend_request_size = 0
+  
     @join_group_invites_size =0
     @unread_job_apply_size =0
     @user= current_user
     @page_title =" #{@user.name} 的首页"
-    #      @news = @user.my_follow_company_news.find(:all,:limit=>6)
     @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
     @logs = @user.my_follow_log_items.find(:all,:limit=>6,:order=>"created_at desc");
     @my_topics = @user.my_created_topics.all(:limit=>20)
     @join_topics =  @user.reply_topics.find(:all,:limit=>20)
-    @add_friend_request_size = @user.add_friend_applications.count
+ 
     @join_group_invites_size = @user.join_group_invites.count
     @unread_job_apply_size = @user.unread_published_job_applicants.count
  

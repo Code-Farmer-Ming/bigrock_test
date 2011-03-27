@@ -13,7 +13,7 @@
 
     <ul class="list">
       <li id="<%=  params[:pass_id].to_s.empty? ?  "current_li "  : "" %>" class="topic_item"><%= link_to "全部",colleague_list_user_path(@user) %></li>
-      <% @user.current_resume.passes.each do |pass|-%>
+      <% @user.passes.each do |pass|-%>
         <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>"  class="topic_item">
           <%= link_to  "#{pass.company.name} (#{pass.colleagues.count})" ,colleague_list_user_path(@user,:pass_id=>pass) -%></li>
       <%end-%>

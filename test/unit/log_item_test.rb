@@ -3,15 +3,15 @@ require 'test_helper'
 class LogItemTest < ActiveSupport::TestCase
 
   test "create_and_destroy_edu" do
-    resume = resumes(:one)
+    user = users(:one)
     assert_equal 2,LogItem.all.size
-    assert_equal 1,resume.educations.count
+    assert_equal 1,user.educations.count
     edu =  Education.new(:school_name=>"test")
     LogItem.destroy_all
     #产生一次 create记录
-    resume.educations << edu
-    resume.save!
-    assert_equal 2,resume.educations.count
+    user.educations << edu
+    user.save!
+    assert_equal 2,user.educations.count
     assert_not_nil Education.find_by_id(edu)
     assert_equal 1,LogItem.all.size
     assert_equal 1,LogItem.find_all_by_log_type("resume").size
@@ -23,9 +23,9 @@ class LogItemTest < ActiveSupport::TestCase
     assert_equal 0,LogItem.find_all_by_log_type_and_operation("resume","update").size
     
     assert_equal 1,edu.log_items.count
-    assert_equal 1,resume.user.log_items.count
+    assert_equal 1,user.log_items.count
     #这里由于做了 两次 acts_as_logger 会产生两个 update的记录
-    Education.acts_as_logger :log_action=>["create","update","destroy"],:owner_attribute=>"resume.user",:log_type=>"resume"
+    Education.acts_as_logger :log_action=>["create","update","destroy"],:owner_attribute=>"user",:log_type=>"resume"
     edu.update_attribute("school_name", "new_new_name")
     #产生一次destroy的记录 会把本身所有的 记录删除
     edu.destroy
@@ -58,7 +58,7 @@ class LogItemTest < ActiveSupport::TestCase
     pass.job_title_id = 1
     pass.begin_date = "2009-06-01".to_date()
     pass.end_date= "2009-06-01".to_date()
-    user_one.current_resume.passes << pass
+    user_one.passes << pass
     assert_equal 1,company_three.log_items.size
     assert_equal 2,user_one.log_items.size
   end

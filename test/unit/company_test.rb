@@ -149,7 +149,7 @@ class CompanyTest < ActiveSupport::TestCase
   end
   test "add job" do
     company = Company.find(1)
-    pass = users(:one).current_resume.current_passes.first
+    pass = users(:one).current_passes.first
     #提升资料真实度 为4星
     pass.creditability_value =4
     pass.save

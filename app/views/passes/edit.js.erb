@@ -1,4 +1,4 @@
-<% remote_form_for(@pass,:url=>user_resume_pass_path(params[:user_id],params[:resume_id],@pass),
+<% remote_form_for(@pass,:url=>user_pass_path(params[:user_id],@pass),
   :loading=>"$('pass_submit').disabled=true;",
   :complete=>"$('pass_submit').disabled=false;",
   :html=>{:method=>:put,:class=>"form_info required-validate"}) do |f| %>

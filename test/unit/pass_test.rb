@@ -104,7 +104,7 @@ class PassTest < ActiveSupport::TestCase
         assert_difference  "user_one_pass.all_colleagues.count" do
           assert_difference  "users(:one).all_msgs.count" do
             assert_difference  "pass.all_colleagues.count",2 do
-              user_three.current_resume.passes << pass
+              user_three.passes << pass
             end
           end
         end
@@ -118,7 +118,7 @@ class PassTest < ActiveSupport::TestCase
     user_three = users(:three)
     pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-05-01",:end_date=> "2009-05-01",:is_current=>true)
     assert_difference  "pass.all_colleague_users.count",2 do
-      user_three.current_resume.passes << pass
+      user_three.passes << pass
     end
   end
   
@@ -126,7 +126,7 @@ class PassTest < ActiveSupport::TestCase
     user_three = users(:three)
     pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-07-01",:end_date=> "2009-07-01",:is_current=>false)
     assert_difference  "pass.all_colleague_users.count",2 do
-      user_three.current_resume.passes << pass
+      user_three.passes << pass
     end
   end
   test "create a current with not current" do
@@ -138,7 +138,7 @@ class PassTest < ActiveSupport::TestCase
     user_three = users(:three)
     pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
     assert_difference  "pass.all_colleague_users.count",2 do
-      user_three.current_resume.passes << pass
+      user_three.passes << pass
     end
   end
   test "create a not current with not current" do
@@ -150,7 +150,7 @@ class PassTest < ActiveSupport::TestCase
     user_three = users(:three)
     pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-10",:is_current=>false)
     assert_difference  "pass.all_colleague_users.count",2 do
-      user_three.current_resume.passes << pass
+      user_three.passes << pass
     end
   end
   
@@ -177,7 +177,7 @@ class PassTest < ActiveSupport::TestCase
     user_three = users(:three)
     new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
     assert_difference("Msg.count",2) do
-      user_three.current_resume.passes << new_pass
+      user_three.passes << new_pass
     end
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
@@ -228,7 +228,7 @@ class PassTest < ActiveSupport::TestCase
   
   test "not_judge_them_colleagues" do
     pass3 =create_a_pass_for_user3
-    pass = users(:one).current_resume.passes.first
+    pass = users(:one).passes.first
     judge = Judge.new()
     assert_difference("pass.not_judge_them_colleagues.count") do
       pass3.undetermined_colleagues.first.confirm
@@ -240,7 +240,7 @@ class PassTest < ActiveSupport::TestCase
 
   test "has_judge_them_colleagues" do
     pass3 =create_a_pass_for_user3
-    pass = users(:one).current_resume.passes.first
+    pass = users(:one).passes.first
     judge = Judge.new()
     pass3.undetermined_colleagues.first.confirm
     assert_difference("pass.has_judge_them_colleagues.count") do
@@ -251,7 +251,7 @@ class PassTest < ActiveSupport::TestCase
   def create_a_pass_for_user3
     user_three = users(:three)
     new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
-    user_three.current_resume.passes << new_pass
+    user_three.passes << new_pass
     new_pass
   end
 end

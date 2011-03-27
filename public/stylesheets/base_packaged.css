@@ -106,9 +106,9 @@ a.positive:active {background-color:#529214; border:1px solid #529214; color:#ff
  body .negative {color:#d12f19}
 a.negative:hover, button.negative:hover {background-color:#fbe3e4; border:1px solid #fbc2c4; color:#d12f19}
 a.negative:active {background-color:#d12f19; border:1px solid #d12f19; color:#fff}
-  ul.popmenu {list-style-image:none; list-style-position:outside; list-style-type:none; border:solid 1px #DEDEDE; border-top:none; background:#FFFFFF; position:absolute; top:4px; width:150px; margin:0px; padding:0; clear:both; z-index:299; overflow:hidden}
+  ul.popmenu {list-style-image:none; list-style-position:outside; list-style-type:none; border:solid 1px #DEDEDE; border-top:none; background:#FFFFFF; position:absolute; top:4px;  margin:0px; padding:0; clear:both; z-index:299; overflow:hidden}
 ul.popmenu li{ background:none; display:block; float:none; margin:0; border:0; height:auto; line-height:normal; border-top:solid 1px #DEDEDE; overflow:hidden}
-ul.popmenu li a{ background:none; display:block; float:none; padding:6px 6px; margin:0; border:0; height:auto; color:#105cbe; line-height:normal; zoom:1}
+ul.popmenu li a{ background:none; display:block; float:none; padding:6px 14px 6px 6px; margin:0; border:0; height:auto; color:#105cbe; line-height:normal; zoom:1}
 ul.popmenu li a:hover{ background:#e3edef}
  #lightbox{ display:none; position: absolute; z-index:9999; left:50%; top:50%; border:1px solid silver; background:#Fff; text-align:left}
 #lightbox[id]{ position:fixed}
@@ -117,7 +117,7 @@ ul.popmenu li a:hover{ background:#e3edef}
 #lightbox.done #lightbox_content{ display:block}
 #LoadMessage{ display:block; margin: 0 auto 0 auto; width: 200px; height: 200px; background: #FFF url(../images/loading.gif) no-repeat center center}
 #lightbox.done img{ width:auto; height:auto}
-#lightbox #lightbox_close{ float:right; padding:4px; height:9px; width:9px; background-image:url(/images/close.gif); background-position: center; background-repeat: no-repeat}
+#lightbox #lightbox_close{ float:right; padding:4px; height:9px; width:9px; background-image:url(/images/close.png); background-position: center; background-repeat: no-repeat}
 #lightbox_msg{ clear:both; margin-left:4px; margin-right:4px}
  b.niftycorners,b.niftyfill{display:block}
 b.niftycorners *{display:block;height: 1px;line-height:1px;font-size: 1px; overflow:hidden;border-style:solid;border-width: 0 1px}
@@ -273,7 +273,7 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
  #msg_show{  margin:8px auto}
 .msg_info{ margin-bottom:8px}
 .msg_text{ margin-left:160px}
-#response_comment{ width:98%; height:5em}
+#response_comment{ width:97%; height:5em}
  .apply_info{ margin:10px; padding:8px; border-bottom:1px dotted silver}
 .apply_info .applicant, .apply_memo{ float:left; margin-right:8px}
 .company_icon{ height:70px; width: 70px; vertical-align:middle; margin-top:2px;  }
@@ -298,9 +298,10 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .company_short_info .icon .icon_inner{   }
 .company_short_info .icon .icon_inner img{ vertical-align:middle}
 .rank{ font-size: 280%; font-weight:bolder; color:red}
-#industry_link_list {width: 100%; overflow:auto}
-#industry_link_list li{ display: inline; float: left}
-#industry_link_list a{ width: 16em; padding:2px 4px; display:block}
+#industry_link_list,#user_navigate {width: 100%; overflow:auto}
+#industry_link_list li,#user_navigate li{ display: inline; float: left}
+#industry_link_list a ,#user_navigate a{ width: 16em; padding:2px 4px; display:block}
+#user_navigate a {width: 12em}
  .tag,.disable_tag{ padding:2px 8px; margin:1px; display:inline-block; cursor:pointer}
 .tag{ background-color:#ccff99; font-weight: normal; border: 1px solid #e6e6e6}
 .disable_tag{ background-color:silver}

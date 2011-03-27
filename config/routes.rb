@@ -59,7 +59,7 @@ ActionController::Routing::Routes.draw do |map|
       :password=>[:get,:put]}
     account.resources :judges,:except=>[:index]
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
-    account.resources :add_friend_applications,:member=>{:accept=>:post},:collection=>{:apply=>[:get,:post]}
+
     account.resources :join_group_invites ,:member=>{:accept=>:post}
     account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]},:except=>[:show,:index,:edit,:destroy]
   end
@@ -71,7 +71,7 @@ ActionController::Routing::Routes.draw do |map|
 
     users.resources :tags,:only=>[:index]
     users.resources :topics
-    users.resources :resumes  
+    users.resources :base_infos
     users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post}
  
     users.resources :specialities

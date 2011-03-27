@@ -1,0 +1,50 @@
+# == Schema Information
+#
+# Table name: resumes
+#
+#  id               :integer       not null, primary key
+#  name             :string(255)   
+#  type_name        :string(18)    
+#  user_id          :integer       
+#  user_name        :string(18)    
+#  birthday         :date          
+#  sex              :boolean       
+#  address          :string(255)   
+#  mobile           :string(255)   
+#  telephone        :string(255)   
+#  phone3           :string(255)   
+#  phone4           :string(255)   
+#  blog_website     :string(255)   
+#  personal_website :string(255)   
+#  website3         :string(255)   
+#  website4         :string(255)   
+#  self_description :text          
+#  goal             :string(255)   
+#  interests        :string(255)   
+#  qq               :string(255)   
+#  msn              :string(255)   
+#  city             :string(255)   
+#  industry         :string(255)   
+#  is_current       :boolean       
+#  created_at       :datetime      
+#  updated_at       :datetime      
+#  city_id          :integer       
+#  state_id         :integer       
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  user_id: 1
+
+two:
+  id: 2
+  user_id: 2
+
+
+  
+three:
+  id: 3
+  user_id: 3
+

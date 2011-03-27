@@ -12,7 +12,7 @@
   <% sub_block_div() do %>
     <ul class="list">
       <li id="<%=  params[:pass_id].to_s.empty? ?  "current_li "  : "" %>" class="topic_item"><%= link_to "全部",user_colleagues_path(@user,:type=>params[:type]) %></li>
-      <% @user.current_resume.passes.each do |pass|-%>
+      <% @user.passes.each do |pass|-%>
         <li id="<%= pass.to_param==params[:pass_id] ? "current_li" : "" %>"  class="topic_item">
           <%= link_to  "#{pass.company.name} (#{ params[:type]=="undetermined" ? pass.undetermined_colleagues.count :  pass.colleagues.count})" ,user_colleagues_path(@user,:type=>params[:type],:pass_id=>pass) -%></li>
       <%end-%>

@@ -14,7 +14,7 @@
         </span>
       </div>
       <ul class="r tabs"  >
-        <li><%= link_to "<span>我的资料</span>", :anchor=>"my_resume_tab"  %> </li>
+        <li><%= link_to "<span>资料</span>", :anchor=>"my_resume_tab"  %> </li>
         <li><%= link_to "<span>我的语言</span>", :anchor=>"my_language_tab"   %> </li>
       </ul>
     </div>
@@ -27,8 +27,8 @@
         </div>
       </div>
       <%=   javascript_tag(remote_function(:update=>'resume_content',
-          :url=>url_for(:controller=>"resumes",:action=>"render_resume",
-            :id=>@user.current_resume),
+          :url=>url_for(:controller=>"users",:action=>"info_render",
+            :id=>@user),
           :complete=>"$('resume_content').select('.required-validate').each(function(form){  new Validation(form,{
     immediate:true,
     useTitles:true,

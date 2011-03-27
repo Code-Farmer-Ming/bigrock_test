@@ -48,7 +48,7 @@ class PassesController < ApplicationController
     @pass.company = @company
   
     respond_to do |format|
-      if current_user.current_resume.passes << @pass
+      if current_user.passes << @pass
         format.html {
           flash[:notice] = '保存成功.'
           redirect_to  user_path(params[:request_user_id] && params[:request_user_id].any? ? params[:request_user_id] : params[:user_id])
@@ -87,7 +87,7 @@ class PassesController < ApplicationController
     respond_to do |format|
       if @pass.update_attributes(params[:pass])
         format.html {flash[:notice] = '更新成功！.'
-          redirect_to( user_resume_path(params[:user_id],params[:resume_id]))
+          redirect_to( user_path(params[:user_id]))
         }
         format.xml  { head :ok }
         format.js {}
@@ -106,7 +106,7 @@ class PassesController < ApplicationController
     @pass.destroy
     respond_to do |format|
       format.js {}
-      format.html { redirect_to( user_resume_passes_path(params[:user_id],params[:resume_id])) }
+      format.html { redirect_to( user_passes_path(params[:user_id])) }
       format.xml  { head :ok }
     end
   end

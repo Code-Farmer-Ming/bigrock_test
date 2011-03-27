@@ -78,7 +78,7 @@ class AccountControllerTest < ActionController::TestCase
         :request_user_id=>1,
         :request_company_id=>1
     end
-    assert_redirected_to  new_user_resume_pass_path(assigns(:user),assigns(:user).current_resume,:request_user_id=>1,:request_company_id=>1)
+    assert_redirected_to  new_user_pass_path(assigns(:user),:request_user_id=>1,:request_company_id=>1)
     assert User.find_all_by_email(email).size>0
     assert_equal  1, assigns(:user).aliases.count
     assert_equal assigns(:user).aliases[0].parent, assigns(:user)

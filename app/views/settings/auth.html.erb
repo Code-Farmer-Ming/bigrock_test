@@ -5,10 +5,6 @@
       <%= form.label :all_resume_visibility,"个人资料",:class=>"filed_lab" %>&nbsp;
       <%= form.select :all_resume_visibility,UserSetting::VISIBILITY_TYPES %>
     </p>
-    <p>
-      <%= form.label :apply_friend_auth,"添加好友",:class=>"filed_lab" %>&nbsp;
-      <%= form.select :apply_friend_auth,UserSetting::APPLY_FRIEND_TYPES  %>
-    </p>
 
     <p id="form_button">
       <%= form.submit "保存",:disable_with=>"保存…",:disabled => false ,:class=>"button"  %>
@@ -19,19 +15,14 @@
 <div id="right_content">
   <% sub_block_div do%>
     <dl>
-      <dt>个人资料</dt>
+      <dt>隐私设置</dt>
       <dd>
-        公开
-        任何都能看到
-        不公开
+        公开，
+        任何人都能看到；
+        不公开，
         除自己外，任何人都看不到。
       </dd>
-      <p>
-      <dt>添加好友</dt>
-      <dd>
-        允许，任何人都可以加为好友；需申请，需要同意后才能加为好友；不允许，不允许任何人加为好友
-      </dd>
-      </p>
+ 
     </dl>
   <%end%>
 </div>

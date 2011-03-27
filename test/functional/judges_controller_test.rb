@@ -5,6 +5,11 @@ class JudgesControllerTest < ActionController::TestCase
   def setup
     login_as(users(:one))
   end
+
+  test "new" do
+    xhr :get,:new,:user_id=>users(:two)
+    assert_response :success
+  end
   test "create" do
     user_1 = users(:one)
     user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
@@ -17,8 +22,7 @@ class JudgesControllerTest < ActionController::TestCase
           xhr :post,:create,:judge=>{:anonymous=>1,:description=>"不错的小伙",
             :creditability_value=>1,:eq_value=>1,:ability_value=>1},
             :my_tags=>"辖门",
-            :user_id=>user_2.id,
-            :pass_id=>user_2.passes.first
+            :user_id=>user_2.id
         end
       end
     end

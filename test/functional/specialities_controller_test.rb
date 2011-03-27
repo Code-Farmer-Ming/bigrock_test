@@ -2,7 +2,6 @@ require 'test_helper'
 
 class SpecialitiesControllerTest < ActionController::TestCase
   def setup
-    @resume_one=resumes(:one)
     @user_one = users(:one)
     login_as(@user_one)
   end

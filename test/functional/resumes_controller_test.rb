@@ -34,11 +34,7 @@ class ResumesControllerTest < ActionController::TestCase
 #
 #  end
 
-  test "should update resume" do
-    user=users(:one)
-    put :update, :id => resumes(:one).to_param, :resume => {:name=>"qq" },:user_id=>user
-    assert_redirected_to user_resumes_path()
-  end
+ 
 
 #  test "should destroy resume" do
 #    user=users(:one)

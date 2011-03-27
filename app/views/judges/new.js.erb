@@ -1,9 +1,9 @@
 <div class="form_info">
   <h1>评价一下</h1>
   <%  remote_form_for(@judge,
-    :url=> user_resume_pass_judges_path(params[:user_id],params[:resume_id],params[:pass_id]),
+    :url=> account_judges_path(:user_id=>params[:user_id],:pass_id=>params[:pass_id]),
     :loading=>"$('judge_submit').disabled=true;",
-    :complete=>"$('judge_submit').disabled=false;",
+    :complete=>"$('judge_submAit').disabled=false;",
     :html=>{:method=>:post}) do |f| %>
 
     <%= render :partial=>"judges/form" ,:object=>f%>

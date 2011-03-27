@@ -5,12 +5,9 @@
   </div>
   <br/>
   <br/>
-  <%sub_block_div("最新的求职") do%>
+  <%sub_block_div("最新的求职",link_to("+发一条求职信息",new_account_need_job_path(),:class=>"button positive",:style=>"display:inline;") ) do%>
     <ul class="list">
       <%= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5).order("created_at desc")%>
     </ul>
-    <%= link_to("<<查看更多…",search_need_jobs_path())%>
-    <br />
-    <%= link_to "+发一条求职信息",new_account_need_job_path(),:class=>"button positive" %>
   <%end%>
 </div>

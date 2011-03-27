@@ -1,0 +1,46 @@
+<%user = show_base_info%>
+
+<% if current_user?(user) %>
+  <span class="operation_lab"> <%= link_to_remote "",
+      {:update=>"edit_container_user_base_info" ,
+      :before=>" PerpareEdit('user_base_info');Element.hide('main_thumb_img')",
+      :complete=>"$('edit_container_user_base_info').select('Form').each(function(el){ el.focusFirstElement();})",
+      :url=>edit_user_base_info_path(user),:method=>"get"},
+      :class=>"edit_img_button",:title=>"编辑"%>
+  </span>
+<%end%>
+<% if user.setting.can_visibility?(:sex_visibility,current_user) && !user.base_info.sex.blank? %>
+
+  <p>
+    <span>性别</span>
+    <%=   user.base_info.sex ? "男" : "女"   %>
+  </p>
+<%end%>
+<% if user.setting.can_visibility?(:birthday_visibility,current_user) &&
+    !user.base_info.birthday.blank?   %>
+
+  <p>
+    <span>出生日期</span>
+    <%= localize(user.base_info.birthday)   %>
+  </p>
+<%end%>
+<% if user.setting.can_visibility?(:blog_site_visibility,current_user) &&
+    !user.base_info.blog_website.blank?   %>
+
+  <p>
+    <span>博客</span>
+    <%=auto_link_urls(h(user.base_info.blog_website))   -%>
+  </p>
+<%end%>
+
+<p>
+  <span>资料链接：</span>
+  <%= link_to user_url(user),user_url(user)%>
+</p>
+<% if user.setting.can_visibility?(:address_visibility,current_user) &&  user.base_info.state %>
+  <p>
+    <span>现居住地址</span>
+    <%= user.base_info.state.name if user.base_info.state-%>&nbsp;
+    <%= user.base_info.city.name if user.base_info.city %>&nbsp;
+  </p>
+<%end%>

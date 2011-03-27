@@ -11,7 +11,7 @@
         </b>
         <%= h pass.title%>
       </p>
-    <%end if judge.user.current_resume%>
+    <%end %>
     <% if !judge.user.current_companies.exists?(judge.pass.company) %>
       <p class="gray_background quiet" title="过去的工作">
         <b>
@@ -19,7 +19,7 @@
         </b>
         <%= h judge.user.passes.find_by_company_id(judge.pass.company.id).title%>
       </p>
-    <%end if judge.user.current_resume%>
+    <%end %>
     <p  class="quiet">
       <%= localize(judge.created_at) %> 评价
     </p>

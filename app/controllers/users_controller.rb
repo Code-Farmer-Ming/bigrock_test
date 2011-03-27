@@ -1,16 +1,16 @@
 class UsersController < ApplicationController
-  before_filter :check_login?,:except=>[:show]
-  before_filter :find_user,:only=>[:show,:colleague_list,:logs,:following,:groups]
+  before_filter :check_login?,:except=>[:show,:info_render]
+  before_filter :find_user,:only=>[:show,:colleague_list,:logs,:following,:groups,:info_render]
   def show
-    if current_user
+#    if current_user
       @page_title ="#{@user.name}"
       respond_to do |format|
         format.html # show.html.erb
         format.xml  { render :xml => @user }
       end
-    else
-      redirect_to user_resumes_path(@user)
-    end
+#    else
+#      redirect_to user_path(@user)
+#    end
   end
 
   def colleague_list
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     if !params[:pass_id]
       @colleeagus=@user.colleague_users.paginate :page => params[:page]
     else
-      @pass =@user.current_resume.passes.find(params[:pass_id])
+      @pass =@user.passes.find(params[:pass_id])
       @colleeagus =@pass.colleague_users.paginate :page => params[:page]
     end
   end
@@ -42,8 +42,7 @@ class UsersController < ApplicationController
     when "company"
       @following_objs =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     else
-      @following_objs =@user.my_follow_users.paginate :joins=>" join resumes on resumes.user_id=users.id",
-        :conditions=>["resumes.user_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+      @following_objs =@user.my_follow_users.paginate :conditions=>["nick_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     end
 
     respond_to do |format|
@@ -67,6 +66,14 @@ class UsersController < ApplicationController
       end
     else
       @groups =@user.groups.paginate  :conditions=>"name like '%#{params[:search]}%'", :page => params[:page]
+    end
+  end
+
+  def info_render
+    if  @user.setting.can_see_resume(current_user)
+      render :partial=>"users/body_render",:object=>@user
+    else
+      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
     end
   end
 

@@ -1,13 +1,13 @@
 <%if  current_user?(@user)%>
   <div class="r small quiet" >
     资料权限
-    <%= render :partial=>"resumes/visibility_set",
-      :locals=>{:value=>@user.setting.all_resume_visibility,:visibility_value=>"all_resume",:resume=>@user.current_resume}  %>
+    <%= render :partial=>"base_infos/visibility_set",
+      :locals=>{:value=>@user.setting.all_resume_visibility,:visibility_value=>"all_resume"}  %>
   </div>
 <%end%>
 
 <h1>
-  <span id="<%= dom_id(object.current_resume,'user_name') %>">
+  <span id="<%= dom_id(object,'user_name') %>">
     <%=  h(object.name)%></span>&nbsp;
   <span id="whole_judge_star" >
     <%= big_star(object.avg_judge_value()|| 0) %>

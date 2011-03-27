@@ -1,5 +1,5 @@
 
-class ResumesController < ApplicationController
+class BaseInfosController < ApplicationController
   include ActionView::Helpers::TextHelper
   #  in_place_edit_for :resume, :name
   
@@ -9,17 +9,17 @@ class ResumesController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @item = Resume.find(params[:id])
-    @item.update_attribute(:self_description, params[:value])
+    @item = User.find(params[:user_id])
+    @item.base_info.update_attribute(:self_description, params[:value])
     render :inline => "<%= simple_format( @item.self_description) %>"
   end
   
   def render_resume
-    if  Resume.find(params[:id]).user.setting.can_see_resume(current_user)
-      render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
-    else
-      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
-    end
+#    if  Resume.find(params[:id]).user.setting.can_see_resume(current_user)
+#      render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
+#    else
+#      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
+#    end
   end
   
   def index
@@ -55,10 +55,11 @@ class ResumesController < ApplicationController
 
   # GET /resumes/1/edit
   def edit
-    @resume = Resume.find(params[:id])
+    @user = User.find(params[:user_id])
+    @base_info =@user.base_info
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @resume }
+      format.xml  { render :xml => @user.base_info }
       format.js {}
     end
   end
@@ -92,21 +93,21 @@ class ResumesController < ApplicationController
   # PUT /resumes/1
   # PUT /resumes/1.xml
   def update
-    @resume = Resume.find(params[:id])
+    @user = User.find(params[:user_id])
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
-      @resume.user.icon = UserIcon.find(params[:uploaded_file_id])
-      current_user.reload()
+      @user.icon = UserIcon.find(params[:uploaded_file_id])
+      @user.reload()
     end
     respond_to do |format|
-      if @resume.update_attributes(params[:resume])
+      if @user.base_info.update_attributes(params[:base_info])
         
-        format.html { flash[:notice] = '简历更新成功';redirect_to( user_resumes_path()) }
+        format.html { flash[:notice] = '简历更新成功'; }
         format.xml  { head :ok }
         format.js {}
       else
         format.js {}
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @resume.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @user.base_info.errors, :status => :unprocessable_entity }
       end
     end
   end

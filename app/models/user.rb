@@ -32,15 +32,32 @@ class User< ActiveRecord::Base
   validates_confirmation_of   :text_password,  :message=>"两次不同"
   attr_accessor                 :text_password_confirmation
   validates_length_of :nick_name, :within => 2..10
+  
+  named_scope :limit,lambda { |size| { :limit => size } }
+  #最新加入的
+  named_scope :newly,:order=>"created_at desc"
+
+  #实际用户
+  named_scope :real_users,:conditions=>{:parent_id=>0}
+ 
   #我的简历
-  has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
+  #  has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
   
   #基本信息
   has_one :base_info,:dependent=>:destroy
   #教育信息
   has_many :educations,:dependent=>:destroy
   #特长信息 
-  has_many :specialities,:dependent=>:destroy
+  has_many :specialities,:dependent=>:destroy do
+    def skill_text
+      self.map(&:name).sort.join(Skill::DELIMITER)
+    end
+  end
+  has_many :skills,:through=>:specialities,:source=>:skill
+  def skill_list
+    skills.reload
+    skills.to_s
+  end
   #别人对自己的评价
   has_many :judges,:foreign_key=>"user_id",:dependent=>:destroy
   #自己对别人的评价
@@ -100,8 +117,8 @@ class User< ActiveRecord::Base
 
 
   #  #添加好友 申请
-  has_many :add_friend_applications ,:foreign_key=>"respondent_id",
-    :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
+  #  has_many :add_friend_applications ,:foreign_key=>"respondent_id",
+  #    :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
   # 小组邀请
   has_many :join_group_invites ,:foreign_key=>"respondent_id",
     :dependent=>:destroy,:class_name=>"JoinGroupInvite",:source=>:applicant
@@ -375,21 +392,21 @@ class User< ActiveRecord::Base
   # 别名的父账号
   belongs_to :parent,:class_name => 'User',:foreign_key => 'parent_id'
   #当前简历信息
-#  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>{:is_current=>true},:dependent => :destroy
+  #  has_one :current_resume,:class_name=>"Resume",:foreign_key=>"user_id",:conditions=>{:is_current=>true},:dependent => :destroy
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
 
   has_many :passes
+  has_many :current_passes,:class_name=>"Pass",:foreign_key=>"user_id",:conditions=>{:is_current=>true}
+  has_many :current_companies ,:through=>:current_passes,:source=>:company
+
+  has_many :pass_companies ,:through=>:passes,:source=>:company
+
   #  delegate :passeses,:to=>:current_resume
-#  delegate :pass_companies,:to=>:current_resume
-#  delegate :current_passes,:to=>:current_resume
-#  delegate :current_companies,:to=>:current_resume
+  #  delegate :pass_companies,:to=>:current_resume
+  #  delegate :current_passes,:to=>:current_resume
+  #  delegate :current_companies,:to=>:current_resume
 
-  #实际用户
-  named_scope :real_users,:conditions=>{:parent_id=>0} 
-
-  #最新加入
-  named_scope :newly_order,:order=>"users.created_at desc"
 
   #回调函数
   def before_create
@@ -397,7 +414,7 @@ class User< ActiveRecord::Base
       self.aliases.build(:email=>"alias_email"+ self.email,
         :nick_name=>"马甲",:text_password=>self.text_password,
         :text_password_confirmation=>self.text_password_confirmation)
-      self.resumes.build(:user_name=>self.nick_name,:is_current=>true)
+      self.base_info = BaseInfo.new
       self.setting= UserSetting.new
       self.is_active = true
     end
@@ -598,7 +615,7 @@ class User< ActiveRecord::Base
  
   #未评价的公司
   def unjudge_companies
-    current_resume.pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])
+    pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])
   end
   #简历是否有同事
   def has_colleagues?

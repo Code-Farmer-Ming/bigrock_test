@@ -3,8 +3,8 @@ page["user_base_info"].show
 page["main_thumb_img"].show
  
 #page << "if ($('summary_info')!=null) Element.show('summary_info');"
-page[dom_id(@resume,'user_name')].replace_html @resume.user_name
+page[dom_id(@user,'user_name')].replace_html @user.base_info.user_name
 page["edit_container_user_base_info"].hide
-page["user_base_info"].replace_html render :partial=>"resumes/show_base_info",:object=>@resume
+page["user_base_info"].replace_html render :partial=>"base_infos/show_base_info",:object=>@user
 page["user_base_info"].visual_effect(:highlight)
 page["current_user"].replace_html render :partial=>"users/current_user_sign"
