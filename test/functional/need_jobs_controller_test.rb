@@ -51,4 +51,9 @@ class NeedJobsControllerTest < ActionController::TestCase
       delete :batch_destroy,:select_ids=>[ need_jobs(:one).to_param, need_jobs(:two).to_param]
     end
   end
+
+  test "should batch destroy" do
+    delete :batch_destroy
+    assert_response :success
+  end
 end

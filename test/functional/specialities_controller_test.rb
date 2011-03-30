@@ -13,10 +13,13 @@ class SpecialitiesControllerTest < ActionController::TestCase
   end
 
   test "should create speciality" do
-    assert_difference('Speciality.count') do
-      post :create, :speciality => {:name=>"vc++" },:user_id=>@user_one.id
+
+    assert_difference('@user_one.specialities.count') do
+      assert_difference('Speciality.count') do
+        post :create, :speciality => {:name=>"vc++" }
+      end
     end
-#    assert_redirected_to user_resume_speciality_path(@user_one.id,@resume_one.id,assigns(:speciality))
+    #    assert_redirected_to user_resume_speciality_path(@user_one.id,@resume_one.id,assigns(:speciality))
   end
 
  

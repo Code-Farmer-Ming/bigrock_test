@@ -118,7 +118,7 @@ class PassesController < ApplicationController
   #TODO 发送错误时候需要检查
   def send_invite
     @msg = Msg.new(params[:msg])
-    pass = Pass.find(params[:id])
+    pass = current_user.passes.find(params[:id])
     #发送邮件
     #检查邮件地址是否有效
     @msg.sendees.split(";").uniq.each do |sendee|

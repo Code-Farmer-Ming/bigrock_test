@@ -1,103 +1,121 @@
-<% content_for :script do %>
-  <%= javascript_include_merged :swfupload %>
-<% end %>
-<div id="left_content">
-  <div id="resume_info" >
-    <div id="user_name_and_big_star">
-      <%= render :partial=>"users/info_head",:object=>@user %>
-    </div>
-
-    <div class="tab" >
-      <div class="l">
-        <span id="<%= dom_id(@user,"my_language") %>" class="user_my_language" >
-          <%= auto_link(h(@user.my_phrase)) %>
-        </span>
+<%if  current_user%>
+  <% content_for :script do %>
+    <%= javascript_include_merged :swfupload %>
+  <% end %>
+  <div id="left_content">
+    <div id="resume_info" >
+      <div id="user_name_and_big_star">
+        <%= render :partial=>"users/info_head",:object=>@user %>
       </div>
-      <ul class="r tabs"  >
-        <li><%= link_to "<span>资料</span>", :anchor=>"my_resume_tab"  %> </li>
-        <li><%= link_to "<span>我的语言</span>", :anchor=>"my_language_tab"   %> </li>
-      </ul>
-    </div>
-    <div>
-      <div class="panel " id="my_resume_tab">
-        <div id="resume_info_show" class="main_info">
-          <div id="resume_content">
 
+      <div class="tab" >
+        <div class="l">
+          <span id="<%= dom_id(@user,"my_language") %>" class="user_my_language" >
+            <%= auto_link(h(@user.my_phrase)) %>
+          </span>
+        </div>
+        <ul class="r tabs"  >
+          <li><%= link_to "<span>资料</span>", :anchor=>"my_resume_tab"  %> </li>
+          <li><%= link_to "<span>说的话</span>", :anchor=>"my_language_tab"   %> </li>
+        </ul>
+      </div>
+      <div>
+        <div class="panel " id="my_resume_tab">
+          <div id="resume_info_show" class="main_info">
+            <div id="resume_content">
+
+            </div>
           </div>
         </div>
-      </div>
-      <%=   javascript_tag(remote_function(:update=>'resume_content',
-          :url=>url_for(:controller=>"users",:action=>"info_render",
-            :id=>@user),
-          :complete=>"$('resume_content').select('.required-validate').each(function(form){  new Validation(form,{
-    immediate:true,
-    useTitles:true,
-    stopOnFirst:true
-    });});", :method=>'get'))  %>
+        <%=   javascript_tag(remote_function(:update=>'resume_content',
+            :url=>url_for(:controller=>"users",:action=>"info_render",
+              :id=>@user),
+            :complete=>"$('resume_content').select('.required-validate').each(function(form){  new Validation(form,{
+      immediate:true,
+      useTitles:true,
+      stopOnFirst:true
+      });});", :method=>'get'))  %>
 
-      <div class="panel" id="my_language_tab">
-        <%= render :partial=>"users/my_language_info" ,:collection=> @user.my_languages.all(:limit=>12)%>
+        <div class="panel" id="my_language_tab">
+          <%= render :partial=>"users/my_language_info" ,:collection=> @user.my_languages.all(:limit=>12)%>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div id ="right_content">
-  <% sub_block_div() do %>
-    <div id="<%= dom_id(@user,"operation")%>">
-      <%= render :partial=>"users/operation",:object=>@user %>
+  <div id ="right_content">
+    <% sub_block_div() do %>
+      <div id="<%= dom_id(@user,"operation")%>">
+        <%= render :partial=>"users/operation",:object=>@user %>
+      </div>
+    <%end if !current_user?(@user)%>
+
+    <%tabs() do%>
+    <%#= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
+      <%= tab_button("同事(#{@user.colleagues.count})","my_colleagues_tab") %>
+      <%= tab_button("关注谁"+(@user.my_follow_users.count>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_user_tab" ) %>
+      <%= tab_button("关注的公司"+(@user.my_follow_users.count>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_company_tab" ) %>
+    <%end%>
+
+    <div>
+      <div id="my_colleagues_tab"  class="panel" >
+        <%= render :partial=>"users/user_short_info",:collection=> @user.colleague_users.all(:limit=>3) %>
+        <%unless    @user.has_colleagues?%>
+          <p>赶快添加工作经历，邀请同事进来吧。</p>
+        <%end%>
+        <%=  link_to("全部同事…",user_colleagues_path(@user)) if @user.has_colleagues?%>
+      </div>
+      <div id="my_follow_user_tab"  class="panel" >
+        <%= render :partial=>"users/user_short_info",:collection=> @user.my_follow_users.find(:all,:limit=>3) %>
+        <%=   link_to("所有…",following_user_path(@user,:type=>"user") ) if @user.my_follow_users.count>0%>
+      </div>
+      <div id="my_follow_company_tab" class="panel">
+        <%= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>80)%>
+        <%=   link_to("所有…",following_user_path(@user,:type=>"company")) if  @user.my_follow_companies.count>0%>
+      </div>
     </div>
-  <%end if !current_user?(@user)%>
 
-  <%tabs() do%>
-  <%#= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
-    <%= tab_button("同事(#{@user.colleagues.count})","my_colleagues_tab") %>
-    <%= tab_button("关注谁"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_user_tab" ) %>
-    <%= tab_button("关注的公司"+(@user.my_follow_users.size>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_company_tab" ) %>
-  <%end%>
+  <%# sub_block_div("关注的公司"+(@user.my_follow_companies.size>0 ? "(#{@user.my_follow_companies.size})" : ""),
+  (link_to("全部",friends_user_path(@user,:type=>"follow_company")) if @user.my_follow_companies.size>0)) do %>
+  <%#= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>10)%>
+  <%#end%>
+    <% sub_block_div("动态 ",
+      (link_to("全部",logs_user_path(@user))  if @user.log_items.size>0)) do%>
+      <%= render :partial=>"comm_partial/show_log",:object=>@user.log_items.all(:limit=>8),:locals=>{:hide_left=>true} %>
+    <%end%>
+    <% if  current_user?(@user) %>
+      <% sub_block_div("参加的小组"+(@user.all_groups.size>0 ? "(#{@user.all_groups.size})" : ""),
+        (link_to("全部", groups_user_path(@user)) if @user.all_groups.size>0)) do %>
+      <%#*<div title="包含马甲身份参加的小组 只有你能看到">%>
+        <ul class="float_ul">
+          <%= render :partial=>"groups/float_icon_name",:collection=>@user.all_groups.find(:all,:limit=>4)%>
+        </ul>
 
-  <div>
-    <div id="my_colleagues_tab"  class="panel" >
-      <%= render :partial=>"users/user_short_info",:collection=> @user.colleague_users.all(:limit=>3) %>
-      <%unless    @user.has_colleagues?%>
-        <p>赶快添加工作经历，邀请同事进来吧。</p>
+      <%#*</div>%>
       <%end%>
-      <%=  link_to("全部同事…",user_colleagues_path(@user)) if @user.has_colleagues?%>
-    </div>
-    <div id="my_follow_user_tab"  class="panel" >
-      <%= render :partial=>"users/user_short_info",:collection=> @user.my_follow_users.find(:all,:limit=>3) %>
-      <%=   link_to("所有…",following_user_path(@user,:type=>"user") ) if @user.my_follow_users.count>0%>
-    </div>
-    <div id="my_follow_company_tab" class="panel">
-      <%= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>80)%>
-      <%=   link_to("所有…",following_user_path(@user,:type=>"company")) if  @user.my_follow_companies.count>0%>
-    </div>
+    <%else%>
+      <% sub_block_div("参加的小组"+(@user.groups.size>0 ? "(#{@user.groups.size})" : ""),
+        (link_to("全部", groups_user_path(@user)) if @user.groups.size>0)) do %>
+        <ul class="float_ul">
+          <%= render :partial=>"groups/float_icon_name",:collection=>@user.groups.find(:all,:limit=>4)%>
+        </ul>
+      <%end%>
+    <%end%>
+
   </div>
-
-<%# sub_block_div("关注的公司"+(@user.my_follow_companies.size>0 ? "(#{@user.my_follow_companies.size})" : ""),
-(link_to("全部",friends_user_path(@user,:type=>"follow_company")) if @user.my_follow_companies.size>0)) do %>
-<%#= render :partial=>"companies/company_short_info",:collection=> @user.my_follow_companies.find(:all,:limit=>10)%>
-<%#end%>
-  <% sub_block_div("动态 ",
-    (link_to("全部",logs_user_path(@user))  if @user.log_items.size>0)) do%>
-    <%= render :partial=>"comm_partial/show_log",:object=>@user.log_items.all(:limit=>8),:locals=>{:hide_left=>true} %>
-  <%end%>
-  <% if  current_user?(@user) %>
-    <% sub_block_div("参加的小组"+(@user.all_groups.size>0 ? "(#{@user.all_groups.size})" : ""),
-      (link_to("全部", groups_user_path(@user)) if @user.all_groups.size>0)) do %>
-    <%#*<div title="包含马甲身份参加的小组 只有你能看到">%>
-      <ul class="float_ul">
-        <%= render :partial=>"groups/float_icon_name",:collection=>@user.all_groups.find(:all,:limit=>4)%>
-      </ul>
-
-    <%#*</div>%>
+<%else%>
+  <div id="single_column">
+    <% link_to  current_user ? @user : login_account_path(:reurl=> user_path(@user)) ,:class=>"r hot_link" do%>
+      <%= "想了解更多信息 联系我吧>>"  %>
     <%end%>
-  <%else%>
-    <% sub_block_div("参加的小组"+(@user.groups.size>0 ? "(#{@user.groups.size})" : ""),
-      (link_to("全部", groups_user_path(@user)) if @user.groups.size>0)) do %>
-      <ul class="float_ul">
-        <%= render :partial=>"groups/float_icon_name",:collection=>@user.groups.find(:all,:limit=>4)%>
-      </ul>
-    <%end%>
-  <%end%>
-
-</div>
+    <%= render :partial=>"users/info_head",:object=>@user %>
+    <div id="resume_info_show" class="main_info">
+      <div id="resume_content">
+      </div>
+    </div>
+ 
+    <%=   javascript_tag(remote_function(:update=>'resume_content',
+        :url=>url_for(:controller=>"users",:action=>"info_render",
+          :id=>@user),
+        :method=>'get'))  %>
+  </div>
+<%end%>

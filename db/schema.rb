@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110320071735) do
+ActiveRecord::Schema.define(:version => 20110327130127) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20110320071735) do
   add_index "attentions", ["user_id", "target_id", "target_type"], :name => "index_attentions_on_user_id_and_target_id_and_target_type", :unique => true
 
   create_table "base_infos", :force => true do |t|
-    t.string   "type_name",        :limit => 18
     t.integer  "user_id"
     t.date     "birthday"
     t.boolean  "sex"
@@ -58,7 +57,6 @@ ActiveRecord::Schema.define(:version => 20110320071735) do
     t.string   "msn"
     t.string   "city"
     t.string   "industry"
-    t.boolean  "is_current",                     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "city_id"
@@ -293,6 +291,15 @@ ActiveRecord::Schema.define(:version => 20110320071735) do
 
   add_index "members", ["group_id", "user_id"], :name => "index_members_on_group_id_and_user_id", :unique => true
 
+  create_table "msg_responses", :force => true do |t|
+    t.integer  "msg_id"
+    t.integer  "sender_id"
+    t.string   "content"
+    t.boolean  "is_check",   :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "msgs", :force => true do |t|
     t.integer  "sender_id",                                     :null => false
     t.integer  "sendee_id",                                     :null => false
@@ -516,7 +523,7 @@ ActiveRecord::Schema.define(:version => 20110320071735) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id",                :default => 0,         :null => false
-    t.string   "state",      :limit => 12, :default => "freedom"
+    t.string   "state",      :limit => 12, :default => "working"
     t.string   "salt",                                            :null => false
   end
 

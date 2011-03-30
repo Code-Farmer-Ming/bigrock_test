@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :check_login?,:except=>[:show,:info_render]
   before_filter :find_user,:only=>[:show,:colleague_list,:logs,:following,:groups,:info_render]
   def show
+   
 #    if current_user
       @page_title ="#{@user.name}"
       respond_to do |format|

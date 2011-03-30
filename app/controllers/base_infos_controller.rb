@@ -5,12 +5,12 @@ class BaseInfosController < ApplicationController
   
   before_filter :check_login?,:except=>[:index,:render_resume]
  
-  def set_resume_self_description
+  def set_self_description
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @item = User.find(params[:user_id])
-    @item.base_info.update_attribute(:self_description, params[:value])
+    @item = current_user.base_info
+    @item.update_attribute(:self_description, params[:value])
     render :inline => "<%= simple_format( @item.self_description) %>"
   end
   

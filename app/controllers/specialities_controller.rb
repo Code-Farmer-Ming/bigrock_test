@@ -26,9 +26,9 @@ class SpecialitiesController < ApplicationController
     @speciality = Speciality.new(params[:speciality])
    
     respond_to do |format|
-      if @speciality.save
+      if current_user.specialities <<@speciality
         format.js {}
-        format.html { redirect_to(new_user_speciality_path(params[:user_id])) }
+        format.html { redirect_to(new_user_speciality_path()) }
         format.xml  { render :xml => @speciality, :status => :created, :location => @speciality }
       else
         flash.now[:error] = @speciality.errors.full_messages.to_s

@@ -5,12 +5,12 @@ class ChangeEducationAndSpecialityOwner < ActiveRecord::Migration
     add_column :specialities ,:user_id,:integer
 
     Education.all.each do |item|
-      item.user item.resume.user
+      item.user = item.resume.user
       item.save
     end
 
     Speciality.all.each do |item|
-      item.user item.resume.user
+      item.user = item.resume.user
       item.save
     end
     remove_column :educations, :resume_id

@@ -91,7 +91,7 @@ class NeedJobsController < ApplicationController
   def batch_destroy
     params[:select_ids].each() do |item|
       current_user.need_jobs.destroy(item)
-    end
+    end if params[:select_ids]
     respond_to do |format|
       format.html { redirect_to(account_need_jobs_url)   }
       format.xml  { head :ok }

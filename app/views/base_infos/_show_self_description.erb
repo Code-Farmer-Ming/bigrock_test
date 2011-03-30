@@ -8,7 +8,7 @@
   </div>
   <div   class="section" id="<%= dom_id(user,"self_description") %>"><%= simple_format(user.base_info.self_description) -%></div>
   <%=  in_place_editor(dom_id(user,"self_description") ,
-    :url=>url_for({:controller=>:base_infos,:action => "set_resume_self_description",:user_id=>user.id}),:loading_text=>"载入…",
+    :url=>url_for({:controller=>:base_infos,:action => "set_self_description"}),:loading_text=>"载入…",
     :external_control=>dom_id(user,"ext"),
     :external_control_only=>"true",
     :click_to_edit_text=>"",

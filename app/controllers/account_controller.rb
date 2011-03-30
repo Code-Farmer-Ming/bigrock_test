@@ -66,7 +66,6 @@ class AccountController < ApplicationController
   end
  
   def show
-  
     @join_group_invites_size =0
     @unread_job_apply_size =0
     @user= current_user

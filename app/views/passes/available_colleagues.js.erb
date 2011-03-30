@@ -1,7 +1,7 @@
 <div  class="form_info">
   <h1>邀请同事对你评价</h1>
   <%remote_form_for @msg,
-    :url=> send_invite_user_resume_pass_path(params[:user_id],params[:resume_id],@pass),
+    :url=> send_invite_user_pass_path(),
     :method=>:post do |form| %>
     <div id="<%= dom_id(form.object,"error_msg") %>">
       <%= form.error_messages %>
