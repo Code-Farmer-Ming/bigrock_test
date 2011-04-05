@@ -62,8 +62,14 @@ class User< ActiveRecord::Base
   has_many :judges,:foreign_key=>"user_id",:dependent=>:destroy
   #自己对别人的评价
   has_many :judged,:class_name=>"Judge",:foreign_key=>"judger_id",:dependent=>:destroy
+
   #对所在公司的评价
   has_many :judged_companies,:class_name=>"CompanyJudge",:foreign_key=>"user_id",:dependent=>:destroy
+
+  #对所在公司的评价
+  has_many :company_judges
+  #已评价的公司
+  has_many :has_judged_companies,:through=>:company_judges,:source=>:company,:class_name=>"Company"
 
   #我的好友
   #  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
@@ -396,11 +402,13 @@ class User< ActiveRecord::Base
   has_one :icon,:class_name=>"UserIcon",:foreign_key=>"master_id",:dependent=>:destroy
   has_one :setting,:class_name=>"UserSetting",:foreign_key => "user_id",:dependent=>:destroy
 
-  has_many :passes
+  has_many :passes,:order=>"begin_date desc,is_current desc"
+  has_many :pass_companies ,:through=>:passes,:source=>:company
+    
   has_many :current_passes,:class_name=>"Pass",:foreign_key=>"user_id",:conditions=>{:is_current=>true}
   has_many :current_companies ,:through=>:current_passes,:source=>:company
 
-  has_many :pass_companies ,:through=>:passes,:source=>:company
+
 
   #  delegate :passeses,:to=>:current_resume
   #  delegate :pass_companies,:to=>:current_resume
@@ -542,7 +550,7 @@ class User< ActiveRecord::Base
     end
   end
   
-  #评价
+  #评价 同事
   def judge_colleague(user,judge)
     colleague =  not_judge_them_colleagues.first(:conditions=>{:user_id=>user.id})
     colleague.judge_colleague(judge) if colleague
@@ -615,7 +623,7 @@ class User< ActiveRecord::Base
  
   #未评价的公司
   def unjudge_companies
-    pass_companies.all(:conditions=>["company_id not in (?)",judged_company_ids ])
+    pass_companies.all - has_judged_companies
   end
   #简历是否有同事
   def has_colleagues?

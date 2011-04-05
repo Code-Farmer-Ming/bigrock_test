@@ -2,7 +2,6 @@ class CompanyJudgesController < ApplicationController
   before_filter :check_login?,:except=>[:auto_complete_for_tag]
 
   def new_form
- 
     @company_judge= CompanyJudge.new
     @company_judge.company = Company.find(params[:company_id])
     respond_to do |format|
@@ -17,7 +16,6 @@ class CompanyJudgesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :action=>:new,:company_id=>params[:company_id] }
       format.js  {
-
         render :update do |page|
           if  company.employee?(current_user)
             page << "Lightbox.show('/company_judges/new_form?company_id=#{params[:company_id]}')"
@@ -35,7 +33,6 @@ class CompanyJudgesController < ApplicationController
     @judge = CompanyJudge.new(params[:company_judge])
     current_user.tag_something(@company, params[:my_tags])
     @judge.judger = current_user
-
     respond_to do |format|
       if  (@company.judges << @judge)
         format.html { redirect_to(@judge) }
