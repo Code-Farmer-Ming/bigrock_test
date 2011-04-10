@@ -33,7 +33,7 @@
       <div>
   <%#= current_user.name%>
         <%= link_to "设置",base_info_account_setting_path() %>
-        <%= link_to  current_user.unread_msgs.size>0 ? "消息(<span class='red_text large strong'>#{current_user.unread_msgs.size}</span>)" : "消息",account_msgs_path() %>
+        <%= link_to  current_user.unread_msgs.size>0 ? "消息(<span class='red_text large strong'>#{current_user.unread_msgs.count}</span>)" : "消息",account_msgs_path() %>
         <%= link_to "退出",logout_account_path(),:title=>"退出当登录",:class=>"hot_text" %>
       </div>
     </div>

@@ -37,10 +37,10 @@ class PassesController < ApplicationController
     if !@company  
       if (request.xhr?)
         render :update do |page|#显示创建公司 窗口
-          page << "Lightbox.show('#{new_company_path(:"company[name]"=>params[:company][:name])}');"
+          page << "Lightbox.show('#{new_company_path(:company=>{:name=>params[:company][:name]})}');"
         end
       else
-        redirect_to new_company_path(:"company[:name]"=>params[:company][:name])
+        redirect_to new_company_path(:company=>{:name=>params[:company][:name]})
       end
       return
     end

@@ -1,16 +1,16 @@
 
 class AccountController < ApplicationController
-  before_filter :check_login?,:except=>[:get_news,:index,:login,:search,:new,:create,:forget_password,:reset_password,:check_email]
+  before_filter :check_login?,:except=>[:index,:login,:search,:new,:create,:forget_password,:reset_password,:check_email]
 
   def index
     @page_title ="首页"
     @page_keywords="公司,简历,工作,职位,求职,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
     @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
     #      @news = Piecenews.newly.all(:limit=>4)
-    @newly_topics = Topic.order_by_last_comment.limit(20)
-    @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
-    @need_jobs = NeedJob.limit(8).order("created_at desc")
-    @jobs = Job.limit(8).order("created_at desc")
+    @newly_topics = Topic.order_by_last_comment.limit(16)
+    @logs = LogItem.find(:all,:limit=>6,:order=>"created_at desc");
+    @need_jobs = NeedJob.limit(6).order("created_at desc")
+    @jobs = Job.limit(6).order("created_at desc")
   end
   
   def new
@@ -42,11 +42,11 @@ class AccountController < ApplicationController
         set_user_session(@user)
         format.html {
           flash[:success] = '恭喜你注册你成功，现在增加你的工作经历吧，能帮助你发现不少同事哦。'
-          if not params[:request_company_id].to_s.blank?
+#          if not params[:request_company_id].to_s.blank?
             redirect_to(new_user_pass_path(@user,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
-          else
-            redirect_to((params[:reurl] || user_path(@user)))
-          end
+#          else
+#            redirect_to((params[:reurl] || user_path(@user)))
+#          end
         }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else

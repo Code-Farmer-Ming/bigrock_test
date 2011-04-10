@@ -162,11 +162,11 @@ class User< ActiveRecord::Base
   has_many  :unread_msgs,:class_name=>"Msg",:finder_sql =>
     'SELECT DISTINCT a.* ' +
     'FROM msgs a left join msgs b on a.id=b.parent_id ' +
-    'WHERE a.parent_id=0 and a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})'+
+    'WHERE  a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})'+
     "  order by a.created_at desc",
     :counter_sql=> 'select count(*) from (SELECT DISTINCT a.* ' +
     'FROM msgs a left join msgs b on a.id=b.parent_id ' +
-    'WHERE  a.parent_id=0 and a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})) new_msgs' do
+    'WHERE     a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})) new_msgs' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -190,8 +190,8 @@ class User< ActiveRecord::Base
   has_many :follow_me_users,:through=>:follow_me_collection,:source=>:user 
   #  has_many :my_follow,:through=>:my_follow_collection,:source=>:target
   #我跟随关注的用户或公司或其他
-  has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all
-  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true
+  has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all,:order=>"created_at desc"
+  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true 
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company"
   #关注的目标 包括 用户或公司
   has_many_polymorphs :targets,

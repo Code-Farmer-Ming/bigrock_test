@@ -90,6 +90,9 @@ class MsgsController < ApplicationController
 
   def find_msg
     @msg = current_user.all_msgs.find(params[:id])
+    if @msg.parent
+      @msg=@msg.parent
+    end
   end
 
 end

@@ -1,8 +1,5 @@
 <div id="left_content">
-
-  <h2>
-    欢迎您
-  </h2>
+ 
   <div class="box">
     <%= link_to '',{:action=>'new'},:class=>'register_button' %>
     <h2 id="company_count">在线电子简历</h2>
@@ -58,7 +55,7 @@
 
 </div>
 <div id ="right_content">
-  <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
+  <% sub_block_div("最新动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
   <%sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>

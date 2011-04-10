@@ -46,7 +46,7 @@ class AccountControllerTest < ActionController::TestCase
       }
  
     end
-    assert_redirected_to  user_path(assigns(:user))
+    assert_redirected_to  new_user_pass_path(assigns(:user))
     assert User.find_all_by_email(email).size>0
     assert_equal  1, assigns(:user).aliases.count
     assert_equal assigns(:user).aliases[0].parent, assigns(:user)

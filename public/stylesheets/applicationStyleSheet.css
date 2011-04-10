@@ -89,11 +89,11 @@ label{
 /* header*/
 #header{
     height:80px;
-    background-color:#c9ff5e;
+    background-color:#A2E43B;
     background-image:  url(/images/logo.png);
     background-repeat: no-repeat;
     background-position: 25px;
-    /*background-color: #99d589;*/
+    /*background-color: #99d589;#c9ff5e*/
 }
 
 .content{

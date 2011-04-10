@@ -181,7 +181,7 @@ label{ cursor: pointer}
 #errorExplanation p {color: #333; margin-bottom: 0; padding: 5px; margin:5px}
 #errorExplanation ul li {font-size: 12px}
 #main{ min-width:996px}
- #header{ height:80px; background-color:#c9ff5e; background-image: url(/images/logo.png); background-repeat: no-repeat; background-position: 25px;  }
+ #header{ height:80px; background-color:#A2E43B; background-image: url(/images/logo.png); background-repeat: no-repeat; background-position: 25px;  }
 .content{ margin:16px auto;  }
 #footer{ clear:both; margin-top:10px; border-top:1px solid #EdEdEd; height:40px; margin:5px; padding: 8px}
 .container{ padding:0px 35px; height:100%; min-height: 300px; height:auto !important; *height: 300px}
