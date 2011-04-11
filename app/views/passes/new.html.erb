@@ -1,8 +1,9 @@
 <div id="left_content">
   <h1>创建工作经历</h1>
 
-  <%  form_for(@pass,:url=> user_passes_path(params[:user_id]),
+  <%  remote_form_for(@pass,:url=> user_passes_path(params[:user_id]),
     :html=>{:method=>:post,:class=>"form_info required-validate"}) do |f| %>
+
 
     <%= render :partial=>"passes/form" ,:object=>f %>
     <%= f.submit '保存',:class=>"button" %>    &nbsp; <%= link_to "暂时不想填" ,account_path()%>

@@ -9,8 +9,14 @@ if @pass.errors.length>0
     page[dom_id(@pass, "error_msg")].visual_effect(:fade)
   end
 else
+  page  << "if ($('pass_infos')!=null) {" 
   page.insert_html(:bottom,"pass_infos",render(:partial=>"show_passes",:object=>@pass))
   page[dom_id(@pass,"container")].visual_effect(:highlight)
   page << "Form.reset('new_pass')"
+  page << "}"
+  page << "else"
+  page.redirect_to(user_path(params[:request_user_id] && params[:request_user_id].any? ? params[:request_user_id] : params[:user_id]))
+
+
 end
 

@@ -58,10 +58,10 @@
   <% sub_block_div("最新动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
-  <%sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>
-    <ul class="float_ul">
-      <%= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
-    </ul>
+  <%#sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>
+    <%#*<ul class="float_ul">%>
+      <%#= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
+    <%#*</ul>%>
   <%#= link_to("<<查看更多…",groups_path())%>
-  <%end%>
+  <%#end%>
 </div>

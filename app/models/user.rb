@@ -186,13 +186,13 @@ class User< ActiveRecord::Base
 
   #  has_many :my_follow_collection,:class_name=>"Attention",:as=>:target
   #跟随关注我的用户
-  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all
+  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all,:order=>"created_at desc"
   has_many :follow_me_users,:through=>:follow_me_collection,:source=>:user 
   #  has_many :my_follow,:through=>:my_follow_collection,:source=>:target
   #我跟随关注的用户或公司或其他
   has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all,:order=>"created_at desc"
-  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true 
-  has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company"
+  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc"
+  has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company",:order=>"attentions.created_at desc"
   #关注的目标 包括 用户或公司
   has_many_polymorphs :targets,
     :from => [:companies,:users],

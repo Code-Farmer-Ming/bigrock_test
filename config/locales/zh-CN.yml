@@ -152,6 +152,7 @@
        speciality: "专长"
        msg: "消息"
        company : "公司"
+       
     attributes:
        group:
           name:  "名称"
@@ -162,6 +163,8 @@
           email: "邮件"
        speciality:
            name: "专长"
+       pass:
+         company_id: "公司"
   
     errors:
       template:
