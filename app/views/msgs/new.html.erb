@@ -12,7 +12,7 @@
 
         <span style="width: 400px;display: inline-block">
           <%=  text_field_with_auto_complete_like_facebook :msg, :sendees,{:class=>"",:title=>"收件人不能为空",:value=>''},
-            :infoMessage=>"输入好友的名称",:defaultEntries=>(@write_to ? {:Entry1=>{:text=>@write_to.name,:value=>@write_to.salt}} : {}) %>
+            :infoMessage=>"输入关注的朋友名称",:defaultEntries=>(@write_to ? {:Entry1=>{:text=>@write_to.name,:value=>@write_to.salt}} : {}) %>
         </span>
       </p>
       <p>
@@ -33,5 +33,7 @@
   </div>
 </div>
 <div id="right_content">
-
+  <p>
+    发送信息给关注的用户
+  </p>
 </div>

@@ -42,9 +42,18 @@ class MsgsControllerTest < ActionController::TestCase
       post :create, :msg=>{:title => "xcxxx",:content=>"xcccxx",:sendees=>"2 3"},:alias=>16
     end
   end
-#  test  "create" do
-#    assert_difference("Msg.count",1) do
-#      post :create, :msg=>{:title => "xcfffff",:content=>"xcccxxxxxxx",:sendees=>"2"},:alias=>1
-#    end
-#  end
+
+  test "auto_complete_for_msg_sendees" do
+    one= users(:one)
+    one.add_attention(users(:two))
+    assert one.my_follow_users.exists?(users(:two)),"关注"
+    xhr :get,:auto_complete_for_msg_sendees,:search=>users(:two).nick_name
+    assert_equal users(:two).id,assigns(:items).first.value.to_i
+    
+  end
+  #  test  "create" do
+  #    assert_difference("Msg.count",1) do
+  #      post :create, :msg=>{:title => "xcfffff",:content=>"xcccxxxxxxx",:sendees=>"2"},:alias=>1
+  #    end
+  #  end
 end

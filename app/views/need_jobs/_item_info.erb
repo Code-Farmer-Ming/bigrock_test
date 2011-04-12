@@ -1,7 +1,7 @@
 <div class="<%= cycle("topic_item gray_background", "topic_item") %>">
   <div class="quiet r">  <%= link_to object.poster.name, object.poster, :target=>"_blank"%>
     <%= date_ago_in_words(object.created_at)+"发布" %></div>
-  <p>
+  <p class="strong">
     [<%= link_to_state_city(object) %>]
     <%= highlight(link_to(h(object.title),need_job_path(object) ,:target=>"_blank"),params[:search]) %>
   </p>

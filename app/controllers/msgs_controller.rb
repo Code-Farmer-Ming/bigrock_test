@@ -67,9 +67,9 @@ class MsgsController < ApplicationController
     #    if (params[:company][:name]!="")
     ActiveRecord::Base.include_root_in_json = false
 
-    @items =  current_user.friend_users.find(:all,
-      :conditions =>"(lower(resumes.user_name) like lower('%#{params[:search]}%') )and resumes.is_current=#{true}",
-      :joins =>"join resumes on resumes.user_id=users.id ",:limit=>params[:max],:select=>"users.id   value,resumes.user_name  text" )
+    @items =  current_user.my_follow_users.find(:all,
+      :conditions =>"(lower(nick_name) like lower('%#{params[:search]}%') ) ",
+      :limit=>params[:max],:select=>"users.id   value,nick_name  text" )
     render :json => @items.to_json()
   end
   
@@ -90,7 +90,7 @@ class MsgsController < ApplicationController
 
   def find_msg
     @msg = current_user.all_msgs.find(params[:id])
-    if @msg.parent
+    if @msg && @msg.parent
       @msg=@msg.parent
     end
   end

@@ -52,8 +52,8 @@
     <%tabs() do%>
     <%#= tab_button("好友"+(@user.friend_users.size>0 ? "(#{@user.friend_users.size})"  : ""),"my_friends_tab" ) %>
       <%= tab_button("同事(#{@user.colleagues.count})","my_colleagues_tab") %>
-      <%= tab_button("关注谁"+(@user.my_follow_users.count>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_user_tab" ) %>
-      <%= tab_button("关注的公司"+(@user.my_follow_users.count>0 ? "(#{@user.my_follow_users.size })" : ""), "my_follow_company_tab" ) %>
+      <%= tab_button("关注谁"+(@user.my_follow_users.count>0 ? "(#{@user.my_follow_users.count })" : ""), "my_follow_user_tab" ) %>
+      <%= tab_button("关注的公司"+(@user.my_follow_companies.count>0 ? "(#{@user.my_follow_companies.count })" : ""), "my_follow_company_tab" ) %>
     <%end%>
 
     <div>

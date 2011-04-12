@@ -128,7 +128,10 @@ class Group < ActiveRecord::Base
   #移除成员
   def remove_member(user)
     if  can_operation_root?(user)
-      return all_members.delete(user)
+      user.accounts.each do |account|
+          all_members.delete(account)
+      end
+     
     end
   end
   #是否小组的管理人员 （包括组长）
