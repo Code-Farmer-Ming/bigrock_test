@@ -1,9 +1,9 @@
 <div id="left_content">
- 
+
   <div class="box">
     <%= link_to '',{:action=>'new'},:class=>'register_button' %>
     <h2 id="company_count">在线电子简历</h2>
-    <p class="b">展示您的价值&nbsp;&nbsp;&nbsp;&nbsp;注册马上拥有</p>
+    <p class="b">拓展您的职业人脉关系&nbsp;&nbsp;&nbsp;&nbsp;注册马上拥有</p>
   </div>
 
   <%sub_block_div("") do%>
@@ -21,6 +21,11 @@
       </div>
     <%end%>
   <%end%>
+
+  <% sub_block_div("最新注册用户") do %>
+      <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4) %>
+  <%end%>
+
   <%sub_block_div() do%>
     <div class="half_width r">
       <%sub_block_div("求职",link_to("+发一条求职信息",new_account_need_job_path(),{:class=>"button positive",:style=>"display:inline"}) )  do%>
@@ -28,7 +33,7 @@
           <%= render :partial=>"need_jobs/short_item",:collection=>@need_jobs%>
         </ul>
         <%= link_to("<<查看更多…",search_need_jobs_path()) if @need_jobs.size>8%>
-       
+
       <%end%>
     </div>
     <div class="half_width">
@@ -43,9 +48,7 @@
     </div>
   <%end%>
 
-  <% sub_block_div("最新注册用户") do %>
-    <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4) %>
-  <%end%>
+
   <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
     <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
     <p class="">
@@ -58,10 +61,10 @@
   <% sub_block_div("最新动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
     <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
   <%end%>
-  <%#sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>
-    <%#*<ul class="float_ul">%>
-      <%#= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
-    <%#*</ul>%>
-  <%#= link_to("<<查看更多…",groups_path())%>
-  <%#end%>
+<%#sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>
+<%#*<ul class="float_ul">%>
+<%#= render :partial=>"groups/float_icon_name",:collection=> Group.most_activity.all(:limit=>6)%>
+<%#*</ul>%>
+<%#= link_to("<<查看更多…",groups_path())%>
+<%#end%>
 </div>

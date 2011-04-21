@@ -5,7 +5,7 @@
       {:update=>"edit_container_user_base_info" ,
       :before=>" PerpareEdit('user_base_info');Element.hide('main_thumb_img')",
       :complete=>"$('edit_container_user_base_info').select('Form').each(function(el){ el.focusFirstElement();})",
-      :url=>edit_user_base_info_path(user),:method=>"get"},
+      :url=>edit_account_base_info_path(),:method=>"get"},
       :class=>"edit_img_button",:title=>"编辑"%>
   </span>
 <%end%>
@@ -33,13 +33,13 @@
   </p>
 <%end%>
 
-<p>
-  <span>资料链接：</span>
-  <%= link_to user_url(user),user_url(user)%>
-</p>
+<%#*<p>%>
+  <%#*<span>资料链接：</span>%>
+  <%#= link_to user_url(user),user_url(user)%>
+<%#*</p>%>
 <% if user.setting.can_visibility?(:address_visibility,current_user) &&  user.base_info.state %>
   <p>
-    <span>现居住地址</span>
+    <span>城市</span>
     <%= user.base_info.state.name if user.base_info.state-%>&nbsp;
     <%= user.base_info.city.name if user.base_info.city %>&nbsp;
   </p>

@@ -57,6 +57,7 @@ ActionController::Routing::Routes.draw do |map|
       :base_info=>[:get,:put],
       :alias=>[:get,:put],
       :password=>[:get,:put]}
+    account.resource :base_info
     account.resources :judges,:except=>[:index]
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
 
@@ -71,7 +72,7 @@ ActionController::Routing::Routes.draw do |map|
 
     users.resources :tags,:only=>[:index]
     users.resources :topics
-    users.resources :base_infos
+    #    users.resources :base_infos
     users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post}
  
     users.resources :specialities

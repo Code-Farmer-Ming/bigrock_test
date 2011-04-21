@@ -8,7 +8,7 @@ class AccountController < ApplicationController
     @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
     #      @news = Piecenews.newly.all(:limit=>4)
     @newly_topics = Topic.order_by_last_comment.limit(16)
-    @logs = LogItem.find(:all,:limit=>12,:order=>"created_at desc");
+    @logs = LogItem.find(:all,:limit=>16,:order=>"created_at desc");
     @need_jobs = NeedJob.limit(6).order("created_at desc")
     @jobs = Job.limit(6).order("created_at desc")
   end
@@ -41,12 +41,12 @@ class AccountController < ApplicationController
         end
         set_user_session(@user)
         format.html {
-          flash[:success] = '恭喜你注册你成功，现在增加你的工作经历吧，能帮助你发现不少同事哦。'
-#          if not params[:request_company_id].to_s.blank?
-            redirect_to(new_user_pass_path(@user,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]))
-#          else
-#            redirect_to((params[:reurl] || user_path(@user)))
-#          end
+          flash[:success] = '恭喜注册成功,完善一下资料吧。'
+          #          if not params[:request_company_id].to_s.blank?
+          redirect_to(edit_account_base_info_path(@user,:request_company_id=>params[:request_company_id]))
+          #          else
+          #            redirect_to((params[:reurl] || user_path(@user)))
+          #          end
         }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else

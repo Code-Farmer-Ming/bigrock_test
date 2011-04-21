@@ -15,11 +15,11 @@ class BaseInfosController < ApplicationController
   end
   
   def render_resume
-#    if  Resume.find(params[:id]).user.setting.can_see_resume(current_user)
-#      render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
-#    else
-#      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
-#    end
+    #    if  Resume.find(params[:id]).user.setting.can_see_resume(current_user)
+    #      render :partial=>"resumes/show_resume",:object=> Resume.find(params[:id])
+    #    else
+    #      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
+    #    end
   end
   
   def index
@@ -34,14 +34,14 @@ class BaseInfosController < ApplicationController
   end
   # GET /resumes/1
   # GET /resumes/1.xml
-#  def show
-#    #    @resumes = Resume.find_all_by_user_id(params[:user_id])
-#    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
-#    respond_to do |format|
-#      format.html # show.html.erb
-#      format.xml  { render :xml => @resume }
-#    end
-#  end
+  #  def show
+  #    #    @resumes = Resume.find_all_by_user_id(params[:user_id])
+  #    @resume = Resume.find_by_user_id!(params[:user_id],:limit=>1)
+  #    respond_to do |format|
+  #      format.html # show.html.erb
+  #      format.xml  { render :xml => @resume }
+  #    end
+  #  end
 
   # GET /resumes/new
   # GET /resumes/new.xml
@@ -55,7 +55,8 @@ class BaseInfosController < ApplicationController
 
   # GET /resumes/1/edit
   def edit
-    @user = User.find(params[:user_id])
+    @page_title="基本信息编辑"
+    @user = current_user
     @base_info =@user.base_info
     respond_to do |format|
       format.html # new.html.erb
@@ -93,15 +94,16 @@ class BaseInfosController < ApplicationController
   # PUT /resumes/1
   # PUT /resumes/1.xml
   def update
-    @user = User.find(params[:user_id])
+    @user = current_user
     if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
       @user.icon = UserIcon.find(params[:uploaded_file_id])
       @user.reload()
     end
     respond_to do |format|
       if @user.base_info.update_attributes(params[:base_info])
-        
-        format.html { flash[:notice] = '简历更新成功'; }
+        format.html {
+          redirect_to(new_user_pass_path(@user,:request_company_id=>params[:request_company_id]))
+        }
         format.xml  { head :ok }
         format.js {}
       else
@@ -114,15 +116,15 @@ class BaseInfosController < ApplicationController
 
   # DELETE /resumes/1
   # DELETE /resumes/1.xml
-#  def destroy
-#    #    @resume = Resume.find(params[:id])
-#    #    @resume.destroy
-#
-#    respond_to do |format|
-#      format.html { redirect_to( user_resumes_path()) }
-#      format.xml  { head :ok }
-#      format.js {}
-#    end
-#  end
+  #  def destroy
+  #    #    @resume = Resume.find(params[:id])
+  #    #    @resume.destroy
+  #
+  #    respond_to do |format|
+  #      format.html { redirect_to( user_resumes_path()) }
+  #      format.xml  { head :ok }
+  #      format.js {}
+  #    end
+  #  end
   
 end

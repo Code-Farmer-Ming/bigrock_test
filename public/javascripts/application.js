@@ -70,9 +70,9 @@ TagInput.prototype= {
             {
                 value = tag_values[j]
                 if (value.length>10)
-                 {
-                   alert('"'+value+'" 作为标签太长了，简短一点更好哦！');
-                 }
+                {
+                    alert('"'+value+'" 作为标签太长了，简短一点更好哦！');
+                }
                 else  if (el.innerHTML.strip()==value)
                 {
                     Element.addClassName(el,this.options.disableClass);
@@ -93,10 +93,10 @@ DropList.prototype= {
         this.option_collection = array_value
         this.target_select = $(target_select);
         Event.observe(this.src_select, 'change',this.onchange.bindAsEventListener(this));        
-//        for(var i=0; i < this.option_collection[this.src_select.value].length; i++) {
-//            this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
-//                this.option_collection[this.src_select.value][i][0]);
-//        }
+    //        for(var i=0; i < this.option_collection[this.src_select.value].length; i++) {
+    //            this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
+    //                this.option_collection[this.src_select.value][i][0]);
+    //        }
     },
     onchange : function(event){
         this.target_select.options.length = 0;
@@ -104,7 +104,7 @@ DropList.prototype= {
             this.target_select.options[i] = new Option(this.option_collection[this.src_select.value][i][1],
                 this.option_collection[this.src_select.value][i][0]);
         }
-//        triggerEvent(this.target_select,'change');
+    //        triggerEvent(this.target_select,'change');
     }    
 }
 
@@ -172,7 +172,9 @@ Event.observe(window, "load", function() {
     Nifty('#nav a', "top");
     Nifty('div.main_info');
     Nifty('div.user_icon',"small");
+
 });
+
 
 //function SetCookie(Cookie_name,value)　　
 //{　　

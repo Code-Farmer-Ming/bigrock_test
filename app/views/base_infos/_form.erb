@@ -58,7 +58,7 @@
   <%#=f.text_field :telephone ,:class=>"text"  %>
 <%#*</p>%>
 <p>
-  <%= f.label :address,"居住地址" ,:class=>"filed_lab" %>
+  <%= f.label :address,"城市" ,:class=>"filed_lab" %>
   <%= f.select :state_id,  State.to_select_option("")%>
   <%= f.select :city_id, City.to_select_option(f.object.state_id,"")  %>
   <%=  drop_list("base_info_state_id","base_info_city_id", State.to_select_option_with_city(""))%>

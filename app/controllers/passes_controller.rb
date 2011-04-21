@@ -7,9 +7,8 @@ class PassesController < ApplicationController
   # GET /passes/new.xml
   def new
     @pass = Pass.new
-    @page_title= "添加工作经历"
+    @page_title= "创建工作经历"
     if not params[:request_company_id].to_s.blank?
-      flash[:notice] = "现在填写一下工作信息，开始对您的同事进行评价吧"
       @pass.company_id = params[:request_company_id]
     end
     respond_to do |format|
@@ -185,7 +184,7 @@ class PassesController < ApplicationController
     email=~/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   end
   def find_pass
-    @pass=Pass.find(params[:id])
+    @pass= current_user.passes.find(params[:id])
   end
  
 

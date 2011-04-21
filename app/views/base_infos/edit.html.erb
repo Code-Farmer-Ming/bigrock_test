@@ -1,0 +1,22 @@
+<% content_for :script do %>
+  <%= javascript_include_merged :swfupload %>
+<% end %>
+<div id="left_content">
+  <h2>自我介绍</h2>
+  <% form_for(@base_info,:url=>account_base_info_path(:request_company_id=>params[:request_company_id]),:html=>{:class=>"form_info"})  do |f| %>
+    <%= f.error_messages %>
+    <%= render :partial=>"base_infos/form" ,:object=>f %>
+    <p>
+      <%= f.label :self_description,"自我介绍" ,:class=>"filed_lab" %>
+      <%= f.text_area( :self_description)%>
+    </p>
+    <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %>
+    <%= link_to "暂时不填",new_user_pass_path(@user,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]) %>
+  <% end %>
+</div>
+<div id="right_content">
+  <% sub_block_div() do %>
+    快介绍一下自己吧，能让您认识到更多的好朋友哦。
+  <%end%>
+</div>
+

@@ -1,4 +1,4 @@
-<% remote_form_for(@base_info,:url=>user_base_info_path(params[:user_id],@base_info),:html=>{:class=>"form_info"})  do |f| %>
+<% remote_form_for(@base_info,:url=>account_base_info_path(),:html=>{:class=>"form_info"})  do |f| %>
   <%= f.error_messages %>
   <%= render :partial=>"base_infos/form" ,:object=>f %>
   <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %>
