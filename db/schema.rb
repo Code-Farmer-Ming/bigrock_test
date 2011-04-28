@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110404035702) do
+ActiveRecord::Schema.define(:version => 20110428144903) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20110404035702) do
   add_index "attentions", ["user_id", "target_id", "target_type"], :name => "index_attentions_on_user_id_and_target_id_and_target_type", :unique => true
 
   create_table "base_infos", :force => true do |t|
+    t.string   "type_name",        :limit => 18
     t.integer  "user_id"
     t.date     "birthday"
     t.boolean  "sex"
@@ -57,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20110404035702) do
     t.string   "msn"
     t.string   "city"
     t.string   "industry"
+    t.boolean  "is_current",                     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "city_id"
@@ -401,6 +403,16 @@ ActiveRecord::Schema.define(:version => 20110404035702) do
 
   add_index "schools", ["name"], :name => "index_schools_on_name"
 
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
   create_table "skill_taggings", :force => true do |t|
     t.integer  "skill_id"
     t.integer  "taggable_id"
@@ -523,7 +535,7 @@ ActiveRecord::Schema.define(:version => 20110404035702) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id",                :default => 0,         :null => false
-    t.string   "state",      :limit => 12, :default => "working"
+    t.string   "state",      :limit => 12, :default => "freedom"
     t.string   "salt",                                            :null => false
   end
 

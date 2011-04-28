@@ -42,7 +42,24 @@ class Msg < ActiveRecord::Base
   end
   
   def after_create
-    MailerServer.deliver_get_new_msg(self)
+    if not is_online(self.sendee)
+      MailerServer.deliver_get_new_msg(self)
+    end
+  end
+
+    def who_is_online
+    whos_online = Array.new()
+    onlines = ActiveRecord::SessionStore::Session.find( :all, :conditions => ["updated_at >=?", Time.now() - 10.minutes ] )
+    onlines.each do |online|
+      id = Marshal.load( Base64.decode64( online.data ) )
+      whos_online << id[:user]
+    end
+    whos_online
+  end
+
+  #是否在线
+  def is_online(user)
+    who_is_online.include?(user.id)
   end
   #接收人 用 分隔
   #TODO 这里有问题 需要好好考虑

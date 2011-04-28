@@ -161,12 +161,12 @@ class User< ActiveRecord::Base
   #  未读的消息
   has_many  :unread_msgs,:class_name=>"Msg",:finder_sql =>
     'SELECT DISTINCT a.* ' +
-    'FROM msgs a left join msgs b on a.id=b.parent_id ' +
-    'WHERE  a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})'+
+    'FROM msgs a  ' +
+    'WHERE  a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false})'+
     "  order by a.created_at desc",
     :counter_sql=> 'select count(*) from (SELECT DISTINCT a.* ' +
-    'FROM msgs a left join msgs b on a.id=b.parent_id ' +
-    'WHERE     a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} or  b.is_check=#{false})) new_msgs' do
+    'FROM msgs a   ' +
+    'WHERE     a.sendee_id in (#{ids.join(\',\')}) and a.sendee_stop=false and (a.is_check=#{false} )) new_msgs' do
     def find(*args)
       options = args.extract_options!
       sql = @finder_sql
@@ -417,16 +417,19 @@ class User< ActiveRecord::Base
 
 
   #回调函数
-  def before_create
+  def after_create
     if !parent
-      self.aliases.build(:email=>"alias_email"+ self.email,
+      self.aliases.create(:email=>"alias_email"+ self.email,
         :nick_name=>"马甲",:text_password=>self.text_password,
         :text_password_confirmation=>self.text_password_confirmation)
       self.base_info = BaseInfo.new
       self.setting= UserSetting.new
       self.is_active = true
+      Msg.new_system_msg(:title=>"非常感谢您的注册",:content=>'希望能网站对您有所帮助。<br/> 我们在努力 Shuikaopu.com 开发团队 ').send_to(self)
     end
   end
+
+
 
   #== 类方法开始
   

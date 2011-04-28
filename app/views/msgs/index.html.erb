@@ -13,7 +13,7 @@
     <tbody>
       <% @msgs.each do |msg| %>
         <tr class="<%= cycle("topic_item", "topic_item gray_background") %>">
-          <td  ><%=link_to(msg.title+(msg.can_response? ? "" : "     (对方已关闭)") ,account_msg_path(msg) ,:title=>msg.content)%></td>
+          <td  ><%=link_to(msg.title ,account_msg_path(msg) ,:title=>msg.content)%></td>
           <td>
             <%= ((params[:type]=="send") ?  link_to_user_name(msg.sendee) :  link_to_user_name(msg.sender) ) %>
           </td>
