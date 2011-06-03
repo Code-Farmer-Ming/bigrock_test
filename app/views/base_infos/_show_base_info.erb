@@ -13,7 +13,14 @@
 
   <p>
     <span>性别</span>
-    <%=   user.base_info.sex ? "男" : "女"   %>
+    <%=   user.base_info.sex ? "男" : "女"   %> &nbsp;
+    <% if user.setting.can_visibility?(:address_visibility,current_user) &&  user.base_info.state %>
+
+      <span>城市</span>
+      <%= user.base_info.state.name if user.base_info.state-%>&nbsp;
+      <%= user.base_info.city.name if user.base_info.city %>&nbsp;
+
+    <%end%>
   </p>
 <%end%>
 <% if user.setting.can_visibility?(:birthday_visibility,current_user) &&
@@ -34,13 +41,7 @@
 <%end%>
 
 <%#*<p>%>
-  <%#*<span>资料链接：</span>%>
-  <%#= link_to user_url(user),user_url(user)%>
+<%#*<span>资料链接：</span>%>
+<%#= link_to user_url(user),user_url(user)%>
 <%#*</p>%>
-<% if user.setting.can_visibility?(:address_visibility,current_user) &&  user.base_info.state %>
-  <p>
-    <span>城市</span>
-    <%= user.base_info.state.name if user.base_info.state-%>&nbsp;
-    <%= user.base_info.city.name if user.base_info.city %>&nbsp;
-  </p>
-<%end%>
+

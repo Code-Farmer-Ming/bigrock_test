@@ -44,6 +44,7 @@ ul.popmenu  li a{
     display:block;
     float:none;
     padding:6px 14px 6px 6px;
+    *width:80px;
     margin:0;
     border:0;
     height:auto;

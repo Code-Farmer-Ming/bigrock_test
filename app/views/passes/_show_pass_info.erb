@@ -1,5 +1,5 @@
 <% pass= show_pass_info %>
-<h3>
+<h6>
   <%if current_user?(pass.user)%>
     <span class="operation_lab" >
       <%= link_to_remote  "",
@@ -19,8 +19,9 @@
     </span>
   <%end%>
   <%= h  pass.title%>
-</h3>
+</h6>
 <div>
+
   <%= link_to pass.company.name,company_path(pass.company) %>
   <%=   (pass.department || "") =="" ? "" : " "+ pass.department %>
 </div>
