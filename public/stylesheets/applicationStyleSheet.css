@@ -1150,3 +1150,17 @@ div.auto_complete ul strong.highlight {
 .bold_text_row td {
     font-weight: bolder;
 }
+#carousel-wrapper {
+    width: 760px;
+    height: 210px;
+    overflow: hidden;
+}
+#carousel-content {
+    width: 2500px;
+}
+#carousel-content .slide {
+    float: left;
+    width: 760px;
+    height: 210px;
+      overflow: hidden;
+}

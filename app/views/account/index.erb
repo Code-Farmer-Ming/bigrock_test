@@ -1,9 +1,13 @@
+<% content_for :script do %>
+  <%= javascript_include_merged :carousel %>
+<% end %>
 <div id="left_content">
 
   <div class="box">
     <%= link_to '',{:action=>'new'},:class=>'register_button' %>
-    <h2 id="company_count">在线电子简历</h2>
-    <p class="b">展现您有价值的工作状况&nbsp;&nbsp;&nbsp;&nbsp;探索您的工作关系</p>
+
+    <p><span id="company_count">六度分隔理论</span>- 平均六个人就可以联系任何两个互不相识的人</p>
+    <p class="b">通过同事又可以结识到谁？</p>
   </div>
 
   <%sub_block_div("") do%>
@@ -23,7 +27,21 @@
   <%end%>
 
   <% sub_block_div("最新注册用户") do %>
-      <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4) %>
+          
+    <div id="carousel-wrapper">
+      <div id="carousel-content">
+        <div class="slide">
+          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
+        </div>
+        <div class="slide">
+          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4).all(:offset => 4) %>
+        </div>
+        <div class="slide">
+          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
+        </div>
+      </div>
+    </div>
+
   <%end%>
 
   <%sub_block_div() do%>

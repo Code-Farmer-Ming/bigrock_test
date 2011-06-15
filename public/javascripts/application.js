@@ -172,6 +172,7 @@ Event.observe(window, "load", function() {
     Nifty('#nav a', "top");
     Nifty('div.main_info');
     Nifty('div.user_icon',"small");
+ 
 
 });
 

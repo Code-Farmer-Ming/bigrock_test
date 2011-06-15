@@ -20,6 +20,8 @@ javascripts:
   - dragdrop
 - swfupload:
   - swfupload
+- carousel:
+  - carousel
 stylesheets: 
 - base:
   - blueprint/screen
