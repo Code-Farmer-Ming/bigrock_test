@@ -14,7 +14,7 @@
       <b>浏览</b>&nbsp;<%= @need_job.view_count %> 
     </p>
     <p>
-       <%= simple_format(auto_link(h(@need_job.description))) %>
+      <%= simple_format(auto_link(h(@need_job.description))) %>
     </p>
     <p>
       <b>技术</b> <%= render :partial=>"need_jobs/skill_tag",:collection=> @need_job.skills%>
@@ -22,17 +22,21 @@
   </div>
 </div>
 <div id="right_content">
-  <% if current_user?(@need_job.poster)%>
-    <% sub_block_div("") do %>
+  <% sub_block_div("") do %>
+    <% if current_user?(@need_job.poster)%>
+
       <%= link_to '编辑', edit_need_job_path(@need_job),:class=>"button" %>
       <%= link_to '删除', @need_job, :confirm => '你确定删除吗?', :method => :delete ,:class=>"button negative" %>
       <%= link_to '我的求职列表', account_need_jobs_path ,:class=>"button" %>
-    <%end%>
-  <%else%>
-    <% sub_block_div("") do %>
+
+    <%else%>
+
       <%= link_to "给TA发送信息", new_account_msg_path(:write_to=>@need_job.poster) ,:target=>"_blank",:class=>"button" %>
-      <%= link_to "查看TA详细资料", @need_job.poster,:class=>"button" %>
+   
+
     <%end%>
+     <%= link_to_remote_lightbox "传一下",{:url=> new_need_job_broadcast_path(@need_job)},:class=>"button" %>
+
   <%end%>
   <% sub_block_div(" ") do %>
     <%= render :partial=>"users/user_short_info",:object=> @need_job.poster %>

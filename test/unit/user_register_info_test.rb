@@ -10,6 +10,17 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors.invalid?(:password),"password is not nil"
   end
 
+  test "post broadcast" do
+    broadcast = broadcasts(:one)
+    assert_difference "UserBroadcast.count" do
+      users(:foru).send_broadcast broadcast,[ users(:one)]
+    end
+    broadcast.reload
+    assert_difference "UserBroadcast.count",2 do
+       users(:foru).send_broadcast broadcast ,[ users(:one), users(:two),users(:three)]
+    end
+  end
+
   test "create" do
     user=User.new
     user.nick_name = "名字"
@@ -276,6 +287,11 @@ class UserTest < ActiveSupport::TestCase
     
     assert_equal companies(:one), user_one.current_companies[0]
   end
+
+  test "current company colleages" do
+    user_one = users(:one)
+    assert_equal 1, user_one.current_company_colleages.size
+  end
  
   test "hidden group" do
     user_one = users(:one)
@@ -323,7 +339,6 @@ class UserTest < ActiveSupport::TestCase
     code,user=User.login(user_one.email,"prefix MyString")
     assert_equal -2, code
   end
- 
 
   test 'applied jobs' do
     user_one = users(:one)
@@ -355,9 +370,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-
-
-
   test "unjudge companies" do
     user_1 = users(:one)
     user_1.passes.clear
@@ -383,8 +395,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
  
-
-
   test "remove colleague" do
     user_1 = users(:one)
     chang_first_pass_end_date

@@ -1,0 +1,28 @@
+<h1>Editing broadcast</h1>
+
+<% form_for(@broadcast) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :memo %><br />
+    <%= f.text_field :memo %>
+  </p>
+  <p>
+    <%= f.label :broadcast_type %><br />
+    <%= f.text_field :broadcast_type %>
+  </p>
+  <p>
+    <%= f.label :broadcast_id %><br />
+    <%= f.text_field :broadcast_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @broadcast %> |
+<%= link_to 'Back', broadcasts_path %>

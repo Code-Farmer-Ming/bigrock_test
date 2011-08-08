@@ -9,7 +9,7 @@ class AddTableIndex < ActiveRecord::Migration
     add_index :judges,[:pass_id,:user_id,:judger_id],:unique => true
     add_index :industries,:name
     add_index :groups,:name
-    add_index :friends,[:user_id,:friend_id],:unique => true
+#    add_index :friends,[:user_id,:friend_id],:unique => true
     add_index :educations,[:resume_id,:school_id],:unique => true
     add_index :company_types,:name
     add_index :company_sizes,:name

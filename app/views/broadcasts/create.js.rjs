@@ -1,0 +1,2 @@
+page << "Lightbox.close()"
+page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))

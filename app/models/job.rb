@@ -55,7 +55,8 @@ class Job < ActiveRecord::Base
   belongs_to :create_user,:class_name=>"User",:foreign_key =>"create_user_id"
   belongs_to :state
   belongs_to :city
-
+  #传播
+  has_many :broadcasts,:as=>:broadcastable,:dependent=>:destroy
   #被动 作为 消息记录的内容
   has_many :logable_log_items,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"
   has_many :comments ,:as=>:commentable,:dependent=>:destroy

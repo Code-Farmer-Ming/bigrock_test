@@ -1,8 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :broadcasts,:except=>[:new,:create]
+
   map.resources :colleagues
 
-  map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit]
-
+  map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit] do |need_job|
+    need_job.resources :broadcasts ,:only=>[:new,:create]
+  end
 
   map.resources :groups,:member=>{:invite_join=>[:get,:post]},
     :collection=>{:search=>:get} do |groups|
@@ -62,7 +65,7 @@ ActionController::Routing::Routes.draw do |map|
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
 
     account.resources :join_group_invites ,:member=>{:accept=>:post}
-    account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]},:except=>[:show,:index,:edit,:destroy]
+    account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]},:except=>[:show,:index,:edit,:destroy] 
   end
 
   map.resources :users,:collection =>{},
@@ -86,6 +89,7 @@ ActionController::Routing::Routes.draw do |map|
     jobs.resources :comments,:member=>{:up=>:post,:down=>:post}
     jobs.resources :applicants,:controller=>"JobApplicants",
       :member=>{:recommend_talent=>:get}
+    jobs.resources :broadcasts ,:only=>[:new,:create]
   end
   map.resources :job_applicants ,:collection=>{:batch_destroy=>[:delete]},:only=>[:batch_destroy]
   # The priority is based upon order of creation: first created -> highest priority.

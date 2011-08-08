@@ -39,7 +39,20 @@ class User< ActiveRecord::Base
 
   #实际用户
   named_scope :real_users,:conditions=>{:parent_id=>0}
- 
+
+  #收到未处理的 传播信息
+  has_many :user_broadcasts,:conditions=>[ "is_read=?",false] ,
+    :dependent=>:destroy
+
+  has_many :unread_broadcasts ,:through=>:user_broadcasts,:source=>:broadcast
+
+  #我发布 传播
+  has_many :broadcasts,    :dependent=>:destroy
+
+  has_many :post_broadcasts,:foreign_key=>"poster_id",:dependent=>:destroy,:class_name=>"UserBroadcast"
+  
+#  has_many :post_broadcast_users,:through=>:post_broadcasts,:dependent=>:destroy,:class_name=>"User"
+
   #我的简历
   #  has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
   
@@ -410,11 +423,21 @@ class User< ActiveRecord::Base
 
 
 
+
   #  delegate :passeses,:to=>:current_resume
   #  delegate :pass_companies,:to=>:current_resume
   #  delegate :current_passes,:to=>:current_resume
   #  delegate :current_companies,:to=>:current_resume
+  #当前所在公司的同事
+  def current_company_colleages
+    current_passes.inject([]) { |a,item|   item.all_colleague_users }
 
+  end
+
+  def send_broadcast(broadcast,users,is_read=false)
+    send_to_users = users - broadcast.receved_users
+    self.post_broadcasts << send_to_users.collect { |e| UserBroadcast.new(:broadcast=>broadcast,:user=>e,:is_read=>is_read)  }
+  end
 
   #回调函数
   def after_create
@@ -425,7 +448,7 @@ class User< ActiveRecord::Base
       self.base_info = BaseInfo.new
       self.setting= UserSetting.new
       self.is_active = true
-      Msg.new_system_msg(:title=>"非常感谢您的注册",:content=>'希望能网站对您有所帮助。<br/> 我们在努力 Shuikaopu.com 开发团队 ').send_to(self)
+      Msg.new_system_msg(:title=>"非常感谢您的注册",:content=>'希望网站对您有所帮助。<br/> 我们在努力 Shuikaopu.com 开发团队 ').send_to(self)
     end
   end
 

@@ -1,10 +1,10 @@
 <% if !( current_recommend=recommend_operation.recommends.find_by_user_id(current_user)) %>
-  <%=  link_to_remote_lightbox  "推荐", \
+  <%=  link_to_remote_lightbox  "共享", \
    {:url =>{:controller=>"recommends",:action=>"new",
       :recommendable_type=>recommend_operation.class.to_s,
       :recommendable_id=>recommend_operation }},
   :class=>"button" %>
 <%else%>
   
-  <%= link_to_remote  "取消推荐",{:url=>recommend_path(current_recommend),:method=>:delete,:class=>"button",:confirm=>"你确定吗?" },:class=>"button"%>
+  <%= link_to_remote  "取消共享",{:url=>recommend_path(current_recommend),:method=>:delete,:class=>"button",:confirm=>"你确定吗?" },:class=>"button"%>
 <%end%>

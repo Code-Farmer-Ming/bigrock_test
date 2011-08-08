@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110428144903) do
+ActiveRecord::Schema.define(:version => 20110808073438) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -65,6 +65,15 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
     t.integer  "state_id"
   end
 
+  create_table "broadcasts", :force => true do |t|
+    t.integer  "user_id",                                          :null => false
+    t.string   "memo",               :limit => 64, :default => ""
+    t.string   "broadcastable_type",               :default => "", :null => false
+    t.integer  "broadcastable_id",                                 :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "cities", :force => true do |t|
     t.integer "state_id",               :null => false
     t.string  "name",     :limit => 32
@@ -85,11 +94,11 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   end
 
   create_table "comments", :force => true do |t|
-    t.integer  "commentable_id",                  :null => false
+    t.integer  "commentable_id",                   :null => false
     t.integer  "up",               :default => 0
     t.integer  "down",             :default => 0
-    t.string   "content",                         :null => false
-    t.integer  "user_id",                         :null => false
+    t.string   "content",          :default => "", :null => false
+    t.integer  "user_id",                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "commentable_type"
@@ -197,11 +206,11 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                                          :null => false
-    t.text     "description",                                   :null => false
-    t.integer  "group_type_id",                                 :null => false
-    t.string   "join_type",        :limit => 16,                :null => false
-    t.integer  "create_user_id",                                :null => false
+    t.string   "name",                           :default => "", :null => false
+    t.text     "description",                                    :null => false
+    t.integer  "group_type_id",                                  :null => false
+    t.string   "join_type",        :limit => 16, :default => "", :null => false
+    t.integer  "create_user_id",                                 :null => false
     t.integer  "members_count",                  :default => 0
     t.integer  "topics_count",                   :default => 0
     t.datetime "created_at"
@@ -231,20 +240,20 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
 
   create_table "job_titles", :force => true do |t|
     t.integer  "company_id"
-    t.string   "name",       :null => false
+    t.string   "name",       :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "jobs", :force => true do |t|
-    t.string   "title",                            :null => false
-    t.string   "type_id",                          :null => false
-    t.text     "job_description",                  :null => false
+    t.string   "title",             :default => "", :null => false
+    t.string   "type_id",           :default => "", :null => false
+    t.text     "job_description",                   :null => false
     t.text     "skill_description"
-    t.integer  "state_id",                         :null => false
-    t.integer  "city_id",                          :null => false
+    t.integer  "state_id",                          :null => false
+    t.integer  "city_id",                           :null => false
     t.integer  "job_title_id"
-    t.datetime "end_at",                           :null => false
+    t.datetime "end_at",                            :null => false
     t.integer  "create_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -305,8 +314,8 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   create_table "msgs", :force => true do |t|
     t.integer  "sender_id",                                     :null => false
     t.integer  "sendee_id",                                     :null => false
-    t.string   "title",       :limit => 128,                    :null => false
-    t.string   "content",                                       :null => false
+    t.string   "title",       :limit => 128, :default => "",    :null => false
+    t.string   "content",                    :default => "",    :null => false
     t.boolean  "is_check",                   :default => false
     t.boolean  "sender_stop",                :default => false
     t.boolean  "sendee_stop",                :default => false
@@ -337,10 +346,10 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   end
 
   create_table "news", :force => true do |t|
-    t.integer  "company_id",                                     :null => false
-    t.string   "title",             :limit => 64,                :null => false
-    t.text     "content",                                        :null => false
-    t.integer  "create_user_id",                                 :null => false
+    t.integer  "company_id",                                      :null => false
+    t.string   "title",             :limit => 64, :default => "", :null => false
+    t.text     "content",                                         :null => false
+    t.integer  "create_user_id",                                  :null => false
     t.integer  "last_edit_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -375,7 +384,7 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   create_table "recommends", :force => true do |t|
     t.integer  "user_id",                                          :null => false
     t.string   "memo",               :limit => 64, :default => ""
-    t.string   "recommendable_type",                               :null => false
+    t.string   "recommendable_type",               :default => "", :null => false
     t.integer  "recommendable_id",                                 :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -390,7 +399,7 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
     t.string   "memo"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "applicant_type", :null => false
+    t.string   "applicant_type", :default => "", :null => false
   end
 
   add_index "requisitions", ["applicant_id", "respondent_id", "applicant_type", "type"], :name => "index_requisition_applicant", :unique => true
@@ -404,7 +413,7 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   add_index "schools", ["name"], :name => "index_schools_on_name"
 
   create_table "sessions", :force => true do |t|
-    t.string   "session_id", :null => false
+    t.string   "session_id", :default => "", :null => false
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -448,16 +457,16 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   add_index "states", ["name"], :name => "index_states_on_name"
 
   create_table "taggings", :force => true do |t|
-    t.integer "tag_id",                         :null => false
-    t.integer "taggable_id",                    :null => false
-    t.string  "taggable_type",                  :null => false
-    t.integer "user_tags_count", :default => 0, :null => false
+    t.integer "tag_id",                          :null => false
+    t.integer "taggable_id",                     :null => false
+    t.string  "taggable_type",   :default => "", :null => false
+    t.integer "user_tags_count", :default => 0,  :null => false
   end
 
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type", :unique => true
 
   create_table "tags", :force => true do |t|
-    t.string "name", :null => false
+    t.string "name", :default => "", :null => false
   end
 
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
@@ -472,7 +481,7 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
 
   create_table "topics", :force => true do |t|
     t.integer  "owner_id",                                                :null => false
-    t.string   "owner_type",                                              :null => false
+    t.string   "owner_type",                           :default => "",    :null => false
     t.integer  "author_id",                                               :null => false
     t.string   "title",                 :limit => 128
     t.text     "content",                                                 :null => false
@@ -490,6 +499,15 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
   end
 
   add_index "topics", ["owner_type", "owner_id"], :name => "index_topics_on_owner_type_and_owner_id"
+
+  create_table "user_broadcasts", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "broadcast_id"
+    t.boolean  "is_read",      :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "poster_id"
+  end
 
   create_table "user_settings", :force => true do |t|
     t.integer  "user_id"
@@ -528,15 +546,15 @@ ActiveRecord::Schema.define(:version => 20110428144903) do
 
   create_table "users", :force => true do |t|
     t.string   "nick_name",                :default => "马甲",  :null => false
-    t.string   "email",                                           :null => false
-    t.string   "password",                                        :null => false
+    t.string   "email",                    :default => "",        :null => false
+    t.string   "password",                 :default => "",        :null => false
     t.string   "title",                    :default => ""
     t.boolean  "is_active",                :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id",                :default => 0,         :null => false
     t.string   "state",      :limit => 12, :default => "freedom"
-    t.string   "salt",                                            :null => false
+    t.string   "salt",                     :default => "",        :null => false
   end
 
   create_table "votes", :force => true do |t|

@@ -44,6 +44,9 @@ class NeedJob < ActiveRecord::Base
   delegate :name,:to=>:state, :prefix => true ,:allow_nil=>true
   delegate :name,:to=>:city, :prefix => true,:allow_nil=>true
 
+  #传播记录
+  has_many :broadcasts,:as=>:broadcastable,:dependent=>:destroy
+
   #被动 作为 消息记录的内容
   has_many :logable_logs,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"
 
