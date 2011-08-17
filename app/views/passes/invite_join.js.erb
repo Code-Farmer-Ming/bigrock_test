@@ -1,7 +1,7 @@
 <div  class="form_info">
   <h1>邀请同事加入</h1>
   <%remote_form_for @msg,
-    :url=> invite_join_user_pass_path(),
+    :url=> send_invite_join_user_pass_path(),
     :method=>:post do |form| %>
     <div id="<%= dom_id(form.object,"error_msg") %>">
       <%= form.error_messages %>
@@ -9,7 +9,7 @@
     <p>
       <label for="invite_email" class="filed_lab">邮箱地址</label>
       <%= form.text_field :sendees,:id=>"invite_email",:class=>"text"  %>
-      多个email以";"分隔
+      多个以";"分隔
     </p>
     <p>
       <label for="invite_msg" class="filed_lab">说点什么</label>

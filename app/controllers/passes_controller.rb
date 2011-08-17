@@ -1,6 +1,6 @@
 class PassesController < ApplicationController
   before_filter :check_login?
-  before_filter :find_pass,:only=>[:edit,:update,:destroy,:send_invite,:invite_join]
+  before_filter :find_pass,:only=>[:edit,:update,:destroy,:send_invite,:send_invite_join,:available_colleagues]
   auto_complete_for :company, :name
  
   # GET /passes/new
@@ -114,27 +114,28 @@ class PassesController < ApplicationController
     @msg = Msg.new(params[:msg])
   end
 
-  #邀请人注册网站
   def invite_join
     @msg = Msg.new(params[:msg])
-    if request.post?
- 
-      #发送邮件
-      #检查邮件地址是否有效
-      @msg.sendees.split(";").uniq.each do |sendee|
-        if !validate_email?(sendee)
-          flash.now[:error] = (flash.now[:error] || '') + sendee + " "
-        end
-        if  flash.now[:error]
-          flash.now[:error] += "无效的邮箱地址！"
-          return
-        end
+  end
+  
+  #邀请人注册网站
+  def send_invite_join
+    @msg = Msg.new(params[:msg]) 
+    #发送邮件
+    #检查邮件地址是否有效
+    @msg.sendees.split(";").uniq.each do |sendee|
+      if !validate_email?(sendee)
+        flash.now[:error] = (flash.now[:error] || '') + sendee + " "
       end
-      @msg.sendees.split(";").uniq.each do |sendee|
-        MailerServer.deliver_send_invite(sendee,@pass,@msg)
+      if  flash.now[:error]
+        flash.now[:error] += "无效的邮箱地址！"
+        return
       end
-      flash.now[:success]="邀请发送成功！"
     end
+    @msg.sendees.split(";").uniq.each do |sendee|
+      MailerServer.deliver_send_invite(sendee,@pass,@msg)
+    end
+    flash.now[:success]="邀请发送成功！"
   end
   #发送评价邀请信息
   #TODO 发送错误时候需要检查

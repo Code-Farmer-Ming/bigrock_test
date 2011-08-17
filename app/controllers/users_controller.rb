@@ -42,6 +42,8 @@ class UsersController < ApplicationController
       @following_objs = @user.pass_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     when "company"
       @following_objs =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
+    when "follow_me"
+      @following_objs =@user.follow_me_users.paginate :conditions=>["nick_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     else
       @following_objs =@user.my_follow_users.paginate :conditions=>["nick_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     end

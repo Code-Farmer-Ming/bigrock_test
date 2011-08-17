@@ -76,7 +76,8 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :tags,:only=>[:index]
     users.resources :topics
     #    users.resources :base_infos
-    users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post,:invite_join=>[:get,:post]}
+    users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post,
+      :invite_join=>:get,:send_invite_join=>:post}
  
     users.resources :specialities
     users.resources :educations
