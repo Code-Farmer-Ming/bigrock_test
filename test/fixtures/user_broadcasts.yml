@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: user_broadcasts
+#
+#  id           :integer       not null, primary key
+#  user_id      :integer       
+#  broadcast_id :integer       
+#  is_read      :boolean       
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  poster_id    :integer       
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

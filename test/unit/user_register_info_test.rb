@@ -15,10 +15,20 @@ class UserTest < ActiveSupport::TestCase
     assert_difference "UserBroadcast.count" do
       users(:foru).send_broadcast broadcast,[ users(:one)]
     end
-    broadcast.reload
+ 
     assert_difference "UserBroadcast.count",2 do
-       users(:foru).send_broadcast broadcast ,[ users(:one), users(:two),users(:three)]
+      users(:foru).send_broadcast broadcast ,[ users(:one), users(:two),users(:three)]
     end
+  end
+
+  test "post broadcast result" do
+    broadcast = broadcasts(:one)
+    assert_difference "UserBroadcast.count" do
+      users(:foru).send_broadcast broadcast,[ users(:one)]
+    end
+    broadcast.reload
+    send_count = users(:foru).send_broadcast broadcast ,[ users(:one), users(:two),users(:three)]
+    assert_equal 2,send_count
   end
 
   test "create" do

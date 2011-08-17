@@ -4,10 +4,10 @@
 #
 #  id          :integer       not null, primary key
 #  description :string(255)   
-#  resume_id   :integer       
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #  skill_id    :integer       not null
+#  user_id     :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

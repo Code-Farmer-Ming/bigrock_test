@@ -89,7 +89,7 @@ label{
 /* header*/
 #header{
     height:80px;
-    background-color:#A2E43B;
+    background-color:#B1E401;
     background-image:  url(/images/logo.png);
     background-repeat: no-repeat;
     background-position: 25px;
@@ -576,7 +576,7 @@ ul#nav .activelink a,ul#nav a:hover{
     margin-bottom:8px;
 }
 .msg_text{
-    margin-left:160px;
+    margin-left:80px;
 }
 
 #response_comment{

@@ -5,7 +5,7 @@
 #  id              :integer       not null, primary key
 #  tag_id          :integer       not null
 #  taggable_id     :integer       not null
-#  taggable_type   :string(255)   not null
+#  taggable_type   :string(255)   default(""), not null
 #  user_tags_count :integer       default(0), not null
 #
 

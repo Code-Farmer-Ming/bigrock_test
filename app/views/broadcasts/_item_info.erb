@@ -1,32 +1,28 @@
 
-<div  class="item_content" id="<%= dom_id(object,"item") %>">
+<div  class= "<%= cycle("item_content", "gray_background item_content") %>"  id="<%= dom_id(object) %>">
   <div class="l">
     <%= render :partial=>"users/user_icon_name",:object=> object.poster %>
   </div>
   <div class="icon_right_content">
     <p class="r">
-      <%= link_to "继续传播","#",:class=>"button positive" ,:title=>"继续传播" %>
-      <%= link_to "删除", {:url=>"#",:confirm=>"你确定吗?"},:class=>"button negative" ,:title=>"删除" %>
+      <%= link_to_remote "继续转发",{:url=>redo_broadcast_path(object)},:class=>"button positive" ,:title=>"继续转发" %>
+      <%= link_to_remote "忽略", {:url=>ignore_broadcast_path(object),:confirm=>"你确定吗?"},:class=>"button negative" ,:title=>"删除" %>
     </p>
     <p class="quiet">
       <%=  localize(object.created_at) %>
     </p>
-    <p>
-      <% if object.broadcast.broadcastable_type=="Job" %>
-        <%= link_to  object.broadcast.broadcastable.create_user.name,object.broadcast.broadcastable.create_user %>
-        发布的招聘&nbsp;“
-        <%= link_to object.broadcast.broadcastable.title, object.broadcast.broadcastable%>”
-      <%else%>
-        <%= link_to  object.broadcast.broadcastable.poster.name,object.broadcast.broadcastable.poster %>
-        发布的求职&nbsp;“
-        <%= link_to object.broadcast.broadcastable.title, object.broadcast.broadcastable%>”
-      <%end%>
-    </p>
     <blockquote>
       <%=   h object.broadcast.memo %>
     </blockquote>
-
-
+    <p>
+      <%= link_to_user_name  object.broadcast.broadcastable.poster  %>
+      <% if object.broadcast.broadcastable_type=="Job" %>
+        发布的招聘&nbsp;“
+      <%else%>
+        发布的求职&nbsp;“
+      <%end%>
+      <%= link_to object.broadcast.broadcastable.title, object.broadcast.broadcastable,:target=>"_blank"%>”
+    </p>
 
   </div>
   <p class="clear" />

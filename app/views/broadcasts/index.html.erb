@@ -1,12 +1,17 @@
 
 
 <div id="left_content">
-  <h1>传播列表</h1>
-    <%= render :partial=>"broadcasts/item_info",:collection=>@broadcasts  %>
+  <h1>转发列表</h1>
+  <%= render :partial=>"broadcasts/item_info",:collection=>@broadcasts  %>
 
   <%= will_paginate  @broadcasts %>
 </div>
 <div id="right_content">
+  <% sub_block_div() do %>
+    <p>
+      <b>继续转发</b>&nbsp;这个消息将继续发送给所有关注你的人。
+    </p>
 
- 
+  <%end%>
+
 </div>

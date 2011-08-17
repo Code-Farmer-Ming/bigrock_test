@@ -5,8 +5,8 @@
 #  id          :integer       not null, primary key
 #  sender_id   :integer       not null
 #  sendee_id   :integer       not null
-#  title       :string(128)   not null
-#  content     :string(255)   not null
+#  title       :string(128)   default(""), not null
+#  content     :string(255)   default(""), not null
 #  is_check    :boolean       
 #  sender_stop :boolean       
 #  sendee_stop :boolean       

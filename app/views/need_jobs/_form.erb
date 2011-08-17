@@ -25,3 +25,8 @@
   <%= f.label :description,"描述",:class=>"filed_lab" %>
   <%= f.text_area :description %>
 </p>
+<p>
+   <label  class="filed_lab" >&nbsp;</label>
+   <%= check_box_tag  "is_need_broadcast", "true",true -%>
+  <label for="is_need_broadcast"  ><span title="自动转发">同时自动转发给所有关注我的人</span></label>
+</p>

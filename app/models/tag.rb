@@ -3,7 +3,7 @@
 # Table name: tags
 #
 #  id   :integer       not null, primary key
-#  name :string(255)   not null
+#  name :string(255)   default(""), not null
 #
 
 

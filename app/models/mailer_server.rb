@@ -22,6 +22,15 @@ class MailerServer < ActionMailer::Base
     body       :pass => pass,:msg=>msg,:sendee=>sendee
   end
 
+  def invite_join(sendee,pass,msg)
+    subject   msg.title
+    recipients sendee
+    from       FROM_MAIL
+    sent_on    Time.now
+    content_type "text/html"
+    body       :pass => pass,:msg=>msg,:sendee=>sendee
+  end
+
   #收到新的消息时 发送邮件通知
   def get_new_msg(msg)
     subject   "您有新的消息 - "+msg.title

@@ -29,7 +29,7 @@ class JobApplicant < ActiveRecord::Base
     if applicant_user==user
       self.is_deleted_by_applicant = true
     end
-    if job.create_user==user
+    if job.poster==user
       self.is_deleted_by_published = true
     end
     if self.is_deleted_by_applicant && self.is_deleted_by_published
@@ -40,7 +40,7 @@ class JobApplicant < ActiveRecord::Base
   end
   
   def after_create
-    Msg.new_system_msg(:title=>"#{applicant_user.name}申请了，你发布的#{job.owner.name}的职位[#{job.title}]",:content=>'').send_to(job.create_user)
+    Msg.new_system_msg(:title=>"#{applicant_user.name}申请了，你发布的#{job.owner.name}的职位[#{job.title}]",:content=>'').send_to(job.poster)
     if recommend_user
       Msg.new_system_msg(:title=>"#{recommend_user.name} 将你举荐到 #{job.owner.name}的职位[#{job.title}]",:content=>'').send_to(applicant_user)
     end

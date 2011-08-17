@@ -1,4 +1,4 @@
-<%if object.create_user==current_user%>
+<%if  current_user?(object.poster)%>
   <%= link_to  '编辑', edit_job_path(object),:class=>"button" -%>
   <%= link_to  '删除',  job_path(object), :confirm => '确定删除吗?',
     :method => :delete,:class=>"button negative" -%>
@@ -10,4 +10,4 @@
   <%= link_to  '公司其他职位',
     company_jobs_path(object.owner) ,:class=>"button" -%>
 <%end%>
-<%= link_to_remote_lightbox "传一下",{:url=> new_job_broadcast_path(object)},:class=>"button" %>
+<%= link_to_remote_lightbox "转发",{:url=> new_job_broadcast_path(object)},:class=>"button" %>

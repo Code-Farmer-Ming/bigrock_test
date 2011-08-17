@@ -51,6 +51,13 @@
     <%end%>
     &nbsp;
   <%end%>
+  <%if @unread_broadcast_count>0%>
+    <% link_to broadcasts_path(),:class=>"small" do %>
+     <span class='red_text large strong'><%= @unread_broadcast_count %></span>
+     需转发的消息
+    <%end%>
+    &nbsp;
+  <%end%>
 
   <% sub_block_div(" ") do%>
     <ul id="user_navigate" class="set_center">

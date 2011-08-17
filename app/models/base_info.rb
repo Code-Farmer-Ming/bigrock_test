@@ -1,12 +1,10 @@
 # == Schema Information
 #
-# Table name: resumes
+# Table name: base_infos
 #
 #  id               :integer       not null, primary key
-#  name             :string(255)   
 #  type_name        :string(18)    
 #  user_id          :integer       
-#  user_name        :string(18)    
 #  birthday         :date          
 #  sex              :boolean       
 #  address          :string(255)   
@@ -31,7 +29,6 @@
 #  city_id          :integer       
 #  state_id         :integer       
 #
-#用户的基本信息
 
 class BaseInfo < ActiveRecord::Base
   #简历类型

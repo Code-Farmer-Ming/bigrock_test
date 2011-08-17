@@ -4,15 +4,15 @@
 #
 #  id         :integer       not null, primary key
 #  nick_name  :string(255)   default("马甲"), not null
-#  email      :string(255)   not null
-#  password   :string(255)   not null
+#  email      :string(255)   default(""), not null
+#  password   :string(255)   default(""), not null
 #  title      :string(255)   default("")
 #  is_active  :boolean       
 #  created_at :datetime      
 #  updated_at :datetime      
 #  parent_id  :integer       default(0), not null
 #  state      :string(12)    default("freedom")
-#  salt       :string(255)   not null
+#  salt       :string(255)   default(""), not null
 #
 
 
@@ -40,18 +40,18 @@ class User< ActiveRecord::Base
   #实际用户
   named_scope :real_users,:conditions=>{:parent_id=>0}
 
-  #收到未处理的 传播信息
+  #收到未处理的 转发信息
   has_many :user_broadcasts,:conditions=>[ "is_read=?",false] ,
     :dependent=>:destroy
 
   has_many :unread_broadcasts ,:through=>:user_broadcasts,:source=>:broadcast
 
-  #我发布 传播
+  #我发布 转发
   has_many :broadcasts,    :dependent=>:destroy
 
   has_many :post_broadcasts,:foreign_key=>"poster_id",:dependent=>:destroy,:class_name=>"UserBroadcast"
   
-#  has_many :post_broadcast_users,:through=>:post_broadcasts,:dependent=>:destroy,:class_name=>"User"
+  #  has_many :post_broadcast_users,:through=>:post_broadcasts,:dependent=>:destroy,:class_name=>"User"
 
   #我的简历
   #  has_many :resumes,:foreign_key=>"user_id",:dependent=>:destroy
@@ -431,12 +431,16 @@ class User< ActiveRecord::Base
   #当前所在公司的同事
   def current_company_colleages
     current_passes.inject([]) { |a,item|   item.all_colleague_users }
-
   end
 
   def send_broadcast(broadcast,users,is_read=false)
     send_to_users = users - broadcast.receved_users
-    self.post_broadcasts << send_to_users.collect { |e| UserBroadcast.new(:broadcast=>broadcast,:user=>e,:is_read=>is_read)  }
+    broadcast.user_broadcasts << send_to_users.collect { |e| UserBroadcast.new(:broadcast=>broadcast,:user=>e,:is_read=>is_read,:poster=>self)  }
+    send_to_users.size
+  end
+
+  def send_to_flow_me_user_broadcast(broadcast)
+    send_broadcast(broadcast,self.follow_me_users)
   end
 
   #回调函数

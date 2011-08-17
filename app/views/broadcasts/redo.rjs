@@ -1,0 +1,6 @@
+# TODO Operate on the page object
+page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+page.visual_effect :fade, dom_id(@user_broadcast), :duration => 0.5
+page.delay(0.5) do
+  page[dom_id(@user_broadcast)].remove
+end

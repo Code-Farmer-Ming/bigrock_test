@@ -6,6 +6,22 @@
 #  begin_date  :date          
 #  end_date    :date          
 #  description :text          
+#  degree      :string(255)   
+#  major       :string(255)   
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#  school_id   :integer       not null
+#  user_id     :integer       
+#
+
+# == Schema Information
+#
+# Table name: educations
+#
+#  id          :integer       not null, primary key
+#  begin_date  :date          
+#  end_date    :date          
+#  description :text          
 #  resume_id   :integer       
 #  degree      :string(255)   
 #  major       :string(255)   

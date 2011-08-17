@@ -3,7 +3,7 @@
 <br/>
 您在<%= link_to @pass.company.name,@pass.company %> 的同事 <%= link_to @pass.user.name,@pass.user %>，
 <br />
-邀请您加入进来，点击这个链接<%= link_to "加入",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！
+邀请你对其评价，点击这个链接<%= link_to "来评价#{@pass.user.name}",new_account_url(:email=>@sendee,:request_company_id=>@pass.company.id,:request_user_id=>@pass.user) %>吧！
 <br />
 <%= @msg.content %>
 <br />

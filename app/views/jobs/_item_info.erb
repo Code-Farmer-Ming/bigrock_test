@@ -16,7 +16,7 @@ show_company ||= nil%>
 
   <td>
     <%= link_to "详细",job_path(object) %>
-    <%if current_user?(object.create_user)%>
+    <%if current_user?(object.poster)%>
       <%= link_to '编辑',edit_job_path(object) %>
       <%= link_to  '删除', job_path(object), :confirm => '确定删除吗?',
         :method => :delete,:class=>"red_text" -%>
@@ -24,7 +24,7 @@ show_company ||= nil%>
     <%= link_to_function "&nabla;","Element.toggle('#{dom_id(object,"detail")}')" %>
   </td>
   <td>
-    <%if current_user?(object.create_user)%>
+    <%if current_user?(object.poster)%>
       <%=  check_box_tag  "select_jobs[]",object.id ,false -%>
     <%end%>
   </td>

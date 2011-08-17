@@ -1,13 +1,13 @@
-<% remote_form_for(@broadcast ,:url=>need_job_broadcasts_path(),:html=>{:class=>"form_info"}) do |f| %>
-  <h2>传播</h2>
+<% remote_form_for(@broadcast ,:url=>[@find_broadcastable,@broadcast],:html=>{:class=>"form_info"}) do |f| %>
+  <h2>转发</h2>
   <%= f.error_messages %>
-  <h4>传播给我的好友</h4>
+  <h4>转发给关注我的人</h4>
  
   <p>
     <%= f.text_area :memo,:lenght=>32,:class=>"recommend_memo",:title=>"可以为空" %>
   </p>
  
   <p>
-    <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %> <%= link_to_close_lightbox"取消" %>
+    <%= f.submit '发送',:disable_with=>"发送…",:disabled => false,:class=>"button" %> <%= link_to_close_lightbox"取消" %>
   </p>
 <% end %>

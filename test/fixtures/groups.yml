@@ -3,10 +3,10 @@
 # Table name: groups
 #
 #  id               :integer       not null, primary key
-#  name             :string(255)   not null
+#  name             :string(255)   default(""), not null
 #  description      :text          default(""), not null
 #  group_type_id    :integer       not null
-#  join_type        :string(16)    not null
+#  join_type        :string(16)    default(""), not null
 #  create_user_id   :integer       not null
 #  members_count    :integer       default(0)
 #  topics_count     :integer       default(0)

@@ -6,7 +6,7 @@
 #  commentable_id   :integer       not null
 #  up               :integer       default(0)
 #  down             :integer       default(0)
-#  content          :string(255)   not null
+#  content          :string(255)   default(""), not null
 #  user_id          :integer       not null
 #  created_at       :datetime      
 #  updated_at       :datetime      

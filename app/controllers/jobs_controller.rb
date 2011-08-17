@@ -1,3 +1,4 @@
+
 class JobsController < ApplicationController
   include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:show,:index,:search]
@@ -60,6 +61,17 @@ class JobsController < ApplicationController
     respond_to do |format|
       if @company.add_job(@job,current_user)
         flash.now[:notice] = '招聘信息发布成功'
+
+        if params[:is_need_broadcast]
+          broadcast = @job.broadcasts.build({:memo=>"帮忙转发一下吧"})
+          current_user.broadcasts << broadcast
+          send_count = current_user.send_to_flow_me_user_broadcast(broadcast)
+          if send_count>0
+            flash[:notice] += ",并转发给#{send_count}个关注您的人"
+          else
+            flash[:notice] += ",并转发给关注您的人"
+          end
+        end
         format.html { redirect_to(@job) }
         format.xml  { render :xml => @job, :status => :created, :location => @job }
       else

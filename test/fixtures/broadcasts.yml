@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: broadcasts
+#
+#  id                 :integer       not null, primary key
+#  user_id            :integer       not null
+#  memo               :string(64)    default("")
+#  broadcastable_type :string(255)   default(""), not null
+#  broadcastable_id   :integer       not null
+#  created_at         :datetime      
+#  updated_at         :datetime      
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

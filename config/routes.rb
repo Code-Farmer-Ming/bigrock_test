@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :broadcasts,:except=>[:new,:create]
+  map.resources :broadcasts,:except=>[:new,:create],:member=>{:ignore=>:post,:redo=>:post}
 
   map.resources :colleagues
 
@@ -76,7 +76,7 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :tags,:only=>[:index]
     users.resources :topics
     #    users.resources :base_infos
-    users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post}
+    users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post,:invite_join=>[:get,:post]}
  
     users.resources :specialities
     users.resources :educations

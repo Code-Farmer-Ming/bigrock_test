@@ -12,6 +12,8 @@
     <%end%>
   <%end%>
 <%else%>
-  <%=  link_to_remote_lightbox( "邀请同事对你评价吧",
+  <%=  link_to_remote_lightbox( "邀请同事来评价你吧",
     {:url=>available_colleagues_user_pass_path(pass.user,pass.id)},:class=>"hot_link") %>
+  <%=  link_to_remote_lightbox( "邀请同事注册",
+    {:url=>invite_join_user_pass_path(pass.user,pass.id)},:class=>"hot_link") %>
 <%end%>

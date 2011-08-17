@@ -5,7 +5,7 @@
 #  id                 :integer       not null, primary key
 #  user_id            :integer       not null
 #  memo               :string(64)    default("")
-#  recommendable_type :string(255)   not null
+#  recommendable_type :string(255)   default(""), not null
 #  recommendable_id   :integer       not null
 #  created_at         :datetime      
 #  updated_at         :datetime      

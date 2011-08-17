@@ -44,7 +44,7 @@ class NeedJob < ActiveRecord::Base
   delegate :name,:to=>:state, :prefix => true ,:allow_nil=>true
   delegate :name,:to=>:city, :prefix => true,:allow_nil=>true
 
-  #传播记录
+  #转发记录
   has_many :broadcasts,:as=>:broadcastable,:dependent=>:destroy
 
   #被动 作为 消息记录的内容
@@ -77,7 +77,10 @@ class NeedJob < ActiveRecord::Base
   def after_save
     skill_with skill_text if skill_text
   end
- 
+  #增加 查看次数记录
+  def incre_show_count
+    update_attribute(:view_count,self.view_count+1)
+  end
   
   #工作类型 全职兼职
   def type

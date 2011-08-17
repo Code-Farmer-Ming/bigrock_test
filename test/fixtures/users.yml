@@ -4,15 +4,15 @@
 #
 #  id         :integer       not null, primary key
 #  nick_name  :string(255)   default("马甲"), not null
-#  email      :string(255)   not null
-#  password   :string(255)   not null
+#  email      :string(255)   default(""), not null
+#  password   :string(255)   default(""), not null
 #  title      :string(255)   default("")
 #  is_active  :boolean       
 #  created_at :datetime      
 #  updated_at :datetime      
 #  parent_id  :integer       default(0), not null
 #  state      :string(12)    default("freedom")
-#  salt       :string(255)   not null
+#  salt       :string(255)   default(""), not null
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

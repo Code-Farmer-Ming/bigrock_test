@@ -1,6 +1,6 @@
 class PassesController < ApplicationController
   before_filter :check_login?
-  before_filter :find_pass,:only=>[:edit,:update,:destroy,:available_colleagues]
+  before_filter :find_pass,:only=>[:edit,:update,:destroy,:send_invite,:invite_join]
   auto_complete_for :company, :name
  
   # GET /passes/new
@@ -113,11 +113,34 @@ class PassesController < ApplicationController
   def  available_colleagues
     @msg = Msg.new(params[:msg])
   end
+
+  #邀请人注册网站
+  def invite_join
+    @msg = Msg.new(params[:msg])
+    if request.post?
+ 
+      #发送邮件
+      #检查邮件地址是否有效
+      @msg.sendees.split(";").uniq.each do |sendee|
+        if !validate_email?(sendee)
+          flash.now[:error] = (flash.now[:error] || '') + sendee + " "
+        end
+        if  flash.now[:error]
+          flash.now[:error] += "无效的邮箱地址！"
+          return
+        end
+      end
+      @msg.sendees.split(";").uniq.each do |sendee|
+        MailerServer.deliver_send_invite(sendee,@pass,@msg)
+      end
+      flash.now[:success]="邀请发送成功！"
+    end
+  end
   #发送评价邀请信息
   #TODO 发送错误时候需要检查
   def send_invite
     @msg = Msg.new(params[:msg])
-    pass = current_user.passes.find(params[:id])
+  
     #发送邮件
     #检查邮件地址是否有效
     @msg.sendees.split(";").uniq.each do |sendee|
@@ -134,10 +157,10 @@ class PassesController < ApplicationController
     if (params[:colleagues])
       @msg.sender = current_user
       @msg.sender_stop = true
-      @msg.title = "你在 #{pass.company.name} 的同事 #{current_user.name} 邀请你对其工作进行评价"
-      @msg.content += "你好<br />我是你在<a href=' #{company_url(pass.company)}' >#{ pass.company.name}</a>的同事"+
+      @msg.title = "你在 #{ @pass.company.name} 的同事 #{current_user.name} 邀请你对其工作进行评价"
+      @msg.content += "你好<br />我是你在<a href=' #{company_url( @pass.company)}' >#{  @pass.company.name}</a>的同事"+
         "<a href=' #{user_url(current_user)}' > #{current_user.name}</a>，<br/>赶快来<a href=' #{user_url(current_user)}' >评价我</a>吧!"
-      Msg.transaction do
+      Msg.transaction do  
         params[:colleagues].each do |id|
           new_msg = @msg.clone
           new_msg.sendee_id = id
@@ -150,7 +173,7 @@ class PassesController < ApplicationController
       end
     end
     @msg.sendees.split(";").uniq.each do |sendee|
-      MailerServer.deliver_send_invite(sendee,pass,@msg)
+      MailerServer.deliver_invite_join(sendee, @pass,@msg)
     end
     flash.now[:success]="邀请发送成功！"
   end

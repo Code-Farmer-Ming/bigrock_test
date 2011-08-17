@@ -3,8 +3,8 @@
 # Table name: jobs
 #
 #  id                :integer       not null, primary key
-#  title             :string(255)   not null
-#  type_id           :string(255)   not null
+#  title             :string(255)   default(""), not null
+#  type_id           :string(255)   default(""), not null
 #  job_description   :text          default(""), not null
 #  skill_description :text          
 #  state_id          :integer       not null

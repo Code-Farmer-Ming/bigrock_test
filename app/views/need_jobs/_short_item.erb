@@ -1,4 +1,4 @@
-<li class="<%= cycle("topic_item gray_background", "topic_item") %>">
+<li class="<%= cycle( "topic_item","topic_item gray_background") %>">
   <div class="quiet r">
     <%= link_to object.poster.name, object.poster,:class=>"small",:target=>"_blank"%>
     <%= date_ago_in_words(object.created_at)+"发布" %>

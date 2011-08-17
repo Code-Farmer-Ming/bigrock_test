@@ -1,12 +1,10 @@
 # == Schema Information
 #
-# Table name: resumes
+# Table name: base_infos
 #
 #  id               :integer       not null, primary key
-#  name             :string(255)   
 #  type_name        :string(18)    
 #  user_id          :integer       
-#  user_name        :string(18)    
 #  birthday         :date          
 #  sex              :boolean       
 #  address          :string(255)   

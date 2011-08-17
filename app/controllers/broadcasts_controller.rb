@@ -4,6 +4,7 @@ class BroadcastsController < ApplicationController
   # GET /broadcasts
   # GET /broadcasts.xml
   def index
+    @page_title="转发列表"
     @broadcasts = current_user.user_broadcasts.paginate :page => params[:page]
 
     respond_to do |format|
@@ -11,34 +12,20 @@ class BroadcastsController < ApplicationController
       format.xml  { render :xml => @broadcasts }
     end
   end
-
-  # GET /broadcasts/1
-  # GET /broadcasts/1.xml
-  def show
-    @broadcast = Broadcast.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @broadcast }
-    end
-  end
+ 
 
   # GET /broadcasts/new
   # GET /broadcasts/new.xml
   def new
     @broadcast = Broadcast.new
-
+    @find_broadcastable = find_broadcastable
     respond_to do |format|
       format.html # new.html.erb
       format.js # new.html.erb
       format.xml  { render :xml => @broadcast }
     end
   end
-
-  # GET /broadcasts/1/edit
-  def edit
-    @broadcast = Broadcast.find(params[:id])
-  end
+ 
 
   # POST /broadcasts
   # POST /broadcasts.xml
@@ -49,14 +36,24 @@ class BroadcastsController < ApplicationController
       if current_user.broadcasts <<@broadcast
         #把当前 广播对象 当前公司的同事过滤
         if (@find_broadcastable.class.to_s=="NeedJob")
-          current_user.send_broadcast(@broadcast,@find_broadcastable.poster.current_company_colleages,true)         
+          current_user.send_broadcast(@broadcast,@find_broadcastable.poster.current_company_colleages,true)
         end
-        #自己不再收到 廣播
-        current_user.send_broadcast(@broadcast,[current_user], true)
-        #把广播 发送到 关注当前用户所有的人
-        current_user.send_broadcast(@broadcast,current_user.follow_me_users)
-        
-        flash.now[:success] = "成功传播给#{current_user.follow_me_users.size}个朋友！"
+        #创建者也过滤
+        current_user.send_broadcast(@broadcast,[@find_broadcastable.poster], true)
+        if !current_user?(@find_broadcastable.poster)
+          Msg.new_system_msg(:title=>"[#{current_user.name}]帮你转发了一条信息",
+            :content=>"<a href=' #{ user_path(current_user) }' >#{current_user.name}</a>把您发布的<a href='#{url_for(@find_broadcastable)}'>[#{@find_broadcastable.title}]</a>转发给了TA的朋友").
+            send_to(@find_broadcastable.poster)
+        end
+
+        #把广播 发送到 所有关注我的用户
+        sucess_broadcast_count = current_user.send_to_flow_me_user_broadcast(@broadcast)
+
+        if sucess_broadcast_count>0
+          flash.now[:success] = "成功转发给了#{sucess_broadcast_count}个关注您的人！"
+        else
+          flash.now[:success] = "成功转发给了关注您的人！"
+        end
         format.js  {}
         format.html { redirect_to(@broadcast) }
         format.xml  { render :xml => @broadcast, :status => :created, :location => @broadcast }
@@ -68,34 +65,30 @@ class BroadcastsController < ApplicationController
     end
   end
 
-  # PUT /broadcasts/1
-  # PUT /broadcasts/1.xml
-  def update
-    @broadcast = Broadcast.find(params[:id])
+  #再次转发
+  def  redo
+    #把广播 发送到 关注当前用户所有的人
+    @user_broadcast = current_user.user_broadcasts.find(params[:id])
+    sucess_broadcast_count = current_user.send_broadcast(@user_broadcast.broadcast,current_user.follow_me_users)
+    @user_broadcast.read()
 
-    respond_to do |format|
-      if @broadcast.update_attributes(params[:broadcast])
-        flash[:notice] = 'Broadcast was successfully updated.'
-        format.html { redirect_to(@broadcast) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @broadcast.errors, :status => :unprocessable_entity }
-      end
+    Msg.new_system_msg(:title=>"[#{current_user.name}]帮你转发了一条信息",
+      :content=>"<a href=' #{ user_path(current_user) }' >#{current_user.name}</a>再次把您发布的[#{@user_broadcast.broadcast.broadcastable.title}]转发给了TA的朋友").
+      send_to(@find_broadcastable.poster)
+ 
+    if sucess_broadcast_count>0
+      flash.now[:success] = "成功转发给了#{sucess_broadcast_count}个关注您的人！"
+    else
+      flash.now[:success] = "成功转发给了关注您的人！"
     end
   end
 
-  # DELETE /broadcasts/1
-  # DELETE /broadcasts/1.xml
-  def destroy
-    @broadcast = Broadcast.find(params[:id])
-    @broadcast.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(broadcasts_url) }
-      format.xml  { head :ok }
-    end
+  #忽略转发
+  def ignore
+    @user_broadcast = current_user.user_broadcasts.find(params[:id]) 
+    @user_broadcast.read()
   end
+ 
 
   private
   

@@ -17,7 +17,7 @@ class NeedJobsController < ApplicationController
     @page_description = truncate( @need_job.description,:length=>100)
     @page_title =  @need_job.title + "求职"
     @page_keywords = @need_job.skill_text
-    @need_job.update_attribute(:view_count,@need_job.view_count+1)
+    @need_job.incre_show_count
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @need_job }
@@ -47,11 +47,23 @@ class NeedJobsController < ApplicationController
   # POST /need_jobs
   # POST /need_jobs.xml
   def create
-    @need_job = NeedJob.new(params[:need_job])
-    @need_job.poster = current_user
+    @need_job = current_user.need_jobs.build(params[:need_job])
     respond_to do |format|
       if @need_job.save
         flash[:notice] = '创建成功'
+
+        if params[:is_need_broadcast]
+          broadcast = @need_job.broadcasts.build({:memo=>"帮忙转发一下吧"})
+          current_user.broadcasts << broadcast
+          current_user.send_broadcast(broadcast,current_user.current_company_colleages,true)
+          send_count = current_user.send_to_flow_me_user_broadcast(broadcast)
+          if send_count>0
+            flash[:notice] += ",并转发给#{send_count}个关注您的人"
+          else
+            flash[:notice] += ",并转发给关注您的人"
+          end
+        end
+    
         format.html { redirect_to(@need_job) }
         format.xml  { render :xml => @need_job, :status => :created, :location => @need_job }
       else

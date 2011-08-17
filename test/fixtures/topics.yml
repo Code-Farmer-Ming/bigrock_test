@@ -4,7 +4,7 @@
 #
 #  id                    :integer       not null, primary key
 #  owner_id              :integer       not null
-#  owner_type            :string(255)   not null
+#  owner_type            :string(255)   default(""), not null
 #  author_id             :integer       not null
 #  title                 :string(128)   
 #  content               :text          default(""), not null

@@ -9,7 +9,7 @@
 #  memo           :string(255)   
 #  created_at     :datetime      
 #  updated_at     :datetime      
-#  applicant_type :string(255)   not null
+#  applicant_type :string(255)   default(""), not null
 #
 
 #邀请参加小组

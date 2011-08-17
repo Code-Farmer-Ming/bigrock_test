@@ -4,7 +4,7 @@
 #
 #  id                :integer       not null, primary key
 #  company_id        :integer       not null
-#  title             :string(64)    not null
+#  title             :string(64)    default(""), not null
 #  content           :text          default(""), not null
 #  create_user_id    :integer       not null
 #  last_edit_user_id :integer       

@@ -3,8 +3,8 @@
 # Table name: jobs
 #
 #  id                :integer       not null, primary key
-#  title             :string(255)   not null
-#  type_id           :string(255)   not null
+#  title             :string(255)   default(""), not null
+#  type_id           :string(255)   default(""), not null
 #  job_description   :text          default(""), not null
 #  skill_description :text          
 #  state_id          :integer       not null
@@ -48,14 +48,14 @@ class Job < ActiveRecord::Base
   #字段验证
   validates_presence_of :title,:job_description,:company_id,:create_user_id
   #发布职位
-  acts_as_logger :log_action=>["create"],:owner_attribute=>"create_user",:log_type=>"post_job"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"poster",:log_type=>"post_job"
   acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"user_post_job"
     
   belongs_to :owner,:foreign_key =>"company_id",:class_name=>"Company",:counter_cache => true
-  belongs_to :create_user,:class_name=>"User",:foreign_key =>"create_user_id"
+  belongs_to :poster,:class_name=>"User",:foreign_key =>"create_user_id"
   belongs_to :state
   belongs_to :city
-  #传播
+  #转发
   has_many :broadcasts,:as=>:broadcastable,:dependent=>:destroy
   #被动 作为 消息记录的内容
   has_many :logable_log_items,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"

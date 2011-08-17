@@ -40,7 +40,7 @@ class JobApplicantTest < ActiveSupport::TestCase
   test "create" do
     job_one = jobs(:one)
     job_applicant = JobApplicant.new(:applicant_id=>users(:two).id.to_s)
-    assert_difference "job_one.create_user.unread_msgs.size" do
+    assert_difference "job_one.poster.unread_msgs.size" do
       job_one.apply_job(job_applicant)
     end
   end
@@ -49,7 +49,7 @@ class JobApplicantTest < ActiveSupport::TestCase
     job_one = jobs(:one)
     job_applicant = JobApplicant.new(:recommend_id=>users(:three).id.to_s, :applicant_id=>users(:two).id.to_s)
     assert_difference "job_applicant.applicant_user.unread_msgs.size" do
-      assert_difference "job_one.create_user.unread_msgs.size" do
+      assert_difference "job_one.poster.unread_msgs.size" do
         job_one.apply_job(job_applicant)
       end
     end

@@ -14,7 +14,7 @@
       <b>工作地点</b>&nbsp;
       <%=  link_to_state_city @job %>
       &nbsp;
-      <%= link_to_user_name @job.create_user %>
+      <%= link_to_user_name @job.poster %>
       <b>发布于</b>&nbsp;
       <span class="quiet"><%= h time_ago_in_words_plus(@job.created_at)  %></span>&nbsp;
       <b>浏览</b>&nbsp;<%= @job.view_count %>
