@@ -1,0 +1,21 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+<%log = object%>
+ 
+    <% if log.logable_type=="Education" %>
+      <%=  "增加了在 #{log.logable.school_name} 教育经历" %>
+    <%else%>
+      增加了在  <%=  link_to log.logable.name,company_path(log.logable)%> 工作的经历
+    <%end%>
+
+    <%#*when "Company" #工作经历%>
+    <%#*case log.operation%>
+    <%#*when "create"%>
+    <%#*temp = "增加了在 #{link_to log.logable.name,company_path(log.logable)} 工作的经历"%>
+    <%#*when "update"%>
+    <%#*temp = "修改了在 #{link_to log.logable.name,company_path(log.logable)} 工作经历的内容"%>
+    <%#*when "destroy"%>
+    <%#*temp = "删除了在 #{link_to log.logable.name,company_path(log.logable)}的工作经历"%>
+    <%#*end%>

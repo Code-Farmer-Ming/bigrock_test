@@ -1,6 +1,6 @@
 class NeedJobsController < ApplicationController
   include ActionView::Helpers::TextHelper
-  before_filter :check_login?,:except=>[:show,:search,:index]
+  before_filter :check_login?,:except=>[:search,:index]
   # GET /need_jobs
   # GET /need_jobs.xml
   def index

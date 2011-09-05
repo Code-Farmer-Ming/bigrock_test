@@ -24,6 +24,8 @@
 class Topic < ActiveRecord::Base
   validates_length_of :title, :maximum => 64
   validates_length_of :content, :minimum => 2
+
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"post_topic"
   
   belongs_to :owner,:polymorphic => true,:counter_cache => true
   belongs_to :author,:class_name=>"User",:foreign_key=>"author_id"

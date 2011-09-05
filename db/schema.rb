@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110808073438) do
+ActiveRecord::Schema.define(:version => 20110904024118) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -548,7 +548,7 @@ ActiveRecord::Schema.define(:version => 20110808073438) do
     t.string   "nick_name",                :default => "马甲",  :null => false
     t.string   "email",                    :default => "",        :null => false
     t.string   "password",                 :default => "",        :null => false
-    t.string   "title",                    :default => ""
+    t.string   "signature",  :limit => 32, :default => ""
     t.boolean  "is_active",                :default => false
     t.datetime "created_at"
     t.datetime "updated_at"

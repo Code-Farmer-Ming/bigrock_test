@@ -18,6 +18,7 @@ class MyLanguage < ActiveRecord::Base
   def cancel_current
     update_attribute("is_current", false)
   end
+  
   def self.current_phrase
     first(:conditions=>"is_current=#{true}")
   end

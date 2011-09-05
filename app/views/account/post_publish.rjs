@@ -1,0 +1,7 @@
+if @my_language.errors.count==0
+  page.insert_html :top,"logs" ,render(:partial=>"log_items/show",:object=>@my_language.log_items)
+  page["publish_editor"].value = ""
+  page.visual_effect :highlight, dom_id(@my_language.log_items.first)
+else
+  page["flash_msg"].replace_html(render(:partial=>"comm_partial/flash_msg"))
+end

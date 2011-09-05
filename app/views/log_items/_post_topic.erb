@@ -1,0 +1,11 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%log = object%>
+<p >话题 <%=  link_to   log.logable.title,log.logable,:target=>"_blank"%> </p>
+<p>
+  <%= simple_format(truncate("#{log.logable.content}", :length=>30))%>
+</p>
+<%=  link_to  "查看详细…",log.logable,:target=>"_blank"%>

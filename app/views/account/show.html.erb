@@ -4,6 +4,42 @@
     <%= javascript_include_merged :dragdrop %>
   <%end %>
   <h1>欢迎，<%= current_user.name %></h1>
+
+  <% sub_block_div("" ) do %>
+    <%= render :partial=>"account/post_publish" %>
+
+    <%= render :partial=>"account/log_type" %>
+    <div id="logs">
+      <%= render :partial=>"log_items/show",:object=>@logs %>
+    </div>
+    <%= will_paginate @logs%>
+  <%end%>
+<%# sub_block_div("") do%>
+<%#tabs do%>
+<%#= tab_button("加入小组的话题","new_topics") %>
+<%#= tab_button("我参与的话题","join_topics") if @user%>
+<%#= tab_button("我创建的话题","my_topics") if @user%>
+<%#end%>
+<%#tab_panel("new_topics") do%>
+<%#= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
+<%#= link_to "更多…",{:action=>"my_topics"} if @topics.size>10%>
+<%#end%>
+<%#tab_panel("join_topics") do%>
+<%#= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
+<%#= link_to "更多…",{:action=>"my_topics",:type=>"join"}  if @join_topics && @join_topics.size>10%>
+<%#end%>
+<%#tab_panel("my_topics") do%>
+<%#= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
+<%#*<p>%>
+<%#= link_to "更多…",{:action=>"my_topics",:type=>"create"} if @my_topics && @my_topics.count>10%>
+<%#*</p>%>
+<%#end%>
+<%#end%>
+</div>
+<div id ="right_content">
+<%# sub_block_div() do%>
+<%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、公司博客、话题、小组"} %>
+<%#end%>
   <%= link_to "发布招聘",add_job_account_path() ,:class=>"button negative"    %>
   <%= link_to "发布求职",new_account_need_job_path() ,:class=>"button positive"  %>
   <% if @user.not_judge_them_colleague_users.count>0%>
@@ -66,53 +102,25 @@
       <li><%= link_to "关注的人(#{current_user.my_follow_users.count})",following_user_path(current_user)   %></li>
       <li><%= link_to "被谁关注(#{current_user.follow_me_users.count})",  following_user_path(current_user,:type=>"follow_me" )  %></li>
       <li><%= link_to "加入的小组(#{current_user.all_groups.count})",groups_user_path(current_user)   %></li>
-        <%if @user.published_jobs.count>0%>
-          <li >
-            <%=  link_to "发布的职位(#{@user.published_jobs.count})", {:action=>:published_jobs}%>
-          </li>
-        <%end%>
-        <% if @user.need_jobs.count>0  %>
-          <li><%= link_to "发布的求职(#{@user.need_jobs.count})", {:action=>:need_jobs} %></li>
-        <%end%>
-        <% if @user.job_applicants.count>0 %>
-          <li><%= link_to "申请的职位(#{@user.job_applicants.count})", {:action=>:job_applicants}%></li>
-        <%end%>
-      </ul>
-      <% menu("manage_menu") do -%>
-        <%= menu_item(link_to "给我的评价",user_judges_path(current_user)) -%>
-        <%= menu_item(link_to "我给公司的评价",judged_company_account_path()) -%>
-        <%= menu_item(link_to "我对同事的评价",judged_colleagues_account_path()) -%>
+      <%if @user.published_jobs.count>0%>
+        <li >
+          <%=  link_to "发布的职位(#{@user.published_jobs.count})", {:action=>:published_jobs}%>
+        </li>
       <%end%>
-      <%= popmenu("manaage_menu_link","manage_menu") -%>
-    <%end %>
-    <% sub_block_div("") do%>
-      <%tabs do%>
-        <%= tab_button("加入小组的话题","new_topics") %>
-        <%= tab_button("我参与的话题","join_topics") if @user%>
-        <%= tab_button("我创建的话题","my_topics") if @user%>
+      <% if @user.need_jobs.count>0  %>
+        <li><%= link_to "发布的求职(#{@user.need_jobs.count})", {:action=>:need_jobs} %></li>
       <%end%>
-      <%tab_panel("new_topics") do%>
-        <%= render :partial=>"topics/topic_item", :collection=>@topics,:locals=>{:show_group=>true} %>
-        <%= link_to "更多…",{:action=>"my_topics"} if @topics.size>10%>
+      <% if @user.job_applicants.count>0 %>
+        <li><%= link_to "申请的职位(#{@user.job_applicants.count})", {:action=>:job_applicants}%></li>
       <%end%>
-      <%tab_panel("join_topics") do%>
-        <%= render :partial=>"topics/topic_item",:collection=> @join_topics,:locals=>{:show_group=>true}   %>
-        <%= link_to "更多…",{:action=>"my_topics",:type=>"join"}  if @join_topics && @join_topics.size>10%>
-      <%end%>
-      <%tab_panel("my_topics") do%>
-        <%= render :partial=>"topics/topic_item",:collection=> @my_topics,:locals=>{:show_group=>true}  %>
-        <p>
-          <%= link_to "更多…",{:action=>"my_topics",:type=>"create"} if @my_topics && @my_topics.count>10%>
-        </p>
-      <%end%>
+    </ul>
+    <% menu("manage_menu") do -%>
+      <%= menu_item(link_to "给我的评价",user_judges_path(current_user)) -%>
+      <%= menu_item(link_to "我给公司的评价",judged_company_account_path()) -%>
+      <%= menu_item(link_to "我对同事的评价",judged_colleagues_account_path()) -%>
     <%end%>
-  </div>
-  <div id ="right_content">
-  <%# sub_block_div() do%>
-  <%#= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索公司、公司博客、话题、小组"} %>
-  <%#end%>
-    <% sub_block_div("动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
-      <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
-    <%end%>
-  </div>
+    <%= popmenu("manaage_menu_link","manage_menu") -%>
+  <%end %>
+
+</div>
 

@@ -1,0 +1,8 @@
+<%#用户的动态信息.%>
+<%# TODO: 需要更详细的把相近的同一类合并到一起%>
+<%for log in object%>
+
+  <%=   render    :partial =>"log_items/#{log.log_type.underscore() }", :layout =>"log_items/left_icon",:object=>log%>
+
+<%end%>
+

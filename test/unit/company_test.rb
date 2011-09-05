@@ -59,7 +59,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal 2, company.current_employees.size
     assert_equal 0, company.pass_employees.size
 
-    company.passes <<  Pass.new(:title=>"职员",:user_id=>2,:begin_date=>15.hours.ago.to_s(:db),:end_date=>Time.now.to_s(:db))
+    company.passes <<  Pass.new(:title=>"职员",:user_id=>2,:begin_date=>15.hours.ago.to_s(:db),:end_date=>1.hours.ago.to_s(:db))
     company.reload()
     assert_equal 3,company.all_employees.size
     assert_equal 1, company.pass_employees.size

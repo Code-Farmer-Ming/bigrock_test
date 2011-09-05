@@ -1,0 +1,11 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%log = object%>
+
+    评价 <%=  link_to log.logable.company.name, log.logable.company%> <br/>
+    待遇 <%=  small_star(log.logable.salary_value )%> &nbsp;&nbsp;
+    环境 <%= small_star(log.logable.condition_value) %>
+   

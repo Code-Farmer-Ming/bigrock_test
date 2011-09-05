@@ -25,16 +25,27 @@ class GroupTest < ActiveSupport::TestCase
 
   test "add to member" do
     group =  groups(:three)
+    group.all_members.clear
     group.add_to_member(users(:one))
     assert group.is_member?(users(:one))
+    assert users(:one).my_follow_groups.exists?(group)
   end
 
+  test "add to member with aliase" do
+    group =  groups(:three)
+    group.all_members.clear
+    group.add_to_member(users(:one).aliases.first)
+    assert group.is_member?(users(:one).aliases.first)
+    assert users(:one).my_follow_groups.exists?(group)
+  end
+  
   test "destroy member" do
     group =  groups(:one)
     assert_difference('Member.count',-1) do
       group.remove_member(users(:one))
     end
     assert !group.is_member?(users(:one))
+    assert !users(:one).my_follow_groups.exists?(group)
     users(:one).reload
  
   end
@@ -50,8 +61,9 @@ class GroupTest < ActiveSupport::TestCase
 
   test "log items" do
     group =  groups(:three)
-    assert_difference("group.logable_log_items.count") do
-       group.add_to_member(users(:three))
+    group.all_members.clear
+    assert_difference("group.logable_log_items.count",2) do
+      group.add_to_member(users(:three))
     end
   end
 end

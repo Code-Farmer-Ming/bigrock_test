@@ -34,6 +34,7 @@ class AccountController < ApplicationController
     @user = User.new(params[:user])
     respond_to do |format|
       if @user.save
+        @user.add_attention(@user)#关注自己
         invite_user = User.real_users.find_by_id(params[:request_user_id]) unless !params[:request_user_id]
         if invite_user#相互加关注
           invite_user.add_attention(@user)
@@ -43,7 +44,7 @@ class AccountController < ApplicationController
         format.html {
           flash[:success] = '恭喜注册成功,完善一下资料吧。'
           #          if not params[:request_company_id].to_s.blank?
-          redirect_to(edit_account_base_info_path(@user,:request_company_id=>params[:request_company_id]))
+          redirect_to(edit_account_base_info_path(:request_company_id=>params[:request_company_id],:reurl=>params[:reurl]))
           #          else
           #            redirect_to((params[:reurl] || user_path(@user)))
           #          end
@@ -70,16 +71,19 @@ class AccountController < ApplicationController
     @unread_job_apply_size =0
     @user= current_user
     @page_title =" #{@user.name} 的首页"
-    @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
-    @logs = @user.my_follow_log_items.find(:all,:limit=>6,:order=>"created_at desc");
-    @my_topics = @user.my_created_topics.all(:limit=>20)
-    @join_topics =  @user.reply_topics.find(:all,:limit=>20)
+
+    if params[:type].blank? || params[:type]=="all"
+      @logs = current_user.my_follow_log_items.paginate :page => params[:page]
+    else
+      @logs = current_user.my_follow_log_items.paginate_by_owner_type params[:type], :page => params[:page]
+    end
+    #    @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
+    #    @my_topics = @user.my_created_topics.all(:limit=>20)
+    #    @join_topics =  @user.reply_topics.find(:all,:limit=>20)
  
     @join_group_invites_size = @user.join_group_invites.count
     @unread_job_apply_size = @user.unread_published_job_applicants.count
     @unread_broadcast_count =  current_user.user_broadcasts.count
-
- 
   end
   
   
@@ -110,7 +114,7 @@ class AccountController < ApplicationController
           format.js{
             render :update do |page|
               page << "window.location.reload();Lightbox.close()"
-            end 
+            end
           }
         else
           flash.now[:error] = result_text
@@ -132,7 +136,7 @@ class AccountController < ApplicationController
               page << "Lightbox.show('/account/login')"
             end
           end
-        }     
+        }
       end
     end
   end
@@ -280,13 +284,19 @@ class AccountController < ApplicationController
       @log_items = current_user.my_follow_log_items.paginate_by_owner_type params[:type], :page => params[:page]
     end
   end
-
-  def set_my_language
+  
+  #发布
+  def post_publish
+    @my_language = MyLanguage.new(params[:my_language])
+    current_user.my_languages << @my_language   
+  end
+  
+  def set_signature
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    current_user.say_something(params[:value])
-    render :text => CGI::escapeHTML(current_user.my_phrase)
+    current_user.set_signature(params[:value])
+    render :text => CGI::escapeHTML(current_user.signature)
   end
 
   #给同事的评价

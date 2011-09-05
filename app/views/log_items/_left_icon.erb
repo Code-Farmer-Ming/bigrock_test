@@ -1,0 +1,24 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%log = object%>
+<div class="topic_item" id="<%= dom_id(log)%>">
+  <div class="l">
+
+    <%if log.owner.class==Company%>
+      <%=  render(:partial=>"companies/company_icon",:object=>log.owner)%>
+
+    <%elsif log.owner.class==User%>
+      <%= render(:partial=>"users/user_icon_name",:object=>log.owner) %>
+    <%elsif log.owner.class==Group %>
+      <%= render(:partial=>"groups/icon_name",:object=>log.owner) %>
+    <%end%>
+  </div>
+   <span  class= "r small quiet"><%= date_ago_in_words(log.created_at)%></span>
+  <div class="icon_right_content l">
+    <%= yield  %>
+  </div>
+  <p class="c"></p>
+</div>

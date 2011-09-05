@@ -17,7 +17,7 @@
 class LogItem < ActiveRecord::Base
   belongs_to :owner ,:polymorphic => true
   belongs_to :logable,:polymorphic=>true
-  belongs_to :origin_value,:polymorphic=>true
+
   serialize :changes
 
   def self.per_page

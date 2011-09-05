@@ -123,13 +123,15 @@ class Group < ActiveRecord::Base
       !errors.add("错误","已经是小组成员")
     else
       all_members << user
+      (user.parent || user).add_attention(self)
     end
   end
   #移除成员
   def remove_member(user)
     if  can_operation_root?(user)
       user.accounts.each do |account|
-          all_members.delete(account)
+        all_members.delete(account)
+        account.remove_attention(self)
       end
      
     end

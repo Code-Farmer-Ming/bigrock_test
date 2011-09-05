@@ -1,0 +1,12 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+%>
+<%log = object%>
+
+    评价 <%=  link_to log.logable.user.name,user_path(log.logable.user)%> <br/>
+    工作能力 <%=  small_star(log.logable.ability_value )%><br/>
+    沟通能力 <%=  small_star(log.logable.eq_value )%><br/>
+    资料真实 <%=  small_star(log.logable.creditability_value )%><br/>
+ 

@@ -1,8 +1,9 @@
 <div class="tab">
   <ul class="item">
     <li><%= link_to "全部", "?type=all",:class=>(params[:type]=="all" || !params[:type]) ?  "active-tab" :""    %> </li>
-    <li ><%= link_to "个人动态", "?type=User" ,:class=>(params[:type]=="User") ?  "active-tab" :""  %> </li>
-    <li><%= link_to "公司动态", "?type=Company",:class=>(params[:type]=="Company" ) ?  "active-tab" :""  %></li>
+    <li ><%= link_to "好友", "?type=user" ,:class=>(params[:type]=="user") ?  "active-tab" :""  %> </li>
+    <li ><%= link_to "小组", "?type=Group" ,:class=>(params[:type]=="Group") ?  "active-tab" :""  %> </li>
+    <li><%= link_to "公司", "?type=Company",:class=>(params[:type]=="Company" ) ?  "active-tab" :""  %></li>
     <!--
 <%#*<li class="<%= "active-tab" if params[:type]=="resume" %>" ><%= link_to "个人信息修改", "?type=resume"  %> </li>%>
 <%#*<li  class="<%= "active-tab" if params[:type]=="MyLanguage" %>"><%= link_to   "个人状态", "?type=MyLanguage" %></li>%>
@@ -12,5 +13,5 @@
 <%#*<li class="<%= "active-tab" if params[:type]=="Friend" %>" ><%= link_to "添加好友", "?type=Friend"  %> </li>%>
     -->
   </ul>
-<p class="clear_float"></p>
+  <p class="clear_float"></p>
 </div>

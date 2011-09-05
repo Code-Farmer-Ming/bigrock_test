@@ -199,16 +199,18 @@ class User< ActiveRecord::Base
 
   #  has_many :my_follow_collection,:class_name=>"Attention",:as=>:target
   #跟随关注我的用户
-  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all,:order=>"created_at desc"
+  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all,:order=>"created_at desc",:conditions=>[ "user_id<>?",self.id]
   has_many :follow_me_users,:through=>:follow_me_collection,:source=>:user 
   #  has_many :my_follow,:through=>:my_follow_collection,:source=>:target
   #我跟随关注的用户或公司或其他
   has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all,:order=>"created_at desc"
-  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc"
+  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc" ,:conditions=>[ "users.id<>?",self.id]
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company",:order=>"attentions.created_at desc"
+  has_many :my_follow_groups,:through=>:my_follow_collection,:source=>:target,:source_type=>"Group",:order=>"attentions.created_at desc"
+
   #关注的目标 包括 用户或公司
   has_many_polymorphs :targets,
-    :from => [:companies,:users],
+    :from => [:companies,:users,:groups],
     :through => :attentions,
     :foreign_key=>"user_id",
     :dependent => :destroy
@@ -422,7 +424,7 @@ class User< ActiveRecord::Base
   has_many :current_companies ,:through=>:current_passes,:source=>:company
 
 
-
+ 
 
   #  delegate :passeses,:to=>:current_resume
   #  delegate :pass_companies,:to=>:current_resume
@@ -520,10 +522,7 @@ class User< ActiveRecord::Base
     parent_id!=0
   end
  
-  #当前的短语
-  def my_phrase
-    my_languages.current_phrase ?  my_languages.current_phrase.content : ""
-  end
+ 
   
   #图标 文件路径
   def icon_file_path(thumbnail=nil)
@@ -548,124 +547,124 @@ class User< ActiveRecord::Base
     targets.delete(target_object)
   end
   #右上角 說點什麽 
-  def say_something(phrase)
-    if (phrase.to_s.blank? && self.my_languages.current_phrase)
-      self.my_languages.current_phrase.cancel_current
-    else
-      if  self.my_phrase!=phrase
-        self.my_languages << MyLanguage.new(:content=>phrase,:is_current=>true)
-      end
-    
+  def set_signature(phrase)
+    #    if (phrase.to_s.blank? && self.my_languages.current_phrase)
+    #      self.my_languages.current_phrase.cancel_current
+    #    else
+    if  self.signature!=phrase
+      self.signature = phrase
+      self.my_languages << MyLanguage.new(:content=>phrase,:is_current=>true)
+      self.save
     end
-  end
+end
   
-  #用户 用过的标签
-  def used_tags(judge_object=nil)
-    self.user_taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
-      :conditions=>judge_object ? {:taggable_id=>judge_object.id,
-        :taggable_type=>judge_object.class.to_s} : "")
-  end
+#用户 用过的标签
+def used_tags(judge_object=nil)
+  self.user_taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
+    :conditions=>judge_object ? {:taggable_id=>judge_object.id,
+      :taggable_type=>judge_object.class.to_s} : "")
+end
  
-  #平均 评价的评分
-  def avg_judge_value(judge_name=nil)
-    fv = self.passes.sum("judges_count")
-    if (fv)>0
-      if judge_name
-        (self.passes.sum(judge_name) / fv).to_f.round(1)
-      else
-        (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
-      end
+#平均 评价的评分
+def avg_judge_value(judge_name=nil)
+  fv = self.passes.sum("judges_count")
+  if (fv)>0
+    if judge_name
+      (self.passes.sum(judge_name) / fv).to_f.round(1)
     else
-      0.0
+      (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
     end
+  else
+    0.0
   end
+end
   
-  #评价 同事
-  def judge_colleague(user,judge)
-    colleague =  not_judge_them_colleagues.first(:conditions=>{:user_id=>user.id})
-    colleague.judge_colleague(judge) if colleague
-  end
+#评价 同事
+def judge_colleague(user,judge)
+  colleague =  not_judge_them_colleagues.first(:conditions=>{:user_id=>user.id})
+  colleague.judge_colleague(judge) if colleague
+end
   
 
-  def text_password=(value)
-    @text_password=value
-    create_new_salt
-    self.password = User.encrypted_password(value,salt)
-  end
+def text_password=(value)
+  @text_password=value
+  create_new_salt
+  self.password = User.encrypted_password(value,salt)
+end
 
-  #仅仅在创建新对象的时候，才返回密码明文，其他返回空 ？有点问题
-  def text_password
-    @text_password
-  end
+#仅仅在创建新对象的时候，才返回密码明文，其他返回空 ？有点问题
+def text_password
+  @text_password
+end
 
-  #获取用户 对 某个对象 做的标签的文本
-  def used_tags_text(taggable_object)
-    return  if  !taggable_object.taggable?
-    taggble_list = self.used_tags(taggable_object)
-    #获取 当前评价
-    !taggble_list.empty?  ? taggble_list.collect.map { |item| item.name }.join(Tag::DELIMITER) : []
-  end
+#获取用户 对 某个对象 做的标签的文本
+def used_tags_text(taggable_object)
+  return  if  !taggable_object.taggable?
+  taggble_list = self.used_tags(taggable_object)
+  #获取 当前评价
+  !taggble_list.empty?  ? taggble_list.collect.map { |item| item.name }.join(Tag::DELIMITER) : []
+end
   
-  #对某个可以做 做标签 的对象做标签 如公司
-  def tag_something(taggable_object,tags=[])
-    return  if  !taggable_object.taggable?  || taggable_object.tag_list == tags
-    list = tag_cast_to_string(tags)
+#对某个可以做 做标签 的对象做标签 如公司
+def tag_something(taggable_object,tags=[])
+  return  if  !taggable_object.taggable?  || taggable_object.tag_list == tags
+  list = tag_cast_to_string(tags)
  
-    current = []
-    tagging_list = user_taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
-        :taggable_type=>taggable_object.class.to_s.camelize})
-    #获取 当前的标签
-    current = tagging_list.collect.map { |item| item.tag.name } if tagging_list
-    #需要新添加的标签
-    add_list = list-current
+  current = []
+  tagging_list = user_taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
+      :taggable_type=>taggable_object.class.to_s.camelize})
+  #获取 当前的标签
+  current = tagging_list.collect.map { |item| item.tag.name } if tagging_list
+  #需要新添加的标签
+  add_list = list-current
    
-    destroy_list = current - list
-    add_list.each do |tag_name|
-      temp_tag = Tag.find_or_create_by_name(tag_name)
+  destroy_list = current - list
+  add_list.each do |tag_name|
+    temp_tag = Tag.find_or_create_by_name(tag_name)
+    temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
+    #是否有同样的标签
+    if !temp_tagging
+      taggable_object.tags << temp_tag
       temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
-      #是否有同样的标签
-      if !temp_tagging
-        taggable_object.tags << temp_tag
-        temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
-      end
-      user_tags << UserTag.new(:tagging=>temp_tagging)
     end
-    #    user_tags.find(:all,:conditions=>
-    #        ["tags.name in (?)",destroy_list],
-    #      :joins=>"join tags  join taggings on tags.id=taggings.tag_id and taggings.id=user_tags.tagging_id").each do |tag_name|
-    #      tag_name.destroy
-    #需要删除的标签
-    destroy_list.each do |tag_name|
-      temp_tag = Tag.find_or_create_by_name(tag_name)
-      temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag) if temp_tag
-      user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
-    end
+    user_tags << UserTag.new(:tagging=>temp_tagging)
   end
-  #删除 对某个对象做的 标签
-  def remove_something_tag(taggable_object)
-    tag_something(taggable_object)
+  #    user_tags.find(:all,:conditions=>
+  #        ["tags.name in (?)",destroy_list],
+  #      :joins=>"join tags  join taggings on tags.id=taggings.tag_id and taggings.id=user_tags.tagging_id").each do |tag_name|
+  #      tag_name.destroy
+  #需要删除的标签
+  destroy_list.each do |tag_name|
+    temp_tag = Tag.find_or_create_by_name(tag_name)
+    temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag) if temp_tag
+    user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
   end
-  #START:create_new_salt
-  def create_new_salt
-    self.salt = self.object_id.to_s + rand.to_s
-  end
-  #END:create_new_salt
+end
+#删除 对某个对象做的 标签
+def remove_something_tag(taggable_object)
+  tag_something(taggable_object)
+end
+#START:create_new_salt
+def create_new_salt
+  self.salt = self.object_id.to_s + rand.to_s
+end
+#END:create_new_salt
  
-  #未评价的公司
-  def unjudge_companies
-    pass_companies.all - has_judged_companies
-  end
-  #简历是否有同事
-  def has_colleagues?
-    self.colleagues.count >0
-  end
+#未评价的公司
+def unjudge_companies
+  pass_companies.all - has_judged_companies
+end
+#简历是否有同事
+def has_colleagues?
+  self.colleagues.count >0
+end
 
   
-  private
-  #  #START:encrypted_password
-  def self.encrypted_password(password, salt)
-    string_to_hash = password + "salt" + salt
-    Digest::SHA1.hexdigest(string_to_hash)
-  end
-  #  #END:encrypted_password
+private
+#  #START:encrypted_password
+def self.encrypted_password(password, salt)
+  string_to_hash = password + "salt" + salt
+  Digest::SHA1.hexdigest(string_to_hash)
+end
+#  #END:encrypted_password
 end

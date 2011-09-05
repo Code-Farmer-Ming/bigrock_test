@@ -1,0 +1,8 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+<%log = object%>
+
+<%= link_to log.logable.name,user_path(log.logable),:target=>"_blank"%> 加入了
+<%=  link_to(log.owner.name,company_path(log.owner),:target=>"_blank")%>

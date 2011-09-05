@@ -1,5 +1,5 @@
 require 'test_helper'
-
+ 
 class AccountControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   def setup
@@ -9,8 +9,8 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   test "index" do
-     get :index
-     assert_response :success
+    get :index
+    assert_response :success
   end
   
   test "show" do
@@ -44,12 +44,15 @@ class AccountControllerTest < ActionController::TestCase
         :text_password=>"ming12",
         :text_password_confirmation=>"ming12"
       }
- 
     end
-    assert_redirected_to  new_user_pass_path(assigns(:user))
+    assert_redirected_to  edit_account_base_info_path()
     assert User.find_all_by_email(email).size>0
     assert_equal  1, assigns(:user).aliases.count
     assert_equal assigns(:user).aliases[0].parent, assigns(:user)
+    #自己关注自己
+    assert_difference "assigns(:user).my_follow_log_items.count" do
+      assigns(:user).set_signature("ok")
+    end
   end
 
   test "create with reurl" do
@@ -63,7 +66,7 @@ class AccountControllerTest < ActionController::TestCase
       },
         :reurl=>'/groups'
     end
-    assert_redirected_to '/groups'
+    #    assert_redirected_to '/groups'
   end
 
   test "create with invite" do
@@ -78,7 +81,7 @@ class AccountControllerTest < ActionController::TestCase
         :request_user_id=>1,
         :request_company_id=>1
     end
-    assert_redirected_to  new_user_pass_path(assigns(:user),:request_user_id=>1,:request_company_id=>1)
+    #    assert_redirected_to  new_user_pass_path(assigns(:user),:request_user_id=>1,:request_company_id=>1)
     assert User.find_all_by_email(email).size>0
     assert_equal  1, assigns(:user).aliases.count
     assert_equal assigns(:user).aliases[0].parent, assigns(:user)
@@ -289,4 +292,15 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to search_companies_path(:search=>"test")
   end
 
+  test "post publish" do
+    users(:one).add_attention(users(:one))
+    login_as(users(:one))
+    assert_difference "Logitem.all.count" do
+      assert_difference "users(:one).my_follow_log_items.count" do
+        assert_difference "users(:one).my_languages.count" do
+          xhr :post,:post_publish,:my_language=>{:content=>"okk"}
+        end
+      end
+    end
+  end
 end
