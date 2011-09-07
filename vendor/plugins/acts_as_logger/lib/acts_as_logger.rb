@@ -25,7 +25,7 @@ module Acts #:nodoc:
             else
               has_many :log_items,:as=>:logable
             end
-            has_one :log_item,:as=>:logable
+            has_one :log_item,:as=>:logable,:dependent=>:destroy
 
             if #{options[:log_action].include?("update")} 
               before_save :get_changes_#{options[:log_type]}

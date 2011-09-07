@@ -1,16 +1,12 @@
 
 <% topic = operation %>
 
-<%= link_to "新话题", {:action=>:new,:controller=>:topics} ,:class=>"button",:title=>"我来发布新话题"  %>
+<%= link_to "新话题",[:new,topic.owner,:topic]  ,:class=>"button",:title=>"我来发布新话题"  %>
 <%if is_manager %>
   <span id="top_level_operation">
     <%= render :partial=>"topics/top_level_operation" ,:object=>topic%>
   </span>
 <%end%>
-
-
-
-
 <span id="recommend_operation">
   <%= render :partial=>"comm_partial/recommend_operation",:object=>topic %>
 </span>

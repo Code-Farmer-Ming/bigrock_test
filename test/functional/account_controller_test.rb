@@ -292,15 +292,5 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to search_companies_path(:search=>"test")
   end
 
-  test "post publish" do
-    users(:one).add_attention(users(:one))
-    login_as(users(:one))
-    assert_difference "Logitem.all.count" do
-      assert_difference "users(:one).my_follow_log_items.count" do
-        assert_difference "users(:one).my_languages.count" do
-          xhr :post,:post_publish,:my_language=>{:content=>"okk"}
-        end
-      end
-    end
-  end
+ 
 end

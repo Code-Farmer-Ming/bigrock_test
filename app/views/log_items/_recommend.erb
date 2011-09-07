@@ -3,6 +3,7 @@
 # and open the template in the editor.
 %>
 <%log = object%>
- 
-    推荐 <%=  link_to link_to log.logable.recommendable.to_s, log.logable.recommendable,:target=>"_blank"%> <br/>
-    <blockquote><%=  h log.logable.memo%> </blockquote>
+<p>
+  推荐 <%=  link_to link_to log.logable.recommendable.to_s, log.logable.recommendable,:target=>"_blank"%>
+</p>
+<blockquote><%=  h log.logable.memo%> </blockquote>

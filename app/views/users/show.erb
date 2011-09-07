@@ -7,39 +7,21 @@
       <div id="user_name_and_big_star">
         <%= render :partial=>"users/info_head",:object=>@user %>
       </div>
-
-      <div class="tab" >
-        <div class="l">
-          <span id="<%= dom_id(@user,"my_language") %>" class="user_my_language" >
-            <%= auto_link(h(@user.signature)) %>
-          </span>
+      <span id="<%= dom_id(@user,"my_language") %>" class="user_my_language" >
+        <%= auto_link(h(@user.signature)) %>
+      </span>
+      <div id="resume_info_show" class="main_info">
+        <div id="resume_content">
         </div>
-        <ul class="r tabs"  >
-          <li><%= link_to "<span>资料</span>", :anchor=>"my_resume_tab"  %> </li>
-          <li><%= link_to "<span>说的话</span>", :anchor=>"my_language_tab"   %> </li>
-        </ul>
       </div>
-      <div>
-        <div class="panel " id="my_resume_tab">
-          <div id="resume_info_show" class="main_info">
-            <div id="resume_content">
-
-            </div>
-          </div>
-        </div>
-        <%=   javascript_tag(remote_function(:update=>'resume_content',
-            :url=>url_for(:controller=>"users",:action=>"info_render",
-              :id=>@user),
-            :complete=>"$('resume_content').select('.required-validate').each(function(form){  new Validation(form,{
+      <%=   javascript_tag(remote_function(:update=>'resume_content',
+          :url=>url_for(:controller=>"users",:action=>"info_render",
+            :id=>@user),
+          :complete=>"$('resume_content').select('.required-validate').each(function(form){  new Validation(form,{
       immediate:true,
       useTitles:true,
       stopOnFirst:true
       });});", :method=>'get'))  %>
-
-        <div class="panel" id="my_language_tab">
-          <%= render :partial=>"users/my_language_info" ,:collection=> @user.my_languages.all(:limit=>12)%>
-        </div>
-      </div>
     </div>
   </div>
   <div id ="right_content">
@@ -112,7 +94,7 @@
       <div id="resume_content">
       </div>
     </div>
- 
+
     <%=   javascript_tag(remote_function(:update=>'resume_content',
         :url=>url_for(:controller=>"users",:action=>"info_render",
           :id=>@user),

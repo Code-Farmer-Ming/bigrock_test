@@ -285,12 +285,6 @@ class AccountController < ApplicationController
     end
   end
   
-  #发布
-  def post_publish
-    @my_language = MyLanguage.new(params[:my_language])
-    current_user.my_languages << @my_language   
-  end
-  
   def set_signature
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)

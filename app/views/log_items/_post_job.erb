@@ -4,11 +4,11 @@
 %>
 
 <%log = object%>
- 
-    发布了招聘： <%=  link_to(log.logable.title ,
-      log.logable,:target=>"_blank" )%>
-    <p>
-      <%= truncate( log.logable.job_description,:length=>30) %>
-    </p>
 
+发布了招聘： <%=  link_to(log.logable.title ,
+  log.logable,:target=>"_blank" )%>
+<p>
+  <%= truncate( log.logable.job_description,:length=>30) %>
+</p>
+<%= link_to "查看详细…" , log.logable%>
 

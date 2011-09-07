@@ -16,9 +16,12 @@
       <%= render(:partial=>"groups/icon_name",:object=>log.owner) %>
     <%end%>
   </div>
-   <span  class= "r small quiet"><%= date_ago_in_words(log.created_at)%></span>
-  <div class="icon_right_content l">
+  <span  class= "r small quiet"><%= date_ago_in_words(log.created_at)%></span>
+ 
+  <div class="log_text l">
     <%= yield  %>
+   
   </div>
+
   <p class="c"></p>
 </div>

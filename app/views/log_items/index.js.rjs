@@ -1,0 +1,8 @@
+# TODO Operate on the page object
+
+page.insert_html :bottom,"logs" ,render(:partial=>"log_items/show",:object=>@logs)
+if @logs.total_pages >@logs.current_page
+  page["next_page"].replace_html(render(:partial=>"log_items/more_button",:object=>@logs))
+else
+  page["next_page"].replace_html("")
+end

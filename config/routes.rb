@@ -2,7 +2,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :broadcasts,:except=>[:new,:create],:member=>{:ignore=>:post,:redo=>:post}
 
   map.resources :colleagues
+  map.resources :publishs
 
+  map.resources :log_items
+  
   map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit] do |need_job|
     need_job.resources :broadcasts ,:only=>[:new,:create]
   end
@@ -44,7 +47,7 @@ ActionController::Routing::Routes.draw do |map|
     :set_user_state=>:post,
     :logout=>:get,
     :login=>:get,
-    :post_publish=>:post,
+ 
     :attention=>[:post],
     :destroy_attention=>[:delete],
     :check_email=>:get,

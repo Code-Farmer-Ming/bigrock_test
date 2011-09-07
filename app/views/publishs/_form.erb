@@ -1,8 +1,6 @@
 
-<%remote_form_for(:my_language,:url=>post_publish_account_path(),:html=>{:class=>"required-validate"}) do |f|%>
+<%remote_form_for(:my_language,:url=>publishs_path(),:html=>{:class=>"required-validate"}) do |f|%>
   <%= f.text_area :content,:id=>"publish_editor",:class=>"required",:title=>"不能为空哦" %>
-
-
   <br />
   <span id="advice-required-response_comment" class="validation-advice"></span> <%= f.submit "发布" , :class=>"r"  %>
 <%end%>

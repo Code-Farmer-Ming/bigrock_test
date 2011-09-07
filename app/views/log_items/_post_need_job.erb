@@ -2,5 +2,12 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 %>
+<%log = object%>
 
-<%= "_post_need_job" %>
+发布了求职： <%=  link_to(log.logable.title ,
+  log.logable,:target=>"_blank" )%>
+<p>
+  <%= truncate( log.logable.description,:length=>30) %>
+</p>
+<%= link_to "查看详细…" , log.logable,:target=>"_blank" %>
+

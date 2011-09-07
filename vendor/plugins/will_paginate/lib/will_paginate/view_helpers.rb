@@ -249,7 +249,7 @@ module WillPaginate
       @html_attributes
     end
     
-  protected
+    protected
 
     # Collects link items for visible page numbers.
     def windowed_links
@@ -349,7 +349,7 @@ module WillPaginate
       @url_string.sub "\0", page.to_s
     end
 
-  private
+    private
 
     def rel_value(page)
       case page
@@ -400,5 +400,15 @@ module WillPaginate
         raise "unsupported ActionPack version"
       end
     end
+  end
+
+  class OneButtonLoadingRender < LinkRenderer
+
+    def to_html
+#      @template.link_to_remote "更多…",url_for(@collection.l)
+    end
+    
+  
+
   end
 end

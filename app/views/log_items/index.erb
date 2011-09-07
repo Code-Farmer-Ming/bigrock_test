@@ -1,0 +1,11 @@
+<%= render :partial=>"publishs/form" %>
+
+<%= render :partial=>"log_items/log_type" %>
+<div id="logs">
+  <%= render :partial=>"log_items/show",:object=>@logs %>
+</div>
+<div id="next_page">
+  <%if  @logs.total_pages >@logs.current_page  %>
+    <%= render "log_items/more_button",:object=>@logs %>
+  <%end%>
+</div>

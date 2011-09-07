@@ -137,7 +137,19 @@ Ajax.Responders.register({
             //            Element.show('form-indicator');
             if (requester && requester.container && requester.container["success"])
             {
-                $(requester.container["success"]).update("<p class='loading'></p>","top");
+                var options= requester.options;
+                
+                if (options.insertion) {
+                    if (Object.isString(options.insertion)) {
+                        var insertion = { };
+
+                        insertion[options.insertion] = "<p class='loading'></p>";
+                        $(requester.container["success"]).insert(insertion);
+                    }
+                    else options.insertion($(requester.container["success"]), "<p class='loading'></p>");
+                }
+                else
+                    $(requester.container["success"]).update("<p class='loading'></p>");
             }
         }
     },

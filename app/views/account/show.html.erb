@@ -6,14 +6,9 @@
   <h1>欢迎，<%= current_user.name %></h1>
 
   <% sub_block_div("" ) do %>
-    <%= render :partial=>"account/post_publish" %>
-
-    <%= render :partial=>"account/log_type" %>
-    <div id="logs">
-      <%= render :partial=>"log_items/show",:object=>@logs %>
-    </div>
-    <%= will_paginate @logs%>
+    <%= render :file=>"log_items/index" %>
   <%end%>
+
 <%# sub_block_div("") do%>
 <%#tabs do%>
 <%#= tab_button("加入小组的话题","new_topics") %>

@@ -575,13 +575,14 @@ ul#nav .activelink a,ul#nav a:hover{
 .msg_info{
     margin-bottom:8px;
 }
-.msg_text{
-    margin-left:80px;
-}
 
-#response_comment{
+#response_comment ,#publish_editor{
     width:97%;
     height:5em;
+    overflow-y:auto;
+}
+#publish_editor {
+    height: 3em;
 }
 /*申请信息*/
 .apply_info{
@@ -664,7 +665,6 @@ ul#nav .activelink a,ul#nav a:hover{
 .user_my_language{
     font-size:small;
     font-weight:normal;
-
     font-style:italic;
     color:gray;
 }
@@ -730,18 +730,17 @@ ul#nav .activelink a,ul#nav a:hover{
 #industry_link_list li,#user_navigate li{
     display: inline;
     float: left;
-
 }
+
 #industry_link_list a ,#user_navigate a{
     width: 16em;
     padding:2px 4px;
     display:block;
 }
+
 #user_navigate a {
-      width: 12em;
+    width: 12em;
 }
-
-
 /*tag 标签的css*/
 .tag,.disable_tag{
     padding:2px 8px;
@@ -792,9 +791,9 @@ div.auto_complete ul strong.highlight {
     margin:6px auto;
     color:gray;
 }
-/*.user_log_just_text .icon_right_content{
+.log_text {
     margin-left: 8px;
-}*/
+}
 
 .user_log{
     margin-bottom:0.8em;
@@ -848,7 +847,7 @@ div.auto_complete ul strong.highlight {
     overflow:auto;
 }
 .icon_right_content{
-    margin-left:8px;
+    margin-left:80px;
 }
 .group_short_content{
     margin-left:100px;
@@ -859,10 +858,7 @@ div.auto_complete ul strong.highlight {
     *height:40px;
 }
 
-.item_content .editor_field{
-    height:60px;
-    width:500px;
-}
+
 /*End回复结束*/
 /*推荐*/
 .recommend_memo{
@@ -1162,11 +1158,11 @@ div.auto_complete ul strong.highlight {
     float: left;
     width: 760px;
     height: 210px;
-      overflow: hidden;
+    overflow: hidden;
 }
-#publish_editor {
+
+#more_button {
     width: 97%;
-    height: 60px;
-    overflow-y:auto;
 }
- 
+
+
