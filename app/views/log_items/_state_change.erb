@@ -2,5 +2,5 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 %>
-
+<%= log=object %>
 状态改为：<span class=><%=  "user_state_#{log.changes}" %>>&nbsp;</span> <%= User::STATE_TYPES[log.changes.to_sym] %>
