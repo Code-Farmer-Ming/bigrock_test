@@ -97,9 +97,9 @@ for log in show_log
     case log.operation
     when "create"
       temp = "关注#{link_to log.logable.name,log.logable}"
-   
+
     end if log.logable
-    
+
   when "join_company" #加入
     case log.operation
     when "create"
@@ -141,6 +141,8 @@ for log in show_log
     group_path(log.logable),:target=>"_blank" )} 小组"
   when "register_account" #注册账户
     temp = "注册了账号"
+  when "post_topic"
+    temp = "话题 #{link_to   log.logable.title,log.logable,:target=>"_blank"}"
   when "post_job" #发布职位
     temp ="发布了职位 #{link_to(log.logable.title,job_path(log.logable),:target=>"_blank")}"
 

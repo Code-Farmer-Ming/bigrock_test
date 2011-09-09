@@ -15,7 +15,8 @@ class Attention < ActiveRecord::Base
 
   belongs_to :user,:class_name=>"User"  ,:foreign_key=>"user_id"
   belongs_to :target,:polymorphic=>true
-  acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:logable=>"target",:can_log=>"self.user!=self.target"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"user",:logable=>"target",
+    :can_log=>"self.user!=self.target && !self.user.is_alias? && target_type!='Group'"
 
 
 end
