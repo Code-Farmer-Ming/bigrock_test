@@ -94,28 +94,12 @@ for log in show_log
     when "Specifice" #特长
     end if log.logable
   when "Attention" #关注
-    case log.logable.class.to_s
-    when User.to_s #个人
-      case log.operation
-      when "create"
-        #
-        #if log_type ==  Attention.to_s
-        #temp +="、#{link_to log.logable.name,user_path(log.logable)}"
-        #else
-        temp = "关注#{link_to log.logable.name,user_path(log.logable)}"
-        #end
-      when "destroy"
-        temp = "取消关注#{link_to log.logable.name,user_path(log.logable)}"
-      end
-
-    when Company.to_s #公司
-      case log.operation
-      when "create"
-        temp = "关注#{link_to log.logable.name,company_path(log.logable)}"
-      when "destroy"
-        temp = "取消关注#{link_to log.logable.name,company_path(log.logable)}"
-      end
+    case log.operation
+    when "create"
+      temp = "关注#{link_to log.logable.name,log.logable}"
+   
     end if log.logable
+    
   when "join_company" #加入
     case log.operation
     when "create"
