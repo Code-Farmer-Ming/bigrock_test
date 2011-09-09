@@ -272,8 +272,8 @@ ul#nav .activelink a,ul#nav a:hover{ color: #000; font-weight:bold; background:#
 .msg_title a{ display:block}
  #msg_show{  margin:8px auto}
 .msg_info{ margin-bottom:8px}
-.msg_text{ margin-left:80px}
-#response_comment{ width:97%; height:5em}
+#response_comment ,#publish_editor{ width:100%; height:5em; overflow-y:auto; overflow:hidden}
+#publish_editor {height: 3em}
  .apply_info{ margin:10px; padding:8px; border-bottom:1px dotted silver}
 .apply_info .applicant, .apply_memo{ float:left; margin-right:8px}
 .company_icon{ height:70px; width: 70px; vertical-align:middle; margin-top:2px;  }
@@ -312,7 +312,7 @@ div.auto_complete ul li {margin:0; padding:3px}
 div.auto_complete ul li.selected {background-color: #ffb}
 div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-weight:bold}
  .user_log h5,.user_log_just_text h5{ font-weight:bolder; margin:6px auto; color:gray}
-.user_log_just_text .icon_right_content{ margin-left: 8px}
+.log_text {margin-left: 8px}
 .user_log{ margin-bottom:0.8em}
  .news_title{ font-weight:bold; background-color:#E1E9F8; padding:4px 8px}
  .make_up_down{ padding:2px}
@@ -326,7 +326,6 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 .icon_right_content{ margin-left:80px}
 .group_short_content{ margin-left:100px}
 .group_short_description{ min-height:40px; height:auto !important; *height:40px}
-.item_content .editor_field{ height:60px; width:500px}
   .recommend_memo{ height:120px}
  .topic_item{ padding:4px 5px 4px 5px; overflow:auto; border-bottom:#F0F0F0 solid 1px }
 .topic_item a{ text-decoration:none}
@@ -394,6 +393,8 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 #carousel-wrapper {width: 760px; height: 210px; overflow: hidden}
 #carousel-content {width: 2500px}
 #carousel-content .slide {float: left; width: 760px; height: 210px; overflow: hidden}
+#more_button {width: 97%}
+.text_area_wrap{ margin-right:15px; *height:1%}
  .pui-autocomplete-holder {margin: 0; border: 1px solid #999; overflow: hidden; padding: 0px 5px; font:normal 12px Verdana, Arial, sans-serif; height: auto !important; height: 1%; background:white url(/images/input-text.png) repeat-x scroll left top}
 .pui-autocomplete-holder li {float: left; position: relative; list-style-type: none; margin: 4px 0 }
  .pui-autocomplete-holder li.pui-autocomplete-input {margin: 2px 0; height: 20px}

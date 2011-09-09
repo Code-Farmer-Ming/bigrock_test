@@ -20,7 +20,7 @@ class User< ActiveRecord::Base
   #状态
   STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作"}
   
-  acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
+#  acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
   #字段验证
   validates_presence_of       :email,:password
 
@@ -199,12 +199,12 @@ class User< ActiveRecord::Base
 
   #  has_many :my_follow_collection,:class_name=>"Attention",:as=>:target
   #跟随关注我的用户
-  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all,:order=>"created_at desc",:conditions=>[ "user_id<>?",self.to_param]
+  has_many :follow_me_collection ,:class_name=>"Attention",:as=>:target,:dependent => :delete_all,:order=>"created_at desc",:conditions=>'user_id<>#{id}'
   has_many :follow_me_users,:through=>:follow_me_collection,:source=>:user 
   #  has_many :my_follow,:through=>:my_follow_collection,:source=>:target
   #我跟随关注的用户或公司或其他
   has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all,:order=>"created_at desc"
-  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc" ,:conditions=>[ "users.id<>?",self.to_param]
+  has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc" ,:conditions=>'user_id<>#{id}'
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company",:order=>"attentions.created_at desc"
   has_many :my_follow_groups,:through=>:my_follow_collection,:source=>:target,:source_type=>"Group",:order=>"attentions.created_at desc"
 

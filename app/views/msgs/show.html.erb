@@ -3,23 +3,23 @@
   <div id="msg_show">
     <%=  render :partial=>"msgs/msg_info",:object=>@msg%>
     <div id="msg_responses"  class="icon_right_content">
-      <div id="response_infos">
+      <div id="response_infos" class="form_row">
         <%=  render :partial=>"msgs/msg_response",:collection=>@msg.msg_responses%>
       </div>
       <% if @msg.can_response? %>
-
         <%remote_form_for  :response,:url=>msg_response_account_msg_path(@msg),
           :loading=>"$$('input[name=\\'commit\\']').each(function(s) \
   {s.disabled=true;}.bind(this))",
           :complete=>"$$('input[name=\\'commit\\']').each(function(s) \
   {s.disabled=false;}.bind(this))",
           :html=>{:class=>"required-validate", :method=>:put}  do |form| %>
-          <%= form.text_area :content ,:id=>"response_comment",:class=>"required default_value",:title=>"输入你想说的话吧！"%>
-
-          <p>
+          <div class="text_area_wrap">
+            <%= form.text_area :content ,:id=>"response_comment",:class=>"required default_value",:title=>"输入你想说的话吧！"%>
+          </div>     
+          <div class="form_row">
             <%= form.submit "好了回复",:disabled => false,:class=>"button"  %>
             <span  id="advice-required-response_comment" class="validation-advice"></span>
-          </p>
+          </div>
         <%end%>
 
       <%else%>

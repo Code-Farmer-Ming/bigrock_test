@@ -11,7 +11,7 @@
       <%= f.text_area( :self_description)%>
     </p>
     <%= f.submit '保存',:disable_with=>"保存…",:disabled => false,:class=>"button" %>
-    <%= link_to "暂时不填",new_user_pass_path(@user,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]) %>
+    <%#= link_to "暂时不填",new_user_pass_path(@user,:request_user_id=>params[:request_user_id],:request_company_id=>params[:request_company_id]) %>
   <% end %>
 </div>
 <div id="right_content">

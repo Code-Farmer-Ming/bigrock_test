@@ -577,9 +577,10 @@ ul#nav .activelink a,ul#nav a:hover{
 }
 
 #response_comment ,#publish_editor{
-    width:97%;
+    width:100%;
     height:5em;
     overflow-y:auto;
+    overflow:hidden;
 }
 #publish_editor {
     height: 3em;
@@ -1163,6 +1164,9 @@ div.auto_complete ul strong.highlight {
 
 #more_button {
     width: 97%;
+}
+.text_area_wrap{
+   margin-right:15px; *height:1%;
 }
 
 

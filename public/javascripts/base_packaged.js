@@ -322,7 +322,10 @@ function PerpareEdit(element)
 {el=$(element);if(!el)return;el.hide();el_container=$("edit_container_"+element);if(!el_container)return;el_container.show();}
 Ajax.Responders.register({onCreate:function(requester,xhrObject){if(Ajax.activeRequestCount>0)
 {if(requester&&requester.container&&requester.container["success"])
-{$(requester.container["success"]).update("<p class='loading'></p>","top");}}},onComplete:function(requester){if(Ajax.activeRequestCount==0)
+{var options=requester.options;if(options.insertion){if(Object.isString(options.insertion)){var insertion={};insertion[options.insertion]="<p class='loading'></p>";$(requester.container["success"]).insert(insertion);}
+else options.insertion($(requester.container["success"]),"<p class='loading'></p>");}
+else
+$(requester.container["success"]).update("<p class='loading'></p>");}}},onComplete:function(requester){if(Ajax.activeRequestCount==0)
 {if(requester&&requester.container&&requester.container["success"]&&$(requester.container["success"]).select(".loading"))
 {$(requester.container["success"]).select(".loading").each(function(el){el.remove();});}}}});function AddHover(element){section_el=$(element);section_el.select(".edit_section").each(function(el){Event.observe(el,"mouseover",function(){this.addClassName("hover");this.setAttribute('style','');});Event.observe(el,"mouseout",function(){this.removeClassName("hover");});});}
 Event.observe(window,"load",function(){Nifty('#nav a',"top");Nifty('div.main_info');Nifty('div.user_icon',"small");});
