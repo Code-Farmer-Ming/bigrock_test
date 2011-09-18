@@ -792,8 +792,13 @@ div.auto_complete ul strong.highlight {
     margin:6px auto;
     color:gray;
 }
+
 .log_text {
-    margin-left: 8px;
+    margin-left: 80px;
+}
+
+.group_log_text{
+        margin-left: 100px;
 }
 
 .user_log{
@@ -1164,6 +1169,7 @@ div.auto_complete ul strong.highlight {
 
 #more_button {
     width: 97%;
+    height: 32px;
 }
 .text_area_wrap{
    margin-right:15px; *height:1%;

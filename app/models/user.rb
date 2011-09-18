@@ -20,7 +20,7 @@ class User< ActiveRecord::Base
   #状态
   STATE_TYPES= {:working=>"我工作很好",:freedom=>"我需要工作"}
   
-#  acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
+  #  acts_as_logger :log_action=>["create"],:owner_attribute=>:self,:log_type=>"register_account",:can_log=>:"!is_alias?"
   #字段验证
   validates_presence_of       :email,:password
 
@@ -275,20 +275,24 @@ class User< ActiveRecord::Base
   #创建的小组
   has_many :create_groups,:class_name=>"Group",:foreign_key => "create_user_id"
   #其他马甲身份参加的小组
-  has_many :hidden_groups,:class_name=>"Group",
-    :finder_sql => 'select groups.* from groups INNER JOIN  members on groups.id=members.group_id where user_id in (#{alias_ids.join(\',\')})',
-    :order=>"members.created_at desc" do
-    def find(*args)
-      options = args.extract_options!
-      sql = @finder_sql
- 
-      sql += sanitize_sql " and #{options[:conditions]}" if options[:conditions]
-      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
-      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
-      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
-      find_by_sql(sql)
-    end
+  #  has_many :hidden_groups,:class_name=>"Group",:through=>:aliases,:source=>:groups
+  def hidden_groups
+    self.alias.groups
   end
+  #  has_many :hidden_groups,:class_name=>"Group",
+  #    :finder_sql => 'select groups.* from groups INNER JOIN  members on groups.id=members.group_id where user_id in (#{alias_ids.join(\',\')})',
+  #    :order=>"members.created_at desc" do
+  #    def find(*args)
+  #      options = args.extract_options!
+  #      sql = @finder_sql
+  #
+  #      sql += sanitize_sql " and #{options[:conditions]}" if options[:conditions]
+  #      sql += sanitize_sql [" order by %s", options[:order]] if options[:order]
+  #      sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
+  #      sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
+  #      find_by_sql(sql)
+  #    end
+  #  end
   #所有身份参与的小组 
   has_many :all_groups,:class_name=>"Group",
     :finder_sql => 'select groups.* from groups INNER JOIN  members on groups.id=members.group_id where user_id in (#{ids.join(\',\')})',
@@ -387,7 +391,7 @@ class User< ActiveRecord::Base
     end
   end
   #用户拥有的别名
-  has_many :aliases,
+  has_one :alias,
     :class_name => 'User',
     :foreign_key => 'parent_id',
     :dependent => :destroy
@@ -448,7 +452,7 @@ class User< ActiveRecord::Base
   #回调函数
   def after_create
     if !parent
-      self.aliases.create(:email=>"alias_email"+ self.email,
+      self.create_alias(:email=>"alias_email"+ self.email,
         :nick_name=>"马甲",:text_password=>self.text_password,
         :text_password_confirmation=>self.text_password_confirmation)
       self.base_info = BaseInfo.new
@@ -493,16 +497,12 @@ class User< ActiveRecord::Base
   end
   #用户的 所有关联账号的 id 数组 [1,2,……]
   def ids
-    is_alias? ? [parent_id,id] : [id]+alias_ids
+    is_alias? ? [parent_id,id] : self.alias ? [id,self.alias.id] : [id]
   end
-
-  #已经评价的公司的id 数组
-  def judged_company_ids
-    judged_companies.empty?  ? [-1] : judged_companies.collect{ |obj| obj.company_id }
-  end
+  
   #当前user 的所有账号 包括自己 数组
   def accounts
-    [self]+aliases
+    [self,self.alias]
   end
 
   def name_with_email
@@ -515,7 +515,7 @@ class User< ActiveRecord::Base
   
   #根据 id 获取当前 马甲账号 或 自己本身
   def get_account(id)
-    aliases.find_by_id(id) ||  self
+    self.id==id ? self : self.alias
   end
   #是马甲账号吗
   def is_alias?
@@ -556,115 +556,115 @@ class User< ActiveRecord::Base
       self.my_languages << MyLanguage.new(:content=>phrase,:is_current=>true)
       self.save
     end
-end
+  end
   
-#用户 用过的标签
-def used_tags(judge_object=nil)
-  self.user_taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
-    :conditions=>judge_object ? {:taggable_id=>judge_object.id,
-      :taggable_type=>judge_object.class.to_s} : "")
-end
+  #用户 用过的标签
+  def used_tags(judge_object=nil)
+    self.user_taggings.find(:all,:select=>"tags.*",:joins=>"join tags on taggings.tag_id=tags.id",
+      :conditions=>judge_object ? {:taggable_id=>judge_object.id,
+        :taggable_type=>judge_object.class.to_s} : "")
+  end
  
-#平均 评价的评分
-def avg_judge_value(judge_name=nil)
-  fv = self.passes.sum("judges_count")
-  if (fv)>0
-    if judge_name
-      (self.passes.sum(judge_name) / fv).to_f.round(1)
+  #平均 评价的评分
+  def avg_judge_value(judge_name=nil)
+    fv = self.passes.sum("judges_count")
+    if (fv)>0
+      if judge_name
+        (self.passes.sum(judge_name) / fv).to_f.round(1)
+      else
+        (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
+      end
     else
-      (self.passes.sum("eq_value+creditability_value+ability_value" ).to_i / fv / 3 ).to_f.round(1)
+      0.0
     end
-  else
-    0.0
   end
-end
   
-#评价 同事
-def judge_colleague(user,judge)
-  colleague =  not_judge_them_colleagues.first(:conditions=>{:user_id=>user.id})
-  colleague.judge_colleague(judge) if colleague
-end
+  #评价 同事
+  def judge_colleague(user,judge)
+    colleague =  not_judge_them_colleagues.first(:conditions=>{:user_id=>user.id})
+    colleague.judge_colleague(judge) if colleague
+  end
   
 
-def text_password=(value)
-  @text_password=value
-  create_new_salt
-  self.password = User.encrypted_password(value,salt)
-end
+  def text_password=(value)
+    @text_password=value
+    create_new_salt
+    self.password = User.encrypted_password(value,salt)
+  end
 
-#仅仅在创建新对象的时候，才返回密码明文，其他返回空 ？有点问题
-def text_password
-  @text_password
-end
+  #仅仅在创建新对象的时候，才返回密码明文，其他返回空 ？有点问题
+  def text_password
+    @text_password
+  end
 
-#获取用户 对 某个对象 做的标签的文本
-def used_tags_text(taggable_object)
-  return  if  !taggable_object.taggable?
-  taggble_list = self.used_tags(taggable_object)
-  #获取 当前评价
-  !taggble_list.empty?  ? taggble_list.collect.map { |item| item.name }.join(Tag::DELIMITER) : []
-end
+  #获取用户 对 某个对象 做的标签的文本
+  def used_tags_text(taggable_object)
+    return  if  !taggable_object.taggable?
+    taggble_list = self.used_tags(taggable_object)
+    #获取 当前评价
+    !taggble_list.empty?  ? taggble_list.collect.map { |item| item.name }.join(Tag::DELIMITER) : []
+  end
   
-#对某个可以做 做标签 的对象做标签 如公司
-def tag_something(taggable_object,tags=[])
-  return  if  !taggable_object.taggable?  || taggable_object.tag_list == tags
-  list = tag_cast_to_string(tags)
+  #对某个可以做 做标签 的对象做标签 如公司
+  def tag_something(taggable_object,tags=[])
+    return  if  !taggable_object.taggable?  || taggable_object.tag_list == tags
+    list = tag_cast_to_string(tags)
  
-  current = []
-  tagging_list = user_taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
-      :taggable_type=>taggable_object.class.to_s.camelize})
-  #获取 当前的标签
-  current = tagging_list.collect.map { |item| item.tag.name } if tagging_list
-  #需要新添加的标签
-  add_list = list-current
+    current = []
+    tagging_list = user_taggings.find(:all,:conditions=>{:taggable_id=>taggable_object.id,
+        :taggable_type=>taggable_object.class.to_s.camelize})
+    #获取 当前的标签
+    current = tagging_list.collect.map { |item| item.tag.name } if tagging_list
+    #需要新添加的标签
+    add_list = list-current
    
-  destroy_list = current - list
-  add_list.each do |tag_name|
-    temp_tag = Tag.find_or_create_by_name(tag_name)
-    temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
-    #是否有同样的标签
-    if !temp_tagging
-      taggable_object.tags << temp_tag
+    destroy_list = current - list
+    add_list.each do |tag_name|
+      temp_tag = Tag.find_or_create_by_name(tag_name)
       temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
+      #是否有同样的标签
+      if !temp_tagging
+        taggable_object.tags << temp_tag
+        temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag)
+      end
+      user_tags << UserTag.new(:tagging=>temp_tagging)
     end
-    user_tags << UserTag.new(:tagging=>temp_tagging)
+    #    user_tags.find(:all,:conditions=>
+    #        ["tags.name in (?)",destroy_list],
+    #      :joins=>"join tags  join taggings on tags.id=taggings.tag_id and taggings.id=user_tags.tagging_id").each do |tag_name|
+    #      tag_name.destroy
+    #需要删除的标签
+    destroy_list.each do |tag_name|
+      temp_tag = Tag.find_or_create_by_name(tag_name)
+      temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag) if temp_tag
+      user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
+    end
   end
-  #    user_tags.find(:all,:conditions=>
-  #        ["tags.name in (?)",destroy_list],
-  #      :joins=>"join tags  join taggings on tags.id=taggings.tag_id and taggings.id=user_tags.tagging_id").each do |tag_name|
-  #      tag_name.destroy
-  #需要删除的标签
-  destroy_list.each do |tag_name|
-    temp_tag = Tag.find_or_create_by_name(tag_name)
-    temp_tagging = taggable_object.taggings.find_by_tag_id(temp_tag) if temp_tag
-    user_tags.find_by_tagging_id(temp_tagging).destroy if temp_tagging
+  #删除 对某个对象做的 标签
+  def remove_something_tag(taggable_object)
+    tag_something(taggable_object)
   end
-end
-#删除 对某个对象做的 标签
-def remove_something_tag(taggable_object)
-  tag_something(taggable_object)
-end
-#START:create_new_salt
-def create_new_salt
-  self.salt = self.object_id.to_s + rand.to_s
-end
-#END:create_new_salt
+  #START:create_new_salt
+  def create_new_salt
+    self.salt = self.object_id.to_s + rand.to_s
+  end
+  #END:create_new_salt
  
-#未评价的公司
-def unjudge_companies
-  pass_companies.all - has_judged_companies
-end
-#简历是否有同事
-def has_colleagues?
-  self.colleagues.count >0
-end
+  #未评价的公司
+  def unjudge_companies
+    pass_companies.all - has_judged_companies
+  end
+  #简历是否有同事
+  def has_colleagues?
+    self.colleagues.count >0
+  end
 
   
-private
-#  #START:encrypted_password
-def self.encrypted_password(password, salt)
-  string_to_hash = password + "salt" + salt
-  Digest::SHA1.hexdigest(string_to_hash)
-end
-#  #END:encrypted_password
+  private
+  #  #START:encrypted_password
+  def self.encrypted_password(password, salt)
+    string_to_hash = password + "salt" + salt
+    Digest::SHA1.hexdigest(string_to_hash)
+  end
+  #  #END:encrypted_password
 end

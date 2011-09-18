@@ -6,9 +6,9 @@ class AccountController < ApplicationController
     @page_title ="首页"
     @page_keywords="公司,简历,工作,职位,求职,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
     @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
-    #      @news = Piecenews.newly.all(:limit=>4)
-    @newly_topics = Topic.order_by_last_comment.limit(16)
-    @logs = LogItem.find(:all,:limit=>16,:order=>"created_at desc");
+  
+#    @newly_topics = Topic.order_by_last_comment.limit(16)
+    @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
     @need_jobs = NeedJob.limit(6).order("created_at desc")
     @jobs = Job.limit(6).order("created_at desc")
   end

@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_filter :find_user,:only=>[:show,:colleague_list,:logs,:following,:groups,:info_render]
   def show
     #    if current_user
+    @logs = @user.log_items.paginate :page => params[:page]
     @page_title ="#{@user.name}"
     respond_to do |format|
       format.html # show.html.erb
@@ -25,12 +26,7 @@ class UsersController < ApplicationController
 
   #用户的活动日志记录
   def logs
-    @page_title ="#{@user.name} 动态记录"
-    if params[:type]=="" || params[:type]==nil || params[:type]=="all"
-      @log_items = @user.log_items.paginate :page => params[:page]
-    else
-      @log_items = @user.log_items.paginate_by_log_type params[:type], :page => params[:page]
-    end
+    @logs = @user.log_items.paginate :page => params[:page]
   end
   #关注的用户和公司
   def following

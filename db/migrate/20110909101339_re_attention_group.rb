@@ -1,7 +1,5 @@
 class ReAttentionGroup < ActiveRecord::Migration
   def self.up
- 
-    
     User.real_users.each() do |user|
       user.all_groups.each() do |group|
         user.add_attention(group)

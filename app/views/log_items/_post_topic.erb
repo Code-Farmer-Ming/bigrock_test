@@ -5,7 +5,7 @@
 
 <%log = object%>
 <p >话题 <%=  link_to   log.logable.title,log.logable,:target=>"_blank"%> </p>
-<p>
-  <%= simple_format(truncate("#{log.logable.content}", :length=>60))%>
-</p>
+<div>
+  <%= simple_format(auto_link(truncate("#{log.logable.content}", :length=>120)))%>
+</div>
 <%=  link_to  "查看详细…",log.logable,:target=>"_blank"%>

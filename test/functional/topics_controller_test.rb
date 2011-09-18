@@ -39,10 +39,10 @@ class TopicsControllerTest < ActionController::TestCase
   
   test "should create company topic with alias" do
     assert_difference('Topic.count') do
-      post :create, :topic => {:title=>"with alias",:content=>"sdfsdddd" },:company_id=>1,:alias=>@userone.aliases.first.to_param
+      post :create, :topic => {:title=>"with alias",:content=>"sdfsdddd" },:company_id=>1,:alias=>@userone.alias.to_param
     end
     assert_redirected_to [assigns(:topic).owner,assigns(:topic)]
-    assert_equal @userone.aliases.first,assigns(:topic).author
+    assert_equal @userone.alias,assigns(:topic).author
   end
   
   test "should create group topic" do

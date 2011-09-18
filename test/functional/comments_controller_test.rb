@@ -25,11 +25,11 @@ class CommentsControllerTest < ActionController::TestCase
     assert_difference("Comment.count", 1) do
       xhr :post ,:create ,
         :topic_id=>topics(:one).id,:comment=>{:content=>"test comment"},
-        :alias=>users(:one).aliases.first
+        :alias=>users(:one).alias
     end
     topics(:one).reload
     assert_equal 1,topics(:one).comments_count
-    assert_equal users(:one).aliases.first, topics(:one).last_comment_user
+    assert_equal users(:one).alias, topics(:one).last_comment_user
 #    assert_equal 1, users(:one).join_topics.size
   end
 
@@ -51,7 +51,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_difference("Comment.count", 1) do
       xhr :post ,:create ,
         :job_id=>job.id,:comment=>{:content=>"test comment"},
-        :alias=>users(:one).aliases.first
+        :alias=>users(:one).alias
     end
     job.reload
     assert_equal 1, job.comments.size

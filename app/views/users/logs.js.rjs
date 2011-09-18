@@ -1,0 +1,6 @@
+page.insert_html :bottom,"logs" ,render(:partial=>"log_items/show",:object=>@logs)
+if @logs.total_pages >@logs.current_page
+  page["next_page"].replace_html(render("log_items/more_button",:locals=>{:url=>logs_user_path(@user,:page=>@logs.current_page.next)}))
+else
+  page["next_page"].replace_html("")
+end

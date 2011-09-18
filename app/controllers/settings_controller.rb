@@ -36,7 +36,7 @@ class SettingsController < ApplicationController
   
   def alias
     @page_title ="马甲设置"
-    @alias = current_user.aliases.first
+    @alias = current_user.alias
     if request.put?
       if params[:uploaded_file_id] && params[:uploaded_file_id]!=""
         @alias.icon = UserIcon.find(params[:uploaded_file_id])

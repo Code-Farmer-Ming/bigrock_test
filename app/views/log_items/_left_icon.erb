@@ -5,6 +5,8 @@
 
 <%log = object%>
 <div class="topic_item" id="<%= dom_id(log)%>">
+  <span  class= "r small quiet"><%= date_ago_in_words(log.created_at)%></span>
+ 
   <div class="l">
 
     <%if log.owner.class==Company%>
@@ -16,12 +18,11 @@
       <%= render(:partial=>"groups/icon_name",:object=>log.owner) %>
     <%end%>
   </div>
-  <span  class= "r small quiet"><%= date_ago_in_words(log.created_at)%></span>
  
-  <div class="log_text l">
+  <div class="log_text  <%= "group_log_text" if log.owner.class==Group %>">
     <%= yield  %>
    
   </div>
 
-  <p class="c"></p>
+  <div class="c"></div>
 </div>

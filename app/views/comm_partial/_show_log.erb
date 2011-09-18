@@ -35,6 +35,8 @@ for log in show_log
         log_text = render(:partial=>"users/user_icon_name",:object=>log.owner)
       when Company.to_s
         log_text =  render(:partial=>"companies/company_icon",:object=>log.owner)
+         when Group.to_s
+        log_text =  render(:partial=>"groups/icon_name",:object=>log.owner)
       end
     end
   end

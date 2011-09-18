@@ -31,11 +31,11 @@ class GroupTest < ActiveSupport::TestCase
     assert users(:one).my_follow_groups.exists?(group)
   end
 
-  test "add to member with aliase" do
+  test "add to member with alias" do
     group =  groups(:three)
     group.all_members.clear
-    group.add_to_member(users(:one).aliases.first)
-    assert group.is_member?(users(:one).aliases.first)
+    group.add_to_member(users(:one).alias)
+    assert group.is_member?(users(:one).alias)
     assert users(:one).my_follow_groups.exists?(group)
   end
   
@@ -62,7 +62,7 @@ class GroupTest < ActiveSupport::TestCase
   test "log items" do
     group =  groups(:three)
     group.all_members.clear
-    assert_difference("group.logable_log_items.count",2) do
+    assert_difference("group.logable_log_items.count",1) do
       group.add_to_member(users(:three))
     end
   end

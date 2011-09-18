@@ -11,7 +11,8 @@ class PassTest < ActiveSupport::TestCase
     pass_one.end_date ="2010-10-09"
     pass_one.is_current = false
     assert !pass_one.save
-    assert pass_one.errors.on("begin_date")=="结束日期不能早于结开始期"
+ 
+    assert pass_one.errors.on("begin_date")=="结束日期不能早于开始期"
   end
  
   

@@ -1,10 +1,6 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
 
-<%= link_to_remote "查看更多…",{:method => :get,
-  :before=>"$('more_button').update('<p class=\"loading\" />');$('more_button').onclick=null",
-  :url=>log_items_path(:type=>params[:type],:page=>object.current_page.next)
-},
-  :class=>"button positive text_center",:id=>"more_button"%>
+  <%= link_to_remote "<p>查看更多…</p>",{:method => :get,
+    :before=>"$('more_button').update('<p class=\"loading\" />');$('more_button').onclick=null",
+    :url=>url
+  },
+    :class=>"button positive text_center",:id=>"more_button" %>

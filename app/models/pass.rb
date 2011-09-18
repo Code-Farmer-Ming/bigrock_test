@@ -171,8 +171,8 @@ class Pass < ActiveRecord::Base
   protected
   #有效性检查 不是开始日期小于结束日期提示
   def validate
-    if !is_current && begin_date.to_date>end_date.to_date
-      errors.add("begin_date", "结束日期不能早于结开始期")
+    if !is_current && begin_date>end_date
+      errors.add("begin_date", "结束日期不能早于开始期")
     end
   end
 

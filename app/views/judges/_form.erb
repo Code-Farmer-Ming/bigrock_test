@@ -12,6 +12,7 @@
   <%= f.label :creditability_value,"资料真实" ,:class=>"filed_lab"  %>
   <%=  rating_field :judge, :creditability_value%>
 </div>
+<p>以上评价信息只有您自己能看到</p>
 <div class="form_row">
   <%= form.label :visiabled1,"评价",:class=>"filed_lab" %>
   <%= form.check_box  :anonymous %><%= form.label :anonymous,"匿名评价" %>

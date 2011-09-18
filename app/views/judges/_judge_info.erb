@@ -25,13 +25,13 @@
   <p  class="quiet">
     <%= localize(judge.created_at) %> 评价
   </p>
-  <p>
-    工作能力 <%= small_star(judge.ability_value || 0) %> &nbsp;&nbsp;
-    沟通能力
-    <%= small_star(judge.eq_value || 0) %>&nbsp;&nbsp;
-    资料真实
-    <%= small_star(judge.creditability_value || 0) %>
-  </p>
+  <%#*<p>%>
+    <%#*工作能力 <%= small_star(judge.ability_value || 0) %>
+    <%#*沟通能力%>
+    <%#= small_star(judge.eq_value || 0) %> 
+    <%#*资料真实%>
+    <%#= small_star(judge.creditability_value || 0) %>
+  <%#*</p>%>
   <p>
     <%= judge.description %>
   </p>

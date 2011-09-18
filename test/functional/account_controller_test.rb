@@ -47,8 +47,8 @@ class AccountControllerTest < ActionController::TestCase
     end
     assert_redirected_to  edit_account_base_info_path()
     assert User.find_all_by_email(email).size>0
-    assert_equal  1, assigns(:user).aliases.count
-    assert_equal assigns(:user).aliases[0].parent, assigns(:user)
+    
+    assert_equal assigns(:user).alias.parent, assigns(:user)
     #自己关注自己
     assert_difference "assigns(:user).my_follow_log_items.count" do
       assigns(:user).set_signature("ok")
@@ -83,8 +83,8 @@ class AccountControllerTest < ActionController::TestCase
     end
     #    assert_redirected_to  new_user_pass_path(assigns(:user),:request_user_id=>1,:request_company_id=>1)
     assert User.find_all_by_email(email).size>0
-    assert_equal  1, assigns(:user).aliases.count
-    assert_equal assigns(:user).aliases[0].parent, assigns(:user)
+
+    assert_equal assigns(:user).alias.parent, assigns(:user)
   end
   
   test "diff password create" do

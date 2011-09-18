@@ -54,6 +54,6 @@ class SettingsControllerTest < ActionController::TestCase
   
   test "put alias" do
     put :alias,:user=>{:nick_name=>"新名字"}
-    assert_equal "新名字",users(:one).aliases.first.name,flash[:error]
+    assert_equal "新名字",users(:one).alias.name,flash[:error]
   end
 end

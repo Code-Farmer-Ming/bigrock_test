@@ -6,6 +6,6 @@
 </div>
 <div id="next_page">
   <%if  @logs.total_pages >@logs.current_page  %>
-    <%= render "log_items/more_button",:object=>@logs %>
+    <%= render(:partial=>"log_items/more_button",:locals=>{:url=>log_items_path(:type=>params[:type],:page=>@logs.current_page.next)})%>
   <%end%>
 </div>

@@ -46,11 +46,11 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group with alias" do
     assert_difference('Group.count') do
       post :create, :group => {:name=>"test group", :group_type_id=>0,:join_type=> Group::JOIN_TYPES[0][1]},
-        :alias=>users(:one).aliases.first.to_param
+        :alias=>users(:one).alias.to_param
     end
     assert_redirected_to group_path(assigns(:group))
     assert_equal Group::JOIN_TYPES[0][1],Group.find_by_name("test group").join_type
-    assert_equal users(:one).aliases.first, Group.find_by_name("test group").create_user
+    assert_equal users(:one).alias, Group.find_by_name("test group").create_user
   end
   #创建 需要申请加入的小组
   test "should create application group" do

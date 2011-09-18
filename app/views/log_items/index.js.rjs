@@ -2,7 +2,7 @@
 
 page.insert_html :bottom,"logs" ,render(:partial=>"log_items/show",:object=>@logs)
 if @logs.total_pages >@logs.current_page
-  page["next_page"].replace_html(render(:partial=>"log_items/more_button",:object=>@logs))
+  page["next_page"].replace_html(render(:partial=>"log_items/more_button",:locals=>{:url=>log_items_path(:type=>params[:type],:page=>@logs.current_page.next)}))
 else
   page["next_page"].replace_html("")
 end

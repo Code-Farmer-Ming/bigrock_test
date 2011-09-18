@@ -5,19 +5,19 @@ class UserTest < ActiveSupport::TestCase
 
   test "create_all_is_null" do
     user=User.new
-    assert !user.valid?,"valid date fail"
+    assert !user.valid?,"valid data fail"
     assert user.errors.invalid?("email"),"email is not nil"
     assert user.errors.invalid?(:password),"password is not nil"
   end
 
   test "post broadcast" do
-    Broadcast.all.clear
-    UserBroadcast.all.clear
+ 
+    UserBroadcast.destroy_all()
     broadcast = broadcasts(:one)
     assert_difference "UserBroadcast.count" do
       users(:foru).send_broadcast broadcast,[ users(:one)]
     end
- 
+    broadcast.reload
     assert_difference "UserBroadcast.count",2 do
       users(:foru).send_broadcast broadcast ,[ users(:one), users(:two),users(:three)]
     end
@@ -49,7 +49,7 @@ class UserTest < ActiveSupport::TestCase
     users= User.find_all_by_email("email@gmail.com")
     assert users.length>0 ,"不存在用户"
     assert users[0].password ==User.encrypted_password("password",users[0].salt),"密码不匹配"
-    assert users[0].aliases.size>0,"别名创建失败"
+    assert_not_nil users[0].alias,"别名创建失败"
  
   end
 
@@ -252,12 +252,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 0, user_two.targets.count
 
     user_one.reload
-    user_one.targets  << user_two
-    assert_equal 1, user_one.targets.count
-    assert_equal 1, user_one.my_follow_users.count
-    assert_equal 2,user_one.my_follow_log_items.count
+    assert_difference "user_one.my_follow_log_items.find_all_by_owner_type('User').size" do
+      assert_difference "user_one.my_follow_log_items.count" do
+        assert_difference "user_one.targets.count" do
+          user_one.targets  << user_two
+        end
+      end
+    end
+      
     assert_equal user_two,user_one.my_follow_log_items[0].owner
-    assert_equal 2,user_one.my_follow_log_items.find_all_by_owner_type("User").size
 
     user_one.targets.delete(user_two)
     assert_equal 0, user_one.targets.count
@@ -329,11 +332,11 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
-  test "my reply topics with aliase account" do
+  test "my reply topics with alias account" do
     user_one = users(:one)
     topic_three = topics(:three)
     assert_difference("user_one.reply_topics.size",1) do
-      topic_three.add_comment(topic_three.comments.new(:content=>"test reply",:user_id=>user_one.aliases.first.id))
+      topic_three.add_comment(topic_three.comments.new(:content=>"test reply",:user_id=>user_one.alias))
     end
   end
   test "user login" do
@@ -392,6 +395,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "new pass generate colleague" do
     user_1 = users(:one)
+    Colleague.destroy_all
     assert_difference("user_1.undetermined_colleagues.count") do
       user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
     end
@@ -409,6 +413,7 @@ class UserTest < ActiveSupport::TestCase
  
   test "remove colleague" do
     user_1 = users(:one)
+    Colleague.destroy_all
     chang_first_pass_end_date
     assert_difference("user_1.undetermined_colleagues.count",-1) do
       user_1.passes.first.update_attributes(:end_date=>"2009-5-10",:begin_date=>"2009-5-10",:is_current=>false)
@@ -475,6 +480,23 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+
+  test "destroy user and its log item" do
+    user = users(:one)
+    user.targets.destroy_all()
+    users(:two).log_items.destroy_all
+    user.add_attention(user)
+    user.reload
+    
+    assert_difference "user.my_follow_log_items.size" do
+      user.add_attention(users(:two))
+      user.reload
+    end
+    assert_difference "user.my_follow_log_items.size",-1 do
+      users(:two).destroy
+    end
+  end
+
   def create_a_pass_for_user3
     user_three = users(:three)
     new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
@@ -486,4 +508,5 @@ class UserTest < ActiveSupport::TestCase
     user_1 = users(:one)
     user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
   end
+
 end

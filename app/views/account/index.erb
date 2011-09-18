@@ -26,23 +26,7 @@
     <%end%>
   <%end%>
 
-  <% sub_block_div("最新注册用户") do %>
-          
-    <div id="carousel-wrapper">
-      <div id="carousel-content">
-        <div class="slide">
-          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
-        </div>
-        <div class="slide">
-          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4).all(:offset => 4) %>
-        </div>
-        <div class="slide">
-          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
-        </div>
-      </div>
-    </div>
 
-  <%end%>
 
   <%sub_block_div() do%>
     <div class="half_width r">
@@ -66,18 +50,34 @@
     </div>
   <%end%>
 
+  <% sub_block_div("最新注册用户") do %>
 
-  <%  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
-    <%= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
-    <p class="">
-      <%=  link_to("<<查看更多…",topics_path())%>
-    </p>
+    <div id="carousel-wrapper">
+      <div id="carousel-content">
+        <div class="slide">
+          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
+        </div>
+        <div class="slide">
+          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4).all(:offset => 4) %>
+        </div>
+        <div class="slide">
+          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
+        </div>
+      </div>
+    </div>
+
   <%end%>
+  <%#  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
+    <%#= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
+    <%#*<p class="">%>
+      <%#=  link_to("<<查看更多…",topics_path())%>
+    <%#*</p>%>
+  <%#end%>
 
 </div>
 <div id ="right_content">
-  <% sub_block_div("最新动态",(link_to("全部",follow_logs_account_path()) if  @user )) do %>
-    <%= render :partial=>"comm_partial/show_log",:object=>@logs %>
+  <% sub_block_div("最新动态" ) do %>
+    <%= render :partial=>"log_items/show",:object=>@logs %>
   <%end%>
 <%#sub_block_div("最活跃小组",link_to("全部",groups_path())) do%>
 <%#*<ul class="float_ul">%>
