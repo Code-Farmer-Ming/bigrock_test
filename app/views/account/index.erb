@@ -1,6 +1,4 @@
-<% content_for :script do %>
-  <%= javascript_include_merged :carousel %>
-<% end %>
+ 
 <div id="left_content">
 
   <div class="box">
@@ -44,35 +42,19 @@
           <%= render :partial=>"jobs/short_item",:collection=>@jobs ,:locals=>{:is_show_company=>true}%>
         </ul>
         <%= link_to("<<查看更多…",search_jobs_path()) if @jobs.size>8%>
-
-
       <%end%>
     </div>
   <%end%>
 
   <% sub_block_div("最新注册用户") do %>
-
-    <div id="carousel-wrapper">
-      <div id="carousel-content">
-        <div class="slide">
-          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
-        </div>
-        <div class="slide">
-          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4).all(:offset => 4) %>
-        </div>
-        <div class="slide">
-          <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
-        </div>
-      </div>
-    </div>
-
+    <%= render :partial=>"account/horizontal_user_info",:collection=> User.real_users.newly.limit(4)  %>
   <%end%>
-  <%#  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
-    <%#= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
-    <%#*<p class="">%>
-      <%#=  link_to("<<查看更多…",topics_path())%>
-    <%#*</p>%>
-  <%#end%>
+<%#  sub_block_div("最新的话题",link_to("全部",topics_path())) do %>
+<%#= render :partial=>"topics/topic_item",:collection=>@newly_topics,:locals=>{:show_group=>true} %>
+<%#*<p class="">%>
+<%#=  link_to("<<查看更多…",topics_path())%>
+<%#*</p>%>
+<%#end%>
 
 </div>
 <div id ="right_content">
