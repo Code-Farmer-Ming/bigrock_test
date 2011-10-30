@@ -43,12 +43,12 @@ class Colleague < ActiveRecord::Base
   #确认是同事
   def confirm
     update_attributes(:state=>STATES[1])
-    msg =  Msg.new_system_msg(:title=>"确认您为同事",:content=>"<a href='/users/#{user.id}'>#{user.name}</a>确认您为同事，快去看看是不是认识。")
-    msg.send_to(colleague_user)
+    user.add_attention(colleague_user);
   end
   
   #不是同事
   def not_colleague
+    user.remove_attention(colleague_user);
     update_attributes(:state=>STATES[2])    
     judge.destroy if judge
   end

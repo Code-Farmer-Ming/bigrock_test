@@ -3,7 +3,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :colleagues
   map.resources :publishs
-
+  map.resources :apply_colleagues,:member=>{:accept=>:post}
+  
   map.resources :log_items
   
   map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit] do |need_job|
@@ -67,7 +68,7 @@ ActionController::Routing::Routes.draw do |map|
     account.resource :base_info
     account.resources :judges,:except=>[:index]
     account.resources :msgs ,:collection=>{},:member=>{:msg_response=>:put}
-
+ 
     account.resources :join_group_invites ,:member=>{:accept=>:post}
     account.resources :need_jobs,:collection=>{:batch_destroy=>[:delete]},:except=>[:show,:index,:edit,:destroy] 
   end
@@ -75,7 +76,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users,:collection =>{},
     :member=>{:colleague_list=>:get, :logs=>:get,:following=>:get,:groups=>:get} do |users|
     users.resources :judges,:only=>[:index]
-    users.resources :colleagues,:member=>{:confirm=>:post,:cancel=>:post} #同事
+    users.resources :colleagues,:collection=>{:cancel=>:post} #同事
 
     users.resources :tags,:only=>[:index]
     users.resources :topics

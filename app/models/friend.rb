@@ -11,20 +11,16 @@
 #
 
 class Friend < ActiveRecord::Base
-  validates_uniqueness_of :user_id, :scope =>:friend_id,:message =>"ÒÑ¾­ÊÇºÃÓÑÀ²"
+  validates_uniqueness_of :user_id, :scope =>:friend_id,:message =>"å·²ç»æ˜¯å¥½å‹å•¦"
   
   belongs_to :user,:class_name=>"User",:foreign_key=>"user_id"
   belongs_to :friend,:class_name=>"User",:foreign_key=>"friend_id"
   acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:logable=>"friend"
-
+ 
   def after_create
-    msg= Msg.new_system_msg(:title=>"ÏµÍ³ÌáÊ¾£º#{user.name}ÒÑ¾­¼ÓÄãÎªºÃÓÑ",:content=>"#{user.name}ÒÑ¾­¼ÓÄãÎªºÃÓÑ,È¥¿´¿´°É¡£")
+    msg= Msg.new_system_msg(:title=>"ç³»ç»Ÿæç¤ºï¼š#{user.name}å·²ç»åŠ ä½ ä¸ºå¥½å‹",:content=>"#{user.name}å·²ç»åŠ ä½ ä¸ºå¥½å‹,å»çœ‹çœ‹å§ã€‚")
     msg.send_to(friend)
   end
   
-  def self.per_page
-    20
-  end
-
-
+ 
 end

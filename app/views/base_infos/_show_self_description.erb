@@ -1,12 +1,13 @@
 <%user  = show_self_description %>
-<% if (user.base_info.self_description.blank?) ||  current_user?(user) -%>
+<% if (not user.base_info.self_description.blank?) ||  current_user?(user) -%>
   <div class="section <%= current_user?(user) ? "edit_section" : "" %>">
     <span class="operation_lab">
       <%=   link_to "","",:id=>dom_id(user,"ext"),:class=>"edit_img_button" if  current_user?(user) %>
     </span>
     <h2>自我描述</h2>
   </div>
-  <div   class="section" id="<%= dom_id(user,"self_description") %>"><%= simple_format(user.base_info.self_description) -%></div>
+  <div   class="section" id="<%= dom_id(user,"self_description") %>"><%= auto_link(simple_format(user.base_info.self_description)) -%></div>
+
   <%=  in_place_editor(dom_id(user,"self_description") ,
     :url=>url_for({:controller=>:base_infos,:action => "set_self_description"}),:loading_text=>"载入…",
     :external_control=>dom_id(user,"ext"),

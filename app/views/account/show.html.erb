@@ -59,17 +59,17 @@
   <%if @unread_job_apply_size>0%>
     <% link_to published_job_applicants_account_path(),:class=>"small" do%>
       <span class="red_text large strong">
-        <%= "#{@user.published_job_applicants.count}"  %>
+        <%= "#{@unread_job_apply_size}"  %>
       </span>
       个申请职位
     <%end%>
     &nbsp;
   <%end%>
-  <%if @user.undetermined_colleague_users.count>0%>
+  <%if @user.need_confirm_colleague_users.count>0%>
     <%  link_to  user_colleagues_path(@user,:type=>"undetermined"),
       :class=>"small"  do%>
       <span class="red_text large strong">
-        <%= "#{@user.undetermined_colleague_users.count}"  %>
+        <%= "#{@user.need_confirm_colleague_users.count}"  %>
       </span>
       人个也许是同事
     <%end%>
@@ -86,6 +86,13 @@
     <% link_to broadcasts_path(),:class=>"small" do %>
       <span class='red_text large strong'><%= @unread_broadcast_count %></span>
       需转发的消息
+    <%end%>
+    &nbsp;
+  <%end%>
+  <%if @by_apply_colleague_count>0%>
+    <% link_to apply_colleagues_path(),:class=>"small" do %>
+      <span class='red_text large strong'><%= @by_apply_colleague_count %></span>
+      申请为同事
     <%end%>
     &nbsp;
   <%end%>

@@ -84,6 +84,7 @@ class AccountController < ApplicationController
     @join_group_invites_size = @user.join_group_invites.count
     @unread_job_apply_size = @user.unread_published_job_applicants.count
     @unread_broadcast_count =  current_user.user_broadcasts.count
+    @by_apply_colleague_count = current_user.by_apply_colleagues.count
   end
   
   

@@ -94,19 +94,19 @@ class User< ActiveRecord::Base
   has_many :all_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:dependent=>:destroy
 
   #还未确认的同事
-  has_many :undetermined_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
-  has_many :undetermined_colleague_users,:through=>:undetermined_colleagues,:source=>:colleague_user,:uniq =>true
+#  has_many :undetermined_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
+#  has_many :undetermined_colleague_users,:through=>:undetermined_colleagues,:source=>:colleague_user,:uniq =>true
   #已经确定是同事了
   has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user,:uniq=>true
 
   #需要确认的同事(未确认+已经取消)
-  has_many :need_comfire_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "state=? or state=?",Colleague::STATES[0],Colleague::STATES[2]] ,:dependent=>:destroy
-  has_many :need_comfire_colleague_users,:through=>:need_comfire_colleagues,:source=>:colleague_user,:uniq =>true
+  has_many :need_comfire_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "colleagues.state=? or colleagues.state=?",Colleague::STATES[0],Colleague::STATES[2]] ,:dependent=>:destroy
+  has_many :need_confirm_colleague_users,:through=>:need_comfire_colleagues,:source=>:colleague_user,:uniq =>true
 
-  has_many :need_cancel_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "state=? or state=?",Colleague::STATES[0],Colleague::STATES[1]] ,:dependent=>:destroy
-  has_many :need_cancel_colleague_users,:through=>:need_cancel_colleagues,:source=>:colleague_user,:uniq =>true
-
+#  has_many :need_cancel_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "state=? or state=?",Colleague::STATES[0],Colleague::STATES[1]] ,:dependent=>:destroy
+#  has_many :need_cancel_colleague_users,:through=>:need_cancel_colleagues,:source=>:colleague_user,:uniq =>true
+#
   #对自己未评价的同事
   #  has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
   #  has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
@@ -136,8 +136,8 @@ class User< ActiveRecord::Base
 
 
   #  #添加好友 申请
-  #  has_many :add_friend_applications ,:foreign_key=>"respondent_id",
-  #    :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
+   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
+    :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
   # 小组邀请
   has_many :join_group_invites ,:foreign_key=>"respondent_id",
     :dependent=>:destroy,:class_name=>"JoinGroupInvite",:source=>:applicant
@@ -427,8 +427,15 @@ class User< ActiveRecord::Base
   has_many :current_passes,:class_name=>"Pass",:foreign_key=>"user_id",:conditions=>{:is_current=>true}
   has_many :current_companies ,:through=>:current_passes,:source=>:company
 
+  #向同事 申请
+  has_many :apply_colleagues ,:class_name=>"ApplyColleague" ,:foreign_key=>"applicant_id",:dependent=>:destroy,:as=>:applicant
 
- 
+  has_many :apply_colleague_users ,:through=>:apply_colleagues,:source=>:respondent ,:dependent=>:destroy
+
+  #同事的申请
+  has_many :by_apply_colleagues ,:class_name=>"ApplyColleague" ,:foreign_key=>"respondent_id",:dependent=>:destroy
+
+  has_many :by_apply_colleague_users ,:through=>:by_apply_colleagues,:source=>:applicant ,:dependent=>:destroy
 
   #  delegate :passeses,:to=>:current_resume
   #  delegate :pass_companies,:to=>:current_resume
@@ -537,7 +544,11 @@ class User< ActiveRecord::Base
   def add_colleague colleague,pass
     Colleague.create(:pass=>pass,:company=>pass.company,:colleague=>colleague,:user=>self)
   end
-  
+
+  def apply_colleague(apply)
+    apply_colleagues << apply
+  end
+
   #用户关注 某个对象 如 company 或 user
   def add_attention(target_object)
     targets << target_object

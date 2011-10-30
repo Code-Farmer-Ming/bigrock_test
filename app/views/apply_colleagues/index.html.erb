@@ -1,0 +1,12 @@
+<div id="left_content">
+  <h1>同事申请</h1>
+  <%= render :partial=>"apply_colleagues/item_info" ,:collection=>@applies %>
+  <%= will_paginate  @applies %>
+</div>
+
+<div id="right_content">
+  <% sub_block_div() do %>
+    <%= link_to "<< 我的首页",user_path(current_user) %>
+  <%end%>
+
+</div>

@@ -18,5 +18,5 @@ class Requisition < ActiveRecord::Base
   #被申请的用户
   belongs_to :respondent ,:class_name=>"User" ,:foreign_key=>"respondent_id"
 
-
+ 
 end

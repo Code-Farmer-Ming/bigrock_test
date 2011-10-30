@@ -1,0 +1,24 @@
+
+<div  class= "<%= cycle("item_content", "gray_background item_content") %>"  id="<%= dom_id(object) %>">
+  <div class="l">
+    <%= render :partial=>"users/user_icon_name",:object=>object.applicant %>
+  </div>
+  <div class="icon_right_content">
+    <p class="r" id="<%= dom_id(object,:operation) %>">
+      <%= link_to_remote "同意",{:url=>accept_apply_colleague_path(object)},:class=>"button positive" ,:title=>"成为同事" %>
+      <%= link_to_remote "忽略", {:url=>apply_colleague_path(object),:confirm=>"你确定吗?",:method=>:delete} ,:class=>"red_text",:title=>"删除" %>
+    </p>
+    <p class="quiet">
+      <%=  localize(object.created_at) %>
+    </p>
+    <%object.applicant.need_comfire_colleagues.find_all_by_colleague_id(current_user.id).each do |undetermined|%>
+      <p><%=  "在 #{undetermined.my_pass.company.name}" -%></p>
+    <%end%>
+    <blockquote>
+      <%=   h object.memo %>
+    </blockquote>
+
+
+  </div>
+  <p class="clear" />
+</div>

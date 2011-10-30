@@ -16,7 +16,7 @@
     <h2>标签</h2>
     <p id="tag_topN_list">
       <%= render :partial=>"base_infos/show_tag",:collection=>user.taggings%>
-      <%= link_to "…所有#{user.taggings.size}个",[user,:tags] if user.taggings.size>5 %>
+      <%= link_to "…所有#{user.taggings.count}个",[user,:tags] if user.taggings.count>5 %>
     </p>
   </div>
 <%end%>
