@@ -85,18 +85,15 @@ class User< ActiveRecord::Base
   has_many :has_judged_companies,:through=>:company_judges,:source=>:company,:class_name=>"Company"
 
   #我的好友
-  #  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
-  #  has_many :friend_users,:through=>:friends,:source=>:friend
-  has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
+  has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
+  has_many :friend_users,:through=>:friends,:source=>:friend
+#  has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
   #被谁加为好友
   #  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
   has_many :all_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:dependent=>:destroy
 
-  #还未确认的同事
-#  has_many :undetermined_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[0]} ,:dependent=>:destroy
-#  has_many :undetermined_colleague_users,:through=>:undetermined_colleagues,:source=>:colleague_user,:uniq =>true
-  #已经确定是同事了
+   #已经确定是同事了
   has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user,:uniq=>true
 
@@ -104,9 +101,7 @@ class User< ActiveRecord::Base
   has_many :need_comfire_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "colleagues.state=? or colleagues.state=?",Colleague::STATES[0],Colleague::STATES[2]] ,:dependent=>:destroy
   has_many :need_confirm_colleague_users,:through=>:need_comfire_colleagues,:source=>:colleague_user,:uniq =>true
 
-#  has_many :need_cancel_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>[ "state=? or state=?",Colleague::STATES[0],Colleague::STATES[1]] ,:dependent=>:destroy
-#  has_many :need_cancel_colleague_users,:through=>:need_cancel_colleagues,:source=>:colleague_user,:uniq =>true
-#
+
   #对自己未评价的同事
   #  has_many :not_judge_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:conditions=>{:is_judge=>false,:state => Colleague::STATES[1]} ,:dependent=>:destroy
   #  has_many :not_judge_colleague_users,:through=>:not_judge_colleagues,:source=>:colleague_user
