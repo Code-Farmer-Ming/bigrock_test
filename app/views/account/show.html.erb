@@ -97,6 +97,14 @@
     &nbsp;
   <%end%>
 
+  <%if current_user.add_friend_applications.count>0%>
+    <% link_to add_friend_applications_path(),:class=>"small" do %>
+      <span class='red_text large strong'><%= current_user.add_friend_applications.count %></span>
+      加好友申请
+    <%end%>
+    &nbsp;
+  <%end%>
+
   <% sub_block_div(" ") do%>
     <ul id="user_navigate" class="set_center">
       <li><%= link_to "评价管理<small>▼</small>","javascript:;",:id=>"manaage_menu_link"  %> </li>

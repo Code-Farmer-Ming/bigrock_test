@@ -586,15 +586,6 @@ ul#nav .activelink a,ul#nav a:hover{
     height: 3em;
 }
 /*申请信息*/
-.apply_info{
-    margin:10px;
-    padding:8px;
-    border-bottom:1px dotted silver;
-}
-.apply_info .applicant, .apply_memo{
-    float:left;
-    margin-right:8px;
-}
 .company_icon{
     height:70px;
     width: 70px;
@@ -798,7 +789,7 @@ div.auto_complete ul strong.highlight {
 }
 
 .group_log_text{
-        margin-left: 100px;
+    margin-left: 100px;
 }
 
 .user_log{
@@ -1170,9 +1161,10 @@ div.auto_complete ul strong.highlight {
 #more_button {
     width: 97%;
     height: 32px;
+    line-height: 32px;
 }
 .text_area_wrap{
-   margin-right:15px; *height:1%;
+    margin-right:15px; *height:1%;
 }
 
 

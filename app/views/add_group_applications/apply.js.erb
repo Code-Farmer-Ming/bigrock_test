@@ -8,7 +8,9 @@
   <%#*</p>%>
     <%= hidden_field_tag "alias",params[:alias] %>
     <p>
-      <%= form.label :memo,"说点什么",:class=>"filed_lab" %>
+      <%= form.label :memo,"说点什么"%>
+    </p>
+    <p>
       <%= form.text_area :memo,:rows=>2,:title=>"可以为空" %>
     </p>
     <p>

@@ -1,4 +1,4 @@
-<div id="<%= dom_id(show_apply,"apply_info")%>"  class="apply_info">
+<div id="<%= dom_id(show_apply,"apply_info")%>"  class="<%= cycle("item_content", "gray_background item_content") %>">
   <% form_for  :AddFriendApplications,:url=>accept_account_join_group_invite_path(show_apply) do |form| %>
     <div>
       <div class="r">

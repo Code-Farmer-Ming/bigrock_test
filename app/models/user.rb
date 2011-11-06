@@ -87,13 +87,13 @@ class User< ActiveRecord::Base
   #我的好友
   has_many :friends,:foreign_key=>"user_id",:dependent=>:destroy
   has_many :friend_users,:through=>:friends,:source=>:friend
-#  has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
+  #  has_many :created_news,:class_name=>"Piecenews",:foreign_key=>"create_user_id",:dependent=>:destroy
   #被谁加为好友
   #  has_many :friendeds,:class_name=>"Friend",:foreign_key=>"friend_id",:dependent=>:destroy
 
   has_many :all_colleagues,:class_name=>"Colleague",:foreign_key=>"user_id",:dependent=>:destroy
 
-   #已经确定是同事了
+  #已经确定是同事了
   has_many :colleagues,:foreign_key=>"user_id",:conditions=>{:state => Colleague::STATES[1]} ,:dependent=>:destroy
   has_many :colleague_users,:through=>:colleagues,:source=>:colleague_user,:uniq=>true
 
@@ -130,13 +130,18 @@ class User< ActiveRecord::Base
   has_many :judged_infos,:through=>:has_judge_them_colleagues,:source=>:judge,:uniq=>true
 
 
-  #  #添加好友 申请
-   has_many :add_friend_applications ,:foreign_key=>"respondent_id",
-    :dependent=>:destroy,:class_name=>"AddFriendApplication",:source=>:applicant
+  #  添加好友 申请
+  has_many :add_friend_applications ,:foreign_key=>"respondent_id",
+    :dependent=>:destroy,:class_name=>"AddFriendApplication"  
+  #我 添加别人好友的申请
+  has_many :my_add_friend_applications ,:foreign_key=>"applicant_id",
+    :dependent=>:destroy,:class_name=>"AddFriendApplication" ,:as=>:applicant
+  
+  has_many :my_add_friend_application_users,:through=>:my_add_friend_applications,:source=>:respondent,:uniq=>true
   # 小组邀请
   has_many :join_group_invites ,:foreign_key=>"respondent_id",
-    :dependent=>:destroy,:class_name=>"JoinGroupInvite",:source=>:applicant
-  #发起的消息
+    :dependent=>:destroy,:class_name=>"JoinGroupInvite"
+  
   has_many :send_msgs,:class_name=>"Msg",
     :finder_sql=>'SELECT * FROM `msgs` WHERE ' +
     'parent_id=0 and sender_stop=#{false} and sender_id in (#{ids.join(\',\')})  order by created_at desc' do

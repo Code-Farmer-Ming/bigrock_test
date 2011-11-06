@@ -4,7 +4,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :colleagues
   map.resources :publishs
   map.resources :apply_colleagues,:member=>{:accept=>:post}
-  
+  map.resources :add_friend_applications,:member=>{:accept=>:post}
+    
   map.resources :log_items
   
   map.resources :need_jobs,:collection=>{:batch_destroy=>[:delete],:search=>:get},:only=>[:search,:show,:index,:destroy,:edit] do |need_job|
@@ -83,7 +84,7 @@ ActionController::Routing::Routes.draw do |map|
     #    users.resources :base_infos
     users.resources :passes,:member=>{:available_colleagues=>:get,:send_invite=>:post,
       :invite_join=>:get,:send_invite_join=>:post}
- 
+    users.resources :friends
     users.resources :specialities
     users.resources :educations
   end

@@ -1,7 +1,6 @@
 <div id="left_content">
   <h1>添加好友申请</h1>
-
-  <%= render :partial=>"add_friend_applications/show_apply" ,:collection=>@add_friend_applications   %>
+  <%= render :partial=>"add_friend_applications/item_info" ,:collection=>@add_friend_applications   %>
   <%= will_paginate @add_friend_applications %>
 </div>
 <div id="right_content">
