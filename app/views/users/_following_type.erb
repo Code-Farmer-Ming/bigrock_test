@@ -1,16 +1,10 @@
 <h1><%=  object.name %></h1>
 <div class="tab">
   <ul class="item">
-    <li><%= link_to   "同事",user_colleagues_path(object) ,:class=>(controller.action_name=="index" && !params[:type]  ? "active-tab" : "" )  %></li>
+    <li><%= link_to   "同事",user_colleagues_path(object,:type=>"colleague") ,:class=>(params[:type]=="colleague"  ? "active-tab" : "" )  %></li>
     <li><%= link_to "可能是同事", user_colleagues_path(object,:type=>"undetermined"),:class=>(params[:type]=="undetermined" ? "active-tab" : "") if current_user?(@user)%> </li>
-
-<%#*<li><%= link_to "好友", friends_user_path(object,:type=>"colleague"),:class=>(controller.action_name=="colleague" && (params[:type]=="colleague" || params[:type].to_s.empty?) ? "active-tab" : "" )  %>
-<%#*</li>%>
-    <li><%= link_to "在关注谁", following_user_path(object,:type=>"user"),:class=>(params[:type]=="user" ? "active-tab" : "" )%> </li>
-    <li><%= link_to   "被谁关注", following_user_path(object,:type=>"follow_me"),:class=>(params[:type]=="follow_me" ? "active-tab" : "" )  %>
-    </li>
-    <li><%= link_to   "关注的公司", following_user_path(object,:type=>"company"),:class=>(params[:type]=="company" ? "active-tab" : "" )  %></li>
-
+    <li><%= link_to "好友", user_friends_path(object),:class=>((controller_name=="friends" ) ? "active-tab" : "" ) %> </li> 
+    <li><%= link_to   "关注的公司", following_user_path(object),:class=>(controller.action_name=="following" ? "active-tab" : "" )  %></li>
   </ul>
   <p class="clear_float" />
 </div>

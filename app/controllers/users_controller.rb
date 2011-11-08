@@ -30,19 +30,8 @@ class UsersController < ApplicationController
   end
   #关注的用户和公司
   def following
-    @page_title ="#{@user.name} 好友列表"
-
-    case params[:type].to_s
-    when "work_for_company"
-      @following_objs = @user.pass_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-    when "company"
-      @following_objs =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-    when "follow_me"
-      @following_objs =@user.follow_me_users.paginate :conditions=>["nick_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-    else
-      @following_objs =@user.my_follow_users.paginate :conditions=>["nick_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
-    end
-
+    @page_title ="#{@user.name} 关注的公司"
+    @following_objs =@user.my_follow_companies.paginate :conditions=>["name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @following_objs }

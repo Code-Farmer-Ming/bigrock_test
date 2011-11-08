@@ -436,17 +436,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "need cancel colleague" do
-    pass = create_a_pass_for_user3
-    assert_difference("users(:three).need_cancel_colleagues.count",-1) do
-      pass.undetermined_colleagues.first.not_colleague
-    end
-  end
-  test "need cancel and comfire colleague" do
-    pass = create_a_pass_for_user3
-    assert_equal users(:three).need_cancel_colleagues.count,
-      users(:three).need_comfire_colleagues.count
-  end
   test "has_judge_me_colleagues" do
     pass = create_a_pass_for_user3
     pass.undetermined_colleagues.first.confirm

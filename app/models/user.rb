@@ -435,7 +435,7 @@ class User< ActiveRecord::Base
   #同事的申请
   has_many :by_apply_colleagues ,:class_name=>"ApplyColleague" ,:foreign_key=>"respondent_id",:dependent=>:destroy
 
-  has_many :by_apply_colleague_users ,:through=>:by_apply_colleagues,:source=>:applicant ,:dependent=>:destroy
+  has_many :by_apply_colleague_users ,:through=>:by_apply_colleagues,:source=>:applicant 
 
   #  delegate :passeses,:to=>:current_resume
   #  delegate :pass_companies,:to=>:current_resume

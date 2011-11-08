@@ -109,9 +109,9 @@
     <ul id="user_navigate" class="set_center">
       <li><%= link_to "评价管理<small>▼</small>","javascript:;",:id=>"manaage_menu_link"  %> </li>
       <li> <%=  link_to("同事(#{current_user.colleagues.count})",user_colleagues_path(current_user))  %></li>
-      <li><%= link_to "关注的人(#{current_user.my_follow_users.count})",following_user_path(current_user)   %></li>
-      <li><%= link_to "被谁关注(#{current_user.follow_me_users.count})",  following_user_path(current_user,:type=>"follow_me" )  %></li>
+      <li><%= link_to "好友(#{current_user.friends.count})",user_friends_path(current_user)   %></li>
       <li><%= link_to "加入的小组(#{current_user.all_groups.count})",groups_user_path(current_user)   %></li>
+      <li><%= link_to "关注的公司(#{current_user.my_follow_companies.count})",following_user_path(current_user)   %></li>
       <%if @user.published_jobs.count>0%>
         <li >
           <%=  link_to "发布的职位(#{@user.published_jobs.count})", {:action=>:published_jobs}%>

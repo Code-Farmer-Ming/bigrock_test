@@ -1,10 +1,6 @@
 <div id="left_content">
   <%= render(:partial=>"users/following_type",:object=>@user)%>
-  <% if params[:type]=='company' || params[:type]=='work_for_company' %>
-    <%= highlight(render(:partial=>"companies/company_info_and_operation",:collection=>@following_objs),params[:search]) %>
-  <%else%>
-    <%=  highlight(render(:partial=>"users/user_info_and_operation" ,:collection=>@following_objs),params[:search])  %>
-  <%end%>
+  <%= highlight(render(:partial=>"companies/company_info_and_operation",:collection=>@following_objs),params[:search]) %>
   <%= will_paginate @following_objs %>
 </div>
 

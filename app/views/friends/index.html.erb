@@ -1,6 +1,5 @@
 <div id="left_content">
-  <h1>好友</h1>
-
+  <%= render :partial=>"users/following_type" ,:object=>@user%>
   <%= render :partial=>"users/user_info_and_operation" ,:collection=> @friend_users %>
   <%= will_paginate  @friend_users %>
 </div>

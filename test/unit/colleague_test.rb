@@ -6,13 +6,9 @@ class ColleagueTest < ActiveSupport::TestCase
     create_colleague
   end
   test "confirm colleague" do
-    
     assert_equal Colleague::STATES[0], Colleague.first.state
-    assert_difference "Colleague.first.colleague_user.receive_msgs.count" do
-      Colleague.first.confirm
-    end
+    Colleague.first.confirm
     assert_equal Colleague::STATES[1], Colleague.first.state
-
   end
 
   test "to not colleague" do
