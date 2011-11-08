@@ -114,7 +114,7 @@ class UserTest < ActiveSupport::TestCase
     user_one = users(:one)
     judge = Judge.new(:description=>"描述……")
     chang_first_pass_end_date
-    user_one.undetermined_colleagues.first.confirm
+    user_one.need_comfire_colleagues.first.confirm
     ActionMailer::Base.deliveries.clear
     assert_difference("ActionMailer::Base.deliveries.size") do
       assert_difference("user_one.unread_msgs.count") do
@@ -396,10 +396,10 @@ class UserTest < ActiveSupport::TestCase
   test "new pass generate colleague" do
     user_1 = users(:one)
     Colleague.destroy_all
-    assert_difference("user_1.undetermined_colleagues.count") do
+    assert_difference("user_1.need_comfire_colleagues.count") do
       user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
     end
-    assert user_1.undetermined_colleague_users.exists?(users(:two))
+    assert user_1.need_confirm_colleague_users.exists?(users(:two))
   end
 
   test "confirm colleague users" do
@@ -407,7 +407,7 @@ class UserTest < ActiveSupport::TestCase
     chang_first_pass_end_date
    
     assert_difference("user_1.colleague_users.count") do
-      user_1.undetermined_colleagues.first.confirm
+      user_1.need_comfire_colleagues.first.confirm
     end
   end
  
@@ -415,7 +415,7 @@ class UserTest < ActiveSupport::TestCase
     user_1 = users(:one)
     Colleague.destroy_all
     chang_first_pass_end_date
-    assert_difference("user_1.undetermined_colleagues.count",-1) do
+    assert_difference("user_1.need_comfire_colleagues.count",-1) do
       user_1.passes.first.update_attributes(:end_date=>"2009-5-10",:begin_date=>"2009-5-10",:is_current=>false)
     end
   end
