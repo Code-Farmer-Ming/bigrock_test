@@ -206,15 +206,19 @@ class User< ActiveRecord::Base
   has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all,:order=>"created_at desc"
   has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc" ,:conditions=>'user_id<>#{id}'
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company",:order=>"attentions.created_at desc"
-  has_many :my_follow_groups,:through=>:my_follow_collection,:source=>:target,:source_type=>"Group",:order=>"attentions.created_at desc"
-
+ 
   #关注的目标 包括 用户或公司
   has_many_polymorphs :targets,
     :from => [:companies,:users,:groups],
     :through => :attentions,
     :foreign_key=>"user_id",
     :dependent => :destroy
-
+ 
+  has_many :friend_logs ,:through=>:friend_users,:source=>:log_items,:order=>"log_items.created_at desc"
+  has_many :colleague_logs ,:through=>:colleague_users,:source=>:log_items,:order=>"log_items.created_at desc"
+  has_many :group_logs,:through=>:groups,:source=>:log_items,:order=>"log_items.created_at desc"
+  has_many :following_company_logs,:through=>:my_follow_companies,:source=>:log_items,:order=>"log_items.created_at desc"
+  
   has_many :my_follow_log_items ,:class_name=>"LogItem",
     :finder_sql=>'select a.* from log_items a left join attentions b on a.owner_id=b.target_id and a.owner_type=b.target_type
   where b.user_id=#{id} ' do
@@ -226,6 +230,7 @@ class User< ActiveRecord::Base
       sql += sanitize_sql [" LIMIT ?", options[:limit]] if options[:limit]
       sql += sanitize_sql [" OFFSET ?", options[:offset]] if options[:offset]
       find_by_sql(sql)
+     
     end
     
     def find_all_by_owner_type(*args)
@@ -556,6 +561,21 @@ class User< ActiveRecord::Base
   #解除关注
   def remove_attention(target_object)
     targets.delete(target_object)
+  end
+  #相互为 好友
+  def add_friend(user)
+    friend_users << user
+    add_attention(user)
+    
+    user.friend_users << self
+    user.add_attention(self)
+  end
+  
+  def cancel_friend(user)
+    friend_users.delete(user)
+    remove_attention(user)
+    user.friend_users.delete(self)
+    user.remove_attention(self)
   end
   #右上角 說點什麽 
   def set_signature(phrase)

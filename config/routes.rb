@@ -78,7 +78,8 @@ ActionController::Routing::Routes.draw do |map|
     :member=>{:colleague_list=>:get, :logs=>:get,:following=>:get,:groups=>:get} do |users|
     users.resources :judges,:only=>[:index]
     users.resources :colleagues,:collection=>{:cancel=>:post} #同事
-
+    users.resources :friends,:collection=>{:cancel=>:delete} #好友
+    
     users.resources :tags,:only=>[:index]
     users.resources :topics
     #    users.resources :base_infos

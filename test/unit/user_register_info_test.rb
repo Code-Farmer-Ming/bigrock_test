@@ -129,22 +129,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
-  test "user attenion log item" do
-    user = User.find(1)
-    assert_difference("user.log_items.count") do
-      user.add_attention(users(:two))
-    end
-    assert_difference("user.loged_items.count") do
-      users(:two).add_attention(user)
-    end
-    #测试 关注 产生的 log
-    assert user.log_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",user))
-    assert users(:two).loged_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",user))
-    
-    assert users(:two).log_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",users(:two)))
-    assert user.loged_items.exists?(LogItem.find_by_log_type_and_owner_id("Attention",users(:two)))
-  end
- 
+   
 
   test "new_msg" do
     user= users(:one)
@@ -252,19 +237,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 0, user_two.targets.count
 
     user_one.reload
-    assert_difference "user_one.my_follow_log_items.find_all_by_owner_type('User').size" do
-      assert_difference "user_one.my_follow_log_items.count" do
-        assert_difference "user_one.targets.count" do
-          user_one.targets  << user_two
-        end
-      end
+    assert_difference "user_one.targets.count" do
+      user_one.add_attention(user_two)
     end
-      
-    assert_equal user_two,user_one.my_follow_log_items[0].owner
-
+ 
     user_one.targets.delete(user_two)
     assert_equal 0, user_one.targets.count
-    user_one.targets  << companies(:one)
+    user_one.add_attention(companies(:one))
     assert_equal 1, user_one.my_follow_companies.count
    
   end
@@ -468,24 +447,7 @@ class UserTest < ActiveSupport::TestCase
       users(:one).judge_colleague(users(:three),judge)
     end
   end
-
-
-  test "destroy user and its log item" do
-    user = users(:one)
-    user.targets.destroy_all()
-    users(:two).log_items.destroy_all
-    user.add_attention(user)
-    user.reload
-    
-    assert_difference "user.my_follow_log_items.size" do
-      user.add_attention(users(:two))
-      user.reload
-    end
-    assert_difference "user.my_follow_log_items.size",-1 do
-      users(:two).destroy
-    end
-  end
-
+  
   def create_a_pass_for_user3
     user_three = users(:three)
     new_pass =Pass.new(:user_id=>user_three.id,:company_id=>1,:begin_date=> "2009-06-01",:end_date=> "2009-06-01",:is_current=>true)
@@ -497,5 +459,20 @@ class UserTest < ActiveSupport::TestCase
     user_1 = users(:one)
     user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
   end
-
+  
+  test "add friend" do
+    @user = users(:one)
+    assert_difference "@user.friends.count" do
+      @user.add_friend(users(:three))
+    end
+  end
+  
+  test "cancel friend" do
+    @user = users(:one)
+    @user.add_friend(users(:three))
+    assert_difference "@user.friends.count",-1 do
+      @user.cancel_friend(users(:three))
+    end
+  end
+ 
 end

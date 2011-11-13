@@ -17,8 +17,6 @@ class AddFriendApplicationsControllerTest < ActionController::TestCase
       xhr :get ,:new,:user_id=>3
       xhr :post ,:create,:add_friend_application=>{:memo=>"apply"},:user_id=>3
     end
-    #    assert_tag :tag => "span", :attributes => { :class => "hot_text" }
-
   end
   
   test "destroy" do

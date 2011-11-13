@@ -1,6 +1,5 @@
-
-  <%= link_to_remote "<p>查看更多…</p>",{:method => :get,
-    :before=>"$('more_button').update('<p class=\"loading\" />');$('more_button').onclick=null",
-    :url=>url
-  },
-    :class=>"button positive text_center",:id=>"more_button" %>
+<%= link_to_remote "<p>查看更多…</p>",{:method => :get,
+  :before=>"$('more_button').update('<p class=\"loading\" />');$('more_button').onclick=null",
+  :url=>url
+},
+  :class=>"button positive text_center",:id=>"more_button" %>

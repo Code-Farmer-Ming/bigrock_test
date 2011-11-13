@@ -7,7 +7,9 @@ class ColleagueTest < ActiveSupport::TestCase
   end
   test "confirm colleague" do
     assert_equal Colleague::STATES[0], Colleague.first.state
-    Colleague.first.confirm
+    assert_difference "LogItem.all.count" do
+      Colleague.first.confirm
+    end
     assert_equal Colleague::STATES[1], Colleague.first.state
   end
 

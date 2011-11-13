@@ -7,7 +7,7 @@ class AccountController < ApplicationController
     @page_keywords="公司,简历,工作,职位,求职,热门职位,找工作,公司信息,公司工作待遇,在线简历,电子简历,评分,待遇,环境,小组,最新话题"
     @page_description = "谁靠谱网提供更真实、客观、公正、有效的公司环境、待遇的评价、评分和公司详细信息.拥有更真实和多维度的在线简历。招聘职位，求职的平台"
   
-#    @newly_topics = Topic.order_by_last_comment.limit(16)
+    #    @newly_topics = Topic.order_by_last_comment.limit(16)
     @logs = LogItem.find(:all,:limit=>8,:order=>"created_at desc");
     @need_jobs = NeedJob.limit(6).order("created_at desc")
     @jobs = Job.limit(6).order("created_at desc")
@@ -74,8 +74,14 @@ class AccountController < ApplicationController
 
     if params[:type].blank? || params[:type]=="all"
       @logs = current_user.my_follow_log_items.paginate :page => params[:page]
-    else
-      @logs = current_user.my_follow_log_items.paginate_by_owner_type params[:type], :page => params[:page]
+    elsif params[:type]=="colleague"
+      @logs = current_user.colleague_logs.paginate :page => params[:page]
+    elsif params[:type]=="friend"
+      @logs = current_user.friend_logs.paginate :page => params[:page]
+    elsif params[:type]=="group"
+      @logs = current_user.group_logs.paginate :page => params[:page]
+    elsif params[:type]=="company"
+      @logs = current_user.following_company_logs.paginate :page => params[:page]
     end
     #    @topics = @user.my_follow_group_topics.find(:all,:limit=>20)
     #    @my_topics = @user.my_created_topics.all(:limit=>20)
@@ -275,18 +281,9 @@ class AccountController < ApplicationController
       }
     end
   end
+ 
 
-  #所有我关注对象的日志记录
-  def follow_logs
-    @page_title ="我所关注好友的动态"
-    if params[:type]=="all" || params[:type]=="" || params[:type]==nil
-      @log_items = current_user.my_follow_log_items.paginate :page => params[:page]
-    else
-      @log_items = current_user.my_follow_log_items.paginate_by_owner_type params[:type], :page => params[:page]
-    end
-  end
-  
-  def set_signature
+ def set_signature
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
@@ -353,6 +350,7 @@ class AccountController < ApplicationController
     @page_title = '我的求职列表'
     @need_jobs = current_user.need_jobs.paginate :page=>params[:page]
   end
+  
 
   def add_job
     @page_title = '新建招聘职位'

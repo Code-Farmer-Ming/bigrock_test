@@ -20,8 +20,20 @@ class ApplyColleague < Requisition
   #    MailerServer.deliver_join_group_invite(self)
   #  end
 
-  #接受申请 变为普通成员
+  #接受申请 
   def accept()
+    #好友解除
+    if (self.applicant.friend_users.exists?(self.respondent))
+      self.applicant.cancel_friend(self.respondent)
+    end
+    #好友申请去除
+    if (self.applicant.my_add_friend_application_users(self.respondent))
+      self.applicant.my_add_friend_application_users.delete(self.respondent)
+    end
+    if (self.respondent.my_add_friend_application_users(self.applicant))
+      self.respondent.my_add_friend_application_users.delete(self.applicant)
+    end
+    
     self.applicant.need_comfire_colleagues.find_all_by_colleague_id(self.respondent.id).each() do |colleague|
       colleague.confirm
     end

@@ -1,17 +1,20 @@
 <%user =   operation %>
 
-<%if current_user!=nil  && current_user.need_confirm_colleague_users.exists?(user)%>
+<%if current_user  %>
   <%if current_user.colleague_users.exists?(user) %>
-    <%= link_to_remote "取消同事关系",{:url=>cancel_user_colleagues_path(user)},:class=>"button negative",:id=>dom_id(user,"cancel_colleague_menu_button"),:confirm=>"确定吗?"  %>
+    <%= link_to_remote "取消同事关系",{:url=>cancel_user_colleagues_path(user)},:class=>"button negative",:confirm=>"确定吗?"  %>
   <%elsif  current_user.apply_colleague_users.exists?(user)%>
     同事申请中
-  <%else%>
+  <%elsif current_user.need_confirm_colleague_users.exists?(user)%>
     <%= link_to_remote_lightbox "同事",{:url=>new_apply_colleague_path(:user_id=>user) },:class=>"button"  %>
+
+  <%elsif current_user.friend_users.exists?(user)%>
+    <%= link_to_remote "取消好友",{:url=>cancel_user_friends_path(user),:method=>:delete,:confirm=>"确定吗?"},:class=>"button negative" %>
+  <%elsif current_user.my_add_friend_application_users.exists?(user) %>
+    好友申请中
+  <%else%>
+    <%= link_to_remote_lightbox "申请好友",{:url=>new_add_friend_application_path(:user_id=>user)} ,:class=>"button"%>
   <%end%>
-<%elsif current_user.friend_users.exists?(user)%>
-  <%= link_to_remote "取消好友",{:url=>destroy_attention_account_path(:target_id=>user,:target_type=>user.class)},:class=>"button negative" %>
-<%elsif current_user.my_add_friend_application_users.exists?(user) %>
-  好友申请中
 <%else%>
   <%= link_to_remote_lightbox "申请好友",{:url=>new_add_friend_application_path(:user_id=>user)} ,:class=>"button"%>
 <%end%>

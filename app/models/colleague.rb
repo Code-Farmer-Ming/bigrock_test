@@ -37,8 +37,8 @@ class Colleague < ActiveRecord::Base
   #  has_one :colleague_user ,:class_name=>"User",:through=>:colleague_pass,:source => :user
   #  has_one :my ,:class_name=>"User",:through=>:my_pass,:source => :user
 
-  #  acts_as_logger :log_action=>["update"],:owner_attribute=>"user",:logable=>"colleague_user",
-  #    :log_type=>"confirm_colleague",:can_log=>:"state="
+    acts_as_logger :log_action=>["update"],:owner_attribute=>"user",:logable=>"colleague_user",
+     :log_type=>"confirm_colleague",:can_log=>"state=='#{STATES[1]}'"
 
   #确认是同事
   def confirm

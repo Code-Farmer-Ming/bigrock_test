@@ -99,7 +99,8 @@ class Group < ActiveRecord::Base
 
   #被动 作为 消息记录的内容
   has_many :logable_log_items,:class_name=>"LogItem",:as=>:logable,:dependent => :destroy,:order=>"created_at desc"
-  
+  #动态记录
+  has_many :log_items,:as=>:owner,:dependent => :delete_all,:order=>"created_at desc"
   #新创建的 小组
   named_scope :new_groups,:order=>"created_at desc"
   #帖子最多的小组

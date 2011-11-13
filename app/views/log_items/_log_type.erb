@@ -1,9 +1,10 @@
 <div class="tab">
   <ul class="item">
     <li><%= link_to "全部", "?type=all",:class=>(params[:type]=="all" || !params[:type]) ?  "active-tab" :""    %> </li>
-    <li ><%= link_to "好友", "?type=user" ,:class=>(params[:type]=="user") ?  "active-tab" :""  %> </li>
-    <li ><%= link_to "小组", "?type=Group" ,:class=>(params[:type]=="Group") ?  "active-tab" :""  %> </li>
-    <li><%= link_to "公司", "?type=Company",:class=>(params[:type]=="Company" ) ?  "active-tab" :""  %></li>
+    <li ><%= link_to "同事", "?type=colleague" ,:class=>(params[:type]=="colleague") ?  "active-tab" :""  %> </li>
+    <li ><%= link_to "好友", "?type=friend" ,:class=>(params[:type]=="friend") ?  "active-tab" :""  %> </li>
+    <li ><%= link_to "小组", "?type=group" ,:class=>(params[:type]=="group") ?  "active-tab" :""  %> </li>
+    <li><%= link_to "公司", "?type=company",:class=>(params[:type]=="company" ) ?  "active-tab" :""  %></li>
     <!--
 <%#*<li class="<%= "active-tab" if params[:type]=="resume" %>" ><%= link_to "个人信息修改", "?type=resume"  %> </li>%>
 <%#*<li  class="<%= "active-tab" if params[:type]=="MyLanguage" %>"><%= link_to   "个人状态", "?type=MyLanguage" %></li>%>

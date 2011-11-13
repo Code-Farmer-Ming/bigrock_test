@@ -37,14 +37,12 @@ class LogItemTest < ActiveSupport::TestCase
     user_one = users(:one)
     user_two = users(:two)
     user_one.my_follow_users << user_two
-    assert_equal 1,LogItem.find_all_by_log_type_and_operation("Attention","create").size
-
-#    au =  user_one.my_follow_collection.find_by_target_id(user_two)
+  #    au =  user_one.my_follow_collection.find_by_target_id(user_two)
 #    au.destroy
      
     user_one.targets.delete(user_two)
 #    assert_equal 1,LogItem.find_all_by_log_type_and_operation("Attention","destroy").size
-    assert_equal 1,LogItem.find_all_by_log_type_and_operation("Attention","create").size
+   
     user_two.reload()
     assert_not_nil( user_two)
   end

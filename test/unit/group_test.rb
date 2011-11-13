@@ -26,17 +26,19 @@ class GroupTest < ActiveSupport::TestCase
   test "add to member" do
     group =  groups(:three)
     group.all_members.clear
-    group.add_to_member(users(:one))
+    assert_difference "users(:one).targets.count" do
+      group.add_to_member(users(:one))
+    end
     assert group.is_member?(users(:one))
-    assert users(:one).my_follow_groups.exists?(group)
   end
 
   test "add to member with alias" do
     group =  groups(:three)
     group.all_members.clear
-    group.add_to_member(users(:one).alias)
+    assert_difference "users(:one).targets.count" do
+      group.add_to_member(users(:one).alias)
+    end
     assert group.is_member?(users(:one).alias)
-    assert users(:one).my_follow_groups.exists?(group)
   end
   
   test "destroy member" do
@@ -45,9 +47,7 @@ class GroupTest < ActiveSupport::TestCase
       group.remove_member(users(:one))
     end
     assert !group.is_member?(users(:one))
-    assert !users(:one).my_follow_groups.exists?(group)
     users(:one).reload
- 
   end
 
   test "related popular groups" do

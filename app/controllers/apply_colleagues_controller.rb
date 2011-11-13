@@ -1,12 +1,11 @@
 class ApplyColleaguesController < ApplicationController
 
   def create
-    @add_application = ApplyColleague.new(params[:apply_colleague])
+    @add_application = current_user.apply_colleagues.build(params[:apply_colleague])
     @user = User.find(params[:user_id])
     @add_application.respondent_id = params[:user_id]
-   
     render :update do |page|
-      if current_user.apply_colleague(@add_application)
+      if  @add_application.save
         flash.now[:success] = '已经申请,请等待回应吧。'
         page[dom_id(@user,"operation")].replace_html render(:partial=>"users/operation",:object=> @user)
         page[dom_id(@user,"operation")].visual_effect(:highlight)

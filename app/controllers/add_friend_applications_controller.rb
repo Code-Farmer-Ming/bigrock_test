@@ -31,9 +31,9 @@ class AddFriendApplicationsController < ApplicationController
   end
 
   def create
-    @add_friend = AddFriendApplication.new(params[:add_friend_application])
+    @add_friend = current_user.my_add_friend_applications.build(params[:add_friend_application])
     @add_friend.respondent_id = params[:user_id]
-    if  current_user.my_add_friend_applications << @add_friend
+    if  @add_friend.save
       render :update do |page|
         page[dom_id(@add_friend.respondent,"operation")].replace_html render(:partial=>"users/operation",:object=> @add_friend.respondent)
         page[dom_id(@add_friend.respondent,"operation")].visual_effect(:highlight)

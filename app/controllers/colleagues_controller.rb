@@ -36,15 +36,5 @@ class ColleaguesController < ApplicationController
       page[dom_id(@user,"operation")].visual_effect(:highlight)
     end
   end
-  #  # DELETE /colleagues/1
-  #  # DELETE /colleagues/1.xml
-  #  def destroy
-  #    @colleague = Colleague.find(params[:id])
-  #    @colleague.destroy
-  #
-  #    respond_to do |format|
-  #      format.html { redirect_to(colleagues_url) }
-  #      format.xml  { head :ok }
-  #    end
-  #  end
+
 end

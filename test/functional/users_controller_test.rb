@@ -28,5 +28,6 @@ class UsersControllerTest < ActionController::TestCase
     get :colleague_list ,:id=>users(:one).id,:pass_id=>users(:one).passes.first
     assert_response :success
   end
+
  
 end

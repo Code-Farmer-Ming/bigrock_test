@@ -15,12 +15,10 @@ class Friend < ActiveRecord::Base
   
   belongs_to :user,:class_name=>"User",:foreign_key=>"user_id"
   belongs_to :friend,:class_name=>"User",:foreign_key=>"friend_id"
-  acts_as_logger :log_action=>["create","destroy"],:owner_attribute=>"user",:logable=>"friend"
+  acts_as_logger :log_action=>["create"],:owner_attribute=>"user",:logable=>"friend"
  
   def after_create
     msg= Msg.new_system_msg(:title=>"系统提示：#{user.name}已经加你为好友",:content=>"#{user.name}已经加你为好友,去看看吧。")
     msg.send_to(friend)
   end
-  
- 
 end

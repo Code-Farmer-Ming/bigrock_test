@@ -21,8 +21,7 @@ class AddFriendApplication < Requisition
   #接收 添加好友的申请
   #自己变为user的好友
   def accept()
-    self.applicant.friend_users << respondent
-    self.respondent.friend_users << applicant
+    self.applicant.add_friend(respondent) 
     self.destroy
   end
   
