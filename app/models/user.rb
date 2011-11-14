@@ -206,7 +206,8 @@ class User< ActiveRecord::Base
   has_many :my_follow_collection,:class_name=>"Attention",:foreign_key=>"user_id",:dependent => :delete_all,:order=>"created_at desc"
   has_many :my_follow_users,:through=>:my_follow_collection,:source=>:target,:source_type=>"User",:uniq=>true ,:order=>"attentions.created_at desc" ,:conditions=>'user_id<>#{id}'
   has_many :my_follow_companies,:through=>:my_follow_collection,:source=>:target,:source_type=>"Company",:order=>"attentions.created_at desc"
- 
+  has_many :my_follow_groups,:through=>:my_follow_collection,:source=>:target,:source_type=>"Group",:order=>"attentions.created_at desc"
+
   #关注的目标 包括 用户或公司
   has_many_polymorphs :targets,
     :from => [:companies,:users,:groups],
@@ -216,7 +217,7 @@ class User< ActiveRecord::Base
  
   has_many :friend_logs ,:through=>:friend_users,:source=>:log_items,:order=>"log_items.created_at desc"
   has_many :colleague_logs ,:through=>:colleague_users,:source=>:log_items,:order=>"log_items.created_at desc"
-  has_many :group_logs,:through=>:groups,:source=>:log_items,:order=>"log_items.created_at desc"
+  has_many :group_logs,:through=>:my_follow_groups,:source=>:log_items,:order=>"log_items.created_at desc"
   has_many :following_company_logs,:through=>:my_follow_companies,:source=>:log_items,:order=>"log_items.created_at desc"
   
   has_many :my_follow_log_items ,:class_name=>"LogItem",
