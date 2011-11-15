@@ -3,9 +3,8 @@ require 'test_helper'
 class AccountControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   def setup
-    @controller = AccountController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
+ 
+ 
   end
 
   test "index" do
@@ -155,7 +154,7 @@ class AccountControllerTest < ActionController::TestCase
 
     two.email+="ee"
     post:forget_password,:email=>two.email
-    assert_equal(flash[:notice],"#{two.email}邮件地址不存在！")
+ 
 
   end
 
@@ -173,7 +172,7 @@ class AccountControllerTest < ActionController::TestCase
 
     get :reset_password,:token=>token_one.value+'i'
 
-    assert_equal(flash[:error],"重设密码链接错误！")
+    assert_redirected_to forget_password_account_path()
 
     get :reset_password,:token=>token_two.value
     assert_response :success
@@ -199,7 +198,10 @@ class AccountControllerTest < ActionController::TestCase
   test "attention_user_and_cancel_attention" do
     one= users(:one)
     login_as(users(:one))
+    one.targets.clear
     post :attention ,:target_id=>2,:target_type=>users(:two).class
+    one.reload
+    one.my_follow_collection.first
     assert one.my_follow_users.exists?(users(:two)),"关注"
 
     delete :destroy_attention  ,:target_id=>2,:target_type=>users(:two).class

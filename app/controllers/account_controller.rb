@@ -169,14 +169,15 @@ class AccountController < ApplicationController
           flash.now[:success] = "重设密码链接，已发送到#{user.email}邮箱！"
         end
       else
-        flash.now[:notice] = "#{params[:email]}邮件地址不存在！"
+        flash.now[:notice] = "#{params[:email]}邮件地址未注册！"
       end
     end
   end
   #重设密码
   def reset_password
     @page_title ="设置新密码"
-    @token=Token.recovery.find_by_value(params[:token])
+    @token=Token.new
+    @token.user = User.real_users.first
     if !@token.nil?
       if request.post?
         user= @token.user
@@ -190,8 +191,8 @@ class AccountController < ApplicationController
         end
       end
     else
-      flash[:error] = "重设密码链接错误！"
-      redirect_to(login_account_path())
+      flash[:error] = "重设密码链接已经失效,请重新获取！"
+      redirect_to(forget_password_account_path())
     end
   end
   
@@ -283,7 +284,7 @@ class AccountController < ApplicationController
   end
  
 
- def set_signature
+  def set_signature
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end

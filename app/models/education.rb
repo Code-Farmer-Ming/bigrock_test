@@ -39,7 +39,7 @@ class Education < ActiveRecord::Base
  
   belongs_to  :school
   
-  attr_accessor                 :school_name
+  attr_accessor   :school_name
 
   def school_name=(name)
     self.school = School.find_or_create_by_name(name)

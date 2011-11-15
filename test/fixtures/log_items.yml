@@ -18,16 +18,18 @@
 
 one:
   id: 1
-  logable_type: Friend
+  logable_type: User
   logable_id: 1
   changes: MyString1
   owner_id: 2
   owner_type: User
+  log_type: Friend
 
 two:
   id: 2
-  logable_type: Education
+  logable_type: User
   logable_id: 1
   changes: MyString
   owner_id: 2
   owner_type: User
+  log_type: Friend
