@@ -206,14 +206,14 @@ class Company < ActiveRecord::Base
   #判断是 当前的员工 并且 资料真实度 大于等于4星
   def current_employee_and_higher_creditability(employee)
     return !errors.add("限制","当前的员工，才可以操作哦。") unless current_employee?(employee)
-    return !errors.add("限制","要该公司的同事，给您评价资料真实度4星及以上，才可以操作哦。") unless higher_creditability_employees.exists?(employee)
+    return !errors.add("限制","要该公司的同事，您资料真实度4星及以上，才可以操作哦。") unless higher_creditability_employees.exists?(employee)
     return true
   end
   def add_job(job,post_employee)
-    if current_employee_and_higher_creditability(post_employee)
+#    if current_employee_and_higher_creditability(post_employee)
       job.poster = post_employee
       jobs << job
-    end
+#    end
   end
   #地址全部形式
   def full_address

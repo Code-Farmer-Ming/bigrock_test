@@ -4,7 +4,7 @@
   <% sub_block_div("") do %>
     <% form_for @need_jobs,:url=>batch_destroy_need_jobs_path() do |f|%>
       <% @need_jobs.each do |need_job| %>
-        <div class="<%= cycle("topic_item gray_background", "topic_item") %>">
+        <div class="<%= cycle("topic_item", "topic_item gray_background") %>">
           <div class="quiet r">
             <%= date_ago_in_words(need_job.created_at)+"发布" %>
             <%=  check_box_tag  "select_ids[]",need_job.id ,false -%>

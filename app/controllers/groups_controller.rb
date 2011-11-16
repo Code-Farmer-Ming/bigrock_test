@@ -141,8 +141,9 @@ class GroupsController < ApplicationController
   
   #邀请好友加入
   def invite_join
-    @page_title = " 邀请好友加入 " + @group.name
+    @page_title = " 邀请好友和同事加入 " + @group.name
     @invite =  JoinGroupInvite.new(params[:join_group_invite])
+    
     @friends = current_user.my_follow_users.paginate  :conditions=>["nick_name like ?",'%'+ (params[:search] || '') +'%'], :page => params[:page]
     if request.post?
       if (params[:invite_user])
@@ -150,12 +151,12 @@ class GroupsController < ApplicationController
           invite_join =  JoinGroupInvite.new(params[:join_group_invite])
           invite_join.respondent_id = friend
           invite_join.applicant = @group
-          invite_join.memo = "好友 <a href='#{user_path(current_user)}'> #{current_user.name}</a> 邀请你加入 <a href='#{group_path(@group)}'>#{@group.name}</a> <br />"+invite_join.memo
+          invite_join.memo = "朋友 <a href='#{user_path(current_user)}'> #{current_user.name}</a> 邀请你加入 <a href='#{group_path(@group)}'>#{@group.name}</a> <br />"+invite_join.memo
           invite_join.save
         end
         flash.now[:success] = "已经发出邀请！"
       else
-        flash.now[:notice] = "请选择要邀请的好友！"
+        flash.now[:notice] = "请选择要邀请的好友或同事！"
       end
     end
   end

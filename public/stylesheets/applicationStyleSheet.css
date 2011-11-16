@@ -461,9 +461,10 @@ ul#nav .activelink a,ul#nav a:hover{
 .sub_block .sub_block_title{
     font-weight:bolder;
     padding:0px 2px ;
-    border-bottom-style: dotted;
-    border-bottom-width: 1px;
-    font-size:14px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #ededed;
+    font-size:15px;
 }
 .sub_block .sub_block_content{
     padding:4px 0px;
@@ -503,6 +504,7 @@ ul#nav .activelink a,ul#nav a:hover{
 .user_extension{
     margin-right:8px;
     margin-bottom:8px;
+    height: 120px;
 }
 
 /*小组 图标*/
@@ -821,16 +823,15 @@ div.auto_complete ul strong.highlight {
 /*----------------*/
 .main_content{
     border-bottom:1px silver solid;
-    line-height:1.6em;
+    line-height:1.8em;
     margin-bottom:6px;
     min-height:100px;
+ 
     height: auto!important;
     *height:100px;
-    padding-bottom:8px
+    padding-bottom:8px;
 }
-.news_company_icon{
-    margin-right:12px;
-}
+ 
 /*公司博客结束------------------------------------*/
 /*回复*/
 .operation{
@@ -863,9 +864,9 @@ div.auto_complete ul strong.highlight {
 }
 /*话题*/
 .topic_item{
-    padding:4px 5px 4px 5px;
+    padding:5px;
     overflow:auto;
-    border-bottom:#F0F0F0 solid 1px ;
+     
 }
 .topic_item a{
     text-decoration:none;

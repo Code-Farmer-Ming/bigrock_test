@@ -10,7 +10,7 @@
       <p class="r">
         <%=  check_box_tag "select", "",false,
           :onclick=>"$$('input[name=\\'invite_user[]\\']').each(function(s) \
-    {s.checked = this.checked}.bind(this))"  -%><%= label_tag "select", "选择" %>
+    {s.checked = this.checked}.bind(this))"  -%><%= label_tag "select", "全选" %>
       </p>
       <%= will_paginate @friends %>
       <p class ="clear"/>

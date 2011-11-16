@@ -9,18 +9,18 @@
     {:button_text=>"上传文件",:post_params=>{:type=>GroupIcon.to_s},:button_width=>60,:button_height=>18
     }) %>
 </div>
-<p>
+<div class="form_row">
   <%= f.label :name,Group.human_attribute_name('name'),:class=>"filed_lab" %>
   <%= f.text_field :name ,:class=>"text required",:maxlength=>48 %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :description,"描述",:class=>"filed_lab" %>
   <%= f.text_area :description,:class=>"required",:style=>"width:auto;" %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label "join_type","加入方式",:class=>"filed_lab" %>
   <%= f.select :join_type,Group::JOIN_TYPES,:class=>"required" %>
-</p>
+</div>
 <%#*<p>%>
 <%#= f.label :group_type_id,"类型",:class=>"filed_lab" %>
 <%#= f.select :group_type_id,GroupType.all.collect{|p| [ p.name, p.id ] } %>

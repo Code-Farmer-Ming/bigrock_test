@@ -1,5 +1,5 @@
 <%show_group = show_group || false%>
-<div class="<%= cycle("topic_item gray_background", "topic_item") %>">
+<div class="<%= cycle("topic_item", "topic_item gray_background") %>">
   <div class="r">
     <%if topic_item.last_comment_user %>
       <span class="small quiet">&nbsp;<%=   link_to_user_name(topic_item.last_comment_user)%>
