@@ -1,5 +1,6 @@
 
 class JobsController < ApplicationController
+  uses_tiny_mce  
   include ActionView::Helpers::TextHelper
   before_filter :check_login?,:except=>[:show,:index,:search]
   #
@@ -18,7 +19,7 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     @page_title = @job.title + "职位 "+  @job.owner.name
     @page_keyworks = " 职位"
-    @page_description = @job.owner.name + " 招聘职位," +  truncate(@job.job_description,:length=>100)
+    @page_description = @job.owner.name + " 招聘职位," +  truncate(@job.description,:length=>100)
     @comments = @job.comments.paginate :page=>params[:page]
     @job.increment(:view_count)
     respond_to do |format|
@@ -32,6 +33,7 @@ class JobsController < ApplicationController
   def new
     @page_title= "创建招聘职位"
     @job = Job.new
+    @job.description = "<h2>职位介绍</h2> &nbsp; <h2>要求</h2>";
     @job.state_id = @company.state_id
     @job.city_id = @company.city_id
     respond_to do |format|
@@ -132,7 +134,7 @@ class JobsController < ApplicationController
     company_type = params[:company_type_id].to_i
 
     @jobs = Job.since(since_day).paginate :select=>"jobs.*",:joins=>"join companies on jobs.company_id=companies.id" ,
-      :conditions=>["(title like ? or job_description like ? or skill_description like ? or skill_text like ?)
+      :conditions=>["(title like ? or description like ? or skill_description like ? or skill_text like ?)
       and (jobs.state_id=? or ?=0) and (jobs.city_id=? or ?=0) and (type_id=? or ?=-1)
       and (company_size_id=? or ?=0) and (company_type_id=? or ?=0)",
       search_word,search_word,search_word,search_word,state_id,state_id,

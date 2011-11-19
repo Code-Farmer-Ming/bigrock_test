@@ -347,7 +347,7 @@ class UserTest < ActiveSupport::TestCase
     user_one.published_jobs.clear()
     assert_difference('user_one.published_jobs.count') do
       new_job = Job.new(:company_id=>1,:city_id=>1,:title=>'title',
-        :job_description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
+        :description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
       user_one.published_jobs << new_job
     end
   end
@@ -357,7 +357,7 @@ class UserTest < ActiveSupport::TestCase
     user_one.published_jobs.clear()
     assert_difference('user_one.published_job_applicants.count') do
       new_job = Job.new(:company_id=>1,:city_id=>1,:title=>'title',
-        :job_description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
+        :description=>'description',:state_id=>1,:end_at=>Time.now(),:type_id=>1)
       user_one.published_jobs << new_job
       new_job.reload
       user_one.job_applicants << JobApplicant.new(:job_id=>new_job.id)

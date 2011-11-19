@@ -153,7 +153,7 @@ class CompanyTest < ActiveSupport::TestCase
     #提升资料真实度 为4星
     pass.creditability_value =4
     pass.save
-    job = Job.new(:title=>"new job",:job_description=>"job descriptions",:city_id=>1,:state_id=>1,:type_id=>0,:end_at=>DateTime.now)
+    job = Job.new(:title=>"new job",:description=>"job descriptions",:city_id=>1,:state_id=>1,:type_id=>0,:end_at=>DateTime.now)
     assert_difference("company.jobs.size", 1) do
       company.add_job(job,users(:one))
     end
@@ -161,7 +161,7 @@ class CompanyTest < ActiveSupport::TestCase
   #资料真实度不够
   test "add job without higher creditability value" do
     company = Company.find(1)
-    job = Job.new(:title=>"new job",:job_description=>"job descriptions",:city_id=>1,:state_id=>1,:type_id=>0,:end_at=>DateTime.now)
+    job = Job.new(:title=>"new job",:description=>"job descriptions",:city_id=>1,:state_id=>1,:type_id=>0,:end_at=>DateTime.now)
     assert_difference("company.jobs.size", 0) do
       company.add_job(job,users(:two))
     end

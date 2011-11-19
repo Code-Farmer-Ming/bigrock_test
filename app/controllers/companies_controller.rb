@@ -123,7 +123,7 @@ class CompaniesController < ApplicationController
   def jobs
     search = "%#{params[:search]}%"
     @jobs = @company.jobs.paginate(:conditions=>["title like ? or
-                job_description like ? or skill_description like ?",
+                description like ? or skill_description like ?",
         search,search,search],:order=>"created_at desc",:page=>params[:page])
     @page_title = @company.name + " 的职位"
   end

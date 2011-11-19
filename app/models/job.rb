@@ -46,7 +46,7 @@ require 'skill_tag_extensions'
 class Job < ActiveRecord::Base
   JOB_TYPES = ["全职", "兼职"]
   #字段验证
-  validates_presence_of :title,:job_description,:company_id,:create_user_id
+  validates_presence_of :title,:description,:company_id,:create_user_id
   #发布职位
   acts_as_logger :log_action=>["create"],:owner_attribute=>"poster",:log_type=>"post_job"
   acts_as_logger :log_action=>["create"],:owner_attribute=>"owner",:log_type=>"user_post_job"

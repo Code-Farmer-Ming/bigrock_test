@@ -1,6 +1,6 @@
 <% job = object
 show_company ||= nil%>
-<tr class="<%= cycle("gray_background", "") %>">
+<tr class="<%= cycle("", "gray_background") %>">
   <td>[<%= link_to_state_city(job) %>]
     <%= highlight(link_to(h(job.title),job,:target=>"_blank"),params[:search]) %>
     <%if job.applicants.size>0%> <span class="quiet small"><%= job.applicants.size %>个申请</span><%end%>
@@ -32,9 +32,7 @@ show_company ||= nil%>
 <tr style="display:none" id="<%= dom_id(object,"detail") %>" >
   <td colspan="6" class="bottom_gray_line" style="width:100%;overflow:auto;" >
     <h6>工作描述</h6>
-    <%= h object.job_description %>
-    <h6>工作要求</h6>
-    <%= h object.skill_description %>
+    <%= h object.description %>
   </td> 
 </tr>
 

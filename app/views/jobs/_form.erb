@@ -1,4 +1,7 @@
 <%f = form%>
+<% content_for :script do %>
+  <%= include_tiny_mce_if_needed %> 
+<%end%>
 <%= f.error_messages %>
 
 <p>
@@ -10,6 +13,7 @@
   <%= f.select :type_id,Job.types %>
 
 </p>
+
 <p>
   <%= f.label :state_id,"工作地点",:class=>"filed_lab" %>
   <%= f.select :state_id,State.to_select_option() %>
@@ -25,19 +29,11 @@
 <%#= f.label :end_at ,"有效日期",:class=>"filed_lab"%>
 <%#= f.date_select :end_at %>
 <%#*</p>%>
-<p>
-  <%= f.label :job_description,"工作描述",:class=>"filed_lab" %>
-  <%= f.text_area :job_description %>
-</p>
-<p>
-  <%= f.label :skill_description,"工作需求" ,:class=>"filed_lab"%>
-  <%= f.text_area :skill_description  %>
-</p>
-<p>
-  <label  class="filed_lab" >&nbsp;</label>
-  <%= check_box_tag  "is_need_broadcast", "true",true -%>
-  <label for="is_need_broadcast"  ><span title="自动转发">同时自动转发给所有关注我的人</span></label>
-</p>
+<div class="form_row">
+  <%= f.label :description,"描述",:class=>"filed_lab" %>
+  <%= f.text_area :description,:class => "mceEditor"  %>
+</div>
+
 <%#*<p>%>
 <%#= f.label :job_title %><br />
 <%#= f.text_field :job_title %>

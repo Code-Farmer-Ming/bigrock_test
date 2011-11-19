@@ -41,7 +41,7 @@ class JobTest < ActiveSupport::TestCase
      job.city_id = 1
     job.owner = companies(:one)
     job.poster = users(:one)
-    job.job_description ="job description"
+    job.description ="job description"
     job.end_at = Time.now
     assert_difference("job.logable_log_items.count",2) do
       job.save!

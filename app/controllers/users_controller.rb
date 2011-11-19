@@ -60,7 +60,7 @@ class UsersController < ApplicationController
     if  @user.setting.can_see_resume(current_user)
       render :partial=>"users/body_render",:object=>@user
     else
-      render :text=>"<div class='text_center'> <h2>详细资料已经设置为不公开</h2></div>"
+      render :text=>"<div class='text_center'> <h2>详细资料已经设置为对好友和同事可见</h2></div>"
     end
   end
 

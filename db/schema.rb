@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111113122402) do
+ActiveRecord::Schema.define(:version => 20111117141301) do
 
   create_table "attachments", :force => true do |t|
     t.string   "filename"
@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(:version => 20111113122402) do
   create_table "jobs", :force => true do |t|
     t.string   "title",             :default => "", :null => false
     t.string   "type_id",           :default => "", :null => false
-    t.text     "job_description",                   :null => false
+    t.text     "description",                       :null => false
     t.text     "skill_description"
     t.integer  "state_id",                          :null => false
     t.integer  "city_id",                           :null => false

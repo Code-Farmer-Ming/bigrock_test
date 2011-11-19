@@ -30,12 +30,12 @@
 
 class UserSetting < ActiveRecord::Base
   belongs_to :user,:class_name=>"User",:foreign_key => "user_id"
-  VISIBILITY_TYPES=["公开", "不公开"]
-  APPLY_FRIEND_TYPES=["允许","需申请","不允许"]
+  VISIBILITY_TYPES=["公开", "好友和同事"]
+  APPLY_FRIEND_TYPES=["允许","不允许"]
  
 
   def can_see_resume(user)
-    self.user ==user || self["all_resume_visibility"]==UserSetting::VISIBILITY_TYPES[0]
+    self["all_resume_visibility"]==UserSetting::VISIBILITY_TYPES[0] || self.user.my_follow_users.exists?(user)
  
 
   end

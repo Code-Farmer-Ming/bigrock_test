@@ -19,10 +19,9 @@
       <span class="quiet"><%= h time_ago_in_words_plus(@job.created_at)  %></span>&nbsp;
       <b>浏览</b>&nbsp;<%= @job.view_count %>
     </p>
-    <h4>工作描述</h4>
-    <%= simple_format( h @job.job_description) %>
-    <h4>工作要求</h4>
-    <%=simple_format(h @job.skill_description) %>
+    <div>
+      <%=  @job.description %>
+    </div>
     <p>
       <b>技术</b> <%= render :partial=>"need_jobs/skill_tag",:collection=> @job.skills%>
     </p>

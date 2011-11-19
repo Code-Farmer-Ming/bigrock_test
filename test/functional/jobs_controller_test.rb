@@ -35,7 +35,7 @@ class JobsControllerTest < ActionController::TestCase
     assert_difference('Job.count',1) do
       post :create, :job => {:title=>"new job",
         :skill_text=>"skill1 skill2",
-        :job_description=>"work_description",
+        :description=>"work_description",
         :skill_description=>"skill_description",:end_at=>Time.now,
         :type_id=>0,:city_id=>1,:state_id=>1 },:company_id=>@company
     end
