@@ -1,0 +1,12 @@
+<%f = form%>
+<% content_for :script do %>
+  <%= include_tiny_mce_if_needed %> 
+<%end%>
+<p>
+  <%= f.label :title,"标题",:class=>"filed_lab" %>
+  <%= f.text_field :title,:class=>"required text min-length-2",:maxlength=>64 %>
+</p>
+<div class="form_row">
+  <%= f.label :content,"内容",:class=>"filed_lab" %>
+  <%= f.text_area :content,:class=>"required textarea min-length-2 mceEditor"    %>
+</div>

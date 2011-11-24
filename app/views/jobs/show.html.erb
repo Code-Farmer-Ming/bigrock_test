@@ -20,7 +20,7 @@
       <b>浏览</b>&nbsp;<%= @job.view_count %>
     </p>
     <div>
-      <%=  @job.description %>
+      <%= sanitize @job.description %>
     </div>
     <p>
       <b>技术</b> <%= render :partial=>"need_jobs/skill_tag",:collection=> @job.skills%>

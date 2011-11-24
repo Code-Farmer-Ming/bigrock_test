@@ -27,7 +27,7 @@ recommends_path(:recommendable_type=>@topic.class.to_s,:recommendable_id=>@topic
           :confirm => '确定删除吗?', :method => :delete ,:class=>"red_text" \
           if @is_owner  || @is_manager    %>
       </p>
-        <%= simple_format(auto_link(h(@topic.content))) %>
+        <%=  sanitize(@topic.content) %>
     </div>
     <p class="clear"></p>
   </div>

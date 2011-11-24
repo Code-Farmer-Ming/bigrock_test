@@ -1,4 +1,5 @@
 class TopicsController < ApplicationController
+  uses_tiny_mce  
   include ActionView::Helpers::TextHelper
   before_filter :find_topic,:only=>[:show,:edit,:update,:destroy,:up,:down,:set_top_level,:cancel_top_level]
   before_filter :check_login?,:except=>[:show,:index,:search]

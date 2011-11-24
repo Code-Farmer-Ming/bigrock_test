@@ -2,7 +2,7 @@
   <% form_for([@topic.owner,@topic],{},:html=>{:class=>"form_info",:class=>"form_info required-validate"}) do |f| %>
     <h1>编辑话题</h1>
     <%= f.error_messages %>
-    <%= render :partial=>"news/form",:object=>f %>
+    <%= render :partial=>"topics/form",:object=>f %>
     <p >
       <%= f.submit '保存',:disable_with=>"保存…",:disabled => false ,:class=>"button" %> <%= link_to_function "取消","history.go(-1)" %>
     </p>

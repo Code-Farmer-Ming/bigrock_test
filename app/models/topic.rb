@@ -50,7 +50,7 @@ class Topic < ActiveRecord::Base
   named_scope :group_topics,:conditions=>["owner_type='Group'"]
 
   #置顶的并 最近回复排序
-   named_scope :top_level_and_last_comment,:order=>"top_level desc,last_comment_datetime desc"
+  named_scope :top_level_and_last_comme3nt,:order=>"top_level desc,last_comment_datetime desc"
 
 
   def before_create
@@ -107,6 +107,10 @@ class Topic < ActiveRecord::Base
   #是否作者
   def is_author?(user)
     user && user.accounts.index(author)
+  end
+  
+  def to_s
+    title
   end
 
 end
