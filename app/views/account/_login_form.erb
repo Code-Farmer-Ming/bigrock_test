@@ -1,17 +1,15 @@
-<p id="error_msg_login">
-
-</p>
+<p id="error_msg_login"></p>
 <%= hidden_field_tag "reurl",params[:reurl] %>
-<p>
+<div class="form_row">
   <label   for="email" class="filed_lab">邮箱</label>
   <%= text_field_tag  :email, params[:email]  ,:class=>"required validate-email text",:title=>"*邮箱",:maxlength=>64  %>
-</p>
-<p>
+</div>
+<div>
   <label  for="password" class="filed_lab">密码</label>
   <%= password_field_tag :password, params[:password],:class=>"required text",:title=>"*密码",:maxlength=>18  -%>
-</p>
-<p>
+</div>
+<div class="form_row">
   <label  class="filed_lab" >&nbsp;</label>
   <%= check_box_tag  "auto_login", "true",false -%>
   <label for="auto_login"  ><span title="一个月内自动登录">一个月内自动登录</span></label>
-</p>
+</div>

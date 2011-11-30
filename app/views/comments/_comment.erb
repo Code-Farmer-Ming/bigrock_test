@@ -13,26 +13,24 @@ is_manager ||= nil
   <div class="icon_right_content">
     <p class="quiet">
       <%= time_ago_in_words_plus(comment.created_at) %>
-           <%#= link_to("编辑","",:id=>dom_id(comment,"edit")) if comment.ifs_author?(current_user) %>
+<%#= link_to("编辑","",:id=>dom_id(comment,"edit")) if comment.ifs_author?(current_user) %>
       <%= link_to_remote('删除',{
-        :url=> [comment.commentable,comment] ,
-        :confirm => '你确定吗?', :method => :delete},:class=>"red_text") if comment.is_author?(current_user) || is_owner || is_manager  %>
+          :url=> [comment.commentable,comment] ,
+          :confirm => '你确定吗?', :method => :delete},:class=>"red_text") if comment.is_author?(current_user) || is_owner || is_manager  %>
     </p>
     <div id="<%= dom_id(comment,"content") %>" ><%=  simple_format(h(comment.content)) %></div>
-    <p>
- 
-    </p>
+
   </div>
 
-  <%#=  in_place_editor(dom_id(comment,"content"),
-    :url=>url_for({:controller=>:comments,:action => "set_comment_content",:id=>comment}),
-    :click_to_edit_text=> "" ,:rows=>10, :size=>38,
-    :saving_text=>"保存…",
-    :loading_text=>"载入…",
-    :save_text=>"保存",
-    :cancel_text=>"取消",
-    :external_control=>dom_id(comment,"edit"),
-    :external_control_only=>"true") if comment.is_author?(current_user)
+<%#=  in_place_editor(dom_id(comment,"content"),
+:url=>url_for({:controller=>:comments,:action => "set_comment_content",:id=>comment}),
+:click_to_edit_text=> "" ,:rows=>10, :size=>38,
+:saving_text=>"保存…",
+:loading_text=>"载入…",
+:save_text=>"保存",
+:cancel_text=>"取消",
+:external_control=>dom_id(comment,"edit"),
+:external_control_only=>"true") if comment.is_author?(current_user)
 %>
   <div class="clear"></div>
 </div>

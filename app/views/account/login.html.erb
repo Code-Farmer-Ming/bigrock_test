@@ -2,7 +2,6 @@
   <% form_tag "login" ,:class=>"required-validate form_info center_block",:id=>"user_login_page" do   -%>
     <h1>登录</h1>
     <%= render :partial=>"account/login_form"  %>
-
     <p id="form_button">
       <%= submit_tag "登录" ,:disable_with=>"登录…",:class=>"button"  -%>
     </p>
@@ -14,15 +13,13 @@
       <dt>注册</dt>
       <dd>
         还没注册吗?<br />现在
-         <%=  link_to "注册",{:action=>"new"},:reurl=>params[:reurl],:class=>"button positive" -%>吧，
+        <%=  link_to "注册",{:action=>"new"},:reurl=>params[:reurl],:class=>"button positive" -%>吧，
         只要简单一步。
       </dd>
-      <p>
       <dt>忘记密码</dt>
       <dd>
         我有账号忘记密码了，<%=link_to "找回密码？",forget_password_account_path()%>
       </dd>
-      </p>
     </dl>
   <%end%>
 </div>

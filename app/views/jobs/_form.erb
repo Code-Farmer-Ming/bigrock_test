@@ -4,23 +4,21 @@
 <%end%>
 <%= f.error_messages %>
 
-<p>
+<div class="form_row">
   <%= f.label :title ,"标题",:class=>"filed_lab"%>
   <%= f.text_field :title,:class=>"text" %>
-</p>
-<p>
+</div>
+<div class="form_row">
   <%= f.label :type_id,"工作类型" ,:class=>"filed_lab"%>
   <%= f.select :type_id,Job.types %>
+</div>
 
-</p>
-
-<p>
+<div class="form_row">
   <%= f.label :state_id,"工作地点",:class=>"filed_lab" %>
   <%= f.select :state_id,State.to_select_option() %>
   <%= f.select :city_id,City.to_select_option(f.object.state_id) %>
   <%=  drop_list("job_state_id","job_city_id",State.to_select_option_with_city)%>
-
-</p>
+</div>
 <div class="form_row">
   <%= f.label :skill_text,"特长需求",:class=>"filed_lab" %>
   <%=  text_field_with_auto_complete :job, :skill_text,{:class=>"text",:id=>dom_id(f.object,"name")},:tokens=>Skill::DELIMITER %>多个用空格分开
@@ -31,10 +29,10 @@
 <%#*</p>%>
 <div class="form_row">
   <%= f.label :description,"描述",:class=>"filed_lab" %>
-  <%= f.text_area :description,:class => "mceEditor"  %>
+  <%= f.text_area :description,:class => "mceEditor",:style=>"width:80%"  %>
 </div>
 
 <%#*<p>%>
-<%#= f.label :job_title %><br />
+<%#= f.label :job_title %>
 <%#= f.text_field :job_title %>
 <%#*</p>%>
