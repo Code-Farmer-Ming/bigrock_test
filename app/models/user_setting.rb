@@ -35,9 +35,7 @@ class UserSetting < ActiveRecord::Base
  
 
   def can_see_resume(user)
-    self["all_resume_visibility"]==UserSetting::VISIBILITY_TYPES[0] || self.user.my_follow_users.exists?(user)
- 
-
+    self["all_resume_visibility"]==UserSetting::VISIBILITY_TYPES[0] || self.user.my_follow_users.exists?(user) || self.user.id==user.id
   end
   #判断 用户是否有权限 查看
   #name 哪个权限 user 要判断的用户
