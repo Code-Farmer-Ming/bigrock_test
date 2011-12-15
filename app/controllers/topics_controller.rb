@@ -36,7 +36,7 @@ class TopicsController < ApplicationController
     @is_owner = @topic.is_author?(current_user)
     @is_manager  =  @topic.is_manager?(current_user)
     @page_title=  @topic.title 
-    @page_description =  truncate(@topic.content,:length=>100)
+    @page_description =  truncate(strip_tags(@topic.content),:length=>100)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @topic }

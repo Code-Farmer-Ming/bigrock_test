@@ -19,7 +19,7 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     @page_title = @job.title + "职位 "+  @job.owner.name
     @page_keyworks = " 职位"
-    @page_description = @job.owner.name + " 招聘职位," +  truncate(@job.description,:length=>100)
+    @page_description = @job.owner.name + " 招聘职位," +  truncate(strip_tags(@job.description),:length=>100)
     @comments = @job.comments.paginate :page=>params[:page]
     @job.increment!(:view_count)
     respond_to do |format|
@@ -37,10 +37,10 @@ class JobsController < ApplicationController
     @job.state_id = @company.state_id
     @job.city_id = @company.city_id
     respond_to do |format|
-#      if @company.current_employee_and_higher_creditability(current_user)
-        format.html # new.html.erb
-        format.xml  { render :xml => @job }
-        #      else
+      #      if @company.current_employee_and_higher_creditability(current_user)
+      format.html # new.html.erb
+      format.xml  { render :xml => @job }
+      #      else
       #        format.html{
       #          flash[:notice] = @company.errors.full_messages.to_s
       #          redirect_to @company
