@@ -87,6 +87,7 @@ class JobsController < ApplicationController
   # PUT /jobs/1
   # PUT /jobs/1.xml
   def update
+    @page_title= "职位编辑"
     @job = current_user.published_jobs.find(params[:id])
     respond_to do |format|
       if @job.update_attributes(params[:job])
