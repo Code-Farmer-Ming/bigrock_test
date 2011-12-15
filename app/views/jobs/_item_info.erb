@@ -31,8 +31,8 @@ show_company ||= nil%>
 </tr>
 <tr style="display:none" id="<%= dom_id(object,"detail") %>" >
   <td colspan="6" class="bottom_gray_line" style="width:100%;overflow:auto;" >
-    <h6>工作描述</h6>
-    <%= h object.description %>
+ 
+    <%= truncate(strip_tags(object.description) ,:length=>120) %>
   </td> 
 </tr>
 

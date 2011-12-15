@@ -7,6 +7,6 @@
 发布了招聘： <%=  link_to(log.logable.title ,
   log.logable,:target=>"_blank" )%>
 <p>
-  <%= truncate(strip_tags(log.logable.description) ,:length=>30) %>
+  <%= truncate(strip_tags(log.logable.description) ,:length=>120) %>
 </p>
 <%= link_to "查看详细…" , log.logable,:target=>"_blank" %>

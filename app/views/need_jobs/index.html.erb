@@ -3,11 +3,11 @@
   <div  class="center_block" >
     <%= render :partial=>"comm_partial/search",:locals=>{:default_text=>"搜索求职"} %>
   </div>
-  <br/>
-  <br/>
-  <%sub_block_div("最新的求职",link_to("+发一条求职信息",new_account_need_job_path(),:class=>"button positive",:style=>"display:inline;") ) do%>
-    <ul class="list">
-      <%= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5).order("created_at desc")%>
-    </ul>
-  <%end%>
+  <%#*<br/>%>
+  <%#*<br/>%>
+  <%#sub_block_div("最新的求职",link_to("+发一条求职信息",new_account_need_job_path(),:class=>"button positive",:style=>"display:inline;") ) do%>
+    <%#*<ul class="list">%>
+      <%#= render :partial=>"need_jobs/short_item",:collection=>NeedJob.limit(5).order("created_at desc")%>
+    <%#*</ul>%>
+  <%#end%>
 </div>
