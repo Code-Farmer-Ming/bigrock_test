@@ -37,10 +37,10 @@ class JobsController < ApplicationController
     @job.state_id = @company.state_id
     @job.city_id = @company.city_id
     respond_to do |format|
-#      if @company.current_employee_and_higher_creditability(current_user)
-        format.html # new.html.erb
-        format.xml  { render :xml => @job }
-        #      else
+      #      if @company.current_employee_and_higher_creditability(current_user)
+      format.html # new.html.erb
+      format.xml  { render :xml => @job }
+      #      else
       #        format.html{
       #          flash[:notice] = @company.errors.full_messages.to_s
       #          redirect_to @company
