@@ -13,7 +13,7 @@
 #
 
 class AddFriendApplication < Requisition
-
+ 
   def after_create
     MailerServer.deliver_apply_friend_request(self)
   end

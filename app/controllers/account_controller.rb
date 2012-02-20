@@ -173,11 +173,11 @@ class AccountController < ApplicationController
       end
     end
   end
+  
   #重设密码
   def reset_password
     @page_title ="设置新密码"
-    @token=Token.new
-    @token.user = User.real_users.first
+    @token=Token.find_by_value(params[:token])
     if !@token.nil?
       if request.post?
         user= @token.user

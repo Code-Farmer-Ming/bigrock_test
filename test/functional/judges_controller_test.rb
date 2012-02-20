@@ -15,7 +15,7 @@ class JudgesControllerTest < ActionController::TestCase
     user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
 
     user_2 = users(:two)
-    user_2.undetermined_colleagues.first.confirm
+    user_2.need_comfire_colleagues.first.confirm
     assert_difference("user_1.has_judge_them_colleagues.count") do
       assert_difference("user_1.not_judge_them_colleagues.count",-1) do
         assert_block("user_2.judges.count") do
@@ -76,7 +76,7 @@ class JudgesControllerTest < ActionController::TestCase
     user_1.passes.first.update_attributes(:end_date=>"2010-10-10")
 
     user_2 = users(:two)
-    user_2.undetermined_colleagues.first.confirm
+    user_2.need_comfire_colleagues.first.confirm
 
     xhr :post,:create,:judge=>{:anonymous=>1,:description=>"不错的小伙",
       :creditability_value=>1,:eq_value=>1,:ability_value=>1},

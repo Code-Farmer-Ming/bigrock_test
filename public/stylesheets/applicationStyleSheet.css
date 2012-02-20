@@ -1167,5 +1167,9 @@ div.auto_complete ul strong.highlight {
 .text_area_wrap{
     margin-right:15px; *height:1%;
 }
-
+/* 防止img过大撑开 */
+.main_content img{
+    max-width:500px;/* Other */
+    _width:expression((this.offsetWidth > 500) ? "560px" : this.offsetWidth+"px" );/* IE */
+}
 

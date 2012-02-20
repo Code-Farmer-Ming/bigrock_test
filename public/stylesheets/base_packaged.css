@@ -397,6 +397,7 @@ div.auto_complete ul strong.highlight {color: #800; margin:0; padding:0; font-we
 #carousel-content .slide {float: left; width: 760px; height: 210px; overflow: hidden}
 #more_button {width: 97%; height: 32px; line-height: 32px}
 .text_area_wrap{ margin-right:15px; *height:1%}
+ .main_content img{ max-width:500px; _width:expression((this.offsetWidth > 500) ? "560px" : this.offsetWidth+"px" )}
  .pui-autocomplete-holder {margin: 0; border: 1px solid #999; overflow: hidden; padding: 0px 5px; font:normal 12px Verdana, Arial, sans-serif; height: auto !important; height: 1%; background:white url(/images/input-text.png) repeat-x scroll left top}
 .pui-autocomplete-holder li {float: left; position: relative; list-style-type: none; margin: 4px 0 }
  .pui-autocomplete-holder li.pui-autocomplete-input {margin: 2px 0; height: 20px}

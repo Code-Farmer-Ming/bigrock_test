@@ -12,7 +12,6 @@ class JobsController < ApplicationController
     @page_keywords = " 招聘 找工作 职位搜索"
     @page_description = "找工作，招聘职位搜索"
   end
-
   # GET /jobs/1
   # GET /jobs/1.xml
   def show

@@ -23,10 +23,10 @@ class JobsControllerTest < ActionController::TestCase
     get :new,:company_id=>@company
     assert_response :success,flash[:error]
   end
-  test "should get new faild" do
-    get :new,:company_id=>@company
-    assert_response 302 ,flash[:error]
-  end
+#  test "should get new faild" do
+#    get :new,:company_id=>@company
+#    assert_response 302 ,flash[:error]
+#  end
 
   test "should create job" do
     pass = users(:one).passes.first
