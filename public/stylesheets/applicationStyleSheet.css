@@ -309,7 +309,7 @@ div.auto_complete ul li {
 div#menu{
     margin:0 auto;
     width:55%;
-    margin-right:295px;
+    *margin-right:295px;
     overflow:hidden; 
 }
 

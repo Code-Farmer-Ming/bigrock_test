@@ -34,6 +34,7 @@ zh-CN:
       default: ! '%Y-%m-%d'
       long: ! '%Y年%b%d日'
       short: ! '%b%d日'
+      long_month: ! '%Y年%b'
     month_names:
     - 
     - 一月
